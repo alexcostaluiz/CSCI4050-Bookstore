@@ -1,20 +1,16 @@
 package com.csci4050.bookstore.dao;
 
 import com.csci4050.bookstore.model.Example;
-
 import java.util.List;
-
 import javax.persistence.EntityManager;
-
-import org.hibernate.query.Query;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class ExampleDAOImp implements ExampleDAO {
-  @Autowired
-  private EntityManager entityManager;
+  @Autowired private EntityManager entityManager;
 
   @Override
   public List<Example> get() {
