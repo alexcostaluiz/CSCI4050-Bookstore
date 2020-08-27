@@ -1,4 +1,4 @@
-CLANG_FORMAT=node_modules/clang-format/bin/linux_x64/clang-format --style=Google
+GOOGLE_JAVA_FORMAT=google-java-format-1.9-all-deps.jar
 ESLINT=node_modules/eslint/bin/eslint.js
 HTML_VALIDATE=node_modules/html-validate/bin/html-validate.js
 PRETTIER=node_modules/prettier/bin-prettier.js
@@ -9,11 +9,11 @@ CSS = $(shell find frontend/src -name "*.css") $(shell find src/ -name "*.css")
 JS = $(shell find frontend/src -name "*.js") $(shell find src/ -name "*.js")
 
 node_modules:
-	npm install clang-format prettier html-validate eslint eslint-config-google
+	npm install prettier html-validate eslint eslint-config-google
 
 pretty: node_modules
 	$(PRETTIER) --write $(HTML) $(CSS) $(JS)
-	$(CLANG_FORMAT) -i $(JAVA)
+	java -jar $(GOOGLE_JAVA_FORMAT) --replace $(JAVA)
 
 validate: node_modules
 	$(HTML_VALIDATE) $(HTML)

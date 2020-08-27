@@ -28,7 +28,7 @@ jobs:
       run: node_modules/prettier/bin-prettier.js -c frontend/src/*.js frontend/src/*/*.js
     - name: Check Java formatting
       if: always()
-      run: diff -u <(cat src/test/java/com/csci4050/bookstore/*.java src/main/java/com/csci4050/bookstore/*.java src/main/java/com/csci4050/bookstore/*/*.java) <(node_modules/clang-format/bin/linux_x64/clang-format --style=Google src/test/java/com/csci4050/bookstore/*.java src/main/java/com/csci4050/bookstore/*.java src/main/java/com/csci4050/bookstore/*/*.java)
+      run: java -jar google-java-format-1.9-all-deps.jar --dry-run --set-exit-if-changed src/test/java/com/csci4050/bookstore/*.java src/main/java/com/csci4050/bookstore/*.java src/main/java/com/csci4050/bookstore/*/*.java
     - name: Notify on failure
       if: failure()
       run: echo 'run "make validate" and "make pretty" to see/fix errors locally'
