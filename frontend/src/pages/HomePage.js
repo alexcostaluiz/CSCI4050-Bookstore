@@ -3,7 +3,7 @@ import './HomePage.css';
 import React, { useEffect, useState } from 'react';
 
 function HomePage(props) {
-  const [ dbData, setDbData ] = useState('');
+  const [dbData, setDbData] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -12,7 +12,7 @@ function HomePage(props) {
       setDbData(data);
     })();
   }, []);
-  
+
   return (
     <div className='container u-full-width'>
       <div className='row'>
