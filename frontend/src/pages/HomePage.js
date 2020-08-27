@@ -9,7 +9,6 @@ function HomePage(props) {
     (async () => {
       const response = await fetch('/api/example');
       const data = await response.text();
-      console.log(data);
       setDbData(data);
     })();
   }, []);
