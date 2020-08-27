@@ -1,0 +1,37 @@
+name: CI
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-java@v1
+      with:
+        java-version: 11
+    - name: Install node dependencies
+      if: always()
+      run: make node_modules
+    - name: Maven compile
+      if: always()
+      run: make package
+    - name: Validate HTML
+      if: always()
+      run: node_modules/html-validate/bin/html-validate.js frontend/public/*.html
+    - name: Validate JavaScript
+      if: always()
+      run: node_modules/eslint/bin/eslint.js --max-warnings 1 frontend/src/*.js frontend/src/*/*.js
+    - name: Check HTML formatting
+      if: always()
+      run: node_modules/prettier/bin-prettier.js -c frontend/public/*.html
+    - name: Check CSS formatting
+      if: always()
+      run: node_modules/prettier/bin-prettier.js -c frontend/src/*/*.css
+    - name: Check JavaScript formatting
+      if: always()
+      run: node_modules/prettier/bin-prettier.js -c frontend/src/*.js frontend/src/*/*.js
+    - name: Check Java formatting
+      if: always()
+      run: java -jar google-java-format-1.9-all-deps.jar --dry-run --set-exit-if-changed src/test/java/com/csci4050/bookstore/*.java src/main/java/com/csci4050/bookstore/*.java src/main/java/com/csci4050/bookstore/*/*.java
+    - name: Notify on failure
+      if: failure()
+      run: echo 'run "make validate" and "make pretty" to see/fix errors locally'

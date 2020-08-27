@@ -1,10 +1,8 @@
 package com.csci4050.bookstore.controller;
 
-import com.csci4050.bookstore.service.ExampleService;
 import com.csci4050.bookstore.model.Example;
-
+import com.csci4050.bookstore.service.ExampleService;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 public class ExampleController {
-  @Autowired
-  private ExampleService exampleService;
+  @Autowired private ExampleService exampleService;
 
   @GetMapping("/example")
   public List<Example> get() {
