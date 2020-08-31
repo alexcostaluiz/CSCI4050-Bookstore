@@ -1,6 +1,6 @@
 # CSCI4050-Bookstore
 
-An online bookstore group project for CSCI 4050 Fall 2020 at the University of Georgia.
+An online bookstore group project for the CSCI 4050 Fall 2020 course at the University of Georgia.
 
 ## Table of Contents
 
@@ -17,21 +17,25 @@ An online bookstore group project for CSCI 4050 Fall 2020 at the University of G
 
 Make sure you have installed all of the following prerequisites on your development machine:
 
-- Git - [Download & Install Git.](https://git-scm.com/downloads) OSX and Linux typically already have this installed.
-- Java 11 - Google "Install Java 11 [Your development OS]" if you don't already have it installed. I'd recommend using a package manager (apt or yum) if you're using Linux.
-- Node.js (v12.18.3) - [Download & Install Node.js.](https://nodejs.org/en/) Again I'd recommend using a package manager if you're on linux (instead of downloading binaries).
-- npm (6.14.8) - Comes with Node.js. [Get the latest stable version of npm](https://docs.npmjs.com/try-the-latest-stable-version-of-npm).
-- MariaDB (10.5) or MySQL (5.7) - [Download & Install MariaDB.](https://mariadb.org/download/) or [Download & Install MySQL.](https://dev.mysql.com/doc/mysql-installation-excerpt/5.7/en/) These two are interchangeable though I prefer MariaDB as it is completely open source. MariaDB has the same exact CLI as MySQL.
+- **Git** - [Download & Install Git.](https://git-scm.com/downloads) OSX and Linux typically already have this installed.
+- **Java 11** - Google "Install Java 11 [Your development OS]" if you don't already have it installed. I'd recommend using a package manager (apt or yum) if you're using Linux.
+- **Node.js (v12.18.3)** - [Download & Install Node.js.](https://nodejs.org/en/) Again I'd recommend using a package manager if you're on linux (instead of downloading binaries).
+- **npm (6.14.8)** - Comes with Node.js. [Get the latest stable version of npm](https://docs.npmjs.com/try-the-latest-stable-version-of-npm).
+- **MariaDB (10.5) or MySQL (5.7)** - [Download & Install MariaDB.](https://mariadb.org/download/) or [Download & Install MySQL.](https://dev.mysql.com/doc/mysql-installation-excerpt/5.7/en/) These two are interchangeable though I prefer MariaDB as it is completely open source. MariaDB has the same exact CLI as MySQL.
 
 ## Installing Node.js on MacOS or Linux
 
-If you are using a MacOS or Linux development machine, I would recommend using [nvm](https://github.com/nvm-sh/nvm) (Node Version Manager) for installing Node.js. Visit the [nvm Github]{https://github.com/nvm-sh/nvm} and install nvm using the `curl` or `wget` links provided there and then run the following command:
+If you are using a MacOS or Linux development machine, I would recommend using [nvm](https://github.com/nvm-sh/nvm) (Node Version Manager) for installing Node.js (It does not seem to be available for Windows). Visit the [nvm Github]{https://github.com/nvm-sh/nvm} and install nvm using the `curl` or `wget` links provided there and then run the following command:
 
-`nvm install 12.18.3`
+```bash
+>> nvm install 12.18.3
+```
 
 This will download and install Node.js v12.18.3 and npm 6.14.6. Then try:
 
-`npm install -g npm@next`
+```bash
+>> npm install -g npm@next
+```
 
 To get the lastest npm version. This should install npm 6.14.8.
 
@@ -42,40 +46,46 @@ The following instructions pertain mostly to a Linux development machine, but it
 ### Clone The Repository
 
 ```bash
-git clone git@github.com:alexcostaluiz/CSCI4050-Bookstore.git
+>> git clone git@github.com:alexcostaluiz/CSCI4050-Bookstore.git
 ```
 
-I would recommend using the *Clone with SSH* instead of *Clone with HTTPS* URL as the https URL will require you to input your GitHub username and password for every push / pull. When cloning with ssh you must copy the contents of the `.ssh/id_rsa.pub` on your development machine to your GitHub Profile->Settings->SSH and GPG Keys. Then you can push and pull securely without providing your password everytime or storing your password in a plaintext file.
+OR
+
+```bash
+>> git clone https://github.com/alexcostaluiz/CSCI4050-Bookstore.git
+```
+
+I would recommend using the *Clone with SSH* URL instead of *Clone with HTTPS* URL as the https URL will require you to input your GitHub username and password for every push / pull. When cloning with ssh you must copy the contents of the `.ssh/id_rsa.pub` on your development machine to your GitHub Profile->Settings->SSH and GPG Keys. Then you can push and pull securely without providing your password every time you push or pull or storing your password in a plaintext file.
 
 ### Install the Prerequisites
 
-Once you have downloaded the aforementioned prerequisites, check to make sure you have the correct versions installed.
+Once you have downloaded the aforementioned prerequisites, check to make sure you have the correct versions installed. The output of the following commands should match the outputs provided here.
 
 ```bash
-java -version
->> openjdk version "11.0.8" 2020-07-14
->> OpenJDK Runtime Environment (build 11.0.8+10-post-Raspbian-1deb10u1)
->> OpenJDK Server VM (build 11.0.8+10-post-Raspbian-1deb10u1, mixed mode)
+>> java -version
+openjdk version "11.0.8" 2020-07-14
+OpenJDK Runtime Environment (build 11.0.8+10-post-Raspbian-1deb10u1)
+OpenJDK Server VM (build 11.0.8+10-post-Raspbian-1deb10u1, mixed mode)
 ```
 
-Just make sure you see OpenJDK and 11.
+NOTE: Just make sure you see OpenJDK and 11.
 
 ```bash
-node --version
->> v12.18.3
-```
-
-```bash
-npm --version
->> 6.14.8
+>> node --version
+v12.18.3
 ```
 
 ```bash
-mysql --version
->> mysql  Ver 15.1 Distrib 10.3.23-MariaDB, for debian-linux-gnueabihf (armv7l) using readline 5.2
+>> npm --version
+6.14.8
 ```
 
-The output for the `mysql --version` will vary for everyone, just make sure its MariaDB >= 10.1 or MySQL >= 5.6 and I think everything will work fine. Everyone's local database will just be for testing purposes and I assume we will have a "production" server where we can push the master branch and keep production-quality data in the database. Not sure exactly what the best way to share database data would be yet. If anyone has any ideas definitely bring it up in a meeting or on Discord.
+```bash
+>> mysql --version
+mysql  Ver 15.1 Distrib 10.3.23-MariaDB, for debian-linux-gnueabihf (armv7l) using readline 5.2
+```
+
+NOTE: The output for the `mysql --version` will vary for everyone, just make sure its MariaDB >= 10.1 or MySQL >= 5.6 and I think everything will work fine. Everyone's local database will just be for testing purposes and I assume we will have a "production" server where we can push the master branch and keep production-quality data in the database. Not sure exactly what the best way to share database data would be yet. If anyone has any ideas definitely bring it up in a meeting or on Discord.
 
 ## Understanding Our React.js Front-end vs. Java Spring Back-end
 
@@ -98,8 +108,8 @@ There are two directories where most development will occur: the `src/` director
 To run the front-end devlopment server, please run the following commands:
 
 ```bash
-cd frontend/
-npm start
+>> cd frontend/
+>> npm start
 ```
 
 This should start the front-end service at port 3000 with the following output:
@@ -123,18 +133,18 @@ While your writing front-end code, you can leave this service running in-between
 To run the back-end development server, please run the following commands in the project parent directory:
 
 ```bash
-make run
+>> make run
 ```
 
 OR
 
-```boot
-./mvnw spring-boot:run
+```bash
+>> ./mvnw spring-boot:run
 ```
 
 You should see a load of Maven output followed by something like:
 
-```boot
+```bash
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
 ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
@@ -153,18 +163,25 @@ You should see a load of Maven output followed by something like:
 2020-08-31 02:40:57.428  INFO 1050 --- [         task-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
 ```
 
-You can then connect to the server at http://localhost:8080.
+You can then connect to the service at http://localhost:8080.
 
 ### Both Front-end and Back-end Development
 
 If you are working on something that requires both services to be running in tandem, simply follow the instructions for **Back-end Development**, then run the following:
 
 ```bash
-^Z
-bg
+^Z (stops the currently running process)
+[1]+  Stopped                 make run
+>> bg
+[1]+ make run &
 ```
 
-Then the backend service should be running in the background. (You can verify this with the `jobs` command. Make sure "Running" is before the `make run` or `./mvnw spring-boot:run` commands).
+Then the backend service should be running in the background. You can verify this with the `jobs` command. Make sure "Running" is before the `make run` or `./mvnw spring-boot:run` commands like:
+
+```bash
+>> jobs
+[1]+  Running                 make run &
+```
 
 Then simply follow the instructions for **Front-end Development**. Connect to the front-end service at port 3000 (e.g. http://localhost:3000) and now any fetch calls to the back-end for database data will work correctly.
 
@@ -173,19 +190,19 @@ Then simply follow the instructions for **Front-end Development**. Connect to th
 To deploy the entire project into a single, executable JAR, simply run:
 
 ```bash
-make package
+>> make package
 ```
 
 OR
 
 ```bash
-./mvnw package
+>> ./mvnw package
 ```
 
 This will compile both the front-end and back-end codebase and create a single, executable JAR file in the `target/` directory of the project parent directory. To execute this JAR file, simply run:
 
 ```bash
-java -jar bookstore-0.0.1-SNAPSHOT.jar
+>> java -jar bookstore-0.0.1-SNAPSHOT.jar
 ```
 
 This will begin the Java Spring Boot service on port 8080. It may not look like React is running, but all React files are compiled into the JAR and when you connect to the service at http://localhost:8080/ both the front-end and back-end should be working together seamlessly.
@@ -194,14 +211,50 @@ Eventually, we can set up a "production" server which maintains a copy of the ma
 
 ## Contributing
 
-When contributing please follow the following instructions:
+Instead of all of us commiting things to the master branch whenever we'd like, I think it would be best to make use of GitHub Pull Requests. This way we can make sure nothing weird or faulty ends up in our master branch, and we should be able to avoid more merge conflicts. I've set it up so that the master branch is protected in such a way that PRs cannot be merged into master without an approving review from another contributor. This way we can all be more updated on what's going on in different parts of the application, and another set of eyes always helps to minimize bugs.
 
-Open your feature branch `git checkout -b my-new-branch` or `git branch my-new-branch; git checkout my-new-branch`.  
-Stage changed files for commit `git add [changed files]`.  
-Commit changes to your new branch `git commit -m "A commit message (present tense)"`.  
-Push commits to remote branch `git push -u origin my-new-branch` (you may simply use `git push` once the upstream branch has been set using the `-u` flag as in the previous example).  
-Open a Pull Request on GitHub.com.
+I've also set up a GitHub continuous integration test that is run whenever anything is pushed to any branch (This is where those green check marks / red X marks come from). This test will compile both the front-end and back-end code of any commit you make to ensure there are no build errors introduced by that commit. It will also run lint checks on the JavaScript and CSS code of the project to make sure proper code patterns are being followed. Lastly, it runs code style checks on the JavaScript, CSS, HTML, and Java files of the project to make sure code style across all of our files is standardized. A PR cannot be merged into master unless this CI test is passed.
 
-Please do NOT make commits directly to the master branch.
+So when contributing please follow the following steps:
+
+### Open your feature branch
+
+```bash
+>> git checkout -b my-new-branch
+```
+
+OR
+
+```bash
+>> git branch my-new-branch
+>> git checkout my-new-branch
+```
+
+### Stage changed files for commit
+
+```bash
+>> git add [space-separated changed files]
+```
+
+### Commit changes to your new branch
+
+```bash
+>> git commit -m "A commit message (with present verb tense)"
+```
+
+### Push commits to remote branch
+
+```bash
+>> git push -u origin my-new-branch
+```
+
+You may simply use `git push` once the upstream branch has been set using the `-u` flag as in the previous example.  
+
+### Open a Pull Request on GitHub.com
+
+Once you push to the remote feature branch, you can can come to this repository on GitHub and open a Pull Request to merge your code into the master branch (or any other parent branch of your choosing). After opening the PR, you will need to ensure your code is passing the continuous integration test (has a green check mark) and get an approving review from a contributor other than yourself.
+
+**Please do NOT make commits directly to the master branch.**
 
 ## License
+[Apache 2](LICENSE)
