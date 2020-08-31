@@ -25,7 +25,7 @@ Make sure you have installed all of the following prerequisites on your developm
 
 ## Installing Node.js on MacOS or Linux
 
-If you are using a MacOS or Linux development machine, I would recommend using [nvm](https://github.com/nvm-sh/nvm) (Node Version Manager) for installing Node.js (It does not seem to be available for Windows). Visit the [nvm Github]{https://github.com/nvm-sh/nvm} and install nvm using the `curl` or `wget` links provided there and then run the following command:
+If you are using a MacOS or Linux development machine, I would recommend using [nvm](https://github.com/nvm-sh/nvm) (Node Version Manager) for installing Node.js (It does not seem to be available for Windows). Visit the [nvm Github](https://github.com/nvm-sh/nvm) and install nvm using the `curl` or `wget` links provided there and then run the following command:
 
 ```bash
 >> nvm install 12.18.3
@@ -41,7 +41,7 @@ To get the lastest npm version. This should install npm 6.14.8.
 
 ## Installation
 
-The following instructions pertain mostly to a Linux development machine, but it should not be too hard to generalize to Windows or OSX. I will add notes where steps might be different based on the development operating system.
+The following instructions pertain to a Linux development machine, but it should not be hard to generalize to Windows or OSX.
 
 ### Clone The Repository
 
