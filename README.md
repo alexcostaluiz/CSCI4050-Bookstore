@@ -5,9 +5,9 @@ An online bookstore group project for CSCI 4050 Fall 2020 at the University of G
 ## Table of Contents
 
 - [Prerequisites](#prerequisites)
-- [Installing Node.js on MacOS or Linux](#installing-node.js-on-macos-or-linux)
+- [Installing Node.js on MacOS or Linux](#installing-nodejs-on-macos-or-linux)
 - [Installation](#installation)
-- [Understanding Our React.js Front-end vs. Java Spring Back-end](#understanding-our-react.js-front-end-vs.-java-spring-back-end)
+- [Understanding Our React.js Front-end vs. Java Spring Back-end](#understanding-our-reactjs-front-end-vs-java-spring-back-end)
 - [Development](#development)
 - [Deployment](#deployment)
 - [Contributing](#contributing)
