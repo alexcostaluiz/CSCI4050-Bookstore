@@ -90,7 +90,7 @@ NOTE: The output for the `mysql --version` will vary for everyone, just make sur
 
 ## Database Configuration
 
-Once you have MariaDB or MySQL installed, you will need to perform the following database configuration:
+Once you have MariaDB or MySQL installed, you will need to perform the following database configuration. It's important that you use the same service username and password, the same database name, and the same table names so that they match the environment variables in [application.properties](src/main/resources/application.properties) which configures Java Spring's connection to the MariaDB/MySQL database.
 
 ### Log in to the Database
 
