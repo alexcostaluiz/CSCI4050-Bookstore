@@ -7,6 +7,7 @@ An online bookstore group project for the CSCI 4050 Software Engineering Fall 20
 - [Prerequisites](#prerequisites)
 - [Installing Node.js on MacOS or Linux](#installing-nodejs-on-macos-or-linux)
 - [Installation](#installation)
+- [Database Configuration](#database-configuration)
 - [Understanding Our React.js Front-end vs. Java Spring Back-end](#understanding-our-reactjs-front-end-vs-java-spring-back-end)
 - [Development](#development)
 - [Deployment](#deployment)
@@ -96,8 +97,10 @@ Once you have MariaDB or MySQL installed, you will need to perform the following
 ```bash
 >> sudo mysql -p
 Enter password:
-Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Welcome to the MariaDB monitor.
 ...
+
+MariaDB >> 
 ```
 
 Note the default password for the root user will be `root`.
