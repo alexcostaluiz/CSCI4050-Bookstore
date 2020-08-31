@@ -99,8 +99,7 @@ Once you have MariaDB or MySQL installed, you will need to perform the following
 Enter password:
 Welcome to the MariaDB monitor.
 ...
-
-MariaDB >> 
+MariaDB >> ...
 ```
 
 Note the default password for the root user will be `root`.
