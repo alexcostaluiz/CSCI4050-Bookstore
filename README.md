@@ -87,6 +87,81 @@ mysql  Ver 15.1 Distrib 10.3.23-MariaDB, for debian-linux-gnueabihf (armv7l) usi
 
 NOTE: The output for the `mysql --version` will vary for everyone, just make sure its MariaDB >= 10.1 or MySQL >= 5.6 and I think everything will work fine. Everyone's local database will just be for testing purposes and I assume we will have a "production" server where we can push the master branch and keep production-quality data in the database. Not sure exactly what the best way to share database data would be yet. If anyone has any ideas definitely bring it up in a meeting or on Discord.
 
+## Database Configuration
+
+Once you have MariaDB or MySQL installed, you will need to perform the following database configuration:
+
+### Log in to the Database
+
+```bash
+>> sudo mysql -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+...
+```
+
+Note the default password for the root user will be `root`.
+
+### Create a Bookstore Application Service User
+
+```bash
+MariaDB >> CREATE USER bookstore_db_user@localhost IDENTIFIED BY '!G4uDJA:VqZ48$';
+Query OK, 0 rows affected (0.005 sec)
+```
+
+### Create a Bookstore Application Database
+
+```bash
+MariaDB >> CREATE DATABASE bookstore_db;
+Query OK, 1 row affected (0.000 sec)
+```
+
+### Grant Bookstore Database Privileges to Service User
+
+```bash
+MariaDB >> GRANT ALL PRIVILEGES ON bookstore_db.* TO bookstore_db_user@localhost;
+Query OK, 0 rows affected (0.005 sec)
+```
+
+### Log in as Service User and Create Example Table (Optional)
+
+You don't need to do this, but I did write some Java Spring example files to illustrate how we can connect the database to the back-end using the following example table, so if you want to see those work you should create this little example table.
+
+```bash
+>> mysql -u bookstore_db_user -p
+Enter password:
+Welcome to the MariaDB monitor.
+...
+
+MariaDB >> use bookstore_db;
+Database changed
+MariaDB >> CREATE TABLE example (id INT AUTO_INCREMENT PRIMARY KEY, data VARCHAR(255) NOT NULL);
+Query OK, 0 rows affected (0.014 sec)
+
+MariaDB >> INSERT INTO example (data) values ('Database example entity #1');
+Query OK, 1 row affected (0.100 sec)
+
+MariaDB >> INSERT INTO example (data) values ('Database example entity #2');
+Query OK, 1 row affected (0.100 sec)
+
+... (repeat)
+
+MariaDB >> INSERT INTO example (data) values ('Database example entity #5');
+Query OK, 1 row affected (0.100 sec)
+
+MariaDB >> SELECT * FROM example;
++----+----------------------------+
+| id | data                       |
++----+----------------------------+
+|  1 | Database example entity #1 |
+|  2 | Database example entity #2 |
+|  3 | Database example entity #3 |
+|  4 | Database example entity #4 |
+|  5 | Database example entity #5 |
++----+----------------------------+
+5 rows in set (0.001 sec)
+```
+
 ## Understanding Our React.js Front-end vs. Java Spring Back-end
 
 Adding this section just because I know it took me a little while to understand how React.js works with a back-end service like Java Servlets or Spring Boot. If you already are familiar with this, please skip this section.
@@ -217,7 +292,7 @@ I've also set up a GitHub continuous integration test that is run whenever anyth
 
 So when contributing please follow the following steps:
 
-### Open your feature branch
+### Open Your Feature Branch
 
 ```bash
 >> git checkout -b my-new-branch
@@ -230,19 +305,19 @@ OR
 >> git checkout my-new-branch
 ```
 
-### Stage changed files for commit
+### Stage Changed Files for Commit
 
 ```bash
 >> git add [space-separated changed files]
 ```
 
-### Commit changes to your new branch
+### Commit Changes to Your New Branch
 
 ```bash
 >> git commit -m "A commit message (with present verb tense)"
 ```
 
-### Push commits to remote branch
+### Push Commits to Remote Branch
 
 ```bash
 >> git push -u origin my-new-branch
