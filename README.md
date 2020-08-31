@@ -1,6 +1,6 @@
 # CSCI4050-Bookstore
 
-An online bookstore group project for the CSCI 4050 Fall 2020 course at the University of Georgia.
+An online bookstore group project for the CSCI 4050 Software Engineering Fall 2020 course at the University of Georgia.
 
 ## Table of Contents
 
