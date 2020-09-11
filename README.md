@@ -93,14 +93,16 @@ NOTE: The output for the `mysql --version` will vary for everyone, just make sur
 
 Once you have MariaDB or MySQL installed, you can test your connection with the remote database.
 
+(Password is located in the database channel)
+NOTE: all commits containing the database password will be omitted, lest we want random people filling up connections. 
+  When starting the spring server, password must be provided in (src\main\resources\application.properties) after spring.datasource.password
+
+
 ```bash
 >> mysql -u lvq11q6dfgapryki -p
 Enter password: 
 Welcome to the MariaDB monitor.
 ...
-(Password is located in the database channel)
-
-NOTE: all commits containing the database password will be omitted, lest we want random people filling up connections. When starting the spring server, password must be provided in (src\main\resources\application.properties) after spring.datasource.password
 
 Examples of creating an example table and inserting data:
 MariaDB >> use bookstore_db;
