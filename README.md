@@ -88,53 +88,21 @@ mysql  Ver 15.1 Distrib 10.3.23-MariaDB, for debian-linux-gnueabihf (armv7l) usi
 
 NOTE: The output for the `mysql --version` will vary for everyone, just make sure its MariaDB >= 10.1 or MySQL >= 5.6 and I think everything will work fine. Everyone's local database will just be for testing purposes and I assume we will have a "production" server where we can push the master branch and keep production-quality data in the database. Not sure exactly what the best way to share database data would be yet. If anyone has any ideas definitely bring it up in a meeting or on Discord.
 
-## Database Configuration
 
-Once you have MariaDB or MySQL installed, you will need to perform the following database configuration. It's important that you use the same service username and password, the same database name, and the same table names so that they match the environment variables in [application.properties](src/main/resources/application.properties) which configures Java Spring's connection to the MariaDB/MySQL database.
+### Log in as Service User and Create Example Table
 
-### Log in to the Database
+Once you have MariaDB or MySQL installed, you can test your connection with the remote database.
 
 ```bash
->> sudo mysql -p
-Enter password:
+>> mysql -u lvq11q6dfgapryki -p
+Enter password: 
 Welcome to the MariaDB monitor.
 ...
-MariaDB >> ...
-```
+(Password is located in the database channel)
 
-Note the default password for the root user will be `root`.
+NOTE: all commits containing the database password will be omitted, lest we want random people filling up connections. When starting the spring server, password must be provided in (src\main\resources\application.properties) after spring.datasource.password
 
-### Create a Bookstore Application Service User
-
-```bash
-MariaDB >> CREATE USER bookstore_db_user@localhost IDENTIFIED BY '!G4uDJA:VqZ48$';
-Query OK, 0 rows affected (0.005 sec)
-```
-
-### Create a Bookstore Application Database
-
-```bash
-MariaDB >> CREATE DATABASE bookstore_db;
-Query OK, 1 row affected (0.000 sec)
-```
-
-### Grant Bookstore Database Privileges to Service User
-
-```bash
-MariaDB >> GRANT ALL PRIVILEGES ON bookstore_db.* TO bookstore_db_user@localhost;
-Query OK, 0 rows affected (0.005 sec)
-```
-
-### Log in as Service User and Create Example Table (Optional)
-
-You don't need to do this, but I did write some Java Spring example files to illustrate how we can connect the database to the back-end using the following example table, so if you want to see those work you should create this little example table.
-
-```bash
->> mysql -u bookstore_db_user -p
-Enter password:
-Welcome to the MariaDB monitor.
-...
-
+Examples of creating an example table and inserting data:
 MariaDB >> use bookstore_db;
 Database changed
 MariaDB >> CREATE TABLE example (id INT AUTO_INCREMENT PRIMARY KEY, data VARCHAR(255) NOT NULL);
