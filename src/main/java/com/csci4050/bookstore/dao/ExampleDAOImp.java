@@ -25,7 +25,6 @@ public class ExampleDAOImp implements ExampleDAO {
     Session session = entityManager.unwrap(Session.class);
     Example example = session.get(Example.class, id);
     return example;
-    
   }
 
   @Override
