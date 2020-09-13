@@ -33,3 +33,6 @@ build/
 
 ### Node ###
 node_modules/
+
+### SPRING ###
+**/application-dev.properties

@@ -2,6 +2,8 @@
 
 An online bookstore group project for the CSCI 4050 Software Engineering Fall 2020 course at the University of Georgia.
 
+Production Deployment: https://csci4050-bookstore.herokuapp.com/
+
 ## Table of Contents
 
 - [Prerequisites](#prerequisites)
