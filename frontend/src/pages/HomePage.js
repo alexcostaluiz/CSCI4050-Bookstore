@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Row, Col, Typography } from 'antd';
 
-const { Title, Paragraph } = Typography;
+const { Title } = Typography;
 
 function HomePage(props) {
   return (
