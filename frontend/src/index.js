@@ -15,7 +15,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Layout>
       <Header />
-      <Content style={{background: 'white'}}>
+      <Content style={{ background: 'white' }}>
         <HomePage />
       </Content>
       <Footer />
