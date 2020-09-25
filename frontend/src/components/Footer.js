@@ -10,7 +10,7 @@ function Footer(props) {
     <AntFooter style={{background: 'white'}}>
       <Row justify='center'>
         <Col>
-          <Paragraph>Copyright 2020 Group A7.</Paragraph>
+          <Paragraph>Copyright © 2020 Group A7.</Paragraph>
         </Col>
       </Row>
     </AntFooter>
