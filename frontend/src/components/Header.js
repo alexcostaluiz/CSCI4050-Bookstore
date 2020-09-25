@@ -2,15 +2,7 @@ import './Header.less';
 
 import React, { useState } from 'react';
 
-import {
-  Row,
-  Col,
-  Layout,
-  Typography,
-  Menu,
-  AutoComplete,
-  Input,
-} from 'antd';
+import { Row, Col, Layout, Typography, Menu, AutoComplete, Input } from 'antd';
 
 import DynamicAvatar from './DynamicAvatar.js';
 
