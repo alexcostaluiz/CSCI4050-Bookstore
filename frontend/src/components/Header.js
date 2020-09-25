@@ -64,24 +64,18 @@ function Header(props) {
   };
 
   return (
-    <AntHeader style={{ background: 'white', borderBottom: '1px solid #ccc' }}>
+    <AntHeader className='bookstore-header'>
       <Row align='middle' justify='space-between'>
         <Col>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <Title
-              level={2}
-              style={{ margin: '0px 38px 4px 0px', lineHeight: 1 }}>
+          <div className='bookstore-col-wrapper'>
+            <Title className='bookstore-logo-lg' level={2}>
               Bookstore
             </Title>
             <Menu
               onClick={handleClick}
               selectedKeys={[current]}
               mode='horizontal'
-              style={{
-                borderBottom: 'none',
-                background: 'none',
-                lineHeight: '62px',
-              }}>
+              className='bookstore-nav'>
               <Menu.Item key='home'>Home</Menu.Item>
               <Menu.Item key='browse'>Browse</Menu.Item>
               <Menu.Item key='nav3'>Nav3</Menu.Item>
@@ -91,7 +85,7 @@ function Header(props) {
           </div>
         </Col>
         <Col>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div className='bookstore-col-wrapper'>
             <AutoComplete className='bookstore-search-dropdown'>
               <Input.Search
                 size='large'
