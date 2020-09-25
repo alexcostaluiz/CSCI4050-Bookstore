@@ -45,9 +45,11 @@ function Header(props) {
       <Row align='middle' justify='space-between'>
         <Col>
           <div className='bookstore-col-wrapper'>
-            <Title className='bookstore-logo-lg' level={2}>
-              Bookstore
-            </Title>
+            <a href='/'>
+              <Title className='bookstore-logo-lg' level={2}>
+                Bookstore
+              </Title>
+            </a>
             <Menu
               onClick={handleClick}
               selectedKeys={[current]}
