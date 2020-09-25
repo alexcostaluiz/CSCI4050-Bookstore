@@ -10,29 +10,12 @@ import {
   Menu,
   AutoComplete,
   Input,
-  Button,
 } from 'antd';
+
+import DynamicAvatar from './DynamicAvatar.js';
 
 const { Header: AntHeader } = Layout;
 const { Title } = Typography;
-
-function DynamicAvatar(props) {
-  const { isSignedIn } = props;
-
-  if (isSignedIn) {
-    return (
-      <Button type='primary' size='large' shape='circle'>
-        AC
-      </Button>
-    );
-  } else {
-    return (
-      <Button type='primary' size='large'>
-        Sign In
-      </Button>
-    );
-  }
-}
 
 const hints = [
   'Bestsellers',
