@@ -9,7 +9,9 @@ import DynamicAvatar from './DynamicAvatar.js';
 const { Header: AntHeader } = Layout;
 const { Title } = Typography;
 
-const hints = [
+// TODO: Pull this info from book tags and book genres once those
+// are properly defined (single source of truth).
+const searchHints = [
   'Bestsellers',
   'Mystery & Crime',
   'Romance',
@@ -66,7 +68,7 @@ function Header(props) {
                 size='large'
                 placeholder={
                   'Try "' +
-                  hints[Math.floor(Math.random() * hints.length)] +
+                  searchHints[Math.floor(Math.random() * searchHints.length)] +
                   '"'
                 }
               />
