@@ -8,10 +8,8 @@ import {
   Layout,
   Typography,
   Menu,
-  Space,
   AutoComplete,
   Input,
-  Avatar,
   Button
 } from 'antd';
 
@@ -27,6 +25,13 @@ function DynamicAvatar(props) {
     return <Button type='primary' size='large'>Sign In</Button>;
   }
 }
+
+const hints = [
+  'Bestsellers', 'Mystery & Crime', 'Romance', 'Thrillers', 'Graphic Novels & Comics',
+  'Poetry', 'Business', 'Current Affairs & Politics', 'Psychology', 'Biography',
+  'Self-Help & Relationships', 'Religion', 'Cookbooks, Food, & Wine', 'Sci-Fi & Fantasy',
+  'Manga', 'History', 'Title, Author, or ISBN', 'Classics', 'Teen & Young Adult',
+];
 
 function Header(props) {
   const [current, setCurrent] = useState('home');
@@ -62,8 +67,8 @@ function Header(props) {
               <Menu.Item key='nav4'>
                 Nav4
               </Menu.Item>
-              <Menu.Item key='nav5'>
-                Nav5
+              <Menu.Item key='sale'>
+                Sale
               </Menu.Item>
             </Menu>
           </div>
@@ -71,7 +76,10 @@ function Header(props) {
         <Col>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <AutoComplete className='bookstore-search-dropdown'>
-              <Input.Search size='small' placeholder='Try: "Science Fiction"' />
+              <Input.Search
+                size='large'
+                placeholder={'Try "' + hints[Math.floor(Math.random() * hints.length)] + '"'}
+              />
             </AutoComplete>
             <DynamicAvatar isSignedIn={true} />
           </div>
