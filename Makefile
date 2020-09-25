@@ -5,7 +5,7 @@ PRETTIER=node_modules/prettier/bin-prettier.js
 
 JAVA = $(shell find src/ -iname "*.java")
 HTML = $(shell find frontend/src -name "*.html") $(shell find frontend/public -name "*.html") $(shell find src/ -name "*.html")
-CSS = $(shell find frontend/src -name "*.css") $(shell find src/ -name "*.css")
+CSS = $(shell find frontend/src -name "*.less") $(shell find src/ -name "*.css")
 JS = $(shell find frontend/src -name "*.js") $(shell find src/ -name "*.js")
 
 node_modules:
