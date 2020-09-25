@@ -5,17 +5,25 @@ import './index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import { Layout } from 'antd';
+
 import Footer from './components/Footer.js';
 import Header from './components/Header.js';
 import HomePage from './pages/HomePage.js';
 
 import * as serviceWorker from './serviceWorker';
 
+const { Content } = Layout;
+
 ReactDOM.render(
   <React.StrictMode>
-    <Header />
-    <HomePage />
-    <Footer />
+    <Layout>
+      <Header />
+      <Content style={{background: 'white'}}>
+        <HomePage />
+      </Content>
+      <Footer />
+    </Layout>
   </React.StrictMode>,
   document.getElementById('root')
 );
