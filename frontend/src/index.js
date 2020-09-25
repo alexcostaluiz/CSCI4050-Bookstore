@@ -1,7 +1,3 @@
-import './css/normalize.css';
-import './css/skeleton.css';
-import './index.less';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 
