@@ -23,9 +23,9 @@ jobs:
     - name: Check HTML formatting
       if: always()
       run: node_modules/prettier/bin-prettier.js -c frontend/public/*.html
-    - name: Check CSS formatting
+    - name: Check LESS formatting
       if: always()
-      run: node_modules/prettier/bin-prettier.js -c frontend/src/*/*.css
+      run: node_modules/prettier/bin-prettier.js -c frontend/src/*/*.less
     - name: Check JavaScript formatting
       if: always()
       run: node_modules/prettier/bin-prettier.js -c frontend/src/*.js frontend/src/*/*.js
