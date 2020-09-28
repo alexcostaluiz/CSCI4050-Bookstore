@@ -23,9 +23,9 @@ function Slider(props) {
   children = children.map((child, index) =>
     React.cloneElement(child, {
       key: index,
-      className: child.props.className
-        ? child.props.className
-        : '' + ' bookstore-slider-item',
+      className:
+        (child.props.className ? child.props.className : '') +
+        ' bookstore-slider-item',
       style: {
         ...child.props.style,
         margin: '0px ' + spaceBetween / 2 + 'px',
