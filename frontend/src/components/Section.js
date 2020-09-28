@@ -4,21 +4,35 @@ import React from 'react';
 
 import { Col, Row, Typography } from 'antd';
 
-import BookThumbnail from './BookThumbnail.js';
-import Slider from './Slider.js';
-
 const { Title } = Typography;
 
+/**
+ * Sections for all users.
+ *
+ * @type {!Array<String>}
+ */
 const sections = ['Bestsellers', 'New Arrivals', 'Featured'];
 
+/**
+ * Sections for registered users.
+ *
+ * @type {!Array<String>}
+ */
 const signedInSections = [
   'Recently Viewed',
   'Favorite Category',
   'Favorite Author',
 ];
 
+/**
+ * A horizontal section component. Displays a title above the specified children.
+ *
+ * @param {string} props.title The title of this section.
+ * @param {!Array<ReactNode>} props.children An array of child components that should
+ *     be displayed within this section.
+ */
 function Section(props) {
-  const { title, primary } = props;
+  const { title, children } = props;
 
   return (
     <Row className='bookstore-hp-section'>
@@ -26,25 +40,7 @@ function Section(props) {
         <Title className='bookstore-hp-section-title' level={2}>
           {title}
         </Title>
-        <Slider itemWidth={216} spaceBetween={16} primary={primary}>
-          <BookThumbnail />
-          <BookThumbnail />
-          <BookThumbnail />
-          <BookThumbnail />
-          <BookThumbnail />
-          <BookThumbnail />
-          <BookThumbnail />
-          <BookThumbnail />
-          <BookThumbnail />
-          <BookThumbnail />
-          <BookThumbnail />
-          <BookThumbnail />
-          <BookThumbnail />
-          <BookThumbnail />
-          <BookThumbnail />
-          <BookThumbnail />
-          <BookThumbnail />
-        </Slider>
+        {children}
       </Col>
     </Row>
   );
