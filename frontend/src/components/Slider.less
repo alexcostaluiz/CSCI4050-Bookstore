@@ -1,0 +1,68 @@
+.bookstore-slider-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.bookstore-slider {
+  position: relative;
+  width: 100%;
+  padding: 16px;
+  padding-bottom: 8px;
+  overflow-x: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none; 
+  white-space: nowrap;
+}
+
+.bookstore-slider-primary {
+  width: 100%;
+  white-space: nowrap;
+  overflow-x: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.bookstore-slider-nested-container {
+  display: inline-block;
+  overflow-x: hidden;
+  white-space: nowrap;
+}
+
+.bookstore-slider::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.bookstore-slider::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-radius: 2px;
+  margin: 0px 32px;
+}
+
+.bookstore-slider::-webkit-scrollbar-thumb {
+  background: @primary-color;
+  border-radius: 2px;
+}
+
+.bookstore-slider-scrollbar-cover {
+  position: absolute;
+  height: 6px;
+  left: 32px;
+  right: 32px;
+  bottom: -1px;
+  background: white;
+  opacity: 1;
+  transition: opacity 0.2s linear; 
+}
+
+.bookstore-slider-wrapper:hover > .bookstore-slider-scrollbar-cover {
+  opacity: 0;
+}
+
+.bookstore-slider-item {
+  display: inline-block;
+}
+
+.bookstore-slider-item:first-of-type {
+  margin-left: 0px !important;
+}
