@@ -47,18 +47,24 @@ function HomePage(props) {
       </div>
     </div>,
     <Section key='hp-section-1' title={sections[0]}>
-      <Slider itemWidth={216} spaceBetween={16} primary>        
-        {Array.from({length: 16}, (e, i) => <BookThumbnail key={i} /> )}
+      <Slider itemWidth={216} spaceBetween={16} primary>
+        {Array.from({ length: 16 }, (e, i) => (
+          <BookThumbnail key={i} />
+        ))}
       </Slider>
     </Section>,
     <Section key='hp-section-2' title={sections[2]}>
       <Slider itemWidth={216} spaceBetween={16}>
-        {Array.from({length: 16}, (e, i) => <BookThumbnail key={i} /> )}
+        {Array.from({ length: 16 }, (e, i) => (
+          <BookThumbnail key={i} />
+        ))}
       </Slider>
-    </Section>,    
+    </Section>,
     <Section key='hp-section-3' title={sections[1]}>
-      <Slider itemWidth={216} spaceBetween={16}>        
-        {Array.from({length: 16}, (e, i) => <BookThumbnail key={i} /> )}
+      <Slider itemWidth={216} spaceBetween={16}>
+        {Array.from({ length: 16 }, (e, i) => (
+          <BookThumbnail key={i} />
+        ))}
       </Slider>
     </Section>,
   ];
