@@ -9,8 +9,8 @@ const { Paragraph, Title } = Typography;
 /**
  * A book thumbnail component. Displays a book cover image, book title, book author,
  * and rating.
- * 
- * @param {string} props.image The path to this book's cover image. 
+ *
+ * @param {string} props.image The path to this book's cover image.
  * @param {string} props.title The book's title.
  * @param {string} props.author The book's author.
  * @param {number} props.rating The book's rating ([0.0, 5.0]).
@@ -31,15 +31,15 @@ function BookThumbnail(props) {
     numRatings = 4132,
     size = 'small',
     className,
-    style
+    style,
   } = props;
-  
+
   return (
     <Card
       className={
         'bookstore-book-thumbnail ' +
-          (size === 'large' ? ' bookstore-book-thumbnail-lg ' : '') +
-          (className ? className : '')
+        (size === 'large' ? ' bookstore-book-thumbnail-lg ' : '') +
+        (className ? className : '')
       }
       bordered={false}
       style={style}
@@ -47,7 +47,7 @@ function BookThumbnail(props) {
         <img
           className={
             'bookstore-book-thumbnail-image' +
-              (size === 'large' ? ' bookstore-book-thumbnail-image-lg' : '')
+            (size === 'large' ? ' bookstore-book-thumbnail-image-lg' : '')
           }
           src={image}
           alt='Book cover'
@@ -58,7 +58,7 @@ function BookThumbnail(props) {
       <Title
         className={
           'bookstore-book-thumbnail-title' +
-            (size === 'large' ? ' bookstore-book-thumbnail-title-lg' : '')
+          (size === 'large' ? ' bookstore-book-thumbnail-title-lg' : '')
         }
         level={5}>
         {title}
@@ -66,15 +66,19 @@ function BookThumbnail(props) {
       <Paragraph
         className={
           'bookstore-book-thumbnail-author' +
-            (size === 'large' ? ' bookstore-book-thumbnail-author-lg' : '')
+          (size === 'large' ? ' bookstore-book-thumbnail-author-lg' : '')
         }>
         {author}
       </Paragraph>
-      <Rate className='bookstore-book-thumbnail-rate' disabled defaultValue={4} />
+      <Rate
+        className='bookstore-book-thumbnail-rate'
+        disabled
+        defaultValue={4}
+      />
       <Paragraph
         className={
           'bookstore-book-thumbnail-rate-text' +
-            (size === 'large' ? ' bookstore-book-thumbnail-rate-text-lg' : '')
+          (size === 'large' ? ' bookstore-book-thumbnail-rate-text-lg' : '')
         }>
         {rating} ({numRatings})
       </Paragraph>
