@@ -20,18 +20,20 @@ function Slider(props) {
   const { spaceBetween, primary } = props;
   let { children, className, style } = props;
 
-  children = children.map((child, index) =>
-    React.cloneElement(child, {
-      key: index,
-      className:
-        (child.props.className ? child.props.className : '') +
-        ' bookstore-slider-item',
-      style: {
-        ...child.props.style,
-        margin: '0px ' + spaceBetween / 2 + 'px',
-      },
-    })
-  );
+  if (!primary) {
+    children = children.map((child, index) =>
+      React.cloneElement(child, {
+        key: index,
+        className:
+          (child.props.className ? child.props.className : '') +
+          ' bookstore-slider-item',
+        style: {
+          ...child.props.style,
+          margin: '0px ' + spaceBetween / 2 + 'px',
+        },
+      })
+    );
+  }
 
   return (
     <div className='bookstore-slider-wrapper'>
