@@ -16,7 +16,7 @@ const { Title } = Typography;
 function HomePage(props) {
   return (
     <Row>
-      <Col  className='bookstore-hp-col' span={24}>
+      <Col className='bookstore-hp-col' span={24}>
         <div key='hp-grid' className='bookstore-hp-grid-container'>
           <div className='bookstore-hp-grid one'>
             <Title className='bookstore-welcome-text'>Welcome, Alex.</Title>
@@ -45,7 +45,11 @@ function HomePage(props) {
           </div>
           <div className='bookstore-hp-grid four'>
             <span />
-            <Skeleton title={false} paragraph={{ rows: 1, width: ['66%'] }} round />
+            <Skeleton
+              title={false}
+              paragraph={{ rows: 1, width: ['66%'] }}
+              round
+            />
           </div>
         </div>
         <Section key='hp-section-1' title={sections[0]}>
