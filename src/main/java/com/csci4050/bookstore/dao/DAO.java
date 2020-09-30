@@ -1,6 +1,5 @@
 package com.csci4050.bookstore.dao;
 
-import com.csci4050.bookstore.model.Example;
 import java.util.List;
 
 public interface DAO<T> {
