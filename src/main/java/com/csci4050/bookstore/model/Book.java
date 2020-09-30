@@ -32,17 +32,44 @@ public class Book {
     @NotNull
     private Integer book_id;
 
+    @Column (name="isbn") 
+    @NotNull 
+    private Integer isbn;
 
-    @Column (name="isbn") @NotNull private Integer isbn;
-    @Column(name="pub_year") @NotNull private Integer pub_year;
-    @Column(name="stock") @NotNull private Integer stock;
-    @Column(name="min_thresh") @NotNull private Integer min_thresh;
-    @Column(name="buy_price") @NotNull private Float buy_price;
-    @Column(name="sell_price") @NotNull private Float sell_price;
-    @Column(name="title") @NotNull private String title;
-    @Column(name="cover_pic_path") @NotNull private String cover_pic_path;
-    @Column(name="edition") @NotNull private String edition;
-    @Column(name="publisher") @NotNull private String publisher;
+    @Column(name="pub_year") 
+    @NotNull 
+    private Integer pub_year;
+
+    @Column(name="stock") 
+    @NotNull
+    private Integer stock;
+    @Column(name="min_thresh") 
+    @NotNull 
+    private Integer min_thresh;
+
+    @Column(name="buy_price") 
+    @NotNull 
+    private Float buy_price;
+
+    @Column(name="sell_price") 
+    @NotNull 
+    private Float sell_price;
+
+    @Column(name="title") 
+    @NotNull 
+    private String title;
+
+    @Column(name="cover_pic_path") 
+    @NotNull 
+    private String cover_pic_path;
+
+    @Column(name="edition")
+    @NotNull 
+    private String edition;
+
+    @Column(name="publisher")
+    @NotNull 
+    private String publisher;
 
     @Column(name="category")
     @Enumerated(EnumType.STRING)
