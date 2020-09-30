@@ -2,11 +2,13 @@ import './Header.less';
 
 import React, { useState } from 'react';
 
-import { Row, Col, Layout, Typography, Menu, AutoComplete, Input } from 'antd';
+import { useHistory } from 'react-router-dom';
+
+import { AutoComplete, Badge, Button, Col, Input, Menu, Row, Typography } from 'antd';
+import { ShoppingCartOutlined as Cart } from '@ant-design/icons';
 
 import DynamicAvatar from './DynamicAvatar.js';
 
-const { Header: AntHeader } = Layout;
 const { Title } = Typography;
 
 // TODO: Pull this info from book tags and book genres once those
@@ -36,50 +38,56 @@ const searchHints = [
 function Header(props) {
   const [current, setCurrent] = useState('home');
 
+  const history = useHistory();
+
   const handleClick = (e) => {
     setCurrent(e.key);
   };
 
   return (
-    <AntHeader className='bookstore-header'>
-      <Row align='middle' justify='space-between'>
-        <Col>
-          <div className='bookstore-col-wrapper'>
-            <a href='/'>
-              <Title className='bookstore-logo-lg' level={2}>
-                Bookstore
-              </Title>
-            </a>
-            <Menu
-              onClick={handleClick}
-              selectedKeys={[current]}
-              mode='horizontal'
-              className='bookstore-nav'>
-              <Menu.Item key='home'>Home</Menu.Item>
-              <Menu.Item key='browse'>Browse</Menu.Item>
-              <Menu.Item key='nav3'>Nav3</Menu.Item>
-              <Menu.Item key='nav4'>Nav4</Menu.Item>
-              <Menu.Item key='sale'>Sale</Menu.Item>
-            </Menu>
-          </div>
-        </Col>
-        <Col>
-          <div className='bookstore-col-wrapper'>
-            <AutoComplete className='bookstore-search-dropdown'>
-              <Input.Search
-                size='large'
-                placeholder={
-                  'Try "' +
+    <Row className='bookstore-header' align='middle' justify='space-between'>
+      <Col span={24}>
+        <div className='bookstore-header-wrapper'>
+          <Title className='bookstore-logo-lg' level={2} onClick={() => history.push('/')}>
+            Bookstore
+          </Title>
+          <Menu
+            onClick={handleClick}
+            selectedKeys={[current]}
+            mode='horizontal'
+            className='bookstore-nav'>
+            <Menu.Item key='home'>Home</Menu.Item>
+            <Menu.Item key='browse'>Browse</Menu.Item>
+            <Menu.Item key='nav3'>Nav3</Menu.Item>
+            <Menu.Item key='nav4'>Nav4</Menu.Item>
+            <Menu.Item key='sale'>Sale</Menu.Item>
+          </Menu>
+          <div style={{ width: '100%' }} />
+          <AutoComplete className='bookstore-search-dropdown'>
+            <Input.Search
+              size='large'
+              placeholder={
+                'Try "' +
                   searchHints[Math.floor(Math.random() * searchHints.length)] +
                   '"'
-                }
-              />
-            </AutoComplete>
-            <DynamicAvatar isSignedIn={true} />
-          </div>
-        </Col>
-      </Row>
-    </AntHeader>
+              }
+            />
+          </AutoComplete>
+          <DynamicAvatar isSignedIn={true} />
+          <Badge
+            className='bookstore-cart-icon-badge'
+            count={0}
+            offset={[-4, 8]}
+            showZero>
+            <Button
+              className='bookstore-cart-button'
+              size='large'
+              icon={<Cart className='bookstore-cart-icon' />}
+            />
+          </Badge>
+        </div>
+      </Col>
+    </Row>
   );
 }
 

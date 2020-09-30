@@ -1,17 +1,11 @@
 .bookstore-header {
+  height: 64px;
   background: white;
   border-bottom: 1px solid #ccc;
+  padding: 0px 32px;
 }
 
-.bookstore-nav {
-  text-transform: uppercase;
-  font-weight: bold;
-  border-bottom: none;
-  background: none;
-  line-height: 62px !important;
-}
-
-.bookstore-col-wrapper {
+.bookstore-header-wrapper {
   display: flex;
   align-items: center;
 }
@@ -22,10 +16,19 @@
   cursor: pointer;
 }
 
+.bookstore-nav {
+  text-transform: uppercase;
+  font-weight: bold;
+  border-bottom: none;
+  background: none;
+  line-height: 62px !important;
+}
+
 .bookstore-search-dropdown {
   width: 500px;
   display: block;
   margin-right: 32px;
+  flex: 0 0 auto;
 }
 
 .bookstore-search-dropdown .ant-input-search-icon {
@@ -34,4 +37,22 @@
 
 .bookstore-search-dropdown .ant-input-search-icon::before {
   transform: translateX(-16px);
+}
+
+.bookstore-cart-icon-badge {
+  margin-left: 24px;
+}
+
+.bookstore-cart-icon-badge > sup {
+  background: @primary-color;
+}
+
+.bookstore-cart-button {
+  border: none;
+  box-shadow: none;
+}
+
+.bookstore-cart-icon {
+  font-size: 32px !important;
+  transform: translate(-2px, -1px);
 }
