@@ -2,6 +2,8 @@ import './BookThumbnail.less';
 
 import React from 'react';
 
+import { useHistory } from 'react-router-dom';
+
 import { Card, Rate, Typography } from 'antd';
 
 const { Paragraph, Title } = Typography;
@@ -34,20 +36,23 @@ function BookThumbnail(props) {
     style,
   } = props;
 
+  const history = useHistory();
+
   return (
     <Card
       className={
         'bookstore-book-thumbnail ' +
-        (size === 'large' ? ' bookstore-book-thumbnail-lg ' : '') +
-        (className ? className : '')
+          (size === 'large' ? ' bookstore-book-thumbnail-lg ' : '') +
+          (className ? className : '')
       }
       bordered={false}
       style={style}
+      onClick={() => history.push('/b/slug')}
       cover={
         <img
           className={
             'bookstore-book-thumbnail-image' +
-            (size === 'large' ? ' bookstore-book-thumbnail-image-lg' : '')
+              (size === 'large' ? ' bookstore-book-thumbnail-image-lg' : '')
           }
           src={image}
           alt='Book cover'
@@ -58,7 +63,7 @@ function BookThumbnail(props) {
       <Title
         className={
           'bookstore-book-thumbnail-title' +
-          (size === 'large' ? ' bookstore-book-thumbnail-title-lg' : '')
+            (size === 'large' ? ' bookstore-book-thumbnail-title-lg' : '')
         }
         level={5}>
         {title}
@@ -66,21 +71,34 @@ function BookThumbnail(props) {
       <Paragraph
         className={
           'bookstore-book-thumbnail-author' +
-          (size === 'large' ? ' bookstore-book-thumbnail-author-lg' : '')
+            (size === 'large' ? ' bookstore-book-thumbnail-author-lg' : '')
         }>
         {author}
       </Paragraph>
-      <Rate
-        className='bookstore-book-thumbnail-rate'
-        disabled
-        defaultValue={4}
-      />
+      <div className='bookstore-book-thumbnail-rate-container'>
+        <Rate
+          className={
+            'bookstore-book-thumbnail-rate' +
+              (size === 'large' ? ' bookstore-book-thumbnail-rate-lg' : '')
+          }
+          disabled
+          defaultValue={4}
+        />
+        <Paragraph
+          className={
+            'bookstore-book-thumbnail-rate-text' +
+              (size === 'large' ? ' bookstore-book-thumbnail-rate-text-lg' : '')
+          }
+          style={{ display: 'inline-block' }}>
+          {rating}
+        </Paragraph>
+      </div>
       <Paragraph
         className={
           'bookstore-book-thumbnail-rate-text' +
-          (size === 'large' ? ' bookstore-book-thumbnail-rate-text-lg' : '')
+            (size === 'large' ? ' bookstore-book-thumbnail-rate-text-lg' : '')
         }>
-        {rating} ({numRatings})
+        {numRatings} review{numRatings === 1 ? '': 's'}
       </Paragraph>
     </Card>
   );
