@@ -34,7 +34,7 @@ function BookListing(props) {
   const [bookType, setBookType] = useState('Hardcover');
   const [quantity, setQuantity] = useState(1);
   const [addingToCart, setAddingToCart] = useState(false);
-  
+
   const addToCart = () => {
     setAddingToCart(true);
     setTimeout(() => {
@@ -43,19 +43,13 @@ function BookListing(props) {
 
     CartNotification.open({ author, bookType, image, price, quantity, title });
   };
-  
+
   return (
     <div className='bookstore-bp-book-info'>
       <Title className='bookstore-bp-book-title'>{title}</Title>
-      <Paragraph className='bookstore-bp-book-author'>
-        by {author}
-      </Paragraph>
+      <Paragraph className='bookstore-bp-book-author'>by {author}</Paragraph>
       <div>
-        <Rate
-          className='bookstore-bp-book-rate'
-          value={rating}
-          disabled
-        />
+        <Rate className='bookstore-bp-book-rate' value={rating} disabled />
         <Paragraph className='bookstore-bp-book-rate-text'>
           {rating}&emsp;|&emsp;{numRatings} review
           {numRatings === 1 ? '' : 's'}
@@ -64,9 +58,7 @@ function BookListing(props) {
       <Divider />
       <Paragraph className='bookstore-bp-book-type'>{bookType}</Paragraph>
       <div>
-        <Title className='bookstore-bp-book-price'>
-          ${price.toFixed(2)}
-        </Title>
+        <Title className='bookstore-bp-book-price'>${price.toFixed(2)}</Title>
         <Paragraph className='bookstore-bp-book-sale'>
           ${(price * 1.2).toFixed(2)}
         </Paragraph>
@@ -91,9 +83,7 @@ function BookListing(props) {
           <span className='bookstore-bp-book-type-price'>${price}</span>
         </Radio.Button>
       </Radio.Group>
-      <Paragraph className='bookstore-bp-label'>
-        Select Quantity
-      </Paragraph>
+      <Paragraph className='bookstore-bp-label'>Select Quantity</Paragraph>
       <InputNumber
         className='bookstore-bp-book-quantity'
         min={1}
