@@ -1,6 +1,6 @@
 package com.csci4050.bookstore.service;
 
-import com.csci4050.bookstore.dao.ExampleDAO;
+import com.csci4050.bookstore.dao.DAO;
 import com.csci4050.bookstore.model.Example;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ExampleServiceImp implements ExampleService {
-  @Autowired private ExampleDAO exampleDao;
+  @Autowired private DAO<Example> exampleDao;
 
   @Transactional
   @Override
