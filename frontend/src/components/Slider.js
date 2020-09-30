@@ -24,8 +24,12 @@ function Slider(props) {
   const scrollbarCover = useRef(null);
 
   useLayoutEffect(() => {
-    if (!primary && scrollbarCover.current && slider.current &&
-        slider.current.scrollWidth <= slider.current.offsetWidth) {
+    if (
+      !primary &&
+      scrollbarCover.current &&
+      slider.current &&
+      slider.current.scrollWidth <= slider.current.offsetWidth
+    ) {
       scrollbarCover.current.classList.add('disabled');
     }
   }, [primary]);
@@ -78,7 +82,12 @@ function Slider(props) {
             ]
           : children}
       </div>
-      {!primary && <div ref={scrollbarCover} className='bookstore-slider-scrollbar-cover' />}
+      {!primary && (
+        <div
+          ref={scrollbarCover}
+          className='bookstore-slider-scrollbar-cover'
+        />
+      )}
     </div>
   );
 }
