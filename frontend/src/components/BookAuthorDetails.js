@@ -2,7 +2,15 @@ import './BookAuthorDetails.less';
 
 import React, { useEffect, useState } from 'react';
 
-import { Button, Descriptions, Image, Skeleton, Tabs, Tag, Typography } from 'antd';
+import {
+  Button,
+  Descriptions,
+  Image,
+  Skeleton,
+  Tabs,
+  Tag,
+  Typography,
+} from 'antd';
 
 import dayjs from 'dayjs';
 
@@ -39,7 +47,7 @@ function BookAuthorDetails(props) {
   } = props;
 
   const [authorWiki, setAuthorWiki] = useState(null);
-  
+
   useEffect(() => {
     (async () => {
       const result = await WikiService.fetchAuthor(author);
@@ -62,9 +70,7 @@ function BookAuthorDetails(props) {
           column={{ xxl: 2, xl: 2, lg: 2, md: 2, sm: 2, xs: 1 }}
           bordered>
           <Descriptions.Item label='ISBN-13'>{isbn}</Descriptions.Item>
-          <Descriptions.Item label='Publisher'>
-            {publisher}
-          </Descriptions.Item>
+          <Descriptions.Item label='Publisher'>{publisher}</Descriptions.Item>
           <Descriptions.Item label='Publication Date'>
             {dayjs.unix(publicationDate).format('MMMM DD, YYYY')}
           </Descriptions.Item>
@@ -104,7 +110,7 @@ function BookAuthorDetails(props) {
                 type='link'
                 href={
                   'https://en.wikipedia.org?curid=' +
-                    (authorWiki ? authorWiki.pageid : '')
+                  (authorWiki ? authorWiki.pageid : '')
                 }
                 target='_blank'>
                 &nbsp;Wikipedia
