@@ -4,7 +4,16 @@ import React, { useState } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
-import { AutoComplete, Badge, Button, Col, Input, Menu, Row, Typography } from 'antd';
+import {
+  AutoComplete,
+  Badge,
+  Button,
+  Col,
+  Input,
+  Menu,
+  Row,
+  Typography,
+} from 'antd';
 import { ShoppingCartOutlined as Cart } from '@ant-design/icons';
 
 import DynamicAvatar from './DynamicAvatar.js';
@@ -48,7 +57,10 @@ function Header(props) {
     <Row className='bookstore-header' align='middle' justify='space-between'>
       <Col span={24}>
         <div className='bookstore-header-wrapper'>
-          <Title className='bookstore-logo-lg' level={2} onClick={() => history.push('/')}>
+          <Title
+            className='bookstore-logo-lg'
+            level={2}
+            onClick={() => history.push('/')}>
             Bookstore
           </Title>
           <Menu
@@ -68,8 +80,8 @@ function Header(props) {
               size='large'
               placeholder={
                 'Try "' +
-                  searchHints[Math.floor(Math.random() * searchHints.length)] +
-                  '"'
+                searchHints[Math.floor(Math.random() * searchHints.length)] +
+                '"'
               }
             />
           </AutoComplete>
