@@ -35,9 +35,9 @@ function Section(props) {
   const { title, children } = props;
 
   return (
-    <Row className='bookstore-hp-section'>
+    <Row className='bookstore-section'>
       <Col span={24}>
-        <Title className='bookstore-hp-section-title' level={2}>
+        <Title className='bookstore-section-title' level={2}>
           {title}
         </Title>
         {children}

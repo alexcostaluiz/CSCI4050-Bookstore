@@ -1,6 +1,6 @@
 import './Slider.less';
 
-import React from 'react';
+import React, { useRef, useLayoutEffect } from 'react';
 
 /**
  * A horizontal sliding component.
@@ -20,18 +20,34 @@ function Slider(props) {
   const { spaceBetween, primary } = props;
   let { children, className, style } = props;
 
-  children = children.map((child, index) =>
-    React.cloneElement(child, {
-      key: index,
-      className:
-        (child.props.className ? child.props.className : '') +
-        ' bookstore-slider-item',
-      style: {
-        ...child.props.style,
-        margin: '0px ' + spaceBetween / 2 + 'px',
-      },
-    })
-  );
+  const slider = useRef(null);
+  const scrollbarCover = useRef(null);
+
+  useLayoutEffect(() => {
+    if (
+      !primary &&
+      scrollbarCover.current &&
+      slider.current &&
+      slider.current.scrollWidth <= slider.current.offsetWidth
+    ) {
+      scrollbarCover.current.classList.add('disabled');
+    }
+  }, [primary]);
+
+  if (!primary) {
+    children = children.map((child, index) =>
+      React.cloneElement(child, {
+        key: index,
+        className:
+          (child.props.className ? child.props.className : '') +
+          ' bookstore-slider-item',
+        style: {
+          ...child.props.style,
+          margin: '0px ' + spaceBetween / 2 + 'px',
+        },
+      })
+    );
+  }
 
   return (
     <div className='bookstore-slider-wrapper'>
@@ -40,6 +56,7 @@ function Slider(props) {
           (primary ? 'bookstore-slider-primary ' : 'bookstore-slider ') +
           (className ? className : '')
         }
+        ref={slider}
         style={style}>
         {primary && children[0]
           ? [
@@ -65,7 +82,12 @@ function Slider(props) {
             ]
           : children}
       </div>
-      {!primary && <div className='bookstore-slider-scrollbar-cover' />}
+      {!primary && (
+        <div
+          ref={scrollbarCover}
+          className='bookstore-slider-scrollbar-cover'
+        />
+      )}
     </div>
   );
 }
