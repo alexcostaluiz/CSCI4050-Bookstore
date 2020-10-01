@@ -8,6 +8,6 @@ public interface DAO<T> {
   T get(int id);
 
   void save(T t);
-
+  
   void delete(int id);
 }
