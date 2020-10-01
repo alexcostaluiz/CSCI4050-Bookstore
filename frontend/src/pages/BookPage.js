@@ -46,13 +46,13 @@ function BookPage(props) {
 
   return (
     <Row justify='center'>
-      <Col span={24} className='bookstore-bp-column'>
-        <Breadcrumb className='bookstore-bp-breadcrumb'>
+      <Col span={24} className='bookstore-column'>
+        <Breadcrumb className='bookstore-breadcrumb'>
           <Breadcrumb.Item href='/'>Home</Breadcrumb.Item>
           <Breadcrumb.Item href='/books'>Books</Breadcrumb.Item>
           <Breadcrumb.Item href='#'>{title}</Breadcrumb.Item>
         </Breadcrumb>
-        <div className='bookstore-bp-section'>
+        <div className='bookstore-page-section'>
           <Image className='bookstore-bp-book-cover' src={image} />
           <BookListing
             author={author}
