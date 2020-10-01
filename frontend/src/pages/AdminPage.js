@@ -19,9 +19,10 @@ function AdminPage(props) {
             <Title className='bookstore-admin-module-title'>Manage Users</Title>
           </div>
           <div className='bookstore-admin-module'>
-            <Title className='bookstore-admin-module-title'>Manage Promotions</Title>
+            <Title className='bookstore-admin-module-title'>
+              Manage Promotions
+            </Title>
           </div>
-
         </div>
       </Col>
     </Row>
