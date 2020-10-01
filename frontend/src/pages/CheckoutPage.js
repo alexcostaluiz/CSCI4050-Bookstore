@@ -7,7 +7,7 @@ import { Breadcrumb, Button, Col, Row, Typography } from 'antd';
 import CartItem from '../components/CartItem.js';
 import CartSummary from '../components/CartSummary.js';
 
-const { Paragraph, Title } = Typography;
+const { Title } = Typography;
 
 function CheckoutPage(props) {
   const { cart } = props;
