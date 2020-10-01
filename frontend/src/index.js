@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Layout } from 'antd';
 
 import BookPage from './pages/BookPage.js';
+import CartPage from './pages/CartPage.js';
 import Footer from './components/Footer.js';
 import Header from './components/Header.js';
 import HomePage from './pages/HomePage.js';
@@ -24,6 +25,9 @@ ReactDOM.render(
           <Switch>
             <Route path='/b/:slug'>
               <BookPage />
+            </Route>
+            <Route path='/cart'>
+              <CartPage />
             </Route>
             <Route path='/'>
               <HomePage />
