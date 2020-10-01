@@ -1,11 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import { Layout } from 'antd';
 
+import BookPage from './pages/BookPage.js';
 import Footer from './components/Footer.js';
 import Header from './components/Header.js';
 import HomePage from './pages/HomePage.js';
+import ScrollToTop from './components/ScrollToTop.js';
 
 import * as serviceWorker from './serviceWorker';
 
@@ -13,13 +16,23 @@ const { Content } = Layout;
 
 ReactDOM.render(
   <React.StrictMode>
-    <Layout>
-      <Header />
-      <Content style={{ background: 'white' }}>
-        <HomePage />
-      </Content>
-      <Footer />
-    </Layout>
+    <Router>
+      <ScrollToTop />
+      <Layout>
+        <Header />
+        <Content style={{ background: 'white' }}>
+          <Switch>
+            <Route path='/b/:slug'>
+              <BookPage />
+            </Route>
+            <Route path='/'>
+              <HomePage />
+            </Route>
+          </Switch>
+        </Content>
+        <Footer />
+      </Layout>
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );
