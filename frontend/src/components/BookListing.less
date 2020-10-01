@@ -1,0 +1,102 @@
+@import "../global.less";
+
+.bookstore-bp-book-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-left: 96px;
+  background: white;
+  padding: 32px;
+  border-radius: 12px;
+  box-shadow: @card-shadow;
+}
+
+.bookstore-bp-book-title {
+  margin-bottom: 0px !important;
+  font-weight: 900 !important;
+}
+
+.bookstore-bp-book-author {
+  font-size: 18px;
+}
+
+.bookstore-bp-book-rate {
+  display: inline-block;
+}
+
+.bookstore-bp-book-rate-text {
+  display: inline-block;
+  margin-left: 16px;
+  margin-bottom: 0px !important;
+}
+
+.bookstore-bp-book-price {
+  display: inline-block;
+  margin: 0px !important;
+  margin-right: 16px !important;
+}
+
+.bookstore-bp-book-sale {
+  display: inline-block;
+  text-decoration: line-through;
+  font-size: 18px;
+  margin-bottom: 0px !important;
+}
+
+.bookstore-bp-label {
+  margin-top: 24px !important;
+  margin-bottom: 8px !important;
+}
+
+.bookstore-bp-book-type {
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: capitalize;
+  margin-bottom: 0px !important;
+}
+
+.bookstore-bp-book-type-select {
+  display: block;
+}
+
+.bookstore-bp-book-type-select > .ant-radio-button-wrapper {
+  height: 80px;
+  min-width: 96px;
+  text-align: center;
+  margin: 0px 16px;
+  border-radius: 12px;
+  border-left-width: 1px;
+}
+
+.bookstore-bp-book-type-select > .ant-radio-button-wrapper:first-of-type {
+  margin-left: 0px;
+}
+
+.bookstore-bp-book-type-select > .ant-radio-button-wrapper::before {
+  display: none;
+}
+
+.bookstore-bp-book-type-price {
+  display: block;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.bookstore-bp-book-quantity {
+  margin-bottom: 32px;
+}
+
+.bookstore-bp-add-cart {
+  display: block;
+  width: 100%;
+  height: 64px;
+  flex: 0 0 auto;
+  border-radius: 12px;
+  transition: background 0.1s linear;
+}
+
+.bookstore-bp-add-wish-list {
+  text-align: start;
+  padding: 0px;
+  margin-top: 8px;
+}

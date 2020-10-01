@@ -1,0 +1,116 @@
+@import "../global.less";
+
+.bookstore-reviews-container {
+  display: flex;
+  flex-direction: column;
+  margin: 16px 0px;
+  background-color: #feae96;
+  background-image: linear-gradient(225deg, #feae96 5%, #fe0944 125%);
+  padding: 64px;
+  border-radius: 12px;
+  box-shadow: @card-shadow;
+}
+
+.bookstore-reviews-summary-container {
+  display: flex;
+  margin-bottom: 32px;
+}
+
+.bookstore-reviews-summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 300px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: @card-shadow;
+  margin: 0px 16px;
+}
+
+.bookstore-reviews-summary > div {
+  font-weight: bold;
+}
+
+.bookstore-reviews-summary:first-of-type {
+  margin-left: 0px;
+}
+
+.bookstore-reviews-summary:last-of-type {
+  margin-right: 0px;
+}
+
+.bookstore-reviews-list-container {
+  background: #f9f9f9;
+  box-shadow: @card-shadow;
+  border-radius: 12px;
+}
+
+.bookstore-reviews-list-wrapper {
+  display: flex;
+  padding: 48px;
+  padding-top: 0px;
+}
+
+.bookstore-reviews-list-controls-top {
+  width: 100%;
+  padding: 24px 48px;
+  text-align: right;
+}
+
+.bookstore-reviews-list-controls-search {
+  max-width: 500px;
+  margin-right: 32px;
+}
+
+.bookstore-reviews-list-controls-top-label {
+  display: inline;
+  margin-right: 8px;
+  font-weight: bold;
+}
+
+.bookstore-reviews-list-controls-sort {
+  min-width: 150px;
+  text-align: left;
+}
+
+.bookstore-reviews-list-controls-side {
+  height: inherit;
+  width: 100%;
+  flex: 1 0;
+  margin-right: 24px;
+}
+
+.bookstore-reviews-list-controls-header {
+  font-weight: 900 !important;
+}
+
+.bookstore-reviews-list-controls-radio-label {
+  font-weight: bold;
+  display: inline;
+}
+
+.bookstore-reviews-list-controls-radio {
+  float: right;
+}
+
+.bookstore-reviews-list-controls-side-label {
+  font-weight: bold;
+  margin: 12px 0px 4px 0px;
+}
+
+.bookstore-reviews-list-controls-checkbox-group > label {
+  display: block;
+}
+
+.bookstore-reviews-list-controls-checkbox {
+  margin-left: 0px !important;
+}
+
+.bookstore-reviews-list-controls-rating {
+  font-size: 16px;
+}
+
+.bookstore-reviews-list {
+  flex: 4 0;
+}

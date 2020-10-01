@@ -2,6 +2,8 @@ import './BookThumbnail.less';
 
 import React from 'react';
 
+import { useHistory } from 'react-router-dom';
+
 import { Card, Rate, Typography } from 'antd';
 
 const { Paragraph, Title } = Typography;
@@ -34,6 +36,8 @@ function BookThumbnail(props) {
     style,
   } = props;
 
+  const history = useHistory();
+
   return (
     <Card
       className={
@@ -43,6 +47,7 @@ function BookThumbnail(props) {
       }
       bordered={false}
       style={style}
+      onClick={() => history.push('/b/slug')}
       cover={
         <img
           className={
@@ -70,17 +75,30 @@ function BookThumbnail(props) {
         }>
         {author}
       </Paragraph>
-      <Rate
-        className='bookstore-book-thumbnail-rate'
-        disabled
-        defaultValue={4}
-      />
+      <div className='bookstore-book-thumbnail-rate-container'>
+        <Rate
+          className={
+            'bookstore-book-thumbnail-rate' +
+            (size === 'large' ? ' bookstore-book-thumbnail-rate-lg' : '')
+          }
+          disabled
+          defaultValue={4}
+        />
+        <Paragraph
+          className={
+            'bookstore-book-thumbnail-rate-text' +
+            (size === 'large' ? ' bookstore-book-thumbnail-rate-text-lg' : '')
+          }
+          style={{ display: 'inline-block' }}>
+          {rating}
+        </Paragraph>
+      </div>
       <Paragraph
         className={
           'bookstore-book-thumbnail-rate-text' +
           (size === 'large' ? ' bookstore-book-thumbnail-rate-text-lg' : '')
         }>
-        {rating} ({numRatings})
+        {numRatings} review{numRatings === 1 ? '' : 's'}
       </Paragraph>
     </Card>
   );
