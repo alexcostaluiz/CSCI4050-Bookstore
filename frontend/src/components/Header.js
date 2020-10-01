@@ -50,14 +50,15 @@ function Header(props) {
   const history = useHistory();
   const location = useLocation();
 
-  let simple = location.pathname.startsWith('/checkout') ||
-      location.pathname.startsWith('/admin');
-  
+  let simple =
+    location.pathname.startsWith('/checkout') ||
+    location.pathname.startsWith('/admin');
+
   const handleClick = (e) => {
     setCurrent(e.key);
   };
 
-  if (simple)  {
+  if (simple) {
     return (
       <Row className='bookstore-header' align='middle' justify='space-between'>
         <Col span={24}>
