@@ -7,7 +7,7 @@ import { Button, Divider, Typography } from 'antd';
 const { Paragraph, Title } = Typography;
 
 function CartSummary(props) {
-  const { cart } = props;
+  const { cart, action } = props;
 
   const subtotal = cart.reduce((a, b) => a + b.price, 0);
   const tax = 4.99;
@@ -39,9 +39,11 @@ function CartSummary(props) {
           </Title>
         </div>
       </div>
-      <Button className='bookstore-cart-summary-action' type='primary'>
-        CHECKOUT
-      </Button>
+      {action || (
+        <Button className='bookstore-cart-summary-action' type='primary'>
+          CHECKOUT
+        </Button>
+      )}
     </div>
   );
 }
