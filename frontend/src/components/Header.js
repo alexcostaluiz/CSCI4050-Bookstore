@@ -2,7 +2,7 @@ import './Header.less';
 
 import React, { useState } from 'react';
 
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import {
   AutoComplete,
@@ -48,10 +48,33 @@ function Header(props) {
   const [current, setCurrent] = useState('home');
 
   const history = useHistory();
+  const location = useLocation();
 
+  let simple = location.pathname.startsWith('/checkout') ||
+      location.pathname.startsWith('/admin');
+  
   const handleClick = (e) => {
     setCurrent(e.key);
   };
+
+  if (simple)  {
+    return (
+      <Row className='bookstore-header' align='middle' justify='space-between'>
+        <Col span={24}>
+          <div className='bookstore-header-wrapper'>
+            <div style={{ width: '40px' }} />
+            <Title
+              className='bookstore-logo-lg'
+              level={2}
+              onClick={() => history.push('/')}>
+              Bookstore
+            </Title>
+            <DynamicAvatar isSignedIn={true} />
+          </div>
+        </Col>
+      </Row>
+    );
+  }
 
   return (
     <Row className='bookstore-header' align='middle' justify='space-between'>
