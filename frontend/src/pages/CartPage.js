@@ -8,7 +8,7 @@ import BookThumbnail from '../components/BookThumbnail.js';
 import CartItem from '../components/CartItem.js';
 import CartSummary from '../components/CartSummary.js';
 import Section from '../components/Section.js';
-import Slider from '../components/Slider.js'; 
+import Slider from '../components/Slider.js';
 
 const { Title } = Typography;
 
@@ -26,11 +26,11 @@ const book = {
   tags: ['Nonfiction', 'Biography', 'Autobiography', 'Bestseller'],
   title: 'A Promised Land',
 };
-const fcart = Array.from({ length: 3 }, e => book);
+const fcart = Array.from({ length: 3 }, (e) => book);
 
 function CartPage(props) {
   const { cart = fcart } = props;
-  
+
   return (
     <Row justify='center'>
       <Col span={24} className='bookstore-bp-column'>
@@ -41,9 +41,11 @@ function CartPage(props) {
         <div className='bookstore-cp-section'>
           <div className='bookstore-cart-list'>
             <Title className='bookstore-cart-list-title'>Cart</Title>
-            {cart.map((b, i) => <CartItem key={i} { ...b} />)}
+            {cart.map((b, i) => (
+              <CartItem key={i} {...b} />
+            ))}
           </div>
-          <CartSummary cart={cart} />          
+          <CartSummary cart={cart} />
         </div>
         <Section title='You Might Also Like'>
           <Slider itemWidth={216} spaceBetween={16}>

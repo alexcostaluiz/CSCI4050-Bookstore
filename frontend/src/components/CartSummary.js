@@ -12,7 +12,7 @@ function CartSummary(props) {
   const subtotal = cart.reduce((a, b) => a + b.price, 0);
   const tax = 4.99;
   const total = subtotal + tax;
-  
+
   return (
     <div className='bookstore-cart-summary-wrapper'>
       <Title className='bookstore-cart-summary-title'>Order Summary</Title>
@@ -31,13 +31,18 @@ function CartSummary(props) {
         </div>
         <Divider />
         <div className='bookstore-cart-summary-row'>
-          <Title className='bookstore-cart-summary-title' level={4}>Order Total:</Title>
-          <Title className='bookstore-cart-summary-title' level={4}>${total}</Title>
+          <Title className='bookstore-cart-summary-title' level={4}>
+            Order Total:
+          </Title>
+          <Title className='bookstore-cart-summary-title' level={4}>
+            ${total}
+          </Title>
         </div>
       </div>
-      <Button className='bookstore-cart-summary-action' type='primary'>CHECKOUT</Button>
+      <Button className='bookstore-cart-summary-action' type='primary'>
+        CHECKOUT
+      </Button>
     </div>
-
   );
 }
 
