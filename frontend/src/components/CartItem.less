@@ -1,0 +1,52 @@
+@import "../global.less";
+
+.bookstore-cart-item-wrapper {
+  display: flex;
+  flex-direction: column;
+  box-shadow: @card-shadow;
+  border-radius: 12px;
+  margin: 32px 0px;
+}
+
+.bookstore-cart-item-wrapper:first-of-type {
+  margin-top: 0px;
+}
+
+.bookstore-cart-item-wrapper:last-of-type {
+  margin-bottom: 0px;
+}
+
+.bookstore-cart-item {
+  display: flex;
+  padding: 32px;
+  padding-bottom: 0px;
+}
+
+.bookstore-cart-item-image {
+  width: 124px;
+  border-radius: 8px;
+  margin-right: 24px;
+  box-shadow: @card-shadow;
+}
+
+.bookstore-cart-item-details {
+  width: 100%;
+}
+
+.bookstore-cart-item-title {
+  margin-bottom: 0px !important;
+}
+
+.bookstore-cart-item-action-container {
+  align-self: flex-end;
+  padding: 16px;
+  padding-top: 0px;
+}
+
+.bookstore-cart-item-action {
+  font-size: 12px;
+}
+
+.bookstore-cart-item-action:last-of-type {
+  margin-left: 16px;
+}
