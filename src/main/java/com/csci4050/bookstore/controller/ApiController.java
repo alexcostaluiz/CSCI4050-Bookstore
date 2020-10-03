@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.expression.spel.SpelEvaluationException;
+// import org.springframework.expression.spel.SpelEvaluationException;
 // import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,18 +30,14 @@ public class ApiController {
       return bookService.get(book.getBook_id());
     }
   */
-  @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Incorrect ") // 404
   @GetMapping("/books")
-  public List<Book> getAllBooks(@RequestParam Map<String, String> filters) {
-    try {
-      return bookService.get(filters);
-    } catch (SpelEvaluationException e) {
-      e.printStackTrace();
-    }
+  public List<Book> getBooks(@RequestParam Map<String, String> filters) {
+
+    return bookService.get(filters);
   }
 
   @GetMapping("/books/{id}")
-  public Book getBooks(@PathVariable int id) {
+  public Book getBook(@PathVariable int id) {
     return bookService.get(id);
   }
 
