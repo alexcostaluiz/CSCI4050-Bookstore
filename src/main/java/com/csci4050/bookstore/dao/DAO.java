@@ -9,5 +9,7 @@ public interface DAO<T> {
 
   void save(T t);
 
+  List<T> get(String orderBy);
+
   void delete(int id);
 }
