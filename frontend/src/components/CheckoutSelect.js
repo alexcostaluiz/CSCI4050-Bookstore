@@ -2,9 +2,7 @@ import './CheckoutSelect.less';
 
 import React, { useState } from 'react';
 
-import { Button, Radio, Typography } from 'antd';
-
-const { Paragraph, Title } = Typography;
+import { Button, Radio } from 'antd';
 
 function CheckoutSelect(props) {
   const { defaultChoice, choices, renderChoice, renderDefault } = props;
