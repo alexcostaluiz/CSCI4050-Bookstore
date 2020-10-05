@@ -4,11 +4,18 @@ import React from 'react';
 
 import { Breadcrumb, Button, Col, Row, Typography } from 'antd';
 
-import CartItem from '../components/CartItem.js';
+import CartList from '../components/CartList.js';
 import CartSummary from '../components/CartSummary.js';
 
 const { Title } = Typography;
 
+/**
+ * The checkout page. Gather's payment and shipping information from a user before
+ * order placement.
+ * 
+ * @param {!Array<Object<string, *>>} props.cart An array of book objects to be presented
+ *     on this page.
+ */
 function CheckoutPage(props) {
   const { cart } = props;
 
@@ -22,6 +29,7 @@ function CheckoutPage(props) {
         </Breadcrumb>
         <div className='bookstore-page-section'>
           <div className='bookstore-checkout-module-container'>
+            
             <div className='bookstore-checkout-module'>
               <Title className='bookstore-checkout-module-title'>
                 Shipping Address
@@ -34,12 +42,7 @@ function CheckoutPage(props) {
               </Title>
             </div>
 
-            <div className='bookstore-cart-list'>
-              <Title className='bookstore-cart-list-title'>Cart</Title>
-              {cart.map((b, i) => (
-                <CartItem key={i} {...b} />
-              ))}
-            </div>
+            <CartList cart={cart} title='Review Cart' />
           </div>
 
           <CartSummary
