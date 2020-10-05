@@ -11,13 +11,20 @@ function DynamicAvatar(props) {
 
   if (isSignedIn) {
     return (
-      <Button type='primary' size='large' shape='circle' onclick={() => history.push('/profile')}>
+      <Button
+        type='primary'
+        size='large'
+        shape='circle'
+        onclick={() => history.push('/profile')}>
         AC
       </Button>
     );
   } else {
     return (
-      <Button type='primary' size='large' onclick={() => history.push('/login')}>
+      <Button
+        type='primary'
+        size='large'
+        onclick={() => history.push('/login')}>
         Sign In
       </Button>
     );

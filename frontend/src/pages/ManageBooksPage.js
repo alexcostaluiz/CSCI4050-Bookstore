@@ -66,18 +66,16 @@ const EditableCell = ({
             required: true,
             message: `${title} is required.`,
           },
-        ]}
-      >
+        ]}>
         <Input ref={inputRef} onPressEnter={save} onBlur={save} />
       </Form.Item>
     ) : (
       <div
-        className="editable-cell-value-wrap"
+        className='editable-cell-value-wrap'
         style={{
           paddingRight: 24,
         }}
-        onClick={toggleEdit}
-      >
+        onClick={toggleEdit}>
         {children}
       </div>
     );
@@ -99,9 +97,8 @@ class EditableTable extends React.Component {
       {
         title: 'Author',
         dataIndex: 'author',
-        width:'30%',
+        width: '30%',
         editable: true,
-
       },
       {
         title: 'ISBN-13',
@@ -123,7 +120,9 @@ class EditableTable extends React.Component {
         dataIndex: 'operation',
         render: (text, record) =>
           this.state.dataSource.length >= 1 ? (
-            <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(record.key)}>
+            <Popconfirm
+              title='Sure to delete?'
+              onConfirm={() => this.handleDelete(record.key)}>
               <a>Delete</a>
             </Popconfirm>
           ) : null,
@@ -136,7 +135,7 @@ class EditableTable extends React.Component {
           title: 'A Promised Land',
           author: 'Barack Obama',
           isbn: '978-1-524-76316-9',
-          pd:'November 17, 2020',
+          pd: 'November 17, 2020',
           publisher: 'Crown Publishing Group',
         },
         {
@@ -144,7 +143,7 @@ class EditableTable extends React.Component {
           title: 'A Promised Land',
           author: 'Barack Obama',
           isbn: '978-1-524-76316-9',
-          pd:'November 17, 2020',
+          pd: 'November 17, 2020',
           publisher: 'Crown Publishing Group',
         },
         {
@@ -152,11 +151,9 @@ class EditableTable extends React.Component {
           title: 'A Promised Land',
           author: 'Barack Obama',
           isbn: '978-1-524-76316-9',
-          pd:'November 17, 2020',
+          pd: 'November 17, 2020',
           publisher: 'Crown Publishing Group',
         },
-        
-        
       ],
       count: 3,
     };
@@ -175,9 +172,8 @@ class EditableTable extends React.Component {
       title: 'A Promised Land',
       author: 'Barack Obama',
       isbn: '978-1-524-76316-9',
-      pd:'November 17, 2020',
+      pd: 'November 17, 2020',
       publisher: 'Crown Publishing Group',
-      
     };
     this.setState({
       dataSource: [...dataSource, newData],
@@ -222,11 +218,10 @@ class EditableTable extends React.Component {
       <div>
         <Button
           onClick={this.handleAdd}
-          type="primary"
+          type='primary'
           style={{
             marginBottom: 16,
-          }}
-        >
+          }}>
           Add a row
         </Button>
         <Table
@@ -242,9 +237,7 @@ class EditableTable extends React.Component {
 }
 
 function ManageBooks(props) {
-  return (
-    <EditableTable />
-  );
-} 
+  return <EditableTable />;
+}
 
 export default ManageBooks;
