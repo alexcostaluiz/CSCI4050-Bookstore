@@ -26,16 +26,10 @@ const colors = ['magenta', 'purple', 'red', 'orange'];
 /**
  * A page to display detailed information about one book.
  *
- * @param {string} props.author The author of this book.
- * @param {?string} props.edition The edition information of this book.
- * @param {string} props.isbn The ISBN-13 of this book.
- * @param {number} props.pages The number of pages in this book.
- * @param {number} props.publicationDate The publication date of this book in UNIX Epoch
- *     Time (number of seconds that have elapsed since January 1, 1970 00:00:00 UTC).
- * @param {string} props.publisher The publisher of this book.
- * @param {!Array<string>} props.tags Any tags associated with this book.
+ * @param {!Book} props.book The book whose author's details should be displayed.
  */
 function BookAuthorDetails(props) {
+  const { book } = props;
   const {
     author,
     /* edition, */
@@ -44,7 +38,7 @@ function BookAuthorDetails(props) {
     publicationDate,
     publisher,
     tags,
-  } = props;
+  } = book;
 
   const [authorWiki, setAuthorWiki] = useState(null);
 
