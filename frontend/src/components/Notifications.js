@@ -9,9 +9,18 @@ const { Paragraph, Title } = Typography;
 
 const CartNotification = {
   open: (props) => {
-    const { author, bookType, image, price, quantity, title } = props;
+    const { book, history } = props;
+    const { author, bookType, image, price, quantity, title } = book;
+
+    const key = Math.floor(Math.random() * 1e6);
+    
+    const goTo = (path) => {
+      notification.close(key);
+      history.push(path);
+    };
 
     notification.open({
+      key: key,
       message: (
         <div>
           <CheckCircleFilled className='bookstore-notification-cart-icon' />
@@ -39,10 +48,15 @@ const CartNotification = {
         </div>
       ),
       btn: [
-        <Button className='bookstore-notification-cart-action' type='primary'>
+        <Button
+          className='bookstore-notification-cart-action'
+          type='primary'
+          onClick={() => goTo('/cart')}>
           OPEN CART
         </Button>,
-        <Button className='bookstore-notification-cart-action'>
+        <Button
+          className='bookstore-notification-cart-action'
+          onClick={() => goTo('/checkout')}>
           CHECKOUT
         </Button>,
       ],
