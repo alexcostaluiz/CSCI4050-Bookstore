@@ -1,9 +1,10 @@
 import './CartList.less';
 
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { Typography } from 'antd';
 
+import CartContext from '../contexts/CartContext.js';
 import CartItem from './CartItem.js';
 
 const { Title } = Typography;
@@ -11,19 +12,21 @@ const { Title } = Typography;
 /**
  * A cart component which lists a specified array of cart items.
  *
- * @param {!Array<Object<string, *>>} props.cart An array of book objects from which cart
- *     items will be generated and listed.
  * @param {?string} props.title An optional title for this component (default: "Cart").
  * @param {?boolean} props.readOnly True if this cart should not be editable; false otherwise.
  */
 function CartList(props) {
-  const { cart, title = 'Cart', readOnly } = props;
+  const { title = 'Cart', readOnly } = props;
+
+  const cart = useContext(CartContext);
+
+  console.log(cart.get());
 
   return (
     <div className='bookstore-cart-list'>
       <Title className='bookstore-cart-list-title'>{title}</Title>
-      {cart.map((b, i) => (
-        <CartItem key={i} {...b} readOnly={readOnly} />
+      {cart.get().map((b, i) => (
+        <CartItem key={i} book={b} readOnly={readOnly} />
       ))}
     </div>
   );

@@ -10,13 +10,8 @@ import Slider from '../components/Slider.js';
 
 /**
  * The cart page. Allows users to review their selected products before checking out.
- *
- * @param {!Array<Object<string, *>>} props.cart An array of book objects to be presented
- *     on this page.
  */
 function CartPage(props) {
-  const { cart } = props;
-
   return (
     <Row justify='center'>
       <Col span={24} className='bookstore-column'>
@@ -25,8 +20,8 @@ function CartPage(props) {
           <Breadcrumb.Item href='#'>Cart</Breadcrumb.Item>
         </Breadcrumb>
         <div className='bookstore-page-section'>
-          <CartList cart={cart} />
-          <CartSummary cart={cart} />
+          <CartList />
+          <CartSummary />
         </div>
         <Section title='You Might Also Like'>
           <Slider itemWidth={216} spaceBetween={16}>
