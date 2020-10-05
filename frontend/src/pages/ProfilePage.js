@@ -1,4 +1,4 @@
-import './Profile.less';
+import './ProfilePage.less';
 
 import React, { useState } from 'react';
 

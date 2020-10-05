@@ -1,4 +1,4 @@
-import './Login.less';
+import './LoginPage.less';
 
 import React from 'react';
 import { Form, Input, Button, Checkbox, Card } from 'antd';
