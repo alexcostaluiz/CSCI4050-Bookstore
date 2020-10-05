@@ -1,15 +1,29 @@
 import './CartSummary.less';
 
-import React from 'react';
+import React, { useContext } from 'react';
+
+import { useHistory } from 'react-router-dom';
 
 import { Button, Divider, Typography } from 'antd';
 
+import CartContext from '../contexts/CartContext.js';
+
 const { Paragraph, Title } = Typography;
 
+/**
+ * Summarizes cart information into subtotal, sales tax, shipping costs, and total figures.
+ *
+ * @param {?ReactNode} props.action An optional custom action button to display at the bottom
+ *     of this component (default: small button with "CHECKOUT" text).
+ */
 function CartSummary(props) {
-  const { cart, action } = props;
+  const { action } = props;
 
-  const subtotal = cart.reduce((a, b) => a + b.price, 0);
+  const cart = useContext(CartContext);
+  const history = useHistory();
+
+  const quantity = cart.get().reduce((a, b) => a + b.quantity, 0);
+  const subtotal = cart.get().reduce((a, b) => a + b.price * b.quantity, 0);
   const tax = 4.99;
   const total = subtotal + tax;
 
@@ -18,8 +32,10 @@ function CartSummary(props) {
       <Title className='bookstore-cart-summary-title'>Order Summary</Title>
       <div className='bookstore-cart-summary'>
         <div className='bookstore-cart-summary-row'>
-          <Paragraph>Subtotal ({cart.length} items)</Paragraph>
-          <Paragraph>${subtotal}</Paragraph>
+          <Paragraph>
+            Subtotal ({quantity} item{quantity > 1 ? 's' : ''})
+          </Paragraph>
+          <Paragraph>${subtotal.toFixed(2)}</Paragraph>
         </div>
         <div className='bookstore-cart-summary-row'>
           <Paragraph>Estimated Shipping</Paragraph>
@@ -27,7 +43,7 @@ function CartSummary(props) {
         </div>
         <div className='bookstore-cart-summary-row'>
           <Paragraph>Estimated Tax</Paragraph>
-          <Paragraph>${tax}</Paragraph>
+          <Paragraph>${tax.toFixed(2)}</Paragraph>
         </div>
         <Divider />
         <div className='bookstore-cart-summary-row'>
@@ -35,12 +51,15 @@ function CartSummary(props) {
             Order Total:
           </Title>
           <Title className='bookstore-cart-summary-title' level={4}>
-            ${total}
+            ${total.toFixed(2)}
           </Title>
         </div>
       </div>
       {action || (
-        <Button className='bookstore-cart-summary-action' type='primary'>
+        <Button
+          className='bookstore-cart-summary-action'
+          type='primary'
+          onClick={() => history.push('/checkout')}>
           CHECKOUT
         </Button>
       )}

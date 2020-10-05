@@ -6,17 +6,15 @@ import { useHistory } from 'react-router-dom';
 
 import { Card, Rate, Typography } from 'antd';
 
+import { sampleBooks } from '../contexts/CartContext.js';
+
 const { Paragraph, Title } = Typography;
 
 /**
  * A book thumbnail component. Displays a book cover image, book title, book author,
  * and rating.
  *
- * @param {string} props.image The path to this book's cover image.
- * @param {string} props.title The book's title.
- * @param {string} props.author The book's author.
- * @param {number} props.rating The book's rating ([0.0, 5.0]).
- * @param {number} props.numRatings The book's number of ratings.
+ * @param {!Book} props.book The book to display in this thumbnail.
  * @param {string} props.size A string declaring the size of this thumbnail. Must be "large"
  *     or "small" (default: "small").
  * @param {string} props.className A class string to be applied to the parent container
@@ -26,15 +24,12 @@ const { Paragraph, Title } = Typography;
  */
 function BookThumbnail(props) {
   const {
-    image = 'https://kottke.org/plus/misc/images/obama-promised-land-book.jpg',
-    title = 'A Promised Land: Subtitle Text',
-    author = 'Barack Obama',
-    rating = 4.1,
-    numRatings = 4132,
+    book = sampleBooks[Math.floor(Math.random() * sampleBooks.length)],
     size = 'small',
-    className,
     style,
+    className,
   } = props;
+  const { author, id, image, numRatings, rating, title } = book;
 
   const history = useHistory();
 
@@ -47,7 +42,7 @@ function BookThumbnail(props) {
       }
       bordered={false}
       style={style}
-      onClick={() => history.push('/b/slug')}
+      onClick={() => history.push({ pathname: `/b/00${id}`, state: { book } })}
       cover={
         <img
           className={

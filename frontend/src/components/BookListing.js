@@ -1,9 +1,12 @@
 import './BookListing.less';
 
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+
+import { useHistory } from 'react-router-dom';
 
 import { Button, Divider, InputNumber, Radio, Rate, Typography } from 'antd';
 
+import CartContext from '../contexts/CartContext.js';
 import { CartNotification } from '../components/Notifications.js';
 
 const { Paragraph, Title } = Typography;
@@ -12,27 +15,27 @@ const { Paragraph, Title } = Typography;
  * A book listing. Gives a choice of type (hardcover, paperback, etc.) and quantity.
  * Grants the ability to add the book to a cart.
  *
- * @param {string} props.author The author of this book.
- * @param {?string} props.edition The edition information of this book.
- * @param {string} props.image The path to the cover image of this book.
- * @param {number} props.numRatings The number of ratings for this book.
- * @param {number} props.price The selling price of this book.
- * @param {number} props.rating The average rating of this book (out of 5).
- * @param {string} props.title The title of this book.
+ * @param {!Book} props.book The book whose information should be displayed in this listing.
+ * @param {?ReactNode} props.noAction True if this component should not display any action
+ *     buttons at the bottom; false otherwise.
  */
 function BookListing(props) {
+  const { book, noAction } = props;
   const {
     author,
+    bookType: initBookType,
     /** edition, **/
-    image,
     numRatings,
     price,
+    quantity: initQuantity,
     rating,
     title,
-  } = props;
+  } = book;
 
-  const [bookType, setBookType] = useState('Hardcover');
-  const [quantity, setQuantity] = useState(1);
+  const history = useHistory();
+  const cart = useContext(CartContext);
+  const [bookType, setBookType] = useState(initBookType);
+  const [quantity, setQuantity] = useState(initQuantity);
   const [addingToCart, setAddingToCart] = useState(false);
 
   const addToCart = () => {
@@ -41,7 +44,10 @@ function BookListing(props) {
       setAddingToCart(false);
     }, 1000);
 
-    CartNotification.open({ author, bookType, image, price, quantity, title });
+    book.bookType = bookType;
+    book.quantity = quantity;
+    cart.add(book);
+    CartNotification.open({ book, history });
   };
 
   return (
@@ -66,7 +72,7 @@ function BookListing(props) {
       <Paragraph className='bookstore-bp-label'>Select Type</Paragraph>
       <Radio.Group
         className='bookstore-bp-book-type-select'
-        defaultValue='Hardcover'
+        defaultValue={bookType}
         buttonStyle='solid'
         onChange={(e) => setBookType(e.target.value)}
         size='large'>
@@ -89,18 +95,27 @@ function BookListing(props) {
         min={1}
         value={quantity}
         onChange={(e) => (e ? setQuantity(e) : setQuantity(1))}
+        style={noAction ? { marginBottom: '0px' } : null}
       />
-      <Button
-        className='bookstore-bp-add-cart'
-        type='primary'
-        size='large'
-        disabled={addingToCart}
-        onClick={addToCart}>
-        {addingToCart ? 'ADDED!' : 'ADD TO CART'}
-      </Button>
-      <Button className='bookstore-bp-add-wish-list' type='link'>
-        Add to Wish List
-      </Button>
+      {!noAction
+        ? [
+            <Button
+              key='add-to-cart'
+              className='bookstore-bp-add-cart'
+              type='primary'
+              size='large'
+              disabled={addingToCart}
+              onClick={addToCart}>
+              {addingToCart ? 'ADDED!' : 'ADD TO CART'}
+            </Button>,
+            <Button
+              key='add-to-wish-list'
+              className='bookstore-bp-add-wish-list'
+              type='link'>
+              Add to Wish List
+            </Button>,
+          ]
+        : null}
     </div>
   );
 }
