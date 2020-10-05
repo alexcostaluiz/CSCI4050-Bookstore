@@ -13,7 +13,7 @@ import Footer from './components/Footer.js';
 import Header from './components/Header.js';
 import HomePage from './pages/HomePage.js';
 import LoginPage from './pages/LoginPage.js';
-import ManageBooksPage from 'pages/ManageBooksPage.js';
+import ManageBooksPage from './pages/ManageBooksPage.js';
 import RegisterPage from './pages/RegisterPage.js';
 import ProfilePage from './pages/ProfilePage.js';
 import ScrollToTop from './components/ScrollToTop.js';
