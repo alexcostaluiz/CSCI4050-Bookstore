@@ -23,7 +23,7 @@ function CartSummary(props) {
   const history = useHistory();
 
   const quantity = cart.get().reduce((a, b) => a + b.quantity, 0);
-  const subtotal = cart.get().reduce((a, b) => a + (b.price * b.quantity), 0);
+  const subtotal = cart.get().reduce((a, b) => a + b.price * b.quantity, 0);
   const tax = 4.99;
   const total = subtotal + tax;
 
@@ -32,7 +32,9 @@ function CartSummary(props) {
       <Title className='bookstore-cart-summary-title'>Order Summary</Title>
       <div className='bookstore-cart-summary'>
         <div className='bookstore-cart-summary-row'>
-          <Paragraph>Subtotal ({quantity} item{quantity > 1 ? 's' : ''})</Paragraph>
+          <Paragraph>
+            Subtotal ({quantity} item{quantity > 1 ? 's' : ''})
+          </Paragraph>
           <Paragraph>${subtotal.toFixed(2)}</Paragraph>
         </div>
         <div className='bookstore-cart-summary-row'>

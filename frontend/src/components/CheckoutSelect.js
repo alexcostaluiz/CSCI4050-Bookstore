@@ -14,34 +14,41 @@ function CheckoutSelect(props) {
 
   return (
     <div className='bookstore-checkout-module-select'>
-      {!choosing ? [
-        renderDefault(choices[choice]),
-        <Button
-          key='action'
-          className='bookstore-checkout-module-select-action'
-          onClick={() => setChoosing(true)}
-          type='primary'>
-          CHANGE
-        </Button>
-      ] : [
-        <Radio.Group key='choices' value={choice} onChange={e => setChoice(e.target.value)}>
-          {choices.map((e, i) => <Radio value={i}>{renderChoice(e)}</Radio>)}
-        </Radio.Group>,
-        <Button
-          key='action'
-          className='bookstore-checkout-module-select-action'
-          onClick={() => setChoosing(false)}
-          type='primary'>
-          SAVE
-        </Button>,
-        <Button
-          key='add'
-          className='bookstore-checkout-module-select-action'
-          type='link'>
-          Add New
-        </Button>
-      ]}
-    </div>    
+      {!choosing
+        ? [
+            renderDefault(choices[choice]),
+            <Button
+              key='action'
+              className='bookstore-checkout-module-select-action'
+              onClick={() => setChoosing(true)}
+              type='primary'>
+              CHANGE
+            </Button>,
+          ]
+        : [
+            <Radio.Group
+              key='choices'
+              value={choice}
+              onChange={(e) => setChoice(e.target.value)}>
+              {choices.map((e, i) => (
+                <Radio value={i}>{renderChoice(e)}</Radio>
+              ))}
+            </Radio.Group>,
+            <Button
+              key='action'
+              className='bookstore-checkout-module-select-action'
+              onClick={() => setChoosing(false)}
+              type='primary'>
+              SAVE
+            </Button>,
+            <Button
+              key='add'
+              className='bookstore-checkout-module-select-action'
+              type='link'>
+              Add New
+            </Button>,
+          ]}
+    </div>
   );
 }
 

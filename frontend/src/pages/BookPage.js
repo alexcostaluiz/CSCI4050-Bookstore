@@ -19,7 +19,9 @@ import Slider from '../components/Slider.js';
  * @param {!Book} props.book The book whose information should be displayed in this page.
  */
 function BookPage(props) {
-  const { state: { book } } = useLocation();
+  const {
+    state: { book },
+  } = useLocation();
   const { image, title } = book;
 
   return (

@@ -17,15 +17,7 @@ const { Paragraph, Title } = Typography;
  */
 function CartItem(props) {
   const { book } = props;
-  const {
-    author,
-    bookType,
-    id,
-    image,
-    price,
-    quantity,
-    title,
-  } = book;
+  const { author, bookType, id, image, price, quantity, title } = book;
 
   const cart = useContext(CartContext);
   const [editing, setEditing] = useState(false);
@@ -59,10 +51,15 @@ function CartItem(props) {
         <Button className='bookstore-cart-item-action' type='link'>
           Save for Later
         </Button>
-        <Button className='bookstore-cart-item-action' type='primary' onClick={edit}>
+        <Button
+          className='bookstore-cart-item-action'
+          type='primary'
+          onClick={edit}>
           EDIT
         </Button>
-        <Button className='bookstore-cart-item-action' onClick={remove}>REMOVE</Button>
+        <Button className='bookstore-cart-item-action' onClick={remove}>
+          REMOVE
+        </Button>
       </div>
       <Modal
         okText='SAVE'
@@ -76,7 +73,9 @@ function CartItem(props) {
         visible={editing}
         destroyOnClose
         centered>
-        <Title className='bookstore-cart-item-edit-modal-title'>Edit Item</Title>
+        <Title className='bookstore-cart-item-edit-modal-title'>
+          Edit Item
+        </Title>
         <BookListing book={book} noAction />
       </Modal>
     </div>

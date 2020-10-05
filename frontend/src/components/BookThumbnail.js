@@ -29,14 +29,7 @@ function BookThumbnail(props) {
     style,
     className,
   } = props;
-  const {
-    author,
-    id,
-    image,
-    numRatings,
-    rating,
-    title,
-  } = book;
+  const { author, id, image, numRatings, rating, title } = book;
 
   const history = useHistory();
 
@@ -49,7 +42,7 @@ function BookThumbnail(props) {
       }
       bordered={false}
       style={style}
-      onClick={() => history.push({pathname: `/b/00${id}`, state: { book } })}
+      onClick={() => history.push({ pathname: `/b/00${id}`, state: { book } })}
       cover={
         <img
           className={

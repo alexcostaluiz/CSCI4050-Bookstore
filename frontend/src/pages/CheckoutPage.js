@@ -32,15 +32,34 @@ function CheckoutPage(props) {
               <CheckoutSelect
                 defaultChoice={0}
                 choices={[
-                  ['Alexander Costa', '490 S Barnett Shoals Rd', 'Apt 911',
-                   'Athens, GA 30605-7654', 'United States'],
-                  ['Alexander Costa', '10886 Bossier Dr',
-                   'Johns Creek, GA 30022-7959', 'United States'],
-                  ['Alexander Costa', '3689 Hermitage Dr NW',
-                   'Berkeley Lake, GA 30096-3115', 'United States'],
+                  [
+                    'Alexander Costa',
+                    '490 S Barnett Shoals Rd',
+                    'Apt 911',
+                    'Athens, GA 30605-7654',
+                    'United States',
+                  ],
+                  [
+                    'Alexander Costa',
+                    '10886 Bossier Dr',
+                    'Johns Creek, GA 30022-7959',
+                    'United States',
+                  ],
+                  [
+                    'Alexander Costa',
+                    '3689 Hermitage Dr NW',
+                    'Berkeley Lake, GA 30096-3115',
+                    'United States',
+                  ],
                 ]}
-                renderChoice={e => <Paragraph ellipsis={{ rows: 1 }} style={{ display: 'inline' }}><b>{e[0]}</b> {e.slice(1).join(' ')}</Paragraph>}
-                renderDefault={e => [
+                renderChoice={(e) => (
+                  <Paragraph
+                    ellipsis={{ rows: 1 }}
+                    style={{ display: 'inline' }}>
+                    <b>{e[0]}</b> {e.slice(1).join(' ')}
+                  </Paragraph>
+                )}
+                renderDefault={(e) => [
                   <Title
                     key='title'
                     className='bookstore-checkout-module-title'
@@ -48,9 +67,11 @@ function CheckoutPage(props) {
                     style={{ marginBottom: '0px' }}>
                     {e[0]}
                   </Title>,
-                  <Paragraph key='content' style={{ marginBottom: '0px', whiteSpace: 'pre-line' }}>
-                  {e.slice(1).join('\n')}
-                  </Paragraph>
+                  <Paragraph
+                    key='content'
+                    style={{ marginBottom: '0px', whiteSpace: 'pre-line' }}>
+                    {e.slice(1).join('\n')}
+                  </Paragraph>,
                 ]}
               />
             </div>
@@ -65,13 +86,15 @@ function CheckoutPage(props) {
                   ['Discover', '5028', 'Alexander L Costa', '03/2022'],
                   ['Visa', '7491', 'Alexander L Costa', '07/2024'],
                 ]}
-                renderChoice={e => (
+                renderChoice={(e) => (
                   <Paragraph style={{ display: 'inline' }}>
                     <b>{e[0]}</b> ending in {e[1]} {e.slice(2).join(' ')}
                   </Paragraph>
                 )}
-                renderDefault={e => (
-                  <Paragraph style={{ marginBottom: '0px' }}><b>{e[0]}</b> ending in {e[1]}</Paragraph>
+                renderDefault={(e) => (
+                  <Paragraph style={{ marginBottom: '0px' }}>
+                    <b>{e[0]}</b> ending in {e[1]}
+                  </Paragraph>
                 )}
               />
             </div>

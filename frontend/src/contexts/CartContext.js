@@ -60,7 +60,8 @@ const book3 = {
   bookType: 'Hardcover',
   bookTypes: ['Hardcover', 'Paperback'],
   edition: null,
-  image: 'https://kbimages1-a.akamaihd.net/a0ed4935-f897-46ff-8314-8383c2c63550/1200/1200/False/nausea.jpg',
+  image:
+    'https://kbimages1-a.akamaihd.net/a0ed4935-f897-46ff-8314-8383c2c63550/1200/1200/False/nausea.jpg',
   isbn: '978-0-811-22030-9',
   numRatings: 154,
   pages: 186,
@@ -77,4 +78,4 @@ const cart = [book0, book1, book2, book3];
 const CartContext = React.createContext(cart);
 
 const sampleBooks = [book0, book1, book2, book3];
-export {CartContext as default, sampleBooks};
+export { CartContext as default, sampleBooks };

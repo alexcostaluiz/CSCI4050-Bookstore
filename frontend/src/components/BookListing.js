@@ -95,22 +95,27 @@ function BookListing(props) {
         min={1}
         value={quantity}
         onChange={(e) => (e ? setQuantity(e) : setQuantity(1))}
-        style={noAction ? {marginBottom: '0px'} : null}
+        style={noAction ? { marginBottom: '0px' } : null}
       />
-      {!noAction ? [
-        <Button
-          key='add-to-cart'
-          className='bookstore-bp-add-cart'
-          type='primary'
-          size='large'
-          disabled={addingToCart}
-          onClick={addToCart}>
-          {addingToCart ? 'ADDED!' : 'ADD TO CART'}
-        </Button>,
-        <Button key='add-to-wish-list' className='bookstore-bp-add-wish-list' type='link'>
-          Add to Wish List
-        </Button>
-      ] : null}
+      {!noAction
+        ? [
+            <Button
+              key='add-to-cart'
+              className='bookstore-bp-add-cart'
+              type='primary'
+              size='large'
+              disabled={addingToCart}
+              onClick={addToCart}>
+              {addingToCart ? 'ADDED!' : 'ADD TO CART'}
+            </Button>,
+            <Button
+              key='add-to-wish-list'
+              className='bookstore-bp-add-wish-list'
+              type='link'>
+              Add to Wish List
+            </Button>,
+          ]
+        : null}
     </div>
   );
 }

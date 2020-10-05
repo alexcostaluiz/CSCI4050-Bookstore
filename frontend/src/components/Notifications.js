@@ -13,7 +13,7 @@ const CartNotification = {
     const { author, bookType, image, price, quantity, title } = book;
 
     const key = Math.floor(Math.random() * 1e6);
-    
+
     const goTo = (path) => {
       notification.close(key);
       history.push(path);

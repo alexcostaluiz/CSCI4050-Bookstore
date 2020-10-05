@@ -8,7 +8,7 @@ import CartContext from '../contexts/CartContext.js';
  */
 function CartService(props) {
   const cartContext = useContext(CartContext);
-  
+
   const [cart, setCart] = useState(cartContext);
 
   const add = (b) => {
@@ -25,7 +25,7 @@ function CartService(props) {
   };
 
   const indexOf = (id) => {
-    for (let i = 0; i < cart.length; i++)  {
+    for (let i = 0; i < cart.length; i++) {
       if (cart[i].id === id) return i;
     }
     return -1;
