@@ -1,6 +1,6 @@
 import './Header.less';
 
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { useHistory, useLocation } from 'react-router-dom';
 
@@ -16,6 +16,7 @@ import {
 } from 'antd';
 import { ShoppingCartOutlined as Cart } from '@ant-design/icons';
 
+import CartContext from '../contexts/CartContext.js';
 import DynamicAvatar from './DynamicAvatar.js';
 
 const { Title } = Typography;
@@ -49,6 +50,7 @@ function Header(props) {
 
   const history = useHistory();
   const location = useLocation();
+  const cart = useContext(CartContext);
 
   let simple =
     location.pathname.startsWith('/checkout') ||
@@ -112,13 +114,14 @@ function Header(props) {
           <DynamicAvatar isSignedIn={true} />
           <Badge
             className='bookstore-cart-icon-badge'
-            count={0}
+            count={cart.get().length}
             offset={[-4, 8]}
             showZero>
             <Button
               className='bookstore-cart-button'
               size='large'
               icon={<Cart className='bookstore-cart-icon' />}
+              onClick={() => history.push('/cart')}
             />
           </Badge>
         </div>
