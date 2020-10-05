@@ -10,7 +10,7 @@ const { Title } = Typography;
 
 /**
  * A cart component which lists a specified array of cart items.
- * 
+ *
  * @param {!Array<Object<string, *>>} props.cart An array of book objects from which cart
  *     items will be generated and listed.
  * @param {?string} props.title An optional title for this component (default: "Cart").
@@ -18,7 +18,7 @@ const { Title } = Typography;
  */
 function CartList(props) {
   const { cart, title = 'Cart', readOnly } = props;
-  
+
   return (
     <div className='bookstore-cart-list'>
       <Title className='bookstore-cart-list-title'>{title}</Title>

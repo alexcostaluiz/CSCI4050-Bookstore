@@ -10,7 +10,7 @@ import Slider from '../components/Slider.js';
 
 /**
  * The cart page. Allows users to review their selected products before checking out.
- * 
+ *
  * @param {!Array<Object<string, *>>} props.cart An array of book objects to be presented
  *     on this page.
  */

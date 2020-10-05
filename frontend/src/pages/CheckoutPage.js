@@ -12,7 +12,7 @@ const { Title } = Typography;
 /**
  * The checkout page. Gather's payment and shipping information from a user before
  * order placement.
- * 
+ *
  * @param {!Array<Object<string, *>>} props.cart An array of book objects to be presented
  *     on this page.
  */
@@ -29,7 +29,6 @@ function CheckoutPage(props) {
         </Breadcrumb>
         <div className='bookstore-page-section'>
           <div className='bookstore-checkout-module-container'>
-            
             <div className='bookstore-checkout-module'>
               <Title className='bookstore-checkout-module-title'>
                 Shipping Address
