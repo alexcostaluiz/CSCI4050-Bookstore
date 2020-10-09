@@ -22,19 +22,45 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class ApiController {
   @Autowired private BookService bookService;
-  
-    @GetMapping("/gen")
-    public Book get() {
-      Book book_1 = new Book(111, 2011, 15, 5, 2.50, 4.12, "Book time", "nope", "5th", "UGA Publishing", Category.Action, Arrays.asList("Lennon Scariano"));
-      Book book_2 = new Book(142, 2013, 25, 50, 2.50, 4.12, "Book ayy", "yes", "5th", "UGA not publishing", Category.Art, Arrays.asList("Lennon Scariano"));
-      bookService.save(book_1);
-      bookService.save(book_2);
-      return bookService.get(book_1.getBook_id());
-    }
-  
+
+  @GetMapping("/gen")
+  public Book get() {
+    Book book_1 =
+        new Book(
+            111,
+            2011,
+            15,
+            5,
+            2.50,
+            4.12,
+            "Book time",
+            "nope",
+            "5th",
+            "UGA Publishing",
+            Category.Action,
+            Arrays.asList("Lennon Scariano"));
+    Book book_2 =
+        new Book(
+            142,
+            2013,
+            25,
+            50,
+            2.50,
+            4.12,
+            "Book ayy",
+            "yes",
+            "5th",
+            "UGA not publishing",
+            Category.Art,
+            Arrays.asList("Lennon Scariano"));
+    bookService.save(book_1);
+    bookService.save(book_2);
+    return bookService.get(book_1.getBook_id());
+  }
+
   @GetMapping("/books")
   public List<Book> getBooks(@RequestParam Map<String, String> filters) {
-    
+
     return bookService.get(filters);
   }
 

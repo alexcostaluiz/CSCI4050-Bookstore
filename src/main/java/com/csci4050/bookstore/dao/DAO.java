@@ -10,7 +10,7 @@ public interface DAO<T> {
 
   void save(T t);
 
-  List<T> get(Map<String,String> filters);
+  List<T> get(Map<String, String> filters);
 
   void delete(int id);
 }
