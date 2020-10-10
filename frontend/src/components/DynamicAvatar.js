@@ -15,7 +15,7 @@ function DynamicAvatar(props) {
         type='primary'
         size='large'
         shape='circle'
-        onclick={() => history.push('/profile')}>
+        onClick={() => history.push('/profile')}>
         AC
       </Button>
     );
@@ -24,8 +24,8 @@ function DynamicAvatar(props) {
       <Button
         type='primary'
         size='large'
-        onclick={() => history.push('/login')}>
-        Sign In
+        onClick={() => history.push('/login')}>
+        SIGN IN
       </Button>
     );
   }
