@@ -28,7 +28,7 @@ import 'react-credit-cards/es/styles-compiled.css';
 import Cards from 'react-credit-cards';
 
 import BookThumbnail from '../components/BookThumbnail.js';
-import Section, { sections } from '../components/Section.js';
+import Section from '../components/Section.js';
 import Slider from '../components/Slider.js';
 
 const { SubMenu } = Menu;
@@ -67,7 +67,7 @@ const columns = [
     title: 'Action',
     dataIndex: '',
     key: 'x',
-    render: () => <a>Delete</a>,
+    render: () => <Button type='link'>Delete</Button>,
   },
 ];
 
