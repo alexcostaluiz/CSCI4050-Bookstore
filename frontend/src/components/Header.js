@@ -16,10 +16,10 @@ import {
 } from 'antd';
 import { ShoppingCartOutlined as Cart } from '@ant-design/icons';
 
-import CartContext from '../contexts/CartContext.js';
+import CartContext, { sampleBooks } from '../contexts/CartContext.js';
 import DynamicAvatar from './DynamicAvatar.js';
 
-const { Title } = Typography;
+const { Paragraph, Title } = Typography;
 
 // TODO: Pull this info from book tags and book genres once those
 // are properly defined (single source of truth).
@@ -52,10 +52,29 @@ function Header(props) {
   const location = useLocation();
   const cart = useContext(CartContext);
 
-  let simple =
-    location.pathname.startsWith('/checkout') ||
-    location.pathname.startsWith('/admin');
+  const convert = b => {
+    const label = (
+      <div className='bookstore-cart-item'>
+        <img className='bookstore-cart-item-image' src={b.image} alt={b.title} style={{ height: '75px', objectFit: 'contain', width: 'unset' }} />
+        <div className='bookstore-cart-item-details'>
+          <Title className='bookstore-cart-item-title' level={4}>
+            {b.title}
+          </Title>
+          <Paragraph>by {b.author}</Paragraph>
+        </div>
+      </div>
+    );
+    return {value: b.title, label};
+  };
+  
+  const [options, setOptions] = useState(sampleBooks.map(e => convert(e))); 
 
+  const onlyTitle = location.pathname.startsWith('/login') ||
+        location.pathname.startsWith('/register');
+  
+  const simple = onlyTitle || location.pathname.startsWith('/checkout') ||
+        location.pathname.startsWith('/admin');
+  
   const handleClick = (e) => {
     setCurrent(e.key);
   };
@@ -72,12 +91,32 @@ function Header(props) {
               onClick={() => history.push('/')}>
               Bookstore
             </Title>
-            <DynamicAvatar isSignedIn={true} />
+            {onlyTitle ? <div style={{ width: '40px' }} /> : <DynamicAvatar isSignedIn={true} />}
           </div>
         </Col>
       </Row>
     );
   }
+
+  const onSelect = e => {
+    console.log(e);
+  };
+
+  const handleSearch = query => {
+    console.log(query);
+    const test = [];
+    const raw = (sampleBooks.filter(
+      e => {
+        const bool = e.title.includes(query) || e.isbn.includes(query) || e.author.includes(query);
+        console.log(e.title);
+        console.log(bool);
+        if (bool) test.push(e);
+      }
+    ));
+    console.log(raw);
+    console.log(test);
+    setOptions(test.map(e => convert(e)));
+  };
 
   return (
     <Row className='bookstore-header' align='middle' justify='space-between'>
@@ -101,7 +140,11 @@ function Header(props) {
             <Menu.Item key='sale'>Sale</Menu.Item>
           </Menu>
           <div style={{ width: '100%' }} />
-          <AutoComplete className='bookstore-search-dropdown'>
+          <AutoComplete
+            className='bookstore-search-dropdown'
+            options={options}
+            onSelect={onSelect}
+            onSearch={handleSearch}>
             <Input.Search
               size='large'
               placeholder={
