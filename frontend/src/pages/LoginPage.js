@@ -1,9 +1,13 @@
 import './LoginPage.less';
 
 import React from 'react';
-import { Form, Input, Button, Checkbox, Card } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+
 import { useHistory } from 'react-router-dom';
+
+import { Col, Row, Form, Input, Button, Checkbox, Card, Typography } from 'antd';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
+
+const { Title } = Typography;
 
 var isLoggedIn = Boolean;
 
@@ -22,61 +26,75 @@ function Login(props) {
   };
 
   return (
-    <Card className='login-container'>
-      <Form
-        name='normal_login'
-        className='login-form'
-        initialValues={{
-          remember: true,
-        }}
-        onFinish={onFinish}>
-        <Form.Item
-          name='username'
-          rules={[
-            {
-              required: true,
-              message: 'Please input your Username!',
-            },
-          ]}>
-          <Input
-            prefix={<UserOutlined className='site-form-item-icon' />}
-            placeholder='Username'
-          />
-        </Form.Item>
-        <Form.Item
-          name='password'
-          rules={[
-            {
-              required: true,
-              message: 'Please input your Password!',
-            },
-          ]}>
-          <Input
-            prefix={<LockOutlined className='site-form-item-icon' />}
-            type='password'
-            placeholder='Password'
-          />
-        </Form.Item>
-        <Form.Item>
-          <Form.Item name='remember' valuePropName='checked' noStyle>
-            <Checkbox>Remember me</Checkbox>
-          </Form.Item>
+    <Row justify='center'>
+      <Col className='bookstore-column'>
+        <div className='bookstore-page-section'>
+          <Card className='login-container'>
+            <Title className='bookstore-login-title'>Login</Title>
+            <Form
+              name='normal_login'
+              className='login-form'
+              initialValues={{
+                remember: true,
+              }}
+              onFinish={onFinish}>
+              <Form.Item
+                name='username'
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your Username!',
+                  },
+                ]}>
+                <Input
+                  prefix={<UserOutlined className='site-form-item-icon' />}
+                  placeholder='Username'
+                />
+              </Form.Item>
+              <Form.Item
+                name='password'
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your Password!',
+                  },
+                ]}>
+                <Input
+                  prefix={<LockOutlined className='site-form-item-icon' />}
+                  type='password'
+                  placeholder='Password'
+                />
+              </Form.Item>
+              <Form.Item>
+                <Form.Item name='remember' valuePropName='checked' noStyle>
+                  <Checkbox>Remember Me</Checkbox>
+                </Form.Item>
 
-          <a className='login-form-forgot'>Forgot password</a>
-        </Form.Item>
+                <Button className='login-form-forgot' type='link'>Forgot Password</Button>
+              </Form.Item>
 
-        <Form.Item>
-          <Button
-            type='primary'
-            htmlType='submit'
-            className='login-form-button'
-            onClick={onSubmit}>
-            Log in
-          </Button>
-          Or <a href='/register'>register now!</a>
-        </Form.Item>
-      </Form>
-    </Card>
+              <Form.Item style={{ marginBottom: '0px'}}>
+                <Button
+                  type='primary'
+                  htmlType='submit'
+                  className='login-form-button'
+                  onClick={onSubmit}
+                  size='large'
+                  block>
+                  LOG IN
+                </Button>
+                <Button
+                  type='link'
+                  onClick={() => history.push('/register')}
+                  style={{ paddingLeft: '0px' }}>
+                  Register
+                </Button>
+              </Form.Item>
+            </Form>
+          </Card>
+        </div>
+      </Col>
+    </Row>    
   );
 }
 
