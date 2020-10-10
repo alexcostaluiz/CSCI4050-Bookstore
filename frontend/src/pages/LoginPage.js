@@ -4,7 +4,16 @@ import React from 'react';
 
 import { useHistory } from 'react-router-dom';
 
-import { Col, Row, Form, Input, Button, Checkbox, Card, Typography } from 'antd';
+import {
+  Col,
+  Row,
+  Form,
+  Input,
+  Button,
+  Checkbox,
+  Card,
+  Typography,
+} from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 const { Title } = Typography;
@@ -70,10 +79,12 @@ function Login(props) {
                   <Checkbox>Remember Me</Checkbox>
                 </Form.Item>
 
-                <Button className='login-form-forgot' type='link'>Forgot Password</Button>
+                <Button className='login-form-forgot' type='link'>
+                  Forgot Password
+                </Button>
               </Form.Item>
 
-              <Form.Item style={{ marginBottom: '0px'}}>
+              <Form.Item style={{ marginBottom: '0px' }}>
                 <Button
                   type='primary'
                   htmlType='submit'
@@ -94,7 +105,7 @@ function Login(props) {
           </Card>
         </div>
       </Col>
-    </Row>    
+    </Row>
   );
 }
 

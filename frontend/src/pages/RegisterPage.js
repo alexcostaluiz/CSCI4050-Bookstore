@@ -45,7 +45,7 @@ function Register(props) {
   const [form] = Form.useForm();
 
   const history = useHistory();
-  
+
   const openNotification = () => {
     notification.open({
       message: 'Registration Complete',
@@ -55,7 +55,7 @@ function Register(props) {
       },
     });
   };
-  
+
   const onFinish = (values) => {
     console.log('Received values of form: ', values);
     openNotification();
@@ -65,8 +65,7 @@ function Register(props) {
     <Row justify='center'>
       <Col className='bookstore-column'>
         <div className='bookstore-page-section'>
-          <Card
-            className='register-container'>
+          <Card className='register-container'>
             <Title className='bookstore-register-title'>Register</Title>
             <Form
               {...formItemLayout}
@@ -143,8 +142,8 @@ function Register(props) {
                   {
                     validator: (_, value) =>
                       value
-                      ? Promise.resolve()
-                      : Promise.reject('Should accept agreement'),
+                        ? Promise.resolve()
+                        : Promise.reject('Should accept agreement'),
                   },
                 ]}
                 {...tailFormItemLayout}>
