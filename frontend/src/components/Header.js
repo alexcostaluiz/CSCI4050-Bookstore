@@ -115,20 +115,15 @@ function Header(props) {
   };
 
   const handleSearch = (query) => {
-    console.log(query);
-    const test = [];
-    const raw = sampleBooks.filter((e) => {
+    const raw = [];
+    sampleBooks.forEach((e) => {
       const bool =
         e.title.includes(query) ||
         e.isbn.includes(query) ||
         e.author.includes(query);
-      console.log(e.title);
-      console.log(bool);
-      if (bool) test.push(e);
+      if (bool) raw.push(e);
     });
-    console.log(raw);
-    console.log(test);
-    setOptions(test.map((e) => convert(e)));
+    setOptions(raw.map((e) => convert(e)));
   };
 
   return (
