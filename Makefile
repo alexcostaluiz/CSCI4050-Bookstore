@@ -25,5 +25,8 @@ package:
 run:
 	./mvnw spring-boot:run
 
+test:
+	./mvnw test
+
 run_local_db:
 	./mvnw spring-boot:run -Dspring-boot.run.profiles=default
