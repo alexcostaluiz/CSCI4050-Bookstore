@@ -17,6 +17,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "card")
 public class Card {
+  
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
