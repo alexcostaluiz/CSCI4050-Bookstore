@@ -1,6 +1,6 @@
 package com.csci4050.bookstore.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,7 +32,7 @@ public class Card {
   private Address address;
 
   @Column(name = "exp_date")
-  private Date expDate;
+  private LocalDate expDate;
 
   @Column(name = "cvv")
   private Integer cvv;
