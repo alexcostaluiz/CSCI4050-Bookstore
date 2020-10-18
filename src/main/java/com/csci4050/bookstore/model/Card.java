@@ -1,6 +1,8 @@
 package com.csci4050.bookstore.model;
 
 import java.util.Date;
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,6 +37,7 @@ public class Card {
   private Integer cvv;
 
   @Column(name = "card_type")
+  @Enumerated(EnumType.STRING)
   private CardType cardType;
 
   public Integer getId() {
