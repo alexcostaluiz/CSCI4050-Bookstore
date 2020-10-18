@@ -115,10 +115,6 @@ public class Book {
     return this.id;
   }
 
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
   public Integer getIsbn() {
     return this.isbn;
   }

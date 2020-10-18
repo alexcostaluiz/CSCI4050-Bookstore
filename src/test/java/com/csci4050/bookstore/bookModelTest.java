@@ -6,17 +6,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
 /*
-import org.springframework.beans.factory.annotation.Autowired;
 import com.csci4050.bookstore.service.BookService;
-import com.csci4050.bookstore.model.Book;
-import com.csci4050.bookstore.model.Category;
-import java.util.Arrays;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeAll;
+import java.util.Arrays;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
+
+import com.csci4050.bookstore.model.Book;
+import com.csci4050.bookstore.model.Category;
 */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestInstance(Lifecycle.PER_CLASS)
