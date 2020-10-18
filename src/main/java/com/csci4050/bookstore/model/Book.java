@@ -20,9 +20,9 @@ public class Book {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "book_id")
+  @Column(name = "id")
   @NotNull
-  private Integer bookId;
+  private Integer id;
 
   @Column(name = "isbn")
   @NotNull
@@ -67,17 +67,17 @@ public class Book {
   @ElementCollection
   @Column(name = "category")
   @Enumerated(EnumType.STRING)
-  @CollectionTable(name = "categories", joinColumns = @JoinColumn(name = "book_id"))
+  @CollectionTable(name = "categories", joinColumns = @JoinColumn(name = "id"))
   private List<Category> categories;
 
   @Column(name = "author")
   @ElementCollection
-  @CollectionTable(name = "authors", joinColumns = @JoinColumn(name = "book_id"))
+  @CollectionTable(name = "authors", joinColumns = @JoinColumn(name = "id"))
   private List<String> authors;
 
   @Column(name = "tag")
   @ElementCollection
-  @CollectionTable(name = "tags", joinColumns = @JoinColumn(name = "book_id"))
+  @CollectionTable(name = "tags", joinColumns = @JoinColumn(name = "id"))
   private List<String> tags;
 
   public Book() {}
@@ -111,12 +111,12 @@ public class Book {
     this.tags = tags;
   }
 
-  public Integer getBookId() {
-    return this.bookId;
+  public Integer getId() {
+    return this.id;
   }
 
-  public void setBookId(Integer bookId) {
-    this.bookId = bookId;
+  public void setId(Integer id) {
+    this.id = id;
   }
 
   public Integer getIsbn() {
@@ -228,6 +228,6 @@ public class Book {
     if (!(o instanceof Book)) {
       return false;
     }
-    return this.bookId == ((Book) o).getBookId();
+    return this.id == ((Book) o).getId();
   }
 }

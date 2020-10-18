@@ -41,6 +41,6 @@ public class BookService {
 
   @Transactional
   public void delete(Book book) {
-    dao.delete(book.getBookId());
+    dao.delete(book.getId());
   }
 }
