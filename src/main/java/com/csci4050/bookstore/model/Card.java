@@ -61,11 +61,11 @@ public class Card {
     this.address = address;
   }
 
-  public Date getExpDate() {
+  public LocalDate getExpDate() {
     return this.expDate;
   }
 
-  public void setExpDate(Date expDate) {
+  public void setExpDate(LocalDate expDate) {
     this.expDate = expDate;
   }
 
