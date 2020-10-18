@@ -34,6 +34,9 @@ public class Card {
   @Column(name = "cvv")
   private Integer cvv;
 
+  @Column(name = "card_type")
+  private CardType cardType;
+
   public Integer getId() {
     return this.id;
   }
@@ -68,5 +71,13 @@ public class Card {
 
   public void setCvv(Integer cvv) {
     this.cvv = cvv;
+  }
+
+  public CardType getCardType() {
+    return this.cardType;
+  }
+
+  public void setCardType(CardType type) {
+    this.cardType = type;
   }
 }
