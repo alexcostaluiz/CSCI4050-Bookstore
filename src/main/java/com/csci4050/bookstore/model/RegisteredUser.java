@@ -42,19 +42,19 @@ public class RegisteredUser extends User {
   @NotNull
   private Boolean subscription;
 
-  @Column(name = "status")
   @Enumerated(EnumType.STRING)
-  @OneToOne
+  @Column(name="status")
   @NotNull
   private ActivityStatus status;
 
   @ElementCollection
-  @Column(name = "card")
-  @CollectionTable(name = "card", joinColumns = @JoinColumn(name = "id"))
+  @Column(name = "cards")
+  @CollectionTable(name = "cards", joinColumns = @JoinColumn(name = "id"))
   private List<Card> savedCards;
-
+  
   @ElementCollection
-  @Column(name = "order")
-  @CollectionTable(name = "order", joinColumns = @JoinColumn(name = "id"))
+  @Column(name = "book_orders")
+  @CollectionTable(name = "book_orders", joinColumns = @JoinColumn(name = "id"))
   private List<Order> orders;
+  
 }
