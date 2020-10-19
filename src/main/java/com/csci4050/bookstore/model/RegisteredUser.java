@@ -43,7 +43,7 @@ public class RegisteredUser extends User {
   private Boolean subscription;
 
   @Enumerated(EnumType.STRING)
-  @Column(name="status")
+  @Column(name = "status")
   @NotNull
   private ActivityStatus status;
 
@@ -51,10 +51,9 @@ public class RegisteredUser extends User {
   @Column(name = "cards")
   @CollectionTable(name = "cards", joinColumns = @JoinColumn(name = "id"))
   private List<Card> savedCards;
-  
+
   @ElementCollection
   @Column(name = "book_orders")
   @CollectionTable(name = "book_orders", joinColumns = @JoinColumn(name = "id"))
   private List<Order> orders;
-  
 }
