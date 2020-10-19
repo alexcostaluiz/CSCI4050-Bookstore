@@ -8,11 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "registered_users")
 public class RegisteredUser extends User {
 
   @Column(name = "first_name")
@@ -35,23 +35,29 @@ public class RegisteredUser extends User {
   @NotNull
   private String password; // Super secure
 
+  @OneToOne
+  @JoinColumn(name = "address", referencedColumnName = "id")
+  private Address address;
+
   @Column(name = "subscription")
   @NotNull
   private Boolean subscription;
 
   @Column(name = "status")
   @Enumerated(EnumType.STRING)
+  @OneToOne
   @NotNull
   private ActivityStatus status;
 
   @ElementCollection
   @Column(name = "card")
-  @CollectionTable(name = "cards", joinColumns = @JoinColumn(name = "id"))
+  @CollectionTable(name = "card", joinColumns = @JoinColumn(name = "id"))
   private List<Card> savedCards;
 
-  /*     @ElementCollection
-     @Column(name = "order")
-     @CollectionTable(name = "orders", joinColumns = @JoinColumn(name = "id"))
-     private List<Order> orders;
-  */
+  @ElementCollection
+  @Column(name = "order")
+  @CollectionTable(name = "order", joinColumns = @JoinColumn(name = "id"))
+  private List<Order> orders;
+
+
 }
