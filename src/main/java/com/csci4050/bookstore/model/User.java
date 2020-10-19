@@ -22,7 +22,7 @@ public class User {
   private Integer id;
 
   @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "user_id", referencedColumnName = "id")
+  @JoinColumn(name = "cart_id", referencedColumnName = "id")
   @NotNull
   private Cart cart;
 
