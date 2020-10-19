@@ -9,7 +9,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -58,6 +57,4 @@ public class RegisteredUser extends User {
   @Column(name = "order")
   @CollectionTable(name = "order", joinColumns = @JoinColumn(name = "id"))
   private List<Order> orders;
-
-
 }

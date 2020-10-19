@@ -16,33 +16,32 @@ import javax.validation.constraints.NotNull;
 @Table(name = "order")
 public class Order {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    @NotNull
-    private Integer id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
+  @NotNull
+  private Integer id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
-    @NotNull
-    private String address;
-    
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "payment_id", referencedColumnName = "id")
-    @NotNull
-    private Card payment;
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "address_id", referencedColumnName = "id")
+  @NotNull
+  private String address;
 
-    @OneToOne
-    @Column(name = "promotion")
-    @JoinColumn(name = "promo", referencedColumnName = "promo_code")
-    private Promotion promo;
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "payment_id", referencedColumnName = "id")
+  @NotNull
+  private Card payment;
 
-    @Column(name = "order_date")
-    @NotNull
-    private LocalDateTime orderDate;
+  @OneToOne
+  @Column(name = "promotion")
+  @JoinColumn(name = "promo", referencedColumnName = "promo_code")
+  private Promotion promo;
 
-    @Column(name = "confirmation_no")
-    @NotNull
-    private Integer confirmationNumber;
+  @Column(name = "order_date")
+  @NotNull
+  private LocalDateTime orderDate;
 
+  @Column(name = "confirmation_no")
+  @NotNull
+  private Integer confirmationNumber;
 }
