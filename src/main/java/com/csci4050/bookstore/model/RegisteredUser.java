@@ -1,14 +1,14 @@
 package com.csci4050.bookstore.model;
 
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
-import javax.persistence.CascadeType;
-import javax.persistence.OneToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -48,10 +48,10 @@ public class RegisteredUser extends User {
   private ActivityStatus status;
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
-  //@JoinColumn(name = "card_id")
+  // @JoinColumn(name = "card_id")
   private List<Card> savedCards;
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
-  //@JoinColumn(name = "registered_user_id")
+  // @JoinColumn(name = "registered_user_id")
   private List<Order> orders;
 }

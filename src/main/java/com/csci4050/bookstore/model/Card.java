@@ -31,11 +31,11 @@ public class Card {
 
   @Column(name = "acct_num")
   private Integer acctNum;
-  
+
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "address_id", referencedColumnName = "id")
   private Address address;
-  
+
   @Column(name = "exp_date")
   private LocalDate expDate;
 
