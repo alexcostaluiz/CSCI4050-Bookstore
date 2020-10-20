@@ -1,28 +1,32 @@
 package com.csci4050.bookstore.model;
 
 import java.time.LocalDateTime;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity
 public class Order extends Cart {
 
-  @OneToOne(cascade = CascadeType.ALL)
+  @ManyToOne
+  @JoinColumn(name = "user_id")
+  @NotNull
+  private RegisteredUser user;
+
+  @ManyToOne
   @JoinColumn(name = "address_id", referencedColumnName = "id")
   @NotNull
   private Address address;
 
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "payment_id", referencedColumnName = "id")
+  @ManyToOne
+  @JoinColumn(name = "card_id", referencedColumnName = "id")
   @NotNull
   private Card payment;
 
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "promo", referencedColumnName = "id")
+  @ManyToOne
+  @JoinColumn(name = "promo_id", referencedColumnName = "id")
   private Promotion promo;
 
   @Column(name = "order_date")

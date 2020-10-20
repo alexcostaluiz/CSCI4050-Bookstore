@@ -1,14 +1,14 @@
 package com.csci4050.bookstore.model;
 
 import java.util.List;
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
+import javax.persistence.CascadeType;
 import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -34,8 +34,8 @@ public class RegisteredUser extends User {
   @NotNull
   private String password; // Super secure
 
-  @OneToOne
-  @JoinColumn(name = "address", referencedColumnName = "id")
+  @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "address_id")
   private Address address;
 
   @Column(name = "subscription")
@@ -47,13 +47,11 @@ public class RegisteredUser extends User {
   @NotNull
   private ActivityStatus status;
 
-  @ElementCollection
-  @Column(name = "cards")
-  @CollectionTable(name = "cards", joinColumns = @JoinColumn(name = "id"))
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
+  //@JoinColumn(name = "card_id")
   private List<Card> savedCards;
 
-  @ElementCollection
-  @Column(name = "book_orders")
-  @CollectionTable(name = "book_orders", joinColumns = @JoinColumn(name = "id"))
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
+  //@JoinColumn(name = "registered_user_id")
   private List<Order> orders;
 }

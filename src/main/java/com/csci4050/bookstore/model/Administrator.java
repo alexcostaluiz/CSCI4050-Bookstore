@@ -1,12 +1,12 @@
 package com.csci4050.bookstore.model;
 
 import java.util.List;
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.JoinTable;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -25,23 +25,27 @@ public class Administrator extends User {
   @NotNull
   private String password;
 
-  /*  @ElementCollection
-      @Column(name = "employees")
-      @CollectionTable(name = "employees", joinColumns = @JoinColumn(name = "id"))
-      private List<Employee> employees;
-  */
-  @ElementCollection
-  @Column(name = "books")
-  @CollectionTable(name = "books", joinColumns = @JoinColumn(name = "id"))
+  @ManyToMany
+  @JoinTable(
+    name = "admin_employees", 
+    joinColumns = @JoinColumn(name = "admin_id"))
+  private List<Employee> employees;
+  
+  @ManyToMany
+  @JoinTable(
+    name = "admin_books", 
+    joinColumns = @JoinColumn(name = "admin_id"))
   private List<Book> books;
 
-  @ElementCollection
-  @Column(name = "promotions")
-  @CollectionTable(name = "promotions", joinColumns = @JoinColumn(name = "id"))
+  @ManyToMany
+  @JoinTable(
+    name = "admin_promos", 
+    joinColumns = @JoinColumn(name = "admin_id"))
   private List<Promotion> promotions;
 
-  @ElementCollection
-  @Column(name = "users")
-  @CollectionTable(name = "users", joinColumns = @JoinColumn(name = "id"))
+  @ManyToMany
+  @JoinTable(
+    name = "admin_users", 
+    joinColumns = @JoinColumn(name = "admin_id"))
   private List<User> users;
 }

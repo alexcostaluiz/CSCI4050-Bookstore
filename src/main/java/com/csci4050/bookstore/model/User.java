@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -21,8 +20,7 @@ public class User {
   @NotNull
   private Integer id;
 
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "cart_id", referencedColumnName = "id")
+  @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
   @NotNull
   private Cart cart;
 

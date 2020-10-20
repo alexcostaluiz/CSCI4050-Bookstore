@@ -10,7 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -24,13 +24,18 @@ public class Card {
   @NotNull
   private Integer id;
 
+  @ManyToOne
+  @JoinColumn(name = "user_id")
+  @NotNull
+  private RegisteredUser user;
+
   @Column(name = "acct_num")
   private Integer acctNum;
-
-  @OneToOne(cascade = CascadeType.ALL)
+  
+  @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "address_id", referencedColumnName = "id")
   private Address address;
-
+  
   @Column(name = "exp_date")
   private LocalDate expDate;
 

@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -17,6 +18,10 @@ public class Address {
   @Column(name = "id")
   @NotNull
   private Integer id;
+
+  @OneToOne(mappedBy = "address")
+  @NotNull
+  private RegisteredUser user;
 
   @Column(name = "street_num")
   private Integer streetNum;

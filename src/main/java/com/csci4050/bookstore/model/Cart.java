@@ -1,6 +1,7 @@
 package com.csci4050.bookstore.model;
 
 import java.util.Map;
+
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -9,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -22,7 +24,12 @@ public class Cart {
   @Column(name = "id")
   @NotNull
   private Integer id;
-
+  
+  @OneToOne
+  @JoinColumn(name = "user_id")
+  @NotNull
+  private User user;
+  
   @ElementCollection
   @CollectionTable(
       name = "cart_book_mapping",
