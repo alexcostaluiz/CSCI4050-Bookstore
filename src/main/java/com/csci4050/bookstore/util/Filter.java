@@ -1,41 +1,43 @@
 package com.csci4050.bookstore.util;
 
-import java.util.Arrays;
-import java.util.Map;
 import com.csci4050.bookstore.model.Category;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Map;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-public class Filter <T>{
+public class Filter<T> {
 
-    public static <T> CriteriaQuery<T> getQuery(Map<String, String> filters, CriteriaBuilder cb, Class<T> type) {
+  public static <T> CriteriaQuery<T> getQuery(
+      Map<String, String> filters, CriteriaBuilder cb, Class<T> type) {
 
-        String orderBy = filters.get("orderBy");
-        String filter = filters.get("filter");
-        CriteriaQuery<T> q = cb.createQuery(type);
-        Root<T> c = q.from(type);
+    String orderBy = filters.get("orderBy");
+    String filter = filters.get("filter");
+    CriteriaQuery<T> q = cb.createQuery(type);
+    Root<T> c = q.from(type);
 
-        if (filter != null) {
-            // string is split by space, but quoted entries are kept in tact
-            q.where(parseFilter(filter.split("\\s(?=([^\"]*\"[^\"]*\")*[^\"]*$)"), cb, c, type));
-          }
-      
-          // orders query
-          if (orderBy != null && orderBy.matches("(\\+|\\-)\\w+")) {
-            if (orderBy.charAt(0) == '+') {
-              q.orderBy(cb.asc(c.get(orderBy.substring(1))));
-            } else {
-              q.orderBy(cb.desc(c.get(orderBy.substring(1))));
-            }
-          }
-
-          return q;
+    if (filter != null) {
+      // string is split by space, but quoted entries are kept in tact
+      q.where(parseFilter(filter.split("\\s(?=([^\"]*\"[^\"]*\")*[^\"]*$)"), cb, c, type));
     }
 
-    private static <T> Predicate parseFilter(String[] filter, CriteriaBuilder cb, Root<T> c, Class<T> type)
+    // orders query
+    if (orderBy != null && orderBy.matches("(\\+|\\-)\\w+")) {
+      if (orderBy.charAt(0) == '+') {
+        q.orderBy(cb.asc(c.get(orderBy.substring(1))));
+      } else {
+        q.orderBy(cb.desc(c.get(orderBy.substring(1))));
+      }
+    }
+
+    return q;
+  }
+
+  private static <T> Predicate parseFilter(
+      String[] filter, CriteriaBuilder cb, Root<T> c, Class<T> type)
       throws IllegalArgumentException {
     for (int i = 0; i < filter.length; i++) {
       filter[i] = filter[i].replaceAll("^\"|\"$", "");
