@@ -24,7 +24,6 @@ public class BookDAO implements DAO<Book> {
     return books;
   }
 
-  @Override
   public List<Book> get(Map<String, String> filters)
       throws IllegalArgumentException, NoSuchFieldException {
     Session session = entityManager.unwrap(Session.class);

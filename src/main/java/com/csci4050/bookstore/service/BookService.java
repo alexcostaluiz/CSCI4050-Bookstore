@@ -1,6 +1,6 @@
 package com.csci4050.bookstore.service;
 
-import com.csci4050.bookstore.dao.DAO;
+import com.csci4050.bookstore.dao.BookDAO;
 import com.csci4050.bookstore.model.Book;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class BookService {
-  @Autowired private DAO<Book> dao;
+  @Autowired private BookDAO dao;
 
   @Transactional
   public List<Book> get() {
