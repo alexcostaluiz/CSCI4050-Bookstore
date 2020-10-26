@@ -1,14 +1,26 @@
 package com.csci4050.bookstore;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import com.csci4050.bookstore.model.Book;
+import com.csci4050.bookstore.model.Category;
+import com.csci4050.bookstore.service.BookService;
+import java.util.Arrays;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestInstance(Lifecycle.PER_CLASS)
 class BookstoreApplicationTests {
-  /*
+
   @Autowired private BookService bookService;
 
   private Book bookOne =
@@ -93,7 +105,7 @@ class BookstoreApplicationTests {
   public void testGTE() throws Exception {
     assertThat(
             restTemplate.getForObject(
-                "http://localhost:" + port + "/api/books?filter=bookId >= 0", Book[].class))
+                "http://localhost:" + port + "/api/books?filter=id >= 0", Book[].class))
         .containsExactly(bookOne, bookTwo);
   }
 
@@ -142,5 +154,4 @@ class BookstoreApplicationTests {
     bookService.delete(bookOne);
     bookService.delete(bookTwo);
   }
-  */
 }

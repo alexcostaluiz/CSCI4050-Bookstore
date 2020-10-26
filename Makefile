@@ -20,7 +20,7 @@ validate: node_modules
 	$(ESLINT) $(JS)
 
 package:
-	./mvnw package
+	./mvnw package -Dmaven.test.skip=true 
 
 run:
 	./mvnw spring-boot:run
