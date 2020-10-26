@@ -25,7 +25,7 @@ public class BookDAO implements DAO<Book> {
   }
 
   @Override
-  public List<Book> get(Map<String, String> filters) {
+  public List<Book> get(Map<String, String> filters) throws IllegalArgumentException, NoSuchFieldException {
     Session session = entityManager.unwrap(Session.class);
 
     // start building query
@@ -36,6 +36,7 @@ public class BookDAO implements DAO<Book> {
     Query<Book> query = session.createQuery(q);
     List<Book> books = query.getResultList();
     return books;
+    
   }
 
   @Override

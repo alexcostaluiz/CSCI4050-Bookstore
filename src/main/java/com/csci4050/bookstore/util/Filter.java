@@ -12,7 +12,7 @@ import javax.persistence.criteria.Root;
 public class Filter<T> {
 
   public static <T> CriteriaQuery<T> getQuery(
-      Map<String, String> filters, CriteriaBuilder cb, Class<T> type) {
+      Map<String, String> filters, CriteriaBuilder cb, Class<T> type) throws IllegalArgumentException, NoSuchFieldException {
 
     String orderBy = filters.get("orderBy");
     String filter = filters.get("filter");
@@ -38,7 +38,7 @@ public class Filter<T> {
 
   private static <T> Predicate parseFilter(
       String[] filter, CriteriaBuilder cb, Root<T> c, Class<T> type)
-      throws IllegalArgumentException {
+      throws IllegalArgumentException, NoSuchFieldException {
     for (int i = 0; i < filter.length; i++) {
       filter[i] = filter[i].replaceAll("^\"|\"$", "");
     }
@@ -62,12 +62,12 @@ public class Filter<T> {
         }
       }
 
-      try {
         // base case
-        return base(filter, cb, c, type);
-      } catch (NoSuchFieldException e) {
-        e.printStackTrace();
-      }
+        if(filter.length == 3){
+          return base(filter, cb, c, type);
+        }
+        
+      
     }
     throw new IllegalArgumentException();
   }
