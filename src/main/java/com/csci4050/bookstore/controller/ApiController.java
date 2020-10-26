@@ -1,10 +1,10 @@
 package com.csci4050.bookstore.controller;
 
+import com.csci4050.bookstore.exceptions.FilterException;
 import com.csci4050.bookstore.model.Book;
 import com.csci4050.bookstore.model.Category;
 import com.csci4050.bookstore.model.RegisteredUser;
 import com.csci4050.bookstore.service.BookService;
-import com.csci4050.bookstore.exceptions.FilterException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -26,12 +26,11 @@ public class ApiController {
   public List<Book> getBooks(@RequestParam Map<String, String> filters) {
     try {
       return bookService.get(filters);
-    } catch(NoSuchFieldException e) {
+    } catch (NoSuchFieldException e) {
       throw new FilterException();
-    } catch(IllegalArgumentException e) {
+    } catch (IllegalArgumentException e) {
       throw new FilterException();
     }
-    
   }
 
   @GetMapping("/books/{id}")

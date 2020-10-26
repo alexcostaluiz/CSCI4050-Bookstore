@@ -18,7 +18,8 @@ public class BookService {
   }
 
   @Transactional
-  public List<Book> get(Map<String, String> filters) throws IllegalArgumentException, NoSuchFieldException {
+  public List<Book> get(Map<String, String> filters)
+      throws IllegalArgumentException, NoSuchFieldException {
 
     List<Book> books = dao.get(filters);
 
