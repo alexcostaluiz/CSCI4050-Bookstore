@@ -12,6 +12,10 @@ import CheckoutPage from './pages/CheckoutPage.js';
 import Footer from './components/Footer.js';
 import Header from './components/Header.js';
 import HomePage from './pages/HomePage.js';
+import LoginPage from './pages/LoginPage.js';
+import ManageBooksPage from './pages/ManageBooksPage.js';
+import RegisterPage from './pages/RegisterPage.js';
+import ProfilePage from './pages/ProfilePage.js';
 import ScrollToTop from './components/ScrollToTop.js';
 
 import * as serviceWorker from './serviceWorker';
@@ -35,6 +39,18 @@ ReactDOM.render(
               </Route>
               <Route path='/checkout'>
                 <CheckoutPage />
+              </Route>
+              <Route path='/profile'>
+                <ProfilePage />
+              </Route>
+              <Route path='/login'>
+                <LoginPage />
+              </Route>
+              <Route path='/register'>
+                <RegisterPage />
+              </Route>
+              <Route path='/admin/manage/books'>
+                <ManageBooksPage />
               </Route>
               <Route path='/admin'>
                 <AdminPage />
