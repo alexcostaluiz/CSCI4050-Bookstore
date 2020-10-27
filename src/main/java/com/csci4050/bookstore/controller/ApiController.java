@@ -4,6 +4,7 @@ import com.csci4050.bookstore.model.Book;
 import com.csci4050.bookstore.model.Category;
 import com.csci4050.bookstore.model.RegisteredUser;
 import com.csci4050.bookstore.service.BookService;
+import com.csci4050.bookstore.service.UserService;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class ApiController {
   @Autowired private BookService bookService;
+  @Autowired private UserService UserService;
 
   @GetMapping("/books/{id}")
   public Book getBook(@PathVariable int id) {
@@ -29,6 +31,4 @@ public class ApiController {
     return Arrays.asList(Category.values());
   }
 
-  @PostMapping(path = "/register", consumes = "application/json", produces = "application/json")
-  public void registerUser(@RequestBody RegisteredUser user) {}
 }
