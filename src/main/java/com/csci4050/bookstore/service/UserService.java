@@ -34,6 +34,6 @@ public class UserService {
 
   @Transactional
   public void delete(User user) {
-    dao.delete(User.getId());
+    dao.delete(user.getId());
   }
 }
