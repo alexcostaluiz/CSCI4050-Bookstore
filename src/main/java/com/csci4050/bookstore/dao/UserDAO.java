@@ -4,6 +4,7 @@ import com.csci4050.bookstore.model.User;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import java.util.List;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.hibernate.Session;
@@ -12,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UserDAO implements DAO <User> {
+public class UserDAO implements DAO<User> {
     @Autowired private EntityManager entityManager;
 
     /* Return a list of users */
@@ -26,7 +27,7 @@ public class UserDAO implements DAO <User> {
 
     /* Return a single user */
     @Override
-    public User get(id) {
+    public User get(int id) {
         Session session = entityManager.unwrap(Session.class);
         User user = session.get(User.class, id);
         return user;
