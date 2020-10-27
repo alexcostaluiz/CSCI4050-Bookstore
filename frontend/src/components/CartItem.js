@@ -1,20 +1,34 @@
 import './CartItem.less';
 
-import React from 'react';
+import React, { useContext, useState } from 'react';
 
-import { Button, InputNumber, Typography } from 'antd';
+import { Button, InputNumber, Modal, Typography } from 'antd';
+
+import CartContext from '../contexts/CartContext.js';
+import BookListing from './BookListing.js';
 
 const { Paragraph, Title } = Typography;
 
+/**
+ * A single cart item which displays information about a given book. Provides actions to
+ * edit, remove, and save the book for later.
+ *
+ * @param {!Book} props.book The book whose information should be displayed in this cart item.
+ */
 function CartItem(props) {
-  const {
-    author,
-    bookType = 'Hardcover',
-    image,
-    price,
-    quantity = 1,
-    title,
-  } = props;
+  const { book } = props;
+  const { author, bookType, id, image, price, quantity, title } = book;
+
+  const cart = useContext(CartContext);
+  const [editing, setEditing] = useState(false);
+
+  const remove = () => {
+    cart.remove(id);
+  };
+
+  const edit = () => {
+    setEditing(true);
+  };
 
   return (
     <div className='bookstore-cart-item-wrapper'>
@@ -37,11 +51,33 @@ function CartItem(props) {
         <Button className='bookstore-cart-item-action' type='link'>
           Save for Later
         </Button>
-        <Button className='bookstore-cart-item-action' type='primary'>
+        <Button
+          className='bookstore-cart-item-action'
+          type='primary'
+          onClick={edit}>
           EDIT
         </Button>
-        <Button className='bookstore-cart-item-action'>REMOVE</Button>
+        <Button className='bookstore-cart-item-action' onClick={remove}>
+          REMOVE
+        </Button>
       </div>
+      <Modal
+        okText='SAVE'
+        cancelText='CANCEL'
+        closable={false}
+        onOk={() => setEditing(false)}
+        onCancel={() => setEditing(false)}
+        width='750px'
+        wrapClassName='bookstore-cart-item-edit-modal'
+        bodyStyle={{ padding: '32px', paddingBottom: '0px' }}
+        visible={editing}
+        destroyOnClose
+        centered>
+        <Title className='bookstore-cart-item-edit-modal-title'>
+          Edit Item
+        </Title>
+        <BookListing book={book} noAction />
+      </Modal>
     </div>
   );
 }
