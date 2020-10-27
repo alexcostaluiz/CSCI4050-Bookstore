@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import { Layout } from 'antd';
 
+import AdminPage from './pages/AdminPage.js';
 import BookPage from './pages/BookPage.js';
 import CartPage from './pages/CartPage.js';
 import CartService from './components/CartService.js';
@@ -34,6 +35,9 @@ ReactDOM.render(
               </Route>
               <Route path='/checkout'>
                 <CheckoutPage />
+              </Route>
+              <Route path='/admin'>
+                <AdminPage />
               </Route>
               <Route path='/'>
                 <HomePage />
