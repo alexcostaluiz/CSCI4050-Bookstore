@@ -18,12 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ApiController {
   @Autowired private BookService bookService;
 
-  @GetMapping("/books")
-  public List<Book> getBooks(@RequestParam Map<String, String> filters) {
-
-    return bookService.get(filters);
-  }
-
   @GetMapping("/books/{id}")
   public Book getBook(@PathVariable int id) {
     return bookService.get(id);
