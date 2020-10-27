@@ -3,7 +3,6 @@ package com.csci4050.bookstore.service;
 import com.csci4050.bookstore.dao.UserDAO;
 import com.csci4050.bookstore.model.User;
 import java.util.List;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

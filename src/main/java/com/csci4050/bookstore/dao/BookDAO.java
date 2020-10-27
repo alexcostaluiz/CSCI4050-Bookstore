@@ -26,7 +26,7 @@ public class BookDAO implements DAO<Book> {
 
   public List<Book> get(Map<String, String> filters)
       throws IllegalArgumentException, NoSuchFieldException {
-      Session session = entityManager.unwrap(Session.class);
+    Session session = entityManager.unwrap(Session.class);
 
     // start building query
     CriteriaBuilder cb = session.getCriteriaBuilder();
