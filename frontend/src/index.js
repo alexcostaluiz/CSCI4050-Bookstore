@@ -5,6 +5,9 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Layout } from 'antd';
 
 import BookPage from './pages/BookPage.js';
+import CartPage from './pages/CartPage.js';
+import CartService from './components/CartService.js';
+import CheckoutPage from './pages/CheckoutPage.js';
 import Footer from './components/Footer.js';
 import Header from './components/Header.js';
 import HomePage from './pages/HomePage.js';
@@ -18,20 +21,28 @@ ReactDOM.render(
   <React.StrictMode>
     <Router>
       <ScrollToTop />
-      <Layout>
-        <Header />
-        <Content style={{ background: 'white' }}>
-          <Switch>
-            <Route path='/b/:slug'>
-              <BookPage />
-            </Route>
-            <Route path='/'>
-              <HomePage />
-            </Route>
-          </Switch>
-        </Content>
-        <Footer />
-      </Layout>
+      <CartService>
+        <Layout>
+          <Header />
+          <Content style={{ background: 'white' }}>
+            <Switch>
+              <Route path='/b/:slug'>
+                <BookPage />
+              </Route>
+              <Route path='/cart'>
+                <CartPage />
+              </Route>
+              <Route path='/checkout'>
+                <CheckoutPage />
+              </Route>
+              <Route path='/'>
+                <HomePage />
+              </Route>
+            </Switch>
+          </Content>
+          <Footer />
+        </Layout>
+      </CartService>
     </Router>
   </React.StrictMode>,
   document.getElementById('root')

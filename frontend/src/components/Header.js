@@ -1,8 +1,8 @@
 import './Header.less';
 
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import {
   AutoComplete,
@@ -16,6 +16,7 @@ import {
 } from 'antd';
 import { ShoppingCartOutlined as Cart } from '@ant-design/icons';
 
+import CartContext from '../contexts/CartContext.js';
 import DynamicAvatar from './DynamicAvatar.js';
 
 const { Title } = Typography;
@@ -48,10 +49,35 @@ function Header(props) {
   const [current, setCurrent] = useState('home');
 
   const history = useHistory();
+  const location = useLocation();
+  const cart = useContext(CartContext);
+
+  let simple =
+    location.pathname.startsWith('/checkout') ||
+    location.pathname.startsWith('/admin');
 
   const handleClick = (e) => {
     setCurrent(e.key);
   };
+
+  if (simple) {
+    return (
+      <Row className='bookstore-header' align='middle' justify='space-between'>
+        <Col span={24}>
+          <div className='bookstore-header-wrapper'>
+            <div style={{ width: '40px' }} />
+            <Title
+              className='bookstore-logo-lg'
+              level={2}
+              onClick={() => history.push('/')}>
+              Bookstore
+            </Title>
+            <DynamicAvatar isSignedIn={true} />
+          </div>
+        </Col>
+      </Row>
+    );
+  }
 
   return (
     <Row className='bookstore-header' align='middle' justify='space-between'>
@@ -88,13 +114,14 @@ function Header(props) {
           <DynamicAvatar isSignedIn={true} />
           <Badge
             className='bookstore-cart-icon-badge'
-            count={0}
+            count={cart.get().length}
             offset={[-4, 8]}
             showZero>
             <Button
               className='bookstore-cart-button'
               size='large'
               icon={<Cart className='bookstore-cart-icon' />}
+              onClick={() => history.push('/cart')}
             />
           </Badge>
         </div>
