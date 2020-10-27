@@ -1,11 +1,7 @@
 package com.csci4050.bookstore.model;
 
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -24,20 +20,4 @@ public class Administrator extends User {
   @Column(name = "password")
   @NotNull
   private String password;
-
-  @ManyToMany
-  @JoinTable(name = "admin_employees", joinColumns = @JoinColumn(name = "admin_id"))
-  private List<Employee> employees;
-
-  @ManyToMany
-  @JoinTable(name = "admin_books", joinColumns = @JoinColumn(name = "admin_id"))
-  private List<Book> books;
-
-  @ManyToMany
-  @JoinTable(name = "admin_promos", joinColumns = @JoinColumn(name = "admin_id"))
-  private List<Promotion> promotions;
-
-  @ManyToMany
-  @JoinTable(name = "admin_users", joinColumns = @JoinColumn(name = "admin_id"))
-  private List<User> users;
 }
