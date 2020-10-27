@@ -3,6 +3,7 @@ import './Notifications.less';
 import React from 'react';
 
 import { Button, notification, Typography } from 'antd';
+import { CheckCircleFilled } from '@ant-design/icons';
 
 const { Paragraph, Title } = Typography;
 
@@ -12,9 +13,12 @@ const CartNotification = {
 
     notification.open({
       message: (
-        <Title className='bookstore-notification-cart-title' level={4}>
-          Item Successfully Added To Cart
-        </Title>
+        <div>
+          <CheckCircleFilled className='bookstore-notification-cart-icon' />
+          <Title className='bookstore-notification-cart-title' level={4}>
+            Item Successfully Added To Cart
+          </Title>
+        </div>
       ),
       description: (
         <div className='bookstore-notification-cart'>
@@ -35,10 +39,13 @@ const CartNotification = {
         </div>
       ),
       btn: [
-        <Button type='primary'>OPEN CART</Button>,
-        <Button style={{ marginLeft: '8px' }}>CHECKOUT</Button>,
+        <Button className='bookstore-notification-cart-action' type='primary'>
+          OPEN CART
+        </Button>,
+        <Button className='bookstore-notification-cart-action'>
+          CHECKOUT
+        </Button>,
       ],
-      onClick: () => console.log('Notif clicked'),
       style: { width: 'unset' },
     });
   },

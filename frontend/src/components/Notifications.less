@@ -1,19 +1,40 @@
+@import "../global.less";
+
 .bookstore-notification-cart {
   display: flex;
   align-items: flex-start;
+  box-shadow: @card-shadow;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 8px;
+}
+
+.bookstore-notification-cart-icon {
+  color: @primary-color;
+  margin-right: 8px;
 }
 
 .bookstore-notification-cart-title {
   font-weight: 900 !important;
   margin-right: 32px;
+  display: inline-block;
 }
 
 .bookstore-notification-cart-image {
   width: 100px;
   margin-right: 16px;
   border-radius: 8px;
+  box-shadow: @card-shadow;
 }
 
 .bookstore-notification-cart-description > h5 {
   margin-bottom: 0px;
+}
+
+.bookstore-notification-cart-action {
+  font-size: 12px;
+}
+
+.bookstore-notification-cart-action:last-of-type {
+  margin-left: 8px;
 }
