@@ -24,7 +24,7 @@ public class RegisteredUser extends User {
 
   @Column(name = "email")
   @NotNull
-  private String emailAddress;
+  private String email;
 
   @Column(name = "phone")
   @NotNull
@@ -71,11 +71,47 @@ public class RegisteredUser extends User {
     this.lastName = name;
   }
 
+  public String getEmail() {
+    return this.email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public Address getAddress() {
+    return this.address;
+  }
+
+  public void setAddress(Address address) {
+    this.address = address;
+  }
+
+  public Boolean getSubscription() {
+    return this.subscription;
+  }
+
+  public void toggleSubscription() {
+    this.subscription = !subscription;
+  }
+
+  public ActivityStatus getStatus() {
+    return this.status;
+  }
+
+  public void setStatus(ActivityStatus status) {
+    this.status = status;
+  }
+
   public String getPassword() {
     return this.password;
   }
 
   public void setPassword(String password) {
     this.password = password;
+  }
+
+  public List<Card> getCards() {
+    return this.savedCards;
   }
 }

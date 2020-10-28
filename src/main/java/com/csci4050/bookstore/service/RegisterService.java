@@ -16,6 +16,6 @@ public class RegisterService {
   }
 
   public String encrypt(String key) {
-    return new String();
+    return "Encrypted_Password";
   }
 }
