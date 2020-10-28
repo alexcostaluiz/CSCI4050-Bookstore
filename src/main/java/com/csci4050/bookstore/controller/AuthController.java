@@ -1,11 +1,16 @@
 package com.csci4050.bookstore.controller;
 
+import com.csci4050.bookstore.model.RegisteredUser;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RequestMapping("/auth")
 public class AuthController {
 
+  @Autowired private RegisterService registerService;
   /* These all will interface with service files */
 
   @PostMapping("/login")
@@ -29,7 +34,8 @@ public class AuthController {
   }
 
   @PostMapping("/register")
-  public void register() {
+  public void register(@RequestBody RegisteredUser user) {
     System.out.println("register");
+    registerService.register();
   }
 }

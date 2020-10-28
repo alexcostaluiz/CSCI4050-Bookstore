@@ -22,6 +22,10 @@ public class RegisteredUser extends User {
   @NotNull
   private String lastName;
 
+  @Column(name = "last_name")
+  @NotNull
+  private String lastName;
+
   @Column(name = "email")
   @NotNull
   private String emailAddress;
@@ -54,4 +58,28 @@ public class RegisteredUser extends User {
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
   // @JoinColumn(name = "registered_user_id")
   private List<Order> orders;
+
+  public String getfirstName() {
+    return this.firstName;
+  }
+
+  public void setFirstName(String name) {
+    this.firstName = name;
+  }
+
+  public String getLastName() {
+    return this.lastName;
+  }
+
+  public void setLastName(String name) {
+    this.lastName = name;
+  }
+
+  public String getPassword() {
+    return this.password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
 }
