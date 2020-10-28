@@ -22,10 +22,6 @@ public class RegisteredUser extends User {
   @NotNull
   private String lastName;
 
-  @Column(name = "last_name")
-  @NotNull
-  private String lastName;
-
   @Column(name = "email")
   @NotNull
   private String emailAddress;
