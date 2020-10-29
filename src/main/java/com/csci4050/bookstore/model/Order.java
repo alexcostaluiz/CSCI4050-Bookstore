@@ -13,7 +13,7 @@ public class Order extends Cart {
   @ManyToOne
   @JoinColumn(name = "user_id")
   @NotNull
-  private RegisteredUser user;
+  private User user;
 
   @ManyToOne
   @JoinColumn(name = "address_id", referencedColumnName = "id")

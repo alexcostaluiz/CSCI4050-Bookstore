@@ -27,7 +27,7 @@ public class Card {
   @ManyToOne
   @JoinColumn(name = "user_id")
   @NotNull
-  private RegisteredUser user;
+  private User user;
 
   @Column(name = "acct_num")
   private Integer acctNum;

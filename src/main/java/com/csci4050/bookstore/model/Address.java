@@ -21,7 +21,7 @@ public class Address {
 
   @OneToOne(mappedBy = "address")
   @NotNull
-  private RegisteredUser user;
+  private User user;
 
   @Column(name = "street_num")
   private Integer streetNum;
