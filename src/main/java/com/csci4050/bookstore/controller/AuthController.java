@@ -1,8 +1,9 @@
 package com.csci4050.bookstore.controller;
 
-
 import com.csci4050.bookstore.model.User;
 import com.csci4050.bookstore.service.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,15 +52,20 @@ public class AuthController {
   public void forgotPassword() {
     System.out.println("forgot password");
   }
+
   /*
-  @GetMapping("/user")
-  public User getLoggedInUser() {
-    return new User();
-  }
-  */
-  @PostMapping(value = "/register", consumes = "application/json;charset=UTF-8")
-  public void register(@RequestBody User user) {
-    System.out.println(user);
-    // userService.save(user);
+   * @GetMapping("/user") public User getLoggedInUser() { return new User(); }
+   */
+  @PostMapping(value = "/register", consumes = "application/json")
+  public void register(@RequestBody String json) {
+    ObjectMapper objectMapper = new ObjectMapper();
+    try {
+      User user = objectMapper.readValue(json, User.class);
+      System.out.println(user.getEmailAddress());
+      userService.save(user);
+    } catch (JsonProcessingException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 }

@@ -1,8 +1,8 @@
 package com.csci4050.bookstore.dao;
 
 import com.csci4050.bookstore.model.ActivityStatus;
+import com.csci4050.bookstore.model.Role;
 import com.csci4050.bookstore.model.User;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,10 +21,10 @@ public class UserDetailsImp implements UserDetails {
     this.email = user.getEmailAddress();
     this.password = user.getPassword();
     this.status = user.getStatus();
-    this.authorities =
-        Arrays.stream(user.getRoles().toArray(new String[user.getRoles().size()]))
-            .map(SimpleGrantedAuthority::new)
-            .collect(Collectors.toList());
+
+    List<String> roles = user.getRoles().stream().map(Role::name).collect(Collectors.toList());
+    System.out.println(roles.toString());
+    this.authorities = roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
   }
 
   @Override
@@ -44,12 +44,12 @@ public class UserDetailsImp implements UserDetails {
 
   @Override
   public boolean isAccountNonExpired() {
-    return status == ActivityStatus.Inactive;
+    return status != ActivityStatus.Inactive;
   }
 
   @Override
   public boolean isAccountNonLocked() {
-    return status == ActivityStatus.Active;
+    return status == ActivityStatus.Active || status == ActivityStatus.Inactive;
   }
 
   @Override
@@ -59,6 +59,6 @@ public class UserDetailsImp implements UserDetails {
 
   @Override
   public boolean isEnabled() {
-    return (status == ActivityStatus.Active || status == ActivityStatus.Suspended);
+    return status == ActivityStatus.Active;
   }
 }

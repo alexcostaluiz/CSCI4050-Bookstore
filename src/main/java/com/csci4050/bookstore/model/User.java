@@ -1,7 +1,7 @@
 package com.csci4050.bookstore.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import java.util.Arrays;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
@@ -21,9 +21,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "user")
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
-  public User() {}
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -67,7 +65,7 @@ public class User {
   @Enumerated(EnumType.STRING)
   @Column(name = "status")
   @NotNull
-  private ActivityStatus status = ActivityStatus.Inactive;
+  private ActivityStatus status = ActivityStatus.Active;
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
   private List<Card> savedCards;
@@ -79,7 +77,7 @@ public class User {
   @Column(name = "roles")
   @Enumerated(EnumType.STRING)
   @CollectionTable(name = "roles", joinColumns = @JoinColumn(name = "id"))
-  private List<Role> roles;
+  private List<Role> roles = Arrays.asList(Role.USER);
 
   public Integer getId() {
     return this.id;
