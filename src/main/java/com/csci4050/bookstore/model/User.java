@@ -1,5 +1,7 @@
 package com.csci4050.bookstore.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
@@ -19,7 +21,9 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "user")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
+  public User() {}
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,7 +53,8 @@ public class User {
 
   @Column(name = "password")
   @NotNull
-  private String password; // Super secure
+  private String password;
+  // Super secure
 
   @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "address_id")
@@ -62,7 +67,7 @@ public class User {
   @Enumerated(EnumType.STRING)
   @Column(name = "status")
   @NotNull
-  private ActivityStatus status = ActivityStatus.Active;
+  private ActivityStatus status = ActivityStatus.Inactive;
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
   private List<Card> savedCards;
@@ -76,35 +81,120 @@ public class User {
   @CollectionTable(name = "roles", joinColumns = @JoinColumn(name = "id"))
   private List<Role> roles;
 
-  public List<Role> getRoles() {
-    return roles;
+  public Integer getId() {
+    return this.id;
   }
 
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public ActivityStatus getActivityStatus() {
-    return status;
+  @JsonSetter("id")
+  public void setId(Integer id) {
+    this.id = id;
   }
 
   public Cart getCart() {
     return this.cart;
   }
 
+  @JsonSetter("cart")
   public void setCart(Cart cart) {
     this.cart = cart;
   }
 
-  public Integer getId() {
-    return this.id;
+  public String getFirstName() {
+    return this.firstName;
   }
 
-  public String getEmail() {
+  @JsonSetter("firstName")
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+
+  public String getLastName() {
+    return this.lastName;
+  }
+
+  @JsonSetter("lastName")
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
+
+  public String getEmailAddress() {
     return this.emailAddress;
+  }
+
+  @JsonSetter("emailAddress")
+  public void setEmailAddress(String emailAddress) {
+    this.emailAddress = emailAddress;
+  }
+
+  public String getPhoneNumber() {
+    return this.phoneNumber;
+  }
+
+  @JsonSetter("phoneNumber")
+  public void setPhoneNumber(String phoneNumber) {
+    this.phoneNumber = phoneNumber;
+  }
+
+  public String getPassword() {
+    return this.password;
+  }
+
+  @JsonSetter("password")
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  public Address getAddress() {
+    return this.address;
+  }
+
+  @JsonSetter("address")
+  public void setAddress(Address address) {
+    this.address = address;
+  }
+
+  public Boolean getSubscription() {
+    return this.subscription;
+  }
+
+  @JsonSetter("subscription")
+  public void setSubscription(Boolean subscription) {
+    this.subscription = subscription;
+  }
+
+  public ActivityStatus getStatus() {
+    return this.status;
+  }
+
+  @JsonSetter("status")
+  public void setStatus(ActivityStatus status) {
+    this.status = status;
+  }
+
+  public List<Card> getSavedCards() {
+    return this.savedCards;
+  }
+
+  @JsonSetter("savedCards")
+  public void setSavedCards(List<Card> savedCards) {
+    this.savedCards = savedCards;
+  }
+
+  public List<Order> getOrders() {
+    return this.orders;
+  }
+
+  @JsonSetter("orders")
+  public void setOrders(List<Order> orders) {
+    this.orders = orders;
+  }
+
+  public List<Role> getRoles() {
+    return this.roles;
+  }
+
+  @JsonSetter("roles")
+  public void setRoles(List<Role> roles) {
+    this.roles = roles;
   }
 }

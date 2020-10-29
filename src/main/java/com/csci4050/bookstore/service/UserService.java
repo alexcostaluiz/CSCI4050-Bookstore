@@ -35,6 +35,10 @@ public class UserService implements UserDetailsService {
     return dao.get();
   }
 
+  public String encrypt(String key) {
+    return "Encrypted_Password";
+  }
+
   @Transactional
   public User get(int id) {
     return dao.get(id);
@@ -42,6 +46,7 @@ public class UserService implements UserDetailsService {
 
   @Transactional
   public void save(User user) {
+    user.setPassword(encrypt(user.getPassword()));
     dao.save(user);
   }
 
