@@ -14,22 +14,25 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-  
-  @Autowired
-  UserDetailsService userDetailsService;
+
+  @Autowired UserDetailsService userDetailsService;
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.authorizeRequests()
-      .antMatchers("/auth/admin").hasRole("ADMIN")
-      .antMatchers("/auth/user").hasAnyRole("ADMIN","USER")
-      .antMatchers("/auth/").permitAll()
-      .and().formLogin();
+        .antMatchers("/auth/admin")
+        .hasRole("ADMIN")
+        .antMatchers("/auth/user")
+        .hasAnyRole("ADMIN", "USER")
+        .antMatchers("/auth/")
+        .permitAll()
+        .and()
+        .formLogin();
   }
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-      auth.userDetailsService(userDetailsService);
+    auth.userDetailsService(userDetailsService);
   }
 
   @Bean
