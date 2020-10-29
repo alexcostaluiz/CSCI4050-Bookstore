@@ -1,6 +1,6 @@
 package com.csci4050.bookstore.controller;
 
-import com.csci4050.bookstore.model.RegisteredUser;
+import com.csci4050.bookstore.model.User;
 import com.csci4050.bookstore.service.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,7 +57,7 @@ public class AuthController {
   }
   */
   @PostMapping("/register")
-  public void register(@RequestBody RegisteredUser user) {
+  public void register(@RequestBody User user) {
     System.out.println("register");
     registerService.register(user);
   }
