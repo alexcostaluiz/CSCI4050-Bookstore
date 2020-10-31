@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.csci4050.bookstore.model.VerificationToken;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -61,4 +62,15 @@ public class UserService implements UserDetailsService {
   public void delete(User user) {
     dao.delete(user.getId());
   }
+
+  /* public VerficationToken getVerificationToken(String token) {
+    return tokenDAO.findByToken(token);
+  } */
+
+  // @Transactional
+  public void createVerificationToken(User user, String token) {
+    VerificationToken myToken = new VerificationToken(token, user);
+    // tokenDAO.save(mytoken);
+  }
+
 }
