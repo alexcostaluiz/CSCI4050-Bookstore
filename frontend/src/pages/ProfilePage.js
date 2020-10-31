@@ -202,8 +202,14 @@ class PaymentForm extends React.Component {
     );
   }
 }
-
+async function getUser() {
+  const response = await fetch('auth/user');
+  return response.json();
+}
 function Profile(props) {
+  //promise of user data
+  var user = getUser();
+  console.log(user);
   const [editableStr, setEditableStr] = useState('Alex');
   const [editableStr2, setEditableStr2] = useState('Costa');
   const [selectedMenuItem, setSelectedMenuItem] = useState('1');

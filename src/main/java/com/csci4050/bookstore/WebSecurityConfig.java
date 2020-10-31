@@ -22,14 +22,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     http.csrf()
         .disable()
         .authorizeRequests()
-        .antMatchers("/auth/admin")
-        .hasRole("ADMIN")
-        .antMatchers("/auth/user")
-        .hasAnyRole("ADMIN", "USER")
-        .antMatchers("/auth/")
+        .antMatchers("/profile", "/checkout", "/logout", "/auth/user")
+        .hasAnyAuthority("ADMIN", "USER")
+        .antMatchers("/admin", "/admin/manage/books")
+        .hasAuthority("ADMIN")
+        .antMatchers("/", "/cart", "/b/**")
         .permitAll()
         .and()
-        .formLogin();
+        .formLogin()
+        .loginPage("/login")
+        .defaultSuccessUrl("/profile")
+        .failureUrl("/login")
+        .permitAll()
+        .and()
+        .rememberMe()
+        .key("ourKey")
+        .rememberMeParameter("remember");
   }
 
   @Override

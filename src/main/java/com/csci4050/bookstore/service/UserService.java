@@ -20,8 +20,9 @@ public class UserService implements UserDetailsService {
 
   @Override
   @Transactional
-  public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-    Optional<User> user = Optional.ofNullable(getUser(email));
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    System.out.println(username);
+    Optional<User> user = Optional.ofNullable(getUser(username));
     user.orElseThrow(() -> new UsernameNotFoundException("User not found"));
     return user.map(UserDetailsImp::new).get();
   }

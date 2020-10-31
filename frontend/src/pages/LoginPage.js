@@ -24,13 +24,20 @@ function Login(props) {
   const history = useHistory();
 
   const onFinish = (values) => {
-    isLoggedIn = true;
+    var querystring = require('querystring');
+    fetch('/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: querystring.stringify(values),
+    }).then((res) => window.location.replace(res.url));
   };
   const onSubmit = (values) => {
     if (isLoggedIn === true) {
       history.push('/');
     } else {
-      isLoggedIn = false;
+      //isLoggedIn = false;
     }
   };
 
