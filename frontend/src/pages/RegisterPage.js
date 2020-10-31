@@ -201,8 +201,8 @@ function Register(props) {
                   type='primary'
                   htmlType='submit'
                   className='register-form-button'
-                  block
                   size='large'
+                  block
                   onClick={() => history.push('/auth/register')}>
                   Register
                 </Button>
