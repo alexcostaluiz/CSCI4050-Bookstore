@@ -69,7 +69,7 @@ public class UserService implements UserDetailsService {
     return tokenDAO.findByToken(token);
   }
 
-  // @Transactional
+  @Transactional
   public void createVerificationToken(User user, String token) {
     VerificationToken myToken = new VerificationToken(token, user);
     tokenDAO.save(myToken);

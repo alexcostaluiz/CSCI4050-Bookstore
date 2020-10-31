@@ -65,10 +65,10 @@ public class AuthController {
     ObjectMapper objectMapper = new ObjectMapper();
     try {
       User user = objectMapper.readValue(json, User.class);
-      System.out.println(user.getEmailAddress());
+      // System.out.println(user.getEmailAddress());
       String url = request.getContextPath();
-      eventPublisher.publishEvent(new RegistrationCompletionEvent(user, request.getLocale(), url));
       userService.save(user);
+      eventPublisher.publishEvent(new RegistrationCompletionEvent(user, request.getLocale(), url));
     } catch (JsonProcessingException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();

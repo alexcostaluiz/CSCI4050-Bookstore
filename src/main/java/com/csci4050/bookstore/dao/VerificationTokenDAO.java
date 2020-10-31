@@ -3,14 +3,16 @@ package com.csci4050.bookstore.dao;
 import com.csci4050.bookstore.model.VerificationToken;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@Transactional
 public class VerificationTokenDAO implements DAO<VerificationToken> {
-  @Autowired private EntityManager entityManager;
+  @PersistenceContext private EntityManager entityManager;
 
   @Override
   public List<VerificationToken> get() {
@@ -44,6 +46,7 @@ public class VerificationTokenDAO implements DAO<VerificationToken> {
   public VerificationToken findByToken(String token) {
     Session session = entityManager.unwrap(Session.class);
     VerificationToken desiredToken = session.get(VerificationToken.class, token);
+
     return desiredToken;
   }
 
