@@ -122,12 +122,8 @@ function Register(props) {
                 ]}>
                 <Input />
               </Form.Item>
-              <Form.Item
-                name='subscription'
-                {...tailFormItemLayout}>
-                <Checkbox defaultChecked= {true}>
-                  Send me promotions!
-                </Checkbox>
+              <Form.Item name='subscription' {...tailFormItemLayout}>
+                <Checkbox defaultChecked={true}>Send me promotions!</Checkbox>
               </Form.Item>
               <Form.Item
                 label='Phone number'
@@ -138,7 +134,7 @@ function Register(props) {
                     message: 'Please input your phone number!',
                   },
                   {
-                    pattern: "[0-9]{3}[0-9]{3}[0-9]{4}",
+                    pattern: '[0-9]{3}[0-9]{3}[0-9]{4}',
                     max: 10,
                     message: 'The input is not a vaild phone number!',
                   },
