@@ -3,6 +3,7 @@ package com.csci4050.bookstore.service;
 import com.csci4050.bookstore.dao.UserDAO;
 import com.csci4050.bookstore.dao.UserDetailsImp;
 import com.csci4050.bookstore.model.User;
+import com.csci4050.bookstore.model.VerificationToken;
 import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
@@ -12,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.csci4050.bookstore.model.VerificationToken;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -72,5 +72,4 @@ public class UserService implements UserDetailsService {
     VerificationToken myToken = new VerificationToken(token, user);
     // tokenDAO.save(mytoken);
   }
-
 }
