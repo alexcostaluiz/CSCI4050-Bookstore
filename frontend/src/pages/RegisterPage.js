@@ -75,6 +75,28 @@ function Register(props) {
               onFinish={onFinish}
               scrollToFirstError>
               <Form.Item
+                label='First Name'
+                name='firstname'
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your first name!',
+                  },
+                ]}>
+                <Input />
+              </Form.Item>
+              <Form.Item
+                label='Last Name'
+                name='lastname'
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your last name!',
+                  },
+                ]}>
+                <Input />
+              </Form.Item>
+              <Form.Item
                 label='Username'
                 name='username'
                 rules={[
@@ -96,6 +118,25 @@ function Register(props) {
                   {
                     required: true,
                     message: 'Please input your E-mail!',
+                  },
+                ]}>
+                <Input />
+              </Form.Item>
+              <Form.Item name='subscription' {...tailFormItemLayout}>
+                <Checkbox defaultChecked={true}>Send me promotions!</Checkbox>
+              </Form.Item>
+              <Form.Item
+                label='Phone number'
+                name='phone'
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your phone number!',
+                  },
+                  {
+                    pattern: '[0-9]{3}[0-9]{3}[0-9]{4}',
+                    max: 10,
+                    message: 'The input is not a vaild phone number!',
                   },
                 ]}>
                 <Input />
@@ -157,7 +198,8 @@ function Register(props) {
                   htmlType='submit'
                   className='register-form-button'
                   size='large'
-                  block>
+                  block
+                  onSubmit={() => history.push('/auth/register')}>
                   Register
                 </Button>
               </Form.Item>
