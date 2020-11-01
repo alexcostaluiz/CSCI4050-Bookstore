@@ -23,11 +23,11 @@ public class UserService implements UserDetailsService {
 
   @Override
   @Transactional
-  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    System.out.println(username);
-    Optional<User> user = Optional.ofNullable(getUser(username));
+  public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    Optional<User> user = Optional.ofNullable(getUser(email));
     user.orElseThrow(() -> new UsernameNotFoundException("User not found"));
-    return user.map(UserDetailsImp::new).get();
+    UserDetails userDetails = user.map(UserDetailsImp::new).get();
+    return userDetails;
   }
 
   @Transactional
@@ -40,19 +40,20 @@ public class UserService implements UserDetailsService {
     return dao.get();
   }
 
-  public String encrypt(String key) {
-    return "Encrypted_Password";
-  }
-
   @Transactional
   public User get(int id) {
     return dao.get(id);
   }
 
   @Transactional
-  public void save(User user) {
+  public void createUser(User user) {
     BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
     user.setPassword(bcrypt.encode(user.getPassword()));
+    dao.save(user);
+  }
+
+  @Transactional
+  public void updateUser(User user) {
     dao.save(user);
   }
 
@@ -66,6 +67,7 @@ public class UserService implements UserDetailsService {
     dao.delete(user.getId());
   }
 
+  @Transactional
   public VerificationToken getVerificationToken(String token) {
     return tokenDAO.findByToken(token);
   }

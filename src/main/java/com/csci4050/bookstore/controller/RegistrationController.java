@@ -33,7 +33,7 @@ public class RegistrationController {
     }
 
     user.setStatus(ActivityStatus.Active);
-    userService.save(user);
-    return "/login";
+    userService.updateUser(user);
+    return "redirect:/login";
   }
 }

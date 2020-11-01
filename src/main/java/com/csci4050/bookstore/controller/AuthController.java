@@ -60,7 +60,7 @@ public class AuthController {
       User user = objectMapper.readValue(json, User.class);
       // System.out.println(user.getEmailAddress());
       String url = request.getContextPath();
-      userService.save(user);
+      userService.createUser(user);
       eventPublisher.publishEvent(new RegistrationCompletionEvent(user, request.getLocale(), url));
     } catch (JsonProcessingException e) {
       e.printStackTrace();
