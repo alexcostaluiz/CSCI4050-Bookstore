@@ -2,7 +2,9 @@ package com.csci4050.bookstore.service;
 
 import com.csci4050.bookstore.dao.UserDAO;
 import com.csci4050.bookstore.dao.UserDetailsImp;
+import com.csci4050.bookstore.dao.VerificationTokenDAO;
 import com.csci4050.bookstore.model.User;
+import com.csci4050.bookstore.model.VerificationToken;
 import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 public class UserService implements UserDetailsService {
 
   @Autowired private UserDAO dao;
+  @Autowired private VerificationTokenDAO tokenDAO;
 
   @Override
   @Transactional
@@ -61,5 +64,15 @@ public class UserService implements UserDetailsService {
   @Transactional
   public void delete(User user) {
     dao.delete(user.getId());
+  }
+
+  public VerificationToken getVerificationToken(String token) {
+    return tokenDAO.findByToken(token);
+  }
+
+  @Transactional
+  public void createVerificationToken(User user, String token) {
+    VerificationToken myToken = new VerificationToken(token, user);
+    tokenDAO.save(myToken);
   }
 }
