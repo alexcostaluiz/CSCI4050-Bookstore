@@ -1,9 +1,11 @@
-package com.csci4050.bookstore.model;
+package com.csci4050.bookstore.events;
 
+import com.csci4050.bookstore.model.User;
 import java.util.Locale;
 import org.springframework.context.ApplicationEvent;
 
 public class RegistrationCompletionEvent extends ApplicationEvent {
+  private static final long serialVersionUID = 782349623547L;
   private String url;
   private Locale locale;
   private User user;

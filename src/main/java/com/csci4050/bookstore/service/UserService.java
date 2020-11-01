@@ -73,6 +73,11 @@ public class UserService implements UserDetailsService {
   }
 
   @Transactional
+  public void deleteToken(VerificationToken token) {
+    tokenDAO.delete(token.getId());
+  }
+
+  @Transactional
   public void createVerificationToken(User user, String token) {
     VerificationToken myToken = new VerificationToken(token, user);
     tokenDAO.save(myToken);

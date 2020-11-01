@@ -49,7 +49,8 @@ function Register(props) {
   const openNotification = () => {
     notification.open({
       message: 'Registration Complete',
-      description: 'You are in! Welcome to the Bookstore!',
+      description:
+        'Confirmation email sent. Please use the link to activate account.',
       onClick: () => {
         console.log('Notification Clicked!');
       },

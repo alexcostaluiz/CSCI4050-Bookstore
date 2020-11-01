@@ -1,6 +1,7 @@
 package com.csci4050.bookstore.controller;
 
-import com.csci4050.bookstore.model.RegistrationCompletionEvent;
+import com.csci4050.bookstore.events.PasswordResetEvent;
+import com.csci4050.bookstore.events.RegistrationCompletionEvent;
 import com.csci4050.bookstore.model.User;
 import com.csci4050.bookstore.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -23,6 +24,7 @@ public class AuthController {
 
   @Autowired private UserService userService;
   @Autowired private ApplicationEventPublisher eventPublisher;
+  ObjectMapper objectMapper = new ObjectMapper();
   /* These all will interface with service files */
 
   @PostMapping("/logout")
@@ -36,8 +38,21 @@ public class AuthController {
   }
 
   @PostMapping("/forgot_password")
-  public void forgotPassword() {
-    System.out.println("forgot password");
+  public void forgotPassword(@RequestBody String json, HttpServletRequest request) {
+
+    try {
+      User user = objectMapper.readValue(json, User.class);
+      user = userService.getUser(user.getEmailAddress());
+      if (user.getId() != null) {
+        String url = request.getContextPath();
+        eventPublisher.publishEvent(new PasswordResetEvent(user, request.getLocale(), url));
+      }
+
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+    } catch (RuntimeException e) {
+      e.printStackTrace();
+    }
   }
 
   @GetMapping("/user")
@@ -55,10 +70,8 @@ public class AuthController {
 
   @PostMapping(value = "/register", consumes = "application/json")
   public void register(@RequestBody String json, HttpServletRequest request) {
-    ObjectMapper objectMapper = new ObjectMapper();
     try {
       User user = objectMapper.readValue(json, User.class);
-      // System.out.println(user.getEmailAddress());
       String url = request.getContextPath();
       userService.createUser(user);
       eventPublisher.publishEvent(new RegistrationCompletionEvent(user, request.getLocale(), url));
