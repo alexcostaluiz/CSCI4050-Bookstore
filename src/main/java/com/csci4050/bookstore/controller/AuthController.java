@@ -1,13 +1,16 @@
 package com.csci4050.bookstore.controller;
 
+import com.csci4050.bookstore.model.RegistrationCompletionEvent;
 import com.csci4050.bookstore.model.User;
 import com.csci4050.bookstore.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
   @Autowired private UserService userService;
+  @Autowired private ApplicationEventPublisher eventPublisher;
   /* These all will interface with service files */
 
   @PostMapping("/logout")
@@ -50,13 +54,17 @@ public class AuthController {
   }
 
   @PostMapping(value = "/register", consumes = "application/json")
-  public void register(@RequestBody String json) {
+  public void register(@RequestBody String json, HttpServletRequest request) {
     ObjectMapper objectMapper = new ObjectMapper();
     try {
       User user = objectMapper.readValue(json, User.class);
-      System.out.println(user.getEmailAddress());
+      // System.out.println(user.getEmailAddress());
+      String url = request.getContextPath();
       userService.save(user);
+      eventPublisher.publishEvent(new RegistrationCompletionEvent(user, request.getLocale(), url));
     } catch (JsonProcessingException e) {
+      e.printStackTrace();
+    } catch (RuntimeException e) {
       e.printStackTrace();
     }
   }

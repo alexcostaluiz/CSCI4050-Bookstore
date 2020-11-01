@@ -3,17 +3,19 @@ package com.csci4050.bookstore.dao;
 import com.csci4050.bookstore.model.User;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@Transactional
 public class UserDAO implements DAO<User> {
-  @Autowired private EntityManager entityManager;
+  @PersistenceContext private EntityManager entityManager;
 
   /* Return a list of users */
   @Override
@@ -42,6 +44,7 @@ public class UserDAO implements DAO<User> {
 
     Query<User> query = session.createQuery(q);
     User user = query.uniqueResult();
+
     return user;
   }
 

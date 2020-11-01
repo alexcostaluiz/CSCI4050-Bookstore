@@ -65,7 +65,7 @@ public class User {
   @Enumerated(EnumType.STRING)
   @Column(name = "status")
   @NotNull
-  private ActivityStatus status = ActivityStatus.Active;
+  private ActivityStatus status = ActivityStatus.Inactive;
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
   private List<Card> savedCards;
