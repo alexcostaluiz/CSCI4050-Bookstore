@@ -1,5 +1,6 @@
 package com.csci4050.bookstore.controller;
 
+import com.csci4050.bookstore.model.Card;
 import com.csci4050.bookstore.model.RegistrationCompletionEvent;
 import com.csci4050.bookstore.model.User;
 import com.csci4050.bookstore.service.UserService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @RestController
 @RequestMapping("/auth")
@@ -30,9 +32,36 @@ public class AuthController {
     System.out.println("logout");
   }
 
-  @PostMapping("/edit_profile")
-  public void editProfile() {
-    System.out.println("edit profile");
+  @PostMapping(value = "/edit_profile", consumes = "application/json")
+  public void editProfile(@RequestBody String json) {
+    ObjectMapper objectMapper = new ObjectMapper();
+    try {
+      User newUser = objectMapper.readValue(json, User.class);
+      User oldUser = userService.getUser(newUser.getEmailAddress());
+      //update if the submitted item is not empty or null
+      if (!newUser.getFirstName().isEmpty() || !newUser.getFirstName().equalsIgnoreCase(null)) {
+        oldUser.setFirstName(newUser.getFirstName());
+      }
+      if (!newUser.getLastName().isEmpty() || !newUser.getLastName().equalsIgnoreCase(null)) {
+        oldUser.setLastName(newUser.getLastName());
+      }
+      if (!newUser.getEmailAddress().isEmpty() || !newUser.getEmailAddress().equalsIgnoreCase(null)) {
+        oldUser.setEmailAddress(newUser.getEmailAddress());
+      } 
+      if (!newUser.getAddress().toString().isEmpty() || !newUser.getAddress().toString().equalsIgnoreCase(null)) {
+        oldUser.setAddress(newUser.getAddress());
+      }
+      // password
+      BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+      if (!newUser.getPassword().isEmpty() || newUser.getPassword().equalsIgnoreCase(null)) {
+        oldUser.setPassword(bcrypt.encode(newUser.getPassword()));
+      }
+      // card
+
+    } catch (JsonProcessingException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 
   @PostMapping("/forgot_password")
