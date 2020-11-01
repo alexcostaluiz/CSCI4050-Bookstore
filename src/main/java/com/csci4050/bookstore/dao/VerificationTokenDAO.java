@@ -4,6 +4,9 @@ import com.csci4050.bookstore.model.VerificationToken;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -45,7 +48,14 @@ public class VerificationTokenDAO implements DAO<VerificationToken> {
 
   public VerificationToken findByToken(String token) {
     Session session = entityManager.unwrap(Session.class);
-    VerificationToken desiredToken = session.get(VerificationToken.class, token);
+    CriteriaBuilder cb = session.getCriteriaBuilder();
+    CriteriaQuery<VerificationToken> q = cb.createQuery(VerificationToken.class);
+    Root<VerificationToken> c = q.from(VerificationToken.class);
+
+    q.where(cb.equal(c.get("token"), token));
+
+    Query<VerificationToken> query = session.createQuery(q);
+    VerificationToken desiredToken = query.uniqueResult();
 
     return desiredToken;
   }

@@ -19,7 +19,7 @@ public class RegistrationController {
 
   @GetMapping("/accountConfirm")
   public String confirmAccount(@RequestParam("token") String token) {
-
+    System.out.println("test");
     VerificationToken verificationToken = userService.getVerificationToken(token);
 
     if (verificationToken == null) {
@@ -34,6 +34,6 @@ public class RegistrationController {
 
     user.setStatus(ActivityStatus.Active);
     userService.save(user);
-    return "index.html";
+    return "/login";
   }
 }

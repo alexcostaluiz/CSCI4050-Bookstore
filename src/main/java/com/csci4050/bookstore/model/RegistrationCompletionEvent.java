@@ -19,23 +19,11 @@ public class RegistrationCompletionEvent extends ApplicationEvent {
     return this.url;
   }
 
-  private void setUrl(String url) {
-    this.url = url;
-  }
-
   public Locale getLocale() {
     return this.locale;
   }
 
-  private void setLocale(Locale locale) {
-    this.locale = locale;
-  }
-
   public User getUser() {
     return this.user;
-  }
-
-  private void setUser(User user) {
-    this.user = user;
   }
 }
