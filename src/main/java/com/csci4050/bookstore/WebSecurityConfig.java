@@ -37,7 +37,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         .rememberMe()
         .key("ourKey")
-        .rememberMeParameter("remember");
+        .rememberMeParameter("remember")
+        .and()
+        .logout()
+        .invalidateHttpSession(true);
   }
 
   @Override
