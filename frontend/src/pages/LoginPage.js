@@ -6,7 +6,6 @@ import { useHistory } from 'react-router-dom';
 
 import {
   Button,
-  Card,
   Checkbox,
   Col,
   Form,
@@ -21,11 +20,6 @@ import AuthContext from '../contexts/AuthContext.js';
 
 const { Title } = Typography;
 
-const errorMapping = {
-  'Bad credentials': 'Invalid username or password',
-  'User is disabled': 'You must verify your email before you may sign in',
-}
-
 function Login(props) {
   const history = useHistory();
   const auth = useContext(AuthContext);
@@ -33,12 +27,9 @@ function Login(props) {
   
   const login = async (values) => {
     const response = await auth.signIn(values);
-    const url = new URL(response.url);
-    if (url.pathname.startsWith('/login')) {
-      message.error(errorMapping[url.searchParams.get('error')]);
+    if (response) {
+      message.error(response);
       form.resetFields();
-    } else {
-      history.push(url.pathname);
     }
   };
 
@@ -66,7 +57,7 @@ function Login(props) {
                 ]}>
                 <Input
                   prefix={<UserOutlined className='site-form-item-icon' />}
-                  placeholder='Username'
+                  placeholder='Email Address'
                 />
               </Form.Item>
               <Form.Item
@@ -77,15 +68,14 @@ function Login(props) {
                     message: 'Please input a password',
                   },
                 ]}>
-                <Input
+                <Input.Password
                   prefix={<LockOutlined className='site-form-item-icon' />}
-                  type='password'
                   placeholder='Password'
                 />
               </Form.Item>
               <Form.Item>
                 <Form.Item name='remember' valuePropName='checked' noStyle>
-                  <Checkbox>Remember Me</Checkbox>
+                  <Checkbox style={{ paddingTop: '2px' }}>Remember Me</Checkbox>
                 </Form.Item>
 
                 <Button
@@ -104,6 +94,7 @@ function Login(props) {
                   block>
                   LOG IN
                 </Button>
+                Don't have an account yet?{' '}
                 <Button
                   type='link'
                   onClick={() => history.push('/register')}
