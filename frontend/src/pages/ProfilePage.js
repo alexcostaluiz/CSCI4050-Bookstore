@@ -214,14 +214,14 @@ function Profile(props) {
   const onChangeFirstname = (editVal) => {
     setItems((prevState) => {
       prevState.firstName = editVal;
-      setItems(prevState);
+      return { ...prevState };
     });
   };
 
   const onChangeLastname = (editVal) => {
     setItems((prevState) => {
       prevState.lastName = editVal;
-      setItems(prevState);
+      return { ...prevState };
     });
   };
 
@@ -272,7 +272,7 @@ function Profile(props) {
                     ]}>
                     <Input
                       disabled={true}
-                      defaultValue={items.emailAddress}
+                      value={items.emailAddress}
                       allowClear
                     />
                   </Form.Item>

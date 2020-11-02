@@ -2,16 +2,19 @@ package com.csci4050.bookstore.controller;
 
 import com.csci4050.bookstore.events.PasswordResetEvent;
 import com.csci4050.bookstore.events.RegistrationCompletionEvent;
+import com.csci4050.bookstore.model.Card;
 import com.csci4050.bookstore.model.User;
 import com.csci4050.bookstore.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,9 +30,102 @@ public class AuthController {
   ObjectMapper objectMapper = new ObjectMapper();
   /* These all will interface with service files */
 
+  @PostMapping("/saveCard")
+  public void saveCard(@RequestBody String json) {
+    try {
+      Card card = objectMapper.readValue(json, Card.class);
+      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+      if (auth != null) {
+        Object principal = auth.getPrincipal();
+        if (principal instanceof UserDetails) {
+          UserDetails user = (UserDetails) principal;
+          User userObj = userService.getUser(user.getUsername());
+          List<Card> cards = userObj.getSavedCards();
+          cards.add(card);
+          userObj.setSavedCards(cards);
+          userService.updateUser(userObj);
+        }
+      }
+
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+    } catch (RuntimeException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @PostMapping("/deleteCard")
+  public void deleteCard(@RequestBody String json) {
+    try {
+      Card card = objectMapper.readValue(json, Card.class);
+      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+      if (auth != null) {
+        Object principal = auth.getPrincipal();
+        if (principal instanceof UserDetails) {
+          UserDetails user = (UserDetails) principal;
+          User userObj = userService.getUser(user.getUsername());
+          List<Card> cards = userObj.getSavedCards();
+          cards.remove(card);
+          userObj.setSavedCards(cards);
+          userService.updateUser(userObj);
+        }
+      }
+
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+    } catch (RuntimeException e) {
+      e.printStackTrace();
+    }
+  }
+
   @PostMapping("/edit_profile")
-  public void editProfile(@RequestBody String json) {
-    System.out.println(json);
+  public void updateUser(@RequestBody String json) {
+    try {
+      User user = objectMapper.readValue(json, User.class);
+      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+      if (auth != null) {
+        Object principal = auth.getPrincipal();
+        if (principal instanceof UserDetails) {
+          User userObj = userService.getUser(((UserDetails) principal).getUsername());
+
+          userObj.setFirstName(user.getFirstName());
+          userObj.setLastName(user.getLastName());
+          userObj.setPhoneNumber(user.getPhoneNumber());
+          userService.updateUser(userObj);
+        }
+      }
+
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+    } catch (RuntimeException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @PostMapping("/changePassword")
+  public void changePassword(@RequestBody String json) {
+    try {
+      PasswordDto dto = objectMapper.readValue(json, PasswordDto.class);
+      BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+      if (auth != null) {
+        Object principal = auth.getPrincipal();
+        if (principal instanceof UserDetails) {
+          UserDetails user = (UserDetails) principal;
+
+          if (bcrypt.matches(dto.getOldPassword(), user.getPassword())) {
+            User userObj = userService.getUser(user.getUsername());
+
+            userObj.setPassword(bcrypt.encode(dto.getNewPassword()));
+            userService.updateUser(userObj);
+          }
+        }
+      }
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+    } catch (RuntimeException e) {
+      e.printStackTrace();
+    }
   }
 
   @PostMapping("/forgot_password")
