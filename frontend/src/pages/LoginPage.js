@@ -24,7 +24,7 @@ function Login(props) {
   const history = useHistory();
   const auth = useContext(AuthContext);
   const [form] = Form.useForm();
-  
+
   const login = async (values) => {
     const response = await auth.signIn(values);
     if (response) {
@@ -87,11 +87,7 @@ function Login(props) {
               </Form.Item>
 
               <Form.Item style={{ marginBottom: '0px' }}>
-                <Button
-                  type='primary'
-                  htmlType='submit'
-                  size='large'
-                  block>
+                <Button type='primary' htmlType='submit' size='large' block>
                   LOG IN
                 </Button>
                 Don't have an account yet?{' '}

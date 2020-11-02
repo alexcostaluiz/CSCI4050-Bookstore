@@ -59,9 +59,7 @@ function DynamicAvatar(props) {
       );
     } else {
       return (
-        <Button
-          type='primary'
-          onClick={() => history.push('/login')}>
+        <Button type='primary' onClick={() => history.push('/login')}>
           SIGN IN
         </Button>
       );

@@ -2,14 +2,7 @@ import './ForgotPassword.less';
 
 import React, { useState } from 'react';
 
-import {
-  Row,
-  Col,
-  Form,
-  Input,
-  Button,
-  Typography,
-} from 'antd';
+import { Row, Col, Form, Input, Button, Typography } from 'antd';
 
 const { Paragraph, Title } = Typography;
 
@@ -33,13 +26,14 @@ function ForgotPassword(props) {
   };
 
   const content = submitted ? (
-    <div className='bookstore-forgot-password-container'>      
+    <div className='bookstore-forgot-password-container'>
       <Title className='bookstore-forgot-password-title'>Forgot Password</Title>
       <Paragraph>
-        A password reset link has been successfully emailed to <b>{submitted.emailAddress}</b>.
-        Please follow the link to reset your password. If you cannot find the email you may
-        try resending the reset link.
-      </Paragraph>      
+        A password reset link has been successfully emailed to{' '}
+        <b>{submitted.emailAddress}</b>. Please follow the link to reset your
+        password. If you cannot find the email you may try resending the reset
+        link.
+      </Paragraph>
       <Button
         type='primary'
         onClick={() => onFinish(submitted)}
@@ -52,9 +46,9 @@ function ForgotPassword(props) {
     <div className='bookstore-forgot-password-container'>
       <Title className='bookstore-forgot-password-title'>Forgot Password</Title>
       <Paragraph>
-        If you have forgotten your password, enter the email address
-        you used to register for an account below and a link to reset
-        your password will be sent to the address.
+        If you have forgotten your password, enter the email address you used to
+        register for an account below and a link to reset your password will be
+        sent to the address.
       </Paragraph>
       <Form
         form={form}
@@ -91,9 +85,7 @@ function ForgotPassword(props) {
   return (
     <Row justify='center'>
       <Col className='bookstore-column'>
-        <div className='bookstore-page-section'>
-          {content}
-        </div>
+        <div className='bookstore-page-section'>{content}</div>
       </Col>
     </Row>
   );

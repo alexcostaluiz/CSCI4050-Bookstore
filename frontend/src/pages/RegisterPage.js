@@ -4,15 +4,7 @@ import React, { useState } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
-import {
-  Button,
-  Checkbox,
-  Col,
-  Form,
-  Input,
-  Row,
-  Typography,
-} from 'antd';
+import { Button, Checkbox, Col, Form, Input, Row, Typography } from 'antd';
 
 const { Paragraph, Title } = Typography;
 
@@ -25,7 +17,7 @@ function Register(props) {
 
   const onFinish = async (values) => {
     setLoading(true);
-    
+
     delete values.confirm;
     await fetch('/auth/register', {
       method: 'POST',
@@ -34,20 +26,23 @@ function Register(props) {
       },
       body: JSON.stringify(values),
     });
-    
+
     setLoading(false);
     setSubmitted(values);
   };
 
   const content = submitted ? (
     <div className='bookstore-register-container'>
-      <Title className='bookstore-register-title' style={{ marginBottom: '8px' }}>
+      <Title
+        className='bookstore-register-title'
+        style={{ marginBottom: '8px' }}>
         Welcome, {submitted.firstName}!
       </Title>
       <Paragraph>
-        Your account has been successfully created! A confirmation email has been sent
-        to <b>{submitted.emailAddress}</b> with a link to confirm your email address.
-        Once you have confirmed your email address, you may sign in.
+        Your account has been successfully created! A confirmation email has
+        been sent to <b>{submitted.emailAddress}</b> with a link to confirm your
+        email address. Once you have confirmed your email address, you may sign
+        in.
       </Paragraph>
       <Button
         type='primary'
@@ -82,7 +77,7 @@ function Register(props) {
               message: 'Please input your last name',
             },
           ]}>
-          <Input placeholder='Last Name'/>
+          <Input placeholder='Last Name' />
         </Form.Item>
         <Form.Item
           name='emailAddress'
@@ -96,7 +91,7 @@ function Register(props) {
               message: 'Please input an email address',
             },
           ]}>
-          <Input placeholder='Email Address'/>
+          <Input placeholder='Email Address' />
         </Form.Item>
         <Form.Item
           name='phoneNumber'
@@ -111,7 +106,7 @@ function Register(props) {
               message: 'The input provided is not a valid phone number',
             },
           ]}>
-          <Input placeholder='Phone Number'/>
+          <Input placeholder='Phone Number' />
         </Form.Item>
         <Form.Item
           name='password'
@@ -138,26 +133,27 @@ function Register(props) {
                 if (!value || getFieldValue('password') === value) {
                   return Promise.resolve();
                 }
-                return Promise.reject(
-                  'The two passwords do not match'
-                );
+                return Promise.reject('The two passwords do not match');
               },
             }),
           ]}>
           <Input.Password placeholder='Confirm Password' />
         </Form.Item>
         <Form.Item name='subscription'>
-          <Checkbox defaultChecked={true}>Sign up for promotional emails</Checkbox>
+          <Checkbox defaultChecked={true}>
+            Sign up for promotional emails
+          </Checkbox>
         </Form.Item>
         <Paragraph>
           By clicking "Register" below, you agree to the Bookstore{' '}
           <Button type='link' style={{ padding: '0px', height: 'unset' }}>
             Terms of Service
-          </Button>
-          {' '}and{' '}
+          </Button>{' '}
+          and{' '}
           <Button type='link' style={{ padding: '0px', height: 'unset' }}>
             Privacy Policy
-          </Button>.
+          </Button>
+          .
         </Paragraph>
         <Form.Item style={{ marginBottom: '0px' }}>
           <Button
@@ -172,7 +168,10 @@ function Register(props) {
           </Button>
         </Form.Item>
         Already have an account?{' '}
-        <Button onClick={() => history.push('/login')} type='link' style={{ padding: '0px'}}>
+        <Button
+          onClick={() => history.push('/login')}
+          type='link'
+          style={{ padding: '0px' }}>
           Sign In
         </Button>
       </Form>
@@ -182,9 +181,7 @@ function Register(props) {
   return (
     <Row justify='center'>
       <Col className='bookstore-column'>
-        <div className='bookstore-page-section'>
-          {content}
-        </div>
+        <div className='bookstore-page-section'>{content}</div>
       </Col>
     </Row>
   );

@@ -2,14 +2,7 @@ import './ResetPassword.less';
 
 import React, { useState } from 'react';
 
-import {
-  Button,
-  Col,
-  Form,
-  Input,
-  Row,
-  Typography,
-} from 'antd';
+import { Button, Col, Form, Input, Row, Typography } from 'antd';
 
 import { useHistory, useLocation } from 'react-router-dom';
 
@@ -22,10 +15,10 @@ function ResetPassword(props) {
 
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  
+
   const onFinish = async (values) => {
     setLoading(true);
-    
+
     delete values.confirm;
     values['token'] = location.search.split('=')[1];
     await fetch('/registration/savePassword', {
@@ -44,8 +37,8 @@ function ResetPassword(props) {
     <div className='bookstore-reset-password-container'>
       <Title className='bookstore-reset-password-title'>Reset Password</Title>
       <Paragraph>
-        Your password has been successfully reset! You may now sign in using your
-        new password.
+        Your password has been successfully reset! You may now sign in using
+        your new password.
       </Paragraph>
       <Button
         type='primary'
@@ -58,9 +51,7 @@ function ResetPassword(props) {
   ) : (
     <div className='bookstore-reset-password-container'>
       <Title className='bookstore-reset-password-title'>Reset Password</Title>
-      <Paragraph>
-        Please enter and confirm your new password below.
-      </Paragraph>
+      <Paragraph>Please enter and confirm your new password below.</Paragraph>
       <Form
         form={form}
         name='reset-password'
@@ -75,7 +66,7 @@ function ResetPassword(props) {
             },
           ]}
           hasFeedback>
-          <Input.Password placeholder='Password'/>
+          <Input.Password placeholder='Password' />
         </Form.Item>
         <Form.Item
           name='confirm'
@@ -91,13 +82,11 @@ function ResetPassword(props) {
                 if (!value || getFieldValue('newPassword') === value) {
                   return Promise.resolve();
                 }
-                return Promise.reject(
-                  'The two passwords do not match'
-                );
+                return Promise.reject('The two passwords do not match');
               },
             }),
           ]}>
-          <Input.Password placeholder='Confirm Password'/>
+          <Input.Password placeholder='Confirm Password' />
         </Form.Item>
         <Form.Item style={{ marginBottom: '0px' }}>
           <Button
@@ -115,9 +104,7 @@ function ResetPassword(props) {
   return (
     <Row justify='center'>
       <Col className='bookstore-column'>
-        <div className='bookstore-page-section'>
-          {content}
-        </div>
+        <div className='bookstore-page-section'>{content}</div>
       </Col>
     </Row>
   );
