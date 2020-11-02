@@ -36,4 +36,8 @@ public class Order extends Cart {
   @Column(name = "confirmation_no")
   @NotNull
   private Integer confirmationNumber;
+
+  public void setUser(User user) {
+    this.user = user;
+  }
 }

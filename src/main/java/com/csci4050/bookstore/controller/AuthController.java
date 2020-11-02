@@ -1,10 +1,13 @@
 package com.csci4050.bookstore.controller;
 
-import com.csci4050.bookstore.model.RegistrationCompletionEvent;
+import com.csci4050.bookstore.events.PasswordResetEvent;
+import com.csci4050.bookstore.events.RegistrationCompletionEvent;
+import com.csci4050.bookstore.model.Card;
 import com.csci4050.bookstore.model.User;
 import com.csci4050.bookstore.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -24,50 +27,123 @@ public class AuthController {
 
   @Autowired private UserService userService;
   @Autowired private ApplicationEventPublisher eventPublisher;
+  ObjectMapper objectMapper = new ObjectMapper();
   /* These all will interface with service files */
 
-  @PostMapping("/logout")
-  public void logout() {
-    System.out.println("logout");
-  }
-
-  @PostMapping(value = "/edit_profile", consumes = "application/json")
-  public void editProfile(@RequestBody String json) {
-    ObjectMapper objectMapper = new ObjectMapper();
+  @PostMapping("/saveCard")
+  public void saveCard(@RequestBody String json) {
     try {
-      User newUser = objectMapper.readValue(json, User.class);
-      User oldUser = userService.getUser(newUser.getEmailAddress());
-      // update if the submitted item is not empty or null
-      if (!newUser.getFirstName().isEmpty() || !newUser.getFirstName().equalsIgnoreCase(null)) {
-        oldUser.setFirstName(newUser.getFirstName());
+      Card card = objectMapper.readValue(json, Card.class);
+      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+      if (auth != null) {
+        Object principal = auth.getPrincipal();
+        if (principal instanceof UserDetails) {
+          UserDetails user = (UserDetails) principal;
+          User userObj = userService.getUser(user.getUsername());
+          List<Card> cards = userObj.getSavedCards();
+          cards.add(card);
+          userObj.setSavedCards(cards);
+          userService.updateUser(userObj);
+        }
       }
-      if (!newUser.getLastName().isEmpty() || !newUser.getLastName().equalsIgnoreCase(null)) {
-        oldUser.setLastName(newUser.getLastName());
-      }
-      if (!newUser.getEmailAddress().isEmpty()
-          || !newUser.getEmailAddress().equalsIgnoreCase(null)) {
-        oldUser.setEmailAddress(newUser.getEmailAddress());
-      }
-      if (!newUser.getAddress().toString().isEmpty()
-          || !newUser.getAddress().toString().equalsIgnoreCase(null)) {
-        oldUser.setAddress(newUser.getAddress());
-      }
-      // password
-      BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
-      if (!newUser.getPassword().isEmpty() || newUser.getPassword().equalsIgnoreCase(null)) {
-        oldUser.setPassword(bcrypt.encode(newUser.getPassword()));
-      }
-      // card
 
     } catch (JsonProcessingException e) {
-      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (RuntimeException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @PostMapping("/deleteCard")
+  public void deleteCard(@RequestBody String json) {
+    try {
+      Card card = objectMapper.readValue(json, Card.class);
+      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+      if (auth != null) {
+        Object principal = auth.getPrincipal();
+        if (principal instanceof UserDetails) {
+          UserDetails user = (UserDetails) principal;
+          User userObj = userService.getUser(user.getUsername());
+          List<Card> cards = userObj.getSavedCards();
+          cards.remove(card);
+          userObj.setSavedCards(cards);
+          userService.updateUser(userObj);
+        }
+      }
+
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+    } catch (RuntimeException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @PostMapping("/edit_profile")
+  public void updateUser(@RequestBody String json) {
+    try {
+      User user = objectMapper.readValue(json, User.class);
+      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+      if (auth != null) {
+        Object principal = auth.getPrincipal();
+        if (principal instanceof UserDetails) {
+          User userObj = userService.getUser(((UserDetails) principal).getUsername());
+
+          userObj.setFirstName(user.getFirstName());
+          userObj.setLastName(user.getLastName());
+          userObj.setPhoneNumber(user.getPhoneNumber());
+          userService.updateUser(userObj);
+        }
+      }
+
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+    } catch (RuntimeException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @PostMapping("/changePassword")
+  public void changePassword(@RequestBody String json) {
+    try {
+      PasswordDto dto = objectMapper.readValue(json, PasswordDto.class);
+      BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+      if (auth != null) {
+        Object principal = auth.getPrincipal();
+        if (principal instanceof UserDetails) {
+          UserDetails user = (UserDetails) principal;
+
+          if (bcrypt.matches(dto.getOldPassword(), user.getPassword())) {
+            User userObj = userService.getUser(user.getUsername());
+
+            userObj.setPassword(bcrypt.encode(dto.getNewPassword()));
+            userService.updateUser(userObj);
+          }
+        }
+      }
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+    } catch (RuntimeException e) {
       e.printStackTrace();
     }
   }
 
   @PostMapping("/forgot_password")
-  public void forgotPassword() {
-    System.out.println("forgot password");
+  public void forgotPassword(@RequestBody String json, HttpServletRequest request) {
+
+    try {
+      User user = objectMapper.readValue(json, User.class);
+      user = userService.getUser(user.getEmailAddress());
+      if (user.getId() != null) {
+        String url = request.getContextPath();
+        eventPublisher.publishEvent(new PasswordResetEvent(user, request.getLocale(), url));
+      }
+
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+    } catch (RuntimeException e) {
+      e.printStackTrace();
+    }
   }
 
   @GetMapping("/user")
@@ -77,18 +153,18 @@ public class AuthController {
       Object principal = auth.getPrincipal();
       if (principal instanceof UserDetails) {
         UserDetails user = (UserDetails) principal;
-        return userService.getUser(user.getUsername());
+        User userObj = userService.getUser(user.getUsername());
+        return userObj;
       }
     }
-    throw new Exception();
+    User user = new User();
+    return user;
   }
 
   @PostMapping(value = "/register", consumes = "application/json")
   public void register(@RequestBody String json, HttpServletRequest request) {
-    ObjectMapper objectMapper = new ObjectMapper();
     try {
       User user = objectMapper.readValue(json, User.class);
-      // System.out.println(user.getEmailAddress());
       String url = request.getContextPath();
       userService.createUser(user);
       eventPublisher.publishEvent(new RegistrationCompletionEvent(user, request.getLocale(), url));
