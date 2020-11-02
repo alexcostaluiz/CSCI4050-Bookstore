@@ -39,9 +39,6 @@ public class Card {
   @Column(name = "exp_date")
   private LocalDate expDate;
 
-  @Column(name = "cvv")
-  private Integer cvv;
-
   @Column(name = "card_type")
   @Enumerated(EnumType.STRING)
   private CardType cardType;
@@ -78,19 +75,15 @@ public class Card {
     this.expDate = expDate;
   }
 
-  public Integer getCvv() {
-    return this.cvv;
-  }
-
-  public void setCvv(Integer cvv) {
-    this.cvv = cvv;
-  }
-
   public CardType getCardType() {
     return this.cardType;
   }
 
   public void setCardType(CardType type) {
     this.cardType = type;
+  }
+
+  public boolean equals(Card c) {
+    return this.acctNum == c.acctNum;
   }
 }
