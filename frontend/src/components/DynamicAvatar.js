@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
-import { Button, Dropdown, Menu } from 'antd';
+import { Button, Dropdown, Menu, Spin } from 'antd';
 import {
   UserOutlined,
   LogoutOutlined,
@@ -42,7 +42,7 @@ function DynamicAvatar(props) {
   );
 
   if (!isLoaded) {
-    return <div>Loading...</div>;
+    return <Spin />;
   } else {
     if (auth.user.id !== null) {
       return (
@@ -61,7 +61,6 @@ function DynamicAvatar(props) {
       return (
         <Button
           type='primary'
-          size='large'
           onClick={() => history.push('/login')}>
           SIGN IN
         </Button>
