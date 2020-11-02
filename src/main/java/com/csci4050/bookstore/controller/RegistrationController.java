@@ -4,12 +4,16 @@ import com.csci4050.bookstore.model.ActivityStatus;
 import com.csci4050.bookstore.model.User;
 import com.csci4050.bookstore.model.VerificationToken;
 import com.csci4050.bookstore.service.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.Calendar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class RegistrationController {
 
   @Autowired private UserService userService;
+  ObjectMapper objectMapper = new ObjectMapper();
 
   @GetMapping("/accountConfirm")
   public String confirmAccount(@RequestParam("token") String token) {
@@ -42,22 +47,33 @@ public class RegistrationController {
   }
 
   @PostMapping("/savePassword")
-  public String savePassword(PasswordDto dto) throws Exception {
-    VerificationToken token = userService.getVerificationToken(dto.getToken());
+  public String savePassword(@RequestBody String json) throws Exception {
+    try {
+      PasswordDto dto = objectMapper.readValue(json, PasswordDto.class);
 
-    if (token == null) {
-      return "<h1> Token does not exist </h1>";
+      VerificationToken token = userService.getVerificationToken(dto.getToken());
+
+      if (token == null) {
+        return "<h1> Token does not exist </h1>";
+      }
+
+      User user = token.getUser();
+
+      if (user.getId() != null) {
+        BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+        user.setPassword(bcrypt.encode(dto.getNewPassword()));
+        userService.updateUser(user);
+        userService.deleteToken(token);;
+        return "redirect:/login";
+      }
+
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+    } catch (RuntimeException e) {
+      e.printStackTrace();
     }
-
-    User user = token.getUser();
-
-    if (user.getId() != null) {
-      BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
-      user.setPassword(bcrypt.encode(dto.getNewPassword()));
-      userService.updateUser(user);
-      return "redirect:/login";
-    } else {
-      throw new Exception("failure changing password");
-    }
+    
+    throw new Exception("Error changing password");
+    
   }
 }

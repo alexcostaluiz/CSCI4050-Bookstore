@@ -10,7 +10,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,7 +39,7 @@ public class ReactController {
   }
 
   @RequestMapping(
-      value = {"/register", "/login"},
+      value = {"/register", "/login", "/forgot_password"},
       method = RequestMethod.GET)
   public String restrictUsers() throws Exception {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -57,7 +56,7 @@ public class ReactController {
   @RequestMapping(
       value = {"/updatePassword"},
       method = RequestMethod.GET)
-  public String updatePassword(@RequestParam("token") String token, Model model) throws Exception {
+  public String updatePassword(@RequestParam("token") String token) throws Exception {
 
     VerificationToken verificationToken = userService.getVerificationToken(token);
 
@@ -70,7 +69,6 @@ public class ReactController {
       userService.deleteToken(verificationToken);
       return "redirect:/login";
     }
-    model.addAttribute("token", token);
     return "index.html";
   }
 }
