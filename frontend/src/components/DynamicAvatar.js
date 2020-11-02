@@ -17,7 +17,7 @@ function DynamicAvatar(props) {
     response.then(
       (userData) => {
         setIsLoaded(true);
-        if (userData.charAt(0) != '<') {
+        if (userData.charAt(0) !== '<') {
           userData = JSON.parse(userData);
           setItems(userData);
           setIsSignedIn(userData.id != null);

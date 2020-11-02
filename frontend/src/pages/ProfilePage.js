@@ -206,8 +206,6 @@ class PaymentForm extends React.Component {
 function Profile(props) {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [editableStr, setEditableStr] = useState('Alex');
-  const [editableStr2, setEditableStr2] = useState('Costa');
   const [items, setItems] = useState([]);
   const [selectedMenuItem, setSelectedMenuItem] = useState('1');
   const [selectedMenuItem1, setSelectedMenuItem1] = useState('1');
