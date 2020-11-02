@@ -11,7 +11,6 @@ import {
   Input,
   Checkbox,
   Button,
-  Card,
   notification,
   Typography,
 } from 'antd';
@@ -66,7 +65,7 @@ function Register(props) {
     <Row justify='center'>
       <Col className='bookstore-column'>
         <div className='bookstore-page-section'>
-          <Card className='bookstore-register-container'>
+          <div className='bookstore-register-container'>
             <Title className='bookstore-register-title'>Register</Title>
             <Form
               {...formItemLayout}
@@ -198,7 +197,7 @@ function Register(props) {
                 Sign In
               </Button>
             </Form>
-          </Card>
+          </div>
         </div>
       </Col>
     </Row>

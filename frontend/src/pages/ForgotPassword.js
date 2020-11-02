@@ -8,7 +8,6 @@ import {
   Form,
   Input,
   Button,
-  Card,
   notification,
   Typography,
 } from 'antd';
@@ -36,7 +35,7 @@ function ForgotPassword(props) {
     <Row justify='center'>
       <Col className='bookstore-column'>
         <div className='bookstore-page-section'>
-          <Card className='bookstore-forgot-password-container'>
+          <div className='bookstore-forgot-password-container'>
             <Title className='bookstore-forgot-password-title'>Forgot Password</Title>
             <Paragraph>
               If you have forgotten your password, enter the email address
@@ -74,7 +73,7 @@ function ForgotPassword(props) {
                 </Button>
               </Form.Item>
             </Form>
-          </Card>
+          </div>
         </div>
       </Col>
     </Row>
