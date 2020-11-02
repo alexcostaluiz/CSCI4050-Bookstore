@@ -50,7 +50,7 @@ function ForgotPassword(props) {
         <div className='bookstore-page-section'>
           <Card className='forgot-password-container'>
             <Title className='forgot-password-title'>Forgot Password?</Title>
-            <Text className='forgot-password-text'>
+            <Text>
               If you have forgotten your password, simply enter your email
               address and we will send you a link to reset your password.
             </Text>

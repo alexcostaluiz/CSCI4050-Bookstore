@@ -46,7 +46,7 @@ function ResetPassword(props) {
     <Row justify='center'>
       <Col className='bookstore-column'>
         <div className='bookstore-page-section'>
-          <Card className='rest-password-container'>
+          <Card className='reset-password-container'>
             <Title className='reset-password-title'>Reset Password</Title>
             <Text>
               Please enter and confirm your new password below to access your
