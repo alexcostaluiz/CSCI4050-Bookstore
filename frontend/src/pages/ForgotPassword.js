@@ -2,8 +2,6 @@ import './ForgotPassword.less';
 
 import React from 'react';
 
-import { useHistory } from 'react-router-dom';
-
 import {
   Row,
   Col,
@@ -30,8 +28,6 @@ const formItemLayout = {
 
 function ForgotPassword(props) {
   const [form] = Form.useForm();
-
-  const history = useHistory();
 
   const openNotification = () => {
     notification.open({

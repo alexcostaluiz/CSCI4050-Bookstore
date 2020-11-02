@@ -1,7 +1,6 @@
 import './ResetPassword.less';
 
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import {
   Row,
   Col,
@@ -28,8 +27,6 @@ const formItemLayout = {
 
 function ResetPassword(props) {
   const [form] = Form.useForm();
-
-  const history = useHistory();
 
   const openNotification = () => {
     notification.open({
