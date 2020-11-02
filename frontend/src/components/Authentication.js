@@ -9,21 +9,19 @@ function Authentication(props) {
 
   const history = useHistory();
 
+  const fetchUser = async () => {
+    const response = await fetch('/auth/user');
+    const user = await response.json();
+    setUser(user);
+    return user;
+  };
+
   useEffect(() => {
-    (async () => {
-      try {
-        const response = await fetch('/auth/user');
-        const user = await response.json();
-        setUser(user);
-      } catch (e) {
-        console.log(e);
-      }
-    })();
+    fetchUser();
   }, []);
 
   const signIn = async (values) => {
     const query = new URLSearchParams(values).toString();
-    console.log(query);
     const response = await fetch('/login', {
       method: 'POST',
       headers: {
@@ -32,11 +30,17 @@ function Authentication(props) {
       body: query,
     });
     console.log(response);
+    const data = await response.text();
+    console.log(data);
+    const u = await fetchUser();
+    const redirect = u.roles.includes('ADMIN') ? '/admin' : '/';
+    history.push(redirect);
   };
 
-  const signOut = () => {
-    fetch('/logout');
-    history.push('/');
+  const signOut = async () => {
+    await fetch('/logout');
+    await fetchUser();
+    history.push('/login');
   };
 
   const context = {
@@ -51,3 +55,5 @@ function Authentication(props) {
     </AuthContext.Provider>
   );
 }
+
+export default Authentication;
