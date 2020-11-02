@@ -4,6 +4,11 @@ import { useHistory } from 'react-router-dom';
 
 import AuthContext from '../contexts/AuthContext.js';
 
+const errorMapping = {
+  'Bad credentials': 'Invalid username or password',
+  'User is disabled': 'Please verify your email before signing in',
+};
+
 function Authentication(props) {
   const [user, setUser] = useState(null);
 
@@ -28,8 +33,14 @@ function Authentication(props) {
       },
       body: query,
     });
-    await fetchUser();
-    return response;
+    const url = new URL(response.url);
+    if (url.pathname.startsWith('/login')) {
+      return errorMapping[url.searchParams.get('error')];
+    } else {
+      await fetchUser();
+      history.push(url.pathname);
+      return undefined;
+    }
   };
 
   const signOut = async () => {
