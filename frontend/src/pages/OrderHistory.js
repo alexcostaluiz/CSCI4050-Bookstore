@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import BookThumbnail from '../components/BookThumbnail.js';
 import Section from '../components/Section.js';
