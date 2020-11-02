@@ -2,6 +2,8 @@ import './CheckoutPage.less';
 
 import React from 'react';
 
+import { useHistory } from 'react-router-dom';
+
 import { Breadcrumb, Button, Col, Row, Typography } from 'antd';
 
 import CartList from '../components/CartList.js';
@@ -15,15 +17,15 @@ const { Paragraph, Title } = Typography;
  * order placement.
  */
 function CheckoutPage(props) {
+  const history = useHistory();
+  
   return (
     <Row justify='center'>
       <Col span={24} className='bookstore-column'>
         <Breadcrumb className='bookstore-breadcrumb'>
-          <Breadcrumb.Item href='/'>Home</Breadcrumb.Item>
-          <Breadcrumb.Item href='/cart'>Cart</Breadcrumb.Item>
-          <Breadcrumb.Item href='/checkout'>
-            Checkout
-          </Breadcrumb.Item>
+          <Breadcrumb.Item onClick={history.push('/')}>Home</Breadcrumb.Item>
+          <Breadcrumb.Item onClick={history.push('/cart')}>Cart</Breadcrumb.Item>
+          <Breadcrumb.Item onClick={history.push('/checkout')}>Checkout</Breadcrumb.Item>
         </Breadcrumb>
         <div className='bookstore-page-section'>
           <div className='bookstore-checkout-module-container'>

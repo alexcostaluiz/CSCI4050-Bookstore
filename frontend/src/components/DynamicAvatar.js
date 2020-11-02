@@ -18,7 +18,7 @@ function DynamicAvatar(props) {
 
   useEffect(() => {
     (async () => {
-      try {        
+      try {
         const response = await fetch('/auth/user');
         const user = await response.json();
         setIsLoaded(true);
