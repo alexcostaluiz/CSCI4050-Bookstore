@@ -2,7 +2,7 @@ import './HomePage.less';
 
 import React from 'react';
 
-import { Col, Row, Skeleton, Typography } from 'antd';
+import { Col, Row, Skeleton, Typography, Dropdown } from 'antd';
 
 import BookThumbnail from '../components/BookThumbnail.js';
 import Section, { sections } from '../components/Section.js';

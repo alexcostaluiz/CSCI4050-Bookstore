@@ -8,8 +8,8 @@ import {
   Input,
   Button,
   Card,
-  notification,
   Typography,
+  notification,
 } from 'antd';
 
 const { Title, Text } = Typography;
