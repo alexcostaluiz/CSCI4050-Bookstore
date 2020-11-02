@@ -16,6 +16,7 @@ public class CustomFailureHandler implements AuthenticationFailureHandler {
   public void onAuthenticationFailure(
       HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
       throws IOException, ServletException {
-    new DefaultRedirectStrategy().sendRedirect(request, response, "/login?error=" + exception.getMessage());
+    new DefaultRedirectStrategy()
+        .sendRedirect(request, response, "/login?error=" + exception.getMessage());
   }
 }
