@@ -28,8 +28,8 @@ const { Content } = Layout;
 
 ReactDOM.render(
   <React.StrictMode>
-      <Router>
-        <Authentication>
+    <Router>
+      <Authentication>
         <ScrollToTop />
         <CartService>
           <Layout>
@@ -77,8 +77,8 @@ ReactDOM.render(
             <Footer />
           </Layout>
         </CartService>
-        </Authentication>
-      </Router>
+      </Authentication>
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );
