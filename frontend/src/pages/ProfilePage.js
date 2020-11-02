@@ -211,12 +211,25 @@ function Profile(props) {
   const [selectedMenuItem1, setSelectedMenuItem1] = useState('1');
   const [form] = Form.useForm();
 
+  const onChangeFirstname = (editVal) => {
+    setItems((prevState) => {
+      prevState.firstName = editVal;
+      setItems(prevState);
+    });
+  };
+
+  const onChangeLastname = (editVal) => {
+    setItems((prevState) => {
+      prevState.lastName = editVal;
+      setItems(prevState);
+    });
+  };
+
   useEffect(() => {
     fetch('http://localhost:8080/auth/user')
       .then((res) => res.json())
       .then(
         (userData) => {
-          console.log(userData);
           setIsLoaded(true);
           setItems(userData);
         },
@@ -237,12 +250,12 @@ function Profile(props) {
           return (
             <Card title='Personal Info' icon={<UserOutlined />}>
               <Card type='inner' title='First Name'>
-                <Paragraph editable={{ onChange: setEditableStr }}>
+                <Paragraph editable={{ onChange: onChangeFirstname }}>
                   {items.firstName}
                 </Paragraph>
               </Card>
               <Card style={{ marginTop: 16 }} type='inner' title='Last Name'>
-                <Paragraph editable={{ onChange: setEditableStr2 }}>
+                <Paragraph editable={{ onChange: onChangeLastname }}>
                   {items.lastName}
                 </Paragraph>
               </Card>
