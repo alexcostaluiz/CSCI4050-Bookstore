@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
-import { Button } from 'antd';
+import { Button, Dropdown, Menu } from 'antd';
+import {
+  UserOutlined,
+  LogoutOutlined,
+  HistoryOutlined,
+} from '@ant-design/icons';
 
 function DynamicAvatar(props) {
   const [isSignedIn, setIsSignedIn] = useState(false);
@@ -10,6 +15,7 @@ function DynamicAvatar(props) {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
+  
   useEffect(() => {
     const response = fetch('http://localhost:8080/auth/user').then((res) =>
       res.text()
@@ -30,6 +36,27 @@ function DynamicAvatar(props) {
     );
   }, []);
 
+  const handleLogout = () => {
+    fetch('/logout');
+    history.push('/');
+  };
+
+  const menu = (
+    <Menu mode='inline'>
+      <Menu.Item
+        icon={<UserOutlined />}
+        onClick={() => history.push('/profile')}>
+        My Profile
+      </Menu.Item>
+      <Menu.Item
+        icon={<HistoryOutlined />}
+        onClick={() => history.push('/orderhistory')}>
+        Order History
+      </Menu.Item>
+      <Menu.Item icon={<LogoutOutlined />} onClick={handleLogout}>Logout</Menu.Item>
+    </Menu>
+  );
+
   if (error) {
     return <div>Error: {error.message}</div>;
   } else if (!isLoaded) {
@@ -37,6 +64,7 @@ function DynamicAvatar(props) {
   } else {
     if (isSignedIn) {
       return (
+      <Dropdown overlay={menu}>
         <Button
           type='primary'
           size='large'
@@ -44,6 +72,7 @@ function DynamicAvatar(props) {
           onClick={() => history.push('/profile')}>
           {String(items.firstName).charAt(0) + String(items.lastName).charAt(0)}
         </Button>
+      </Dropdown>
       );
     } else {
       return (
