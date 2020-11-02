@@ -9,7 +9,7 @@ function Authentication(props) {
 
   const history = useHistory();
 
-  useEffect(() => {    
+  useEffect(() => {
     (async () => {
       try {
         const response = await fetch('/auth/user');
@@ -29,7 +29,7 @@ function Authentication(props) {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: query, 
+      body: query,
     });
     console.log(response);
   };
@@ -44,7 +44,7 @@ function Authentication(props) {
     signOut,
     user,
   };
-  
+
   return (
     <AuthContext.Provider value={context}>
       {props.children}

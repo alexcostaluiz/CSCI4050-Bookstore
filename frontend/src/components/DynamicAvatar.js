@@ -14,7 +14,7 @@ import AuthContext from '../contexts/AuthContext.js';
 function DynamicAvatar(props) {
   const history = useHistory();
   const auth = useContext(AuthContext);
-  
+
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
