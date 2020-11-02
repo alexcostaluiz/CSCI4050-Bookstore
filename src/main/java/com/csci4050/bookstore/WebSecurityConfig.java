@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
@@ -18,6 +19,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Autowired UserDetailsService userDetailsService;
+  @Autowired AuthenticationFailureHandler failureHandler;
   @Autowired AuthenticationSuccessHandler successHandler;
 
   @Override
@@ -34,8 +36,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         .formLogin()
         .loginPage("/login")
+        .failureHandler(failureHandler)
         .successHandler(successHandler)
-        .failureUrl("/login")
         .permitAll()
         .and()
         .rememberMe()
@@ -43,6 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .rememberMeParameter("remember")
         .and()
         .logout()
+        .logoutSuccessUrl("/login")
         .invalidateHttpSession(true);
   }
 
