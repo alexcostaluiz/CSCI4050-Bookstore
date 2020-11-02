@@ -13,7 +13,6 @@ function Authentication(props) {
     const response = await fetch('/auth/user');
     const user = await response.json();
     setUser(user);
-    return user;
   };
 
   useEffect(() => {
@@ -29,18 +28,15 @@ function Authentication(props) {
       },
       body: query,
     });
-    console.log(response);
-    const data = await response.text();
-    console.log(data);
-    const u = await fetchUser();
-    const redirect = u.roles.includes('ADMIN') ? '/admin' : '/';
-    history.push(redirect);
+    await fetchUser();
+    return response;
   };
 
   const signOut = async () => {
-    await fetch('/logout');
+    const response = await fetch('/logout');
     await fetchUser();
-    history.push('/login');
+    const redirect = new URL(response.url);
+    history.push(redirect.pathname);
   };
 
   const context = {
