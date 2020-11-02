@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
@@ -9,32 +9,14 @@ import {
   HistoryOutlined,
 } from '@ant-design/icons';
 
+import AuthContext from '../contexts/AuthContext.js';
+
 function DynamicAvatar(props) {
-  const [isSignedIn, setIsSignedIn] = useState(false);
   const history = useHistory();
+  const auth = useContext(AuthContext);
+  
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [items, setItems] = useState([]);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const response = await fetch('/auth/user');
-        const user = await response.json();
-        setIsLoaded(true);
-        setItems(user);
-        setIsSignedIn(user.id != null);
-      } catch (e) {
-        setIsLoaded(true);
-        setError(e);
-      }
-    })();
-  }, []);
-
-  const handleLogout = () => {
-    fetch('/logout');
-    history.push('/');
-  };
 
   const menu = (
     <Menu mode='inline'>
@@ -48,7 +30,7 @@ function DynamicAvatar(props) {
         onClick={() => history.push('/orderhistory')}>
         Order History
       </Menu.Item>
-      <Menu.Item icon={<LogoutOutlined />} onClick={handleLogout}>
+      <Menu.Item icon={<LogoutOutlined />} onClick={() => auth.signOut()}>
         Logout
       </Menu.Item>
     </Menu>
@@ -59,7 +41,7 @@ function DynamicAvatar(props) {
   } else if (!isLoaded) {
     return <div>Loading...</div>;
   } else {
-    if (isSignedIn) {
+    if (auth.user.id !== null) {
       return (
         <Dropdown overlay={menu}>
           <Button
@@ -67,8 +49,8 @@ function DynamicAvatar(props) {
             size='large'
             shape='circle'
             onClick={() => history.push('/profile')}>
-            {String(items.firstName).charAt(0) +
-              String(items.lastName).charAt(0)}
+            {String(auth.user.firstName).charAt(0) +
+              String(auth.user.lastName).charAt(0)}
           </Button>
         </Dropdown>
       );

@@ -1,6 +1,6 @@
 import './LoginPage.less';
 
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
@@ -16,30 +16,13 @@ import {
 } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
-const { Title } = Typography;
+import AuthContext from '../contexts/AuthContext.js';
 
-var isLoggedIn = Boolean;
+const { Title } = Typography;
 
 function Login(props) {
   const history = useHistory();
-
-  const onFinish = (values) => {
-    var querystring = require('querystring');
-    fetch('/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: querystring.stringify(values),
-    }).then((res) => window.location.replace(res.url));
-  };
-  const onSubmit = (values) => {
-    if (isLoggedIn === true) {
-      history.push('/');
-    } else {
-      //isLoggedIn = false;
-    }
-  };
+  const auth = useContext(AuthContext);
 
   return (
     <Row justify='center'>
@@ -53,7 +36,7 @@ function Login(props) {
               initialValues={{
                 remember: true,
               }}
-              onFinish={onFinish}>
+              onFinish={(values) => auth.signIn(values)}>
               <Form.Item
                 name='username'
                 rules={[
@@ -96,7 +79,6 @@ function Login(props) {
                   type='primary'
                   htmlType='submit'
                   className='login-form-button'
-                  onClick={onSubmit}
                   size='large'
                   block>
                   LOG IN
