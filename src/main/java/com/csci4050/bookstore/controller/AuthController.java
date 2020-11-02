@@ -27,14 +27,9 @@ public class AuthController {
   ObjectMapper objectMapper = new ObjectMapper();
   /* These all will interface with service files */
 
-  @PostMapping("/logout")
-  public void logout() {
-    System.out.println("logout");
-  }
-
   @PostMapping("/edit_profile")
-  public void editProfile() {
-    System.out.println("edit profile");
+  public void editProfile(@RequestBody String json) {
+    System.out.println(json);
   }
 
   @PostMapping("/forgot_password")
@@ -65,7 +60,8 @@ public class AuthController {
         return userService.getUser(user.getUsername());
       }
     }
-    throw new Exception();
+    User user = new User();
+    return user;
   }
 
   @PostMapping(value = "/register", consumes = "application/json")
