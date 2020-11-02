@@ -58,7 +58,6 @@ public class AuthController {
       if (principal instanceof UserDetails) {
         UserDetails user = (UserDetails) principal;
         User userObj = userService.getUser(user.getUsername());
-        System.out.println(userObj.getSavedCards().get(0).getAcctNum());
         return userObj;
       }
     }

@@ -32,7 +32,7 @@ public class User {
 
   @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
   @NotNull
-  private Cart cart = new Cart();
+  private Cart cart;
 
   @Column(name = "first_name")
   @NotNull
@@ -95,6 +95,7 @@ public class User {
 
   @JsonSetter("cart")
   public void setCart(Cart cart) {
+    cart.setUser(this);
     this.cart = cart;
   }
 
@@ -188,6 +189,9 @@ public class User {
 
   @JsonSetter("orders")
   public void setOrders(List<Order> orders) {
+    for (Order o : orders) {
+      o.setUser(this);
+    }
     this.orders = orders;
   }
 

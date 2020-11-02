@@ -1,11 +1,19 @@
 package com.csci4050.bookstore.model;
 
+import com.csci4050.bookstore.MyBookDeserializer;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.util.Map;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -25,24 +33,30 @@ public class Cart {
   @NotNull
   private User user;
 
-  /*
   @ElementCollection
   @CollectionTable(
       name = "cart_book_mapping",
       joinColumns = {@JoinColumn(name = "cart_id", referencedColumnName = "id")})
   @MapKeyColumn(name = "book")
   @Column(name = "quantity")
+  @JsonProperty("map")
+  @JsonDeserialize(keyUsing = MyBookDeserializer.class)
   private Map<Book, Integer> books;
 
   public Map<Book, Integer> getBooks() {
     return this.books;
   }
 
+  @JsonCreator
   public void setBooks(Map<Book, Integer> books) {
     this.books = books;
   }
-  */
+
   public Integer getId() {
     return this.id;
+  }
+
+  public void setUser(User user) {
+    this.user = user;
   }
 }
