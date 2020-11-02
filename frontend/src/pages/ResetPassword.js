@@ -40,14 +40,14 @@ function ResetPassword(props) {
   };
 
   const onFinish = (values) => {
-    delete values.confirm
+    delete values.confirm;
     values['token'] = location.search.split('=')[1];
     fetch('/registration/savePassword', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(values)
+      body: JSON.stringify(values),
     });
     openNotification();
   };

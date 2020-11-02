@@ -6,7 +6,6 @@ import com.csci4050.bookstore.model.VerificationToken;
 import com.csci4050.bookstore.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.util.Calendar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -63,7 +62,8 @@ public class RegistrationController {
         BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
         user.setPassword(bcrypt.encode(dto.getNewPassword()));
         userService.updateUser(user);
-        userService.deleteToken(token);;
+        userService.deleteToken(token);
+        ;
         return "redirect:/login";
       }
 
@@ -72,8 +72,7 @@ public class RegistrationController {
     } catch (RuntimeException e) {
       e.printStackTrace();
     }
-    
+
     throw new Exception("Error changing password");
-    
   }
 }

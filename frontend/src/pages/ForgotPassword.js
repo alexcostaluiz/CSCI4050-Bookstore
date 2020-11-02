@@ -43,10 +43,10 @@ function ForgotPassword(props) {
     fetch('/auth/forgot_password', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(values)
-    })
+      body: JSON.stringify(values),
+    });
     openNotification();
   };
 
