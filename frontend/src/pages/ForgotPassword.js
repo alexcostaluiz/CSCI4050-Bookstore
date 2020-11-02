@@ -2,6 +2,8 @@ import './ForgotPassword.less';
 
 import React from 'react';
 
+import { useHistory } from 'react-router-dom';
+
 import {
   Row,
   Col,
@@ -23,18 +25,6 @@ const formItemLayout = {
   wrapperCol: {
     xs: { span: 24 },
     sm: { span: 16 },
-  },
-};
-const tailFormItemLayout = {
-  wrapperCol: {
-    xs: {
-      span: 24,
-      offset: 0,
-    },
-    sm: {
-      span: 16,
-      offset: 8,
-    },
   },
 };
 

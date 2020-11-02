@@ -19,9 +19,9 @@ import ProfilePage from './pages/ProfilePage.js';
 import ScrollToTop from './components/ScrollToTop.js';
 import OrderHistory from './pages/OrderHistory.js';
 import ForgotPassword from './pages/ForgotPassword.js';
+import ResetPassword from './pages/ResetPassword.js';
 
 import * as serviceWorker from './serviceWorker';
-import ResetPassword from './pages/ResetPassword.js';
 
 const { Content } = Layout;
 
