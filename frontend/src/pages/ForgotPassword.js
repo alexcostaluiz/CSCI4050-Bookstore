@@ -2,14 +2,11 @@ import './ForgotPassword.less';
 
 import React from 'react';
 
-import { useHistory } from 'react-router-dom';
-
 import {
   Row,
   Col,
   Form,
   Input,
-  Checkbox,
   Button,
   Card,
   notification,
@@ -67,7 +64,7 @@ function ForgotPassword(props) {
         <div className='bookstore-page-section'>
           <Card className='forgot-password-container'>
             <Title className='forgot-password-title'>Forgot Password?</Title>
-            <Text>
+            <Text className='forgot-password-text'>
               If you have forgotten your password, simply enter your email
               address and we will send you a link to reset your password.
             </Text>
