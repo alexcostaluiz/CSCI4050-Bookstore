@@ -18,14 +18,18 @@ const { Paragraph, Title } = Typography;
  */
 function CheckoutPage(props) {
   const history = useHistory();
-  
+
   return (
     <Row justify='center'>
       <Col span={24} className='bookstore-column'>
         <Breadcrumb className='bookstore-breadcrumb'>
           <Breadcrumb.Item onClick={history.push('/')}>Home</Breadcrumb.Item>
-          <Breadcrumb.Item onClick={history.push('/cart')}>Cart</Breadcrumb.Item>
-          <Breadcrumb.Item onClick={history.push('/checkout')}>Checkout</Breadcrumb.Item>
+          <Breadcrumb.Item onClick={history.push('/cart')}>
+            Cart
+          </Breadcrumb.Item>
+          <Breadcrumb.Item onClick={history.push('/checkout')}>
+            Checkout
+          </Breadcrumb.Item>
         </Breadcrumb>
         <div className='bookstore-page-section'>
           <div className='bookstore-checkout-module-container'>
