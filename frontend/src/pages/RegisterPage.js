@@ -46,17 +46,6 @@ function Register(props) {
 
   const history = useHistory();
 
-  const openNotification = () => {
-    notification.open({
-      message: 'Registration Complete',
-      description:
-        'Confirmation email sent. Please use the link to activate account.',
-      onClick: () => {
-        console.log('Notification Clicked!');
-      },
-    });
-  };
-
   const onFinish = (values) => {
     delete values.confirm;
     fetch('/auth/register', {
@@ -66,20 +55,24 @@ function Register(props) {
       },
       body: JSON.stringify(values),
     });
-    openNotification();
+    notification.open({
+      message: 'Registration Complete',
+      description:
+      'Confirmation email sent. Please use the link to activate your account.',
+    });
   };
 
   return (
     <Row justify='center'>
       <Col className='bookstore-column'>
         <div className='bookstore-page-section'>
-          <Card className='register-container'>
+          <Card className='bookstore-register-container'>
             <Title className='bookstore-register-title'>Register</Title>
             <Form
               {...formItemLayout}
               form={form}
               name='register'
-              className='register-form'
+              className='bookstore-register-form'
               onFinish={onFinish}
               scrollToFirstError>
               <Form.Item
@@ -88,7 +81,7 @@ function Register(props) {
                 rules={[
                   {
                     required: true,
-                    message: 'Please input your first name!',
+                    message: 'Please input your first name',
                   },
                 ]}>
                 <Input />
@@ -99,7 +92,7 @@ function Register(props) {
                 rules={[
                   {
                     required: true,
-                    message: 'Please input your last name!',
+                    message: 'Please input your last name',
                   },
                 ]}>
                 <Input />
@@ -110,11 +103,11 @@ function Register(props) {
                 rules={[
                   {
                     type: 'email',
-                    message: 'The input is not valid E-mail!',
+                    message: 'The input provided is not a valid email address',
                   },
                   {
                     required: true,
-                    message: 'Please input your E-mail!',
+                    message: 'Please input an email address',
                   },
                 ]}>
                 <Input />
@@ -128,12 +121,12 @@ function Register(props) {
                 rules={[
                   {
                     required: true,
-                    message: 'Please input your phone number!',
+                    message: 'Please input a phone number',
                   },
                   {
                     pattern: '[0-9]{3}[0-9]{3}[0-9]{4}',
                     max: 10,
-                    message: 'The input is not a vaild phone number!',
+                    message: 'The input provided is not a vaild phone number',
                   },
                 ]}>
                 <Input />
@@ -144,7 +137,7 @@ function Register(props) {
                 rules={[
                   {
                     required: true,
-                    message: 'Please input your password!',
+                    message: 'Please input a password',
                   },
                 ]}
                 hasFeedback>
@@ -158,7 +151,7 @@ function Register(props) {
                 rules={[
                   {
                     required: true,
-                    message: 'Please confirm your password!',
+                    message: 'Please confirm your password',
                   },
                   ({ getFieldValue }) => ({
                     validator(rule, value) {
@@ -166,7 +159,7 @@ function Register(props) {
                         return Promise.resolve();
                       }
                       return Promise.reject(
-                        'The two passwords that you entered do not match!'
+                        'The two passwords do not match'
                       );
                     },
                   }),
@@ -181,7 +174,7 @@ function Register(props) {
                     validator: (_, value) =>
                       value
                         ? Promise.resolve()
-                        : Promise.reject('Should accept agreement'),
+                        : Promise.reject('You must accept the agreement'),
                   },
                 ]}
                 {...tailFormItemLayout}>
@@ -193,7 +186,7 @@ function Register(props) {
                 <Button
                   type='primary'
                   htmlType='submit'
-                  className='register-form-button'
+                  className='bookstore-register-form-button'
                   size='large'
                   block
                   onSubmit={() => history.push('/login')}>

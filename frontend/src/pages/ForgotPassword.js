@@ -13,31 +13,10 @@ import {
   Typography,
 } from 'antd';
 
-const { Title, Text } = Typography;
-
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 8 },
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 16 },
-  },
-};
+const { Paragraph, Title } = Typography;
 
 function ForgotPassword(props) {
   const [form] = Form.useForm();
-
-  const openNotification = () => {
-    notification.open({
-      message: 'Email Sent',
-      description: 'Click the link in your email to reset your password!',
-      onClick: () => {
-        console.log('Notification Clicked!');
-      },
-    });
-  };
 
   const onFinish = (values) => {
     fetch('/auth/forgot_password', {
@@ -47,46 +26,48 @@ function ForgotPassword(props) {
       },
       body: JSON.stringify(values),
     });
-    openNotification();
+    notification.open({
+      message: 'Email Sent',
+      description: 'Click the link in your email to reset your password.',
+    });
   };
 
   return (
     <Row justify='center'>
       <Col className='bookstore-column'>
         <div className='bookstore-page-section'>
-          <Card className='forgot-password-container'>
-            <Title className='forgot-password-title'>Forgot Password?</Title>
-            <Text>
-              If you have forgotten your password, simply enter your email
-              address and we will send you a link to reset your password.
-            </Text>
+          <Card className='bookstore-forgot-password-container'>
+            <Title className='bookstore-forgot-password-title'>Forgot Password</Title>
+            <Paragraph>
+              If you have forgotten your password, enter the email address
+              you used to register for an account below and a link to reset
+              your password will be sent to the address.
+            </Paragraph>
             <Form
-              {...formItemLayout}
               form={form}
               name='forgot-password'
-              className='forgot-password'
+              className='bookstore-forgot-password-form'
               onFinish={onFinish}
               scrollToFirstError>
               <Form.Item
-                label='E-mail address'
                 name='emailAddress'
                 rules={[
                   {
                     type: 'email',
-                    message: 'The input is not valid E-mail!',
+                    message: 'The input provided is not a valid email address',
                   },
                   {
                     required: true,
-                    message: 'Please input your email address!',
+                    message: 'Please input an email address',
                   },
                 ]}>
-                <Input />
+                <Input placeholder='Email Address' />
               </Form.Item>
               <Form.Item>
                 <Button
                   type='primary'
                   htmlType='submit'
-                  className='forgot-password-button'
+                  className='bookstore-forgot-password-form-button'
                   size='large'
                   block>
                   Reset Password

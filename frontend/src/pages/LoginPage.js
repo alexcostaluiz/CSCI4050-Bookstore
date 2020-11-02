@@ -5,13 +5,14 @@ import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import {
+  Button,
+  Card,
+  Checkbox,
   Col,
-  Row,
   Form,
   Input,
-  Button,
-  Checkbox,
-  Card,
+  message,
+  Row,
   Typography,
 } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
@@ -20,29 +21,47 @@ import AuthContext from '../contexts/AuthContext.js';
 
 const { Title } = Typography;
 
+const errorMapping = {
+  'Bad credentials': 'Invalid username or password',
+  'User is disabled': 'You must verify your email before you may sign in',
+}
+
 function Login(props) {
   const history = useHistory();
   const auth = useContext(AuthContext);
+  const [form] = Form.useForm();
+  
+  const login = async (values) => {
+    const response = await auth.signIn(values);
+    const url = new URL(response.url);
+    if (url.pathname.startsWith('/login')) {
+      message.error(errorMapping[url.searchParams.get('error')]);
+      form.resetFields();
+    } else {
+      history.push(url.pathname);
+    }
+  };
 
   return (
     <Row justify='center'>
       <Col className='bookstore-column'>
         <div className='bookstore-page-section'>
-          <Card className='login-container'>
+          <div className='bookstore-login-container'>
             <Title className='bookstore-login-title'>Login</Title>
             <Form
+              form={form}
               name='normal_login'
-              className='login-form'
+              className='bookstore-login-form'
               initialValues={{
                 remember: true,
               }}
-              onFinish={(values) => auth.signIn(values)}>
+              onFinish={(values) => login(values)}>
               <Form.Item
                 name='username'
                 rules={[
                   {
                     required: true,
-                    message: 'Please input your Username!',
+                    message: 'Please input a username',
                   },
                 ]}>
                 <Input
@@ -55,7 +74,7 @@ function Login(props) {
                 rules={[
                   {
                     required: true,
-                    message: 'Please input your Password!',
+                    message: 'Please input a password',
                   },
                 ]}>
                 <Input
@@ -70,7 +89,7 @@ function Login(props) {
                 </Form.Item>
 
                 <Button
-                  className='login-form-forgot'
+                  className='bookstore-login-form-forgot'
                   type='link'
                   onClick={() => history.push('/forgot_password')}>
                   Forgot Password
@@ -81,7 +100,6 @@ function Login(props) {
                 <Button
                   type='primary'
                   htmlType='submit'
-                  className='login-form-button'
                   size='large'
                   block>
                   LOG IN
@@ -94,7 +112,7 @@ function Login(props) {
                 </Button>
               </Form.Item>
             </Form>
-          </Card>
+          </div>
         </div>
       </Col>
     </Row>
