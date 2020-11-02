@@ -69,7 +69,10 @@ function Login(props) {
                   <Checkbox>Remember Me</Checkbox>
                 </Form.Item>
 
-                <Button className='login-form-forgot' type='link'>
+                <Button
+                  className='login-form-forgot'
+                  type='link'
+                  onClick={() => history.push('/forgot_password')}>
                   Forgot Password
                 </Button>
               </Form.Item>

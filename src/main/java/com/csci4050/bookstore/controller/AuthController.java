@@ -27,7 +27,7 @@ public class AuthController {
 
   @Autowired private UserService userService;
   @Autowired private ApplicationEventPublisher eventPublisher;
-  ObjectMapper objectMapper = new ObjectMapper();
+  @Autowired ObjectMapper objectMapper = new ObjectMapper();
   /* These all will interface with service files */
 
   @PostMapping("/saveCard")
@@ -65,7 +65,14 @@ public class AuthController {
           UserDetails user = (UserDetails) principal;
           User userObj = userService.getUser(user.getUsername());
           List<Card> cards = userObj.getSavedCards();
-          cards.remove(card);
+          for (Card c : cards) {
+            if (c.getAcctNum().equals(card.getAcctNum())) {
+              cards.remove(c);
+              System.out.println("removed");
+              break;
+            }
+          }
+          // USE CARDDAO HERE
           userObj.setSavedCards(cards);
           userService.updateUser(userObj);
         }
@@ -83,6 +90,7 @@ public class AuthController {
     try {
       User user = objectMapper.readValue(json, User.class);
       Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
       if (auth != null) {
         Object principal = auth.getPrincipal();
         if (principal instanceof UserDetails) {
@@ -103,7 +111,7 @@ public class AuthController {
   }
 
   @PostMapping("/changePassword")
-  public void changePassword(@RequestBody String json) {
+  public void changePassword(@RequestBody String json) throws Exception {
     try {
       PasswordDto dto = objectMapper.readValue(json, PasswordDto.class);
       BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
@@ -118,6 +126,8 @@ public class AuthController {
 
             userObj.setPassword(bcrypt.encode(dto.getNewPassword()));
             userService.updateUser(userObj);
+          } else {
+            throw new Exception("incorrect password");
           }
         }
       }

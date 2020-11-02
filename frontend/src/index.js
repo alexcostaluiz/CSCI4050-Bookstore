@@ -57,10 +57,10 @@ ReactDOM.render(
                 <Route path='/register'>
                   <RegisterPage />
                 </Route>
-                <Route path='/forgot-password'>
+                <Route path='/forgot_password'>
                   <ForgotPassword />
                 </Route>
-                <Route path='/reset-password'>
+                <Route path='/updatePassword'>
                   <ResetPassword />
                 </Route>
                 <Route path='/admin/manage/books'>

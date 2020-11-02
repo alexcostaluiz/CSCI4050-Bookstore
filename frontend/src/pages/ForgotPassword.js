@@ -40,7 +40,13 @@ function ForgotPassword(props) {
   };
 
   const onFinish = (values) => {
-    console.log('Received values of form: ', values);
+    fetch('/auth/forgot_password', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    });
     openNotification();
   };
 
@@ -63,7 +69,7 @@ function ForgotPassword(props) {
               scrollToFirstError>
               <Form.Item
                 label='E-mail address'
-                name='email'
+                name='emailAddress'
                 rules={[
                   {
                     type: 'email',

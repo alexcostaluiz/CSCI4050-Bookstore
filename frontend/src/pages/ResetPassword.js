@@ -12,6 +12,8 @@ import {
   notification,
 } from 'antd';
 
+import { useLocation } from 'react-router-dom';
+
 const { Title, Text } = Typography;
 
 const formItemLayout = {
@@ -26,8 +28,8 @@ const formItemLayout = {
 };
 
 function ResetPassword(props) {
+  const location = useLocation();
   const [form] = Form.useForm();
-
   const openNotification = () => {
     notification.open({
       message: 'Password Reset',
@@ -38,7 +40,15 @@ function ResetPassword(props) {
   };
 
   const onFinish = (values) => {
-    console.log('Received values of form: ', values);
+    delete values.confirm;
+    values['token'] = location.search.split('=')[1];
+    fetch('/registration/savePassword', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    });
     openNotification();
   };
 
@@ -60,7 +70,7 @@ function ResetPassword(props) {
               onFinish={onFinish}
               scrollToFirstError>
               <Form.Item
-                name='password'
+                name='newPassword'
                 label='Password'
                 rules={[
                   {
@@ -74,7 +84,7 @@ function ResetPassword(props) {
               <Form.Item
                 name='confirm'
                 label='Confirm Password'
-                dependencies={['password']}
+                dependencies={['newPassword']}
                 hasFeedback
                 rules={[
                   {
@@ -83,7 +93,7 @@ function ResetPassword(props) {
                   },
                   ({ getFieldValue }) => ({
                     validator(rule, value) {
-                      if (!value || getFieldValue('password') === value) {
+                      if (!value || getFieldValue('newPassword') === value) {
                         return Promise.resolve();
                       }
                       return Promise.reject(

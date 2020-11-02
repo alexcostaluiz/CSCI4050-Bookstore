@@ -738,7 +738,7 @@ function Profile(props) {
               <Form>
                 <Form.Item
                   label='First Name'
-                  name='firstname'
+                  name='firstName'
                   rules={[
                     {
                       required: true,
@@ -753,7 +753,7 @@ function Profile(props) {
               <Form>
                 <Form.Item
                   label='Last Name'
-                  name='lastname'
+                  name='lastName'
                   rules={[
                     {
                       required: true,
@@ -768,7 +768,7 @@ function Profile(props) {
               <Form>
                 <Form.Item
                   label='E-mail'
-                  name='email'
+                  name='emailAddress'
                   rules={[
                     {
                       type: 'email',
