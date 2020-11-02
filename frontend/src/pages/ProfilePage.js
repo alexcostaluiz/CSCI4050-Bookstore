@@ -218,6 +218,7 @@ function Profile(props) {
       .then((res) => res.json())
       .then(
         (userData) => {
+          console.log(userData);
           setIsLoaded(true);
           setItems(userData);
         },

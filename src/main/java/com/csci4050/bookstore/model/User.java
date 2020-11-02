@@ -1,6 +1,7 @@
 package com.csci4050.bookstore.model;
 
 import com.fasterxml.jackson.annotation.JsonSetter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -67,8 +68,8 @@ public class User {
   @NotNull
   private ActivityStatus status = ActivityStatus.Inactive;
 
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
-  private List<Card> savedCards;
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+  private List<Card> savedCards = new ArrayList<Card>();
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
   private List<Order> orders;
@@ -175,6 +176,9 @@ public class User {
 
   @JsonSetter("savedCards")
   public void setSavedCards(List<Card> savedCards) {
+    for (Card c : savedCards) {
+      c.setUser(this);
+    }
     this.savedCards = savedCards;
   }
 

@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,9 +25,8 @@ public class Card {
   @NotNull
   private Integer id;
 
-  @ManyToOne
-  @JoinColumn(name = "user_id")
-  @NotNull
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id", referencedColumnName = "id")
   private User user;
 
   @Column(name = "acct_num")
@@ -56,6 +56,10 @@ public class Card {
 
   public void setAcctNum(Integer acctNum) {
     this.acctNum = acctNum;
+  }
+
+  public void setUser(User user) {
+    this.user = user;
   }
 
   public Address getAddress() {
