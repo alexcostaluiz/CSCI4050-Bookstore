@@ -17,23 +17,18 @@ function DynamicAvatar(props) {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    const response = fetch('/auth/user').then((res) =>
-      res.text()
-    );
-    response.then(
-      (userData) => {
+    (async () => {
+      try {        
+        const response = await fetch('/auth/user');
+        const user = await response.json();
         setIsLoaded(true);
-        if (userData.charAt(0) !== '<') {
-          userData = JSON.parse(userData);
-          setItems(userData);
-          setIsSignedIn(userData.id != null);
-        }
-      },
-      (error) => {
+        setItems(user);
+        setIsSignedIn(user.id != null);
+      } catch (e) {
         setIsLoaded(true);
-        setError(error);
+        setError(e);
       }
-    );
+    })();
   }, []);
 
   const handleLogout = () => {
