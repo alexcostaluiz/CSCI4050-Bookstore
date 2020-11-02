@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Layout } from 'antd';
 
 import AdminPage from './pages/AdminPage.js';
+import Authentication from './components/Authentication.js';
 import BookPage from './pages/BookPage.js';
 import CartPage from './pages/CartPage.js';
 import CartService from './components/CartService.js';
@@ -27,55 +28,57 @@ const { Content } = Layout;
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
-      <ScrollToTop />
-      <CartService>
-        <Layout>
-          <Header />
-          <Content style={{ background: 'white' }}>
-            <Switch>
-              <Route path='/b/:slug'>
-                <BookPage />
-              </Route>
-              <Route path='/cart'>
-                <CartPage />
-              </Route>
-              <Route path='/checkout'>
-                <CheckoutPage />
-              </Route>
-              <Route path='/profile'>
-                <ProfilePage />
-              </Route>
-              <Route path='/orderhistory'>
-                <OrderHistory />
-              </Route>
-              <Route path='/login'>
-                <LoginPage />
-              </Route>
-              <Route path='/register'>
-                <RegisterPage />
-              </Route>
-              <Route path='/forgot-password'>
-                <ForgotPassword />
-              </Route>
-              <Route path='/reset-password'>
-                <ResetPassword />
-              </Route>
-              <Route path='/admin/manage/books'>
-                <ManageBooksPage />
-              </Route>
-              <Route path='/admin'>
-                <AdminPage />
-              </Route>
-              <Route path='/'>
-                <HomePage />
-              </Route>
-            </Switch>
-          </Content>
-          <Footer />
-        </Layout>
-      </CartService>
-    </Router>
+    <Authentication>
+      <Router>
+        <ScrollToTop />
+        <CartService>
+          <Layout>
+            <Header />
+            <Content style={{ background: 'white' }}>
+              <Switch>
+                <Route path='/b/:slug'>
+                  <BookPage />
+                </Route>
+                <Route path='/cart'>
+                  <CartPage />
+                </Route>
+                <Route path='/checkout'>
+                  <CheckoutPage />
+                </Route>
+                <Route path='/profile'>
+                  <ProfilePage />
+                </Route>
+                <Route path='/orderhistory'>
+                  <OrderHistory />
+                </Route>
+                <Route path='/login'>
+                  <LoginPage />
+                </Route>
+                <Route path='/register'>
+                  <RegisterPage />
+                </Route>
+                <Route path='/forgot-password'>
+                  <ForgotPassword />
+                </Route>
+                <Route path='/reset-password'>
+                  <ResetPassword />
+                </Route>
+                <Route path='/admin/manage/books'>
+                  <ManageBooksPage />
+                </Route>
+                <Route path='/admin'>
+                  <AdminPage />
+                </Route>
+                <Route path='/'>
+                  <HomePage />
+                </Route>
+              </Switch>
+            </Content>
+            <Footer />
+          </Layout>
+        </CartService>
+      </Router>
+    </Authentication>
   </React.StrictMode>,
   document.getElementById('root')
 );
