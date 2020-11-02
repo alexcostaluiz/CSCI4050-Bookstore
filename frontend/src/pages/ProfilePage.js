@@ -88,7 +88,7 @@ class EditableTable extends React.Component {
             <Popconfirm
               title='Sure to delete?'
               onConfirm={() => this.handleDelete(record.key)}>
-              <a>Delete</a>
+              <Button type='link'>Delete</Button>
             </Popconfirm>
           ) : null,
       },
