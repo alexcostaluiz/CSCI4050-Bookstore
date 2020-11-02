@@ -17,7 +17,7 @@ function DynamicAvatar(props) {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    const response = fetch('http://localhost:8080/auth/user').then((res) =>
+    const response = fetch('/auth/user').then((res) =>
       res.text()
     );
     response.then(

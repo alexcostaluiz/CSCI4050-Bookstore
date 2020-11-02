@@ -19,9 +19,9 @@ function CheckoutPage(props) {
     <Row justify='center'>
       <Col span={24} className='bookstore-column'>
         <Breadcrumb className='bookstore-breadcrumb'>
-          <Breadcrumb.Item href='localhost:8080/'>Home</Breadcrumb.Item>
-          <Breadcrumb.Item href='localhost:8080/cart'>Cart</Breadcrumb.Item>
-          <Breadcrumb.Item href='localhost:8080/checkout'>
+          <Breadcrumb.Item href='/'>Home</Breadcrumb.Item>
+          <Breadcrumb.Item href='/cart'>Cart</Breadcrumb.Item>
+          <Breadcrumb.Item href='/checkout'>
             Checkout
           </Breadcrumb.Item>
         </Breadcrumb>
