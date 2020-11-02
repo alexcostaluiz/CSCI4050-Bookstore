@@ -88,7 +88,7 @@ class EditableTable extends React.Component {
             <Popconfirm
               title='Sure to delete?'
               onConfirm={() => this.handleDelete(record.key)}>
-              <a>Delete</a>
+              <Button type='link'>Delete</Button>
             </Popconfirm>
           ) : null,
       },
@@ -718,8 +718,6 @@ class PaymentForm extends React.Component {
 }
 
 function Profile(props) {
-  const [editableStr, setEditableStr] = useState('Alex');
-  const [editableStr2, setEditableStr2] = useState('Costa');
   const [selectedMenuItem, setSelectedMenuItem] = useState('1');
   const [selectedMenuItem1, setSelectedMenuItem1] = useState('1');
   const [form] = Form.useForm();
