@@ -15,8 +15,13 @@ function DynamicAvatar(props) {
   const history = useHistory();
   const auth = useContext(AuthContext);
 
-  const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    if (auth.user !== null) {
+      setIsLoaded(true);
+    }
+  }, [auth]);
 
   const menu = (
     <Menu mode='inline'>
@@ -36,9 +41,7 @@ function DynamicAvatar(props) {
     </Menu>
   );
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  } else if (!isLoaded) {
+  if (!isLoaded) {
     return <div>Loading...</div>;
   } else {
     if (auth.user.id !== null) {
