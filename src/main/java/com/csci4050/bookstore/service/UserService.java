@@ -54,7 +54,7 @@ public class UserService implements UserDetailsService {
 
   @Transactional
   public void updateUser(User user) {
-    dao.save(user);
+    dao.update(user);
   }
 
   @Transactional

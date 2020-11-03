@@ -48,11 +48,16 @@ public class UserDAO implements DAO<User> {
     return user;
   }
 
-  /* Save user */
+  /* Update user */
+  public void update(User user) {
+    Session session = entityManager.unwrap(Session.class);
+    session.update(user);
+  }
+
   @Override
   public void save(User user) {
     Session session = entityManager.unwrap(Session.class);
-    session.saveOrUpdate(user);
+    session.save(user);
   }
 
   /* Delete a user */

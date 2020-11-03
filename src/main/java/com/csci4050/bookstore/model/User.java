@@ -27,31 +27,25 @@ public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
-  @NotNull
   private Integer id;
 
   @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
   @NotNull
   private Cart cart;
 
-  @Column(name = "first_name")
-  @NotNull
+  @Column(name = "first_name", nullable = false)
   private String firstName;
 
-  @Column(name = "last_name")
-  @NotNull
+  @Column(name = "last_name", nullable = false)
   private String lastName;
 
-  @Column(name = "email")
-  @NotNull
+  @Column(name = "email", unique = true, nullable = false)
   private String emailAddress;
 
-  @Column(name = "phone")
-  @NotNull
+  @Column(name = "phone", nullable = false)
   private String phoneNumber;
 
-  @Column(name = "password")
-  @NotNull
+  @Column(name = "password", nullable = false)
   private String password;
   // Super secure
 
@@ -59,13 +53,11 @@ public class User {
   @JoinColumn(name = "address_id")
   private Address address;
 
-  @Column(name = "subscription")
-  @NotNull
+  @Column(name = "subscription", nullable = false)
   private Boolean subscription = false;
 
   @Enumerated(EnumType.STRING)
-  @Column(name = "status")
-  @NotNull
+  @Column(name = "status", nullable = false)
   private ActivityStatus status = ActivityStatus.Inactive;
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
