@@ -83,7 +83,12 @@ public class Card {
     this.cardType = type;
   }
 
-  public boolean equals(Card c) {
-    return this.acctNum == c.acctNum;
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof Card) {
+      Card c = (Card) o;
+      return this.id == c.id;
+    }
+    return false;
   }
 }

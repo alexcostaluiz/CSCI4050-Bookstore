@@ -2,8 +2,10 @@ package com.csci4050.bookstore.controller;
 
 import com.csci4050.bookstore.events.PasswordResetEvent;
 import com.csci4050.bookstore.events.RegistrationCompletionEvent;
+import com.csci4050.bookstore.model.Address;
 import com.csci4050.bookstore.model.Card;
 import com.csci4050.bookstore.model.User;
+import com.csci4050.bookstore.service.CardService;
 import com.csci4050.bookstore.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
   @Autowired private UserService userService;
+  @Autowired private CardService cardService;
   @Autowired private ApplicationEventPublisher eventPublisher;
   @Autowired ObjectMapper objectMapper = new ObjectMapper();
   /* These all will interface with service files */
@@ -62,19 +65,7 @@ public class AuthController {
       if (auth != null) {
         Object principal = auth.getPrincipal();
         if (principal instanceof UserDetails) {
-          UserDetails user = (UserDetails) principal;
-          User userObj = userService.getUser(user.getUsername());
-          List<Card> cards = userObj.getSavedCards();
-          for (Card c : cards) {
-            if (c.getAcctNum().equals(card.getAcctNum())) {
-              cards.remove(c);
-              System.out.println("removed");
-              break;
-            }
-          }
-          // USE CARDDAO HERE
-          userObj.setSavedCards(cards);
-          userService.updateUser(userObj);
+          cardService.delete(card.getId());
         }
       }
 
@@ -108,6 +99,22 @@ public class AuthController {
     } catch (RuntimeException e) {
       e.printStackTrace();
     }
+  }
+
+  @PostMapping("/updateAddress")
+  public void updateAddress(@RequestBody String json) throws Exception {
+    Address address = objectMapper.readValue(json, Address.class);
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+    if (auth != null) {
+      Object principal = auth.getPrincipal();
+      if (principal instanceof UserDetails) {
+        User userObj = userService.getUser(((UserDetails) principal).getUsername());
+        userObj.setAddress(address);
+        userService.updateUser(userObj);
+      }
+    }
+    throw new Exception("Not logged in");
   }
 
   @PostMapping("/changePassword")
