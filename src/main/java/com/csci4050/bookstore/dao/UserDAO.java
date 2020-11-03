@@ -53,13 +53,13 @@ public class UserDAO implements DAO<User> {
     Session session = entityManager.unwrap(Session.class);
     session.update(user);
   }
-  
+
   @Override
   public void save(User user) {
     Session session = entityManager.unwrap(Session.class);
     session.save(user);
   }
-  
+
   /* Delete a user */
   @Override
   public void delete(int id) {

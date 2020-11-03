@@ -11,7 +11,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -191,10 +190,9 @@ public class AuthController {
       eventPublisher.publishEvent(new RegistrationCompletionEvent(user, request.getLocale(), url));
     } catch (JsonProcessingException e) {
       e.printStackTrace();
-    }  catch(DataIntegrityViolationException e) {
+    } catch (DataIntegrityViolationException e) {
       e.printStackTrace();
-      throw new ResponseStatusException(
-           HttpStatus.CONFLICT, "Email already exists", e);
+      throw new ResponseStatusException(HttpStatus.CONFLICT, "Email already exists", e);
     } catch (RuntimeException e) {
       e.printStackTrace();
     }
