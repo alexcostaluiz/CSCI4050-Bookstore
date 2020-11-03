@@ -54,6 +54,7 @@ function Authentication(props) {
     signIn,
     signOut,
     user,
+    fetchUser,
   };
 
   return (
