@@ -1,46 +1,45 @@
-.header {
+@import "../global.less";
+
+.bookstore-profile-menu-container {
+  flex: 0 0 auto;
   background: white;
-  border-bottom: 1px solid #ccc;
+  border-radius: 12px;
+  box-shadow: @card-shadow;
+  overflow: hidden;
+  margin-right: 64px;
 }
 
-.site-layout-background {
-  background: #fff;
+.bookstore-profile-menu {
+  border: none;
 }
 
-.profile-nav {
-  text-transform: uppercase;
-  font-weight: bold;
-  border-bottom: none;
-  background: none;
-  line-height: 62px !important;
+.bookstore-profile-menu > .ant-menu-item:first-of-type {
+  margin-top: 0px;
 }
 
-.billing-name {
-  font-weight: bold;
+.bookstore-profile-content-container {
+  width: 100%;
+  background: white;
+  border-radius: 12px;
+  box-shadow: @card-shadow;
+  padding: 32px;
 }
 
-.card-name-div {
-  float: left;
+.bookstore-profile-content-title {
+  font-weight: 900 !important;
 }
 
-.card-name {
-  font-weight: bold;
+.bookstore-profile-content-container .ant-table-wrapper,
+.bookstore-profile-content-container .ant-card {
+  margin-bottom: 32px;
 }
 
-.billing-address-div {
-  float: right;
+.bookstore-credit-card-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.billing-address {
-  font-weight: bold;
-}
-
-.add-card {
-  max-width: 500px;
-  margin: auto;
-}
-
-.payment-container {
-  max-width: 700px;
-  margin: auto;
+.rccs {
+  margin: 0px !important;
 }
