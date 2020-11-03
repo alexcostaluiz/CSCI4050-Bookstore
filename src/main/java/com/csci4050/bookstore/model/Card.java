@@ -1,6 +1,5 @@
 package com.csci4050.bookstore.model;
 
-import java.time.LocalDate;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,51 +27,54 @@ public class Card {
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", referencedColumnName = "id")
   private User user;
-
-  @Column(name = "acct_num")
-  private Integer acctNum;
-
-  @ManyToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "address_id", referencedColumnName = "id")
-  private Address address;
-
-  @Column(name = "exp_date")
-  private LocalDate expDate;
-
+  
   @Column(name = "card_type")
   @Enumerated(EnumType.STRING)
   private CardType cardType;
+
+  @Column(name = "number")
+  private String number;
+
+  @Column(name = "name")
+  private String name;
+  
+  @Column(name = "expiry")
+  private String expiry;
+  
+  @ManyToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "address_id", referencedColumnName = "id")
+  private Address address;
 
   public Integer getId() {
     return this.id;
   }
 
-  public Integer getAcctNum() {
-    return this.acctNum;
+  public String getNumber() {
+    return this.number;
   }
 
-  public void setAcctNum(Integer acctNum) {
-    this.acctNum = acctNum;
+  public void setNumber(String number) {
+    this.number = number;
   }
 
   public void setUser(User user) {
     this.user = user;
   }
 
-  public Address getAddress() {
-    return this.address;
+  public String getName() {
+    return this.name;
   }
 
-  public void setAddress(Address address) {
-    this.address = address;
+  public void setName(String name) {
+    this.name = name;
   }
 
-  public LocalDate getExpDate() {
-    return this.expDate;
+  public String getExpiry() {
+    return this.expiry;
   }
 
-  public void setExpDate(LocalDate expDate) {
-    this.expDate = expDate;
+  public void setExpiry(String expiry) {
+    this.expiry = expiry;
   }
 
   public CardType getCardType() {
@@ -83,7 +85,20 @@ public class Card {
     this.cardType = type;
   }
 
-  public boolean equals(Card c) {
-    return this.acctNum == c.acctNum;
+  public Address getAddress() {
+    return this.address;
+  }
+
+  public void setAddress(Address address) {
+    this.address = address;
+  }
+  
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof Card) {
+      Card c = (Card) o;
+      return this.id == c.id;
+    }
+    return false;
   }
 }
