@@ -145,8 +145,6 @@ function Header(props) {
             className='bookstore-nav'>
             <Menu.Item key='home'>Home</Menu.Item>
             <Menu.Item key='browse'>Browse</Menu.Item>
-            <Menu.Item key='nav3'>Nav3</Menu.Item>
-            <Menu.Item key='nav4'>Nav4</Menu.Item>
             <Menu.Item key='sale'>Sale</Menu.Item>
           </Menu>
           <div style={{ width: '100%' }} />
