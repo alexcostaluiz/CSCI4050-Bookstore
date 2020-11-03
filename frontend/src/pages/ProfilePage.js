@@ -36,7 +36,7 @@ const { Paragraph, Text, Title } = Typography;
 
 function PaymentForm(props) {
   const { addCard } = props;
-  
+
   const [expiry, setExpiry] = useState('');
   const [focus, setFocus] = useState('');
   const [name, setName] = useState('');
@@ -112,7 +112,7 @@ function Profile(props) {
     subscription: true,
   };
   console.log(auth);
-  
+
   const [selectedMenuItem, setSelectedMenuItem] = useState('personal info');
 
   const [firstName, setFirstName] = useState(auth.user.firstName);
@@ -155,7 +155,7 @@ function Profile(props) {
   };
 
   const addCard = async (values) => {
-    const card = {...values, cardType: 'VISA', user: 1};
+    const card = { ...values, cardType: 'VISA', user: 1 };
     const response = await fetch('/auth/saveCard', {
       method: 'POST',
       headers: {
@@ -171,194 +171,211 @@ function Profile(props) {
 
   const menuSwitch = (key) => {
     switch (key) {
-    case 'personal info':
-      const changesMade =
-        firstName === auth.user.firstName &&
-        lastName === auth.user.lastName &&
-        phoneNumber === auth.user.phoneNumber;
-      const editable = {
-        autoSize: { minRows: 1, maxRows: 1 },
-      };
-      return (
-        <div className='bookstore-profile-content-container'>
-          <Title className='bookstore-profile-content-title'>Personal Information</Title>
-          <Card type='inner' title='Email'>
-            <Text>
-              {auth.user.emailAddress}
-            </Text>
-          </Card>          
-          <Card type='inner' title='First Name'>
-            <Text editable={{...editable, onChange: (value) => updatePersonalInfo(value, setFirstName)}}>
-              {firstName}
-            </Text>
-          </Card>
-          <Card type='inner' title='Last Name'>
-            <Text editable={{...editable, onChange: (value) => updatePersonalInfo(value, setLastName)}}>
-              {lastName}
-            </Text>
-          </Card>
-          <Card type='inner' title='Phone Number'>
-            <Text editable={{...editable, onChange: (value) => updatePersonalInfo(value, setPhoneNumber)}}>
-              {phoneNumber}
-            </Text>
-          </Card>
-          <Button type='primary' size='large' disabled={changesMade} onClick={savePersonalInfo}>
-            SAVE
-          </Button>
-        </div>
-      );
-      
-    case 'change password':
-      return (
-        <div className='bookstore-profile-content-container'>
-          <Title className='bookstore-profile-content-title'>Change Password</Title>
-          <Form form={changePasswordForm} onFinish={(values) => changePassword(values)}>
-            <Card type='inner' title='Current Password'>
-              <Form.Item
-                name='oldPassword'
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input your current password'
-                  },
-                ]}
-                hasFeedback>
-                <Input.Password
-                  placeholder='Current Password'
-                />
-              </Form.Item>
+      case 'personal info':
+        const changesMade =
+          firstName === auth.user.firstName &&
+          lastName === auth.user.lastName &&
+          phoneNumber === auth.user.phoneNumber;
+        const editable = {
+          autoSize: { minRows: 1, maxRows: 1 },
+        };
+        return (
+          <div className='bookstore-profile-content-container'>
+            <Title className='bookstore-profile-content-title'>
+              Personal Information
+            </Title>
+            <Card type='inner' title='Email'>
+              <Text>{auth.user.emailAddress}</Text>
             </Card>
-            <Card type='inner' title='New Password'>
-              <Form.Item
-                name='newPassword'
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input a new password',
-                  },
-                ]}
-                hasFeedback>
-                <Input.Password placeholder='New Password'/>
-              </Form.Item>
-              <Form.Item
-                name='confirm'
-                dependencies={['newPassword']}
-                hasFeedback
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please confirm your new password',
-                  },
-                  ({ getFieldValue }) => ({
-                    validator(rule, value) {
-                      if (!value || getFieldValue('newPassword') === value) {
-                        return Promise.resolve();
-                      }
-                      return Promise.reject(
-                        'The two passwords do not match'
-                      );
-                    },
-                  }),
-                ]}>
-                <Input.Password placeholder='Confirm Password'/>
-              </Form.Item>
+            <Card type='inner' title='First Name'>
+              <Text
+                editable={{
+                  ...editable,
+                  onChange: (value) => updatePersonalInfo(value, setFirstName),
+                }}>
+                {firstName}
+              </Text>
             </Card>
-            <Form.Item style={{ marginBottom: '0px' }}>
-              <Button
-                type='primary'
-                htmlType='submit'>
-                CHANGE PASSWORD
-              </Button>
-            </Form.Item>
-          </Form>
-        </div>
-      );
-      
-    case 'payment methods':
-      const columns = [
-        { title: 'Your Credit and Debit Cards', dataIndex: 'name', key: 'name' },
-        { title: 'Expires', dataIndex: 'date', key: 'date' },
-      ];
-      return (
-        <div className='bookstore-profile-content-container'>
-          <Title className='bookstore-profile-content-title'>Payment Methods</Title>
-          <Table
-            rowClassName={() => 'editable-row'}
-            bordered
-            dataSource={auth.user.savedCards}
-            columns={columns}
-          />
-          <Card type='inner' title='Add New Debit/Credit Card'>
-            <PaymentForm addCard={addCard} />
-          </Card>
-          <Form.Input htmlFor='credit-card-form' style={{ marginBottom: '0px' }}>
-            <Button 
+            <Card type='inner' title='Last Name'>
+              <Text
+                editable={{
+                  ...editable,
+                  onChange: (value) => updatePersonalInfo(value, setLastName),
+                }}>
+                {lastName}
+              </Text>
+            </Card>
+            <Card type='inner' title='Phone Number'>
+              <Text
+                editable={{
+                  ...editable,
+                  onChange: (value) =>
+                    updatePersonalInfo(value, setPhoneNumber),
+                }}>
+                {phoneNumber}
+              </Text>
+            </Card>
+            <Button
               type='primary'
-              htmlType='submit'>
-              ADD CARD
+              size='large'
+              disabled={changesMade}
+              onClick={savePersonalInfo}>
+              SAVE
             </Button>
-          </Form.Input>
-        </div>
-      );
-      
-    default:
-      return (
-        <div className='bookstore-profile-content-container'>
-          <Title className='bookstore-profile-content-title'>Saved Addresses</Title>
-          <Form form={form} layout='vertical' id='address-form'>
-            <Form.Item label='Street Address'>
-              <Input
-                id='street'
-                placeholder='Street'
-                readOnly
-              />
-            </Form.Item>
-            <Form.Item label='Street Address Line 2'>
-              <Input placeholder='input placeholder' />
-            </Form.Item>
-            <Form.Item>
-              <Space direction='horizontal'>
-                <Form.Item label='City'>
-                  <Input
-                    id='city'
-                    defaultValue='Athens'
-                    placeholder='input placeholder'
-                    readOnly
-                  />
+          </div>
+        );
+
+      case 'change password':
+        return (
+          <div className='bookstore-profile-content-container'>
+            <Title className='bookstore-profile-content-title'>
+              Change Password
+            </Title>
+            <Form
+              form={changePasswordForm}
+              onFinish={(values) => changePassword(values)}>
+              <Card type='inner' title='Current Password'>
+                <Form.Item
+                  name='oldPassword'
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input your current password',
+                    },
+                  ]}
+                  hasFeedback>
+                  <Input.Password placeholder='Current Password' />
                 </Form.Item>
-                <Form.Item label='State/Province'>
-                  <Input
-                    id='state'
-                    defaultValue='GA'
-                    placeholder='input placeholder'
-                    readOnly
-                  />
+              </Card>
+              <Card type='inner' title='New Password'>
+                <Form.Item
+                  name='newPassword'
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input a new password',
+                    },
+                  ]}
+                  hasFeedback>
+                  <Input.Password placeholder='New Password' />
                 </Form.Item>
-              </Space>
-            </Form.Item>
-            <Form.Item>
-              <Space direction='horizontal'>
-                <Form.Item label='Postal/ZipCode'>
-                  <Input
-                    id='zip'
-                    defaultValue='30606'
-                    placeholder='input placeholder'
-                    readOnly
-                  />
+                <Form.Item
+                  name='confirm'
+                  dependencies={['newPassword']}
+                  hasFeedback
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please confirm your new password',
+                    },
+                    ({ getFieldValue }) => ({
+                      validator(rule, value) {
+                        if (!value || getFieldValue('newPassword') === value) {
+                          return Promise.resolve();
+                        }
+                        return Promise.reject('The two passwords do not match');
+                      },
+                    }),
+                  ]}>
+                  <Input.Password placeholder='Confirm Password' />
                 </Form.Item>
-                <Form.Item label='Country'>
-                  <CountrySelect />
-                </Form.Item>
-              </Space>
-            </Form.Item>
-            <Form.Item>
-              <Button type='primary'>
-                Update Address
+              </Card>
+              <Form.Item style={{ marginBottom: '0px' }}>
+                <Button type='primary' htmlType='submit'>
+                  CHANGE PASSWORD
+                </Button>
+              </Form.Item>
+            </Form>
+          </div>
+        );
+
+      case 'payment methods':
+        const columns = [
+          {
+            title: 'Your Credit and Debit Cards',
+            dataIndex: 'name',
+            key: 'name',
+          },
+          { title: 'Expires', dataIndex: 'date', key: 'date' },
+        ];
+        return (
+          <div className='bookstore-profile-content-container'>
+            <Title className='bookstore-profile-content-title'>
+              Payment Methods
+            </Title>
+            <Table
+              rowClassName={() => 'editable-row'}
+              bordered
+              dataSource={auth.user.savedCards}
+              columns={columns}
+            />
+            <Card type='inner' title='Add New Debit/Credit Card'>
+              <PaymentForm addCard={addCard} />
+            </Card>
+            <Form.Input
+              htmlFor='credit-card-form'
+              style={{ marginBottom: '0px' }}>
+              <Button type='primary' htmlType='submit'>
+                ADD CARD
               </Button>
-            </Form.Item>
-          </Form>
-        </div>
-      );
+            </Form.Input>
+          </div>
+        );
+
+      default:
+        return (
+          <div className='bookstore-profile-content-container'>
+            <Title className='bookstore-profile-content-title'>
+              Saved Addresses
+            </Title>
+            <Form form={form} layout='vertical' id='address-form'>
+              <Form.Item label='Street Address'>
+                <Input id='street' placeholder='Street' readOnly />
+              </Form.Item>
+              <Form.Item label='Street Address Line 2'>
+                <Input placeholder='input placeholder' />
+              </Form.Item>
+              <Form.Item>
+                <Space direction='horizontal'>
+                  <Form.Item label='City'>
+                    <Input
+                      id='city'
+                      defaultValue='Athens'
+                      placeholder='input placeholder'
+                      readOnly
+                    />
+                  </Form.Item>
+                  <Form.Item label='State/Province'>
+                    <Input
+                      id='state'
+                      defaultValue='GA'
+                      placeholder='input placeholder'
+                      readOnly
+                    />
+                  </Form.Item>
+                </Space>
+              </Form.Item>
+              <Form.Item>
+                <Space direction='horizontal'>
+                  <Form.Item label='Postal/ZipCode'>
+                    <Input
+                      id='zip'
+                      defaultValue='30606'
+                      placeholder='input placeholder'
+                      readOnly
+                    />
+                  </Form.Item>
+                  <Form.Item label='Country'>
+                    <CountrySelect />
+                  </Form.Item>
+                </Space>
+              </Form.Item>
+              <Form.Item>
+                <Button type='primary'>Update Address</Button>
+              </Form.Item>
+            </Form>
+          </div>
+        );
     }
   };
 

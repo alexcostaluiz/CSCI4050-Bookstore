@@ -27,7 +27,7 @@ public class Card {
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", referencedColumnName = "id")
   private User user;
-  
+
   @Column(name = "card_type")
   @Enumerated(EnumType.STRING)
   private CardType cardType;
@@ -37,10 +37,10 @@ public class Card {
 
   @Column(name = "name")
   private String name;
-  
+
   @Column(name = "expiry")
   private String expiry;
-  
+
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "address_id", referencedColumnName = "id")
   private Address address;
@@ -92,7 +92,7 @@ public class Card {
   public void setAddress(Address address) {
     this.address = address;
   }
-  
+
   @Override
   public boolean equals(Object o) {
     if (o instanceof Card) {

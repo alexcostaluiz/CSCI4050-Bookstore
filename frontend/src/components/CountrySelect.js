@@ -33,14 +33,10 @@ function CountrySelect(props) {
       <option value='Bhutan'>Bhutan</option>
       <option value='Bolivia'>Bolivia</option>
       <option value='Bonaire'>Bonaire</option>
-      <option value='Bosnia/Herzegovina'>
-        Bosnia/Herzegovina
-      </option>
+      <option value='Bosnia/Herzegovina'>Bosnia/Herzegovina</option>
       <option value='Botswana'>Botswana</option>
       <option value='Brazil'>Brazil</option>
-      <option value='British Indian Ocean Ter'>
-        British Indian Ocean Ter
-      </option>
+      <option value='British Indian Ocean Ter'>British Indian Ocean Ter</option>
       <option value='Brunei'>Brunei</option>
       <option value='Bulgaria'>Bulgaria</option>
       <option value='Burkina Faso'>Burkina Faso</option>
@@ -51,9 +47,7 @@ function CountrySelect(props) {
       <option value='Canary Islands'>Canary Islands</option>
       <option value='Cape Verde'>Cape Verde</option>
       <option value='Cayman Islands'>Cayman Islands</option>
-      <option value='Central African Republic'>
-        Central African Republic
-      </option>
+      <option value='Central African Republic'>Central African Republic</option>
       <option value='Chad'>Chad</option>
       <option value='Channel Islands'>Channel Islands</option>
       <option value='Chile'>Chile</option>
@@ -74,16 +68,12 @@ function CountrySelect(props) {
       <option value='Denmark'>Denmark</option>
       <option value='Djibouti'>Djibouti</option>
       <option value='Dominica'>Dominica</option>
-      <option value='Dominican Republic'>
-        Dominican Republic
-      </option>
+      <option value='Dominican Republic'>Dominican Republic</option>
       <option value='East Timor'>East Timor</option>
       <option value='Ecuador'>Ecuador</option>
       <option value='Egypt'>Egypt</option>
       <option value='El Salvador'>El Salvador</option>
-      <option value='Equatorial Guinea'>
-        Equatorial Guinea
-      </option>
+      <option value='Equatorial Guinea'>Equatorial Guinea</option>
       <option value='Eritrea'>Eritrea</option>
       <option value='Estonia'>Estonia</option>
       <option value='Ethiopia'>Ethiopia</option>
@@ -94,9 +84,7 @@ function CountrySelect(props) {
       <option value='France'>France</option>
       <option value='French Guiana'>French Guiana</option>
       <option value='French Polynesia'>French Polynesia</option>
-      <option value='French Southern Ter'>
-        French Southern Ter
-      </option>
+      <option value='French Southern Ter'>French Southern Ter</option>
       <option value='Gabon'>Gabon</option>
       <option value='Gambia'>Gambia</option>
       <option value='Georgia'>Georgia</option>
@@ -170,12 +158,8 @@ function CountrySelect(props) {
       <option value='Nambia'>Nambia</option>
       <option value='Nauru'>Nauru</option>
       <option value='Nepal'>Nepal</option>
-      <option value='Netherland Antilles'>
-        Netherland Antilles
-      </option>
-      <option value='Netherlands'>
-        Netherlands (Holland, Europe)
-      </option>
+      <option value='Netherland Antilles'>Netherland Antilles</option>
+      <option value='Netherlands'>Netherlands (Holland, Europe)</option>
       <option value='Nevis'>Nevis</option>
       <option value='New Caledonia'>New Caledonia</option>
       <option value='New Zealand'>New Zealand</option>
@@ -199,12 +183,8 @@ function CountrySelect(props) {
       <option value='Portugal'>Portugal</option>
       <option value='Puerto Rico'>Puerto Rico</option>
       <option value='Qatar'>Qatar</option>
-      <option value='Republic of Montenegro'>
-        Republic of Montenegro
-      </option>
-      <option value='Republic of Serbia'>
-        Republic of Serbia
-      </option>
+      <option value='Republic of Montenegro'>Republic of Montenegro</option>
+      <option value='Republic of Serbia'>Republic of Serbia</option>
       <option value='Reunion'>Reunion</option>
       <option value='Romania'>Romania</option>
       <option value='Russia'>Russia</option>
@@ -215,19 +195,13 @@ function CountrySelect(props) {
       <option value='St Kitts-Nevis'>St Kitts-Nevis</option>
       <option value='St Lucia'>St Lucia</option>
       <option value='St Maarten'>St Maarten</option>
-      <option value='St Pierre/Miquelon'>
-        St Pierre/Miquelon
-      </option>
-      <option value='St Vincent/Grenadines'>
-        St Vincent/Grenadines
-      </option>
+      <option value='St Pierre/Miquelon'>St Pierre/Miquelon</option>
+      <option value='St Vincent/Grenadines'>St Vincent/Grenadines</option>
       <option value='Saipan'>Saipan</option>
       <option value='Samoa'>Samoa</option>
       <option value='Samoa American'>Samoa American</option>
       <option value='San Marino'>San Marino</option>
-      <option value='Sao Tome/Principe'>
-        Sao Tome/Principe
-      </option>
+      <option value='Sao Tome/Principe'>Sao Tome/Principe</option>
       <option value='Saudi Arabia'>Saudi Arabia</option>
       <option value='Senegal'>Senegal</option>
       <option value='Seychelles'>Seychelles</option>
@@ -263,26 +237,16 @@ function CountrySelect(props) {
       <option value='Uganda'>Uganda</option>
       <option value='United Kingdom'>United Kingdom</option>
       <option value='Ukraine'>Ukraine</option>
-      <option value='United Arab Erimates'>
-        United Arab Emirates
-      </option>
-      <option value='United States of America'>
-        United States of America
-      </option>
+      <option value='United Arab Erimates'>United Arab Emirates</option>
+      <option value='United States of America'>United States of America</option>
       <option value='Uraguay'>Uruguay</option>
       <option value='Uzbekistan'>Uzbekistan</option>
       <option value='Vanuatu'>Vanuatu</option>
-      <option value='Vatican City State'>
-        Vatican City State
-      </option>
+      <option value='Vatican City State'>Vatican City State</option>
       <option value='Venezuela'>Venezuela</option>
       <option value='Vietnam'>Vietnam</option>
-      <option value='Virgin Islands (Brit)'>
-        Virgin Islands (Brit)
-      </option>
-      <option value='Virgin Islands (USA)'>
-        Virgin Islands (USA)
-      </option>
+      <option value='Virgin Islands (Brit)'>Virgin Islands (Brit)</option>
+      <option value='Virgin Islands (USA)'>Virgin Islands (USA)</option>
       <option value='Wake Island'>Wake Island</option>
       <option value='Wallis/Futana Is'>Wallis/Futana Is</option>
       <option value='Yemen'>Yemen</option>
