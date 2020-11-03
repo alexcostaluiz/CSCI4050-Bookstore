@@ -92,7 +92,7 @@ public class Card {
   public void setAddress(Address address) {
     this.address = address;
   }
-
+  
   @Override
   public boolean equals(Object o) {
     if (o instanceof Card) {
