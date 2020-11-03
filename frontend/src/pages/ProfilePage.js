@@ -67,6 +67,7 @@ function PaymentForm(props) {
             placeholder='Card Number'
             onChange={(e) => setNumber(e.target.value)}
             onFocus={handleFocusChange}
+            value={number}
           />
         </Form.Item>
         <Form.Item>
@@ -76,16 +77,17 @@ function PaymentForm(props) {
             placeholder='Name'
             onChange={(e) => setName(e.target.value)}
             onFocus={handleFocusChange}
+            value={name}
           />
         </Form.Item>
         <Form.Item style={{ marginBottom: '0px' }}>
-          <DatePicker
+          <Input
             id='exp-date'
-            picker='month'
             name='expiry'
             placeholder='Valid Thru'
-            onChange={(_, date) => setExpiry(date)}
+            onChange={(e) => setExpiry(e.target.value)}
             onFocus={handleFocusChange}
+            value={expiry}
           />
         </Form.Item>
       </Form>
@@ -98,6 +100,7 @@ function Profile(props) {
   const [changePasswordForm] = Form.useForm();
   const [form] = Form.useForm();
 
+  /*
   auth.user = {
     address: null,
     cart: null,
@@ -111,6 +114,7 @@ function Profile(props) {
     status: 'Active',
     subscription: true,
   };
+  */
   console.log(auth);
 
   const [selectedMenuItem, setSelectedMenuItem] = useState('personal info');
@@ -155,7 +159,7 @@ function Profile(props) {
   };
 
   const addCard = async (values) => {
-    const card = { ...values, cardType: 'VISA', user: 1 };
+    const card = { ...values, cardType: 'VISA' };
     const response = await fetch('/auth/saveCard', {
       method: 'POST',
       headers: {
@@ -166,6 +170,20 @@ function Profile(props) {
     if (response.ok) {
       auth.fetchUser();
       message.success('Card sucessfully saved!');
+    }
+  };
+
+  const updateAddress = async (values) => {
+    const response = await fetch('/auth/updateAddress', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    });
+    if (response.ok) {
+      auth.fetchUser();
+      message.success('Address sucessfully updated!');
     }
   };
 
@@ -312,13 +330,13 @@ function Profile(props) {
             <Card type='inner' title='Add New Debit/Credit Card'>
               <PaymentForm addCard={addCard} />
             </Card>
-            <Form.Input
+            <Form.Item
               htmlFor='credit-card-form'
               style={{ marginBottom: '0px' }}>
-              <Button type='primary' htmlType='submit'>
+              <Button type='primary' size='large' form='credit-card-form' htmlType='submit'>
                 ADD CARD
               </Button>
-            </Form.Input>
+            </Form.Item>
           </div>
         );
 
@@ -328,7 +346,7 @@ function Profile(props) {
             <Title className='bookstore-profile-content-title'>
               Saved Addresses
             </Title>
-            <Form form={form} layout='vertical' id='address-form'>
+            <Form form={form} layout='vertical' id='address-form' onSubmit={updateAddress}>
               <Form.Item label='Street Address'>
                 <Input id='street' placeholder='Street' readOnly />
               </Form.Item>
@@ -371,7 +389,7 @@ function Profile(props) {
                 </Space>
               </Form.Item>
               <Form.Item>
-                <Button type='primary'>Update Address</Button>
+                <Button type='primary' htmlType='submit'>Update Address</Button>
               </Form.Item>
             </Form>
           </div>
