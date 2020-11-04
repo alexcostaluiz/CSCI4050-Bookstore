@@ -1,5 +1,6 @@
 package com.csci4050.bookstore.model;
 
+import com.csci4050.bookstore.CardNumberConverter;
 import java.time.LocalDate;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,8 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-
-import com.csci4050.bookstore.CardNumberConverter;
 
 @Entity
 @Table(name = "card")
