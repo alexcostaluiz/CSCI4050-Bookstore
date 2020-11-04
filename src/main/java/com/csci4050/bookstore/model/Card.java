@@ -3,6 +3,7 @@ package com.csci4050.bookstore.model;
 import java.time.LocalDate;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -14,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import com.csci4050.bookstore.CardNumberConverter;
 
 @Entity
 @Table(name = "card")
@@ -30,7 +33,8 @@ public class Card {
   private User user;
 
   @Column(name = "acct_num")
-  private Integer acctNum;
+  @Convert(converter = CardNumberConverter.class)
+  private String acctNum;
 
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "address_id", referencedColumnName = "id")
@@ -47,11 +51,11 @@ public class Card {
     return this.id;
   }
 
-  public Integer getAcctNum() {
+  public String getAcctNum() {
     return this.acctNum;
   }
 
-  public void setAcctNum(Integer acctNum) {
+  public void setAcctNum(String acctNum) {
     this.acctNum = acctNum;
   }
 
