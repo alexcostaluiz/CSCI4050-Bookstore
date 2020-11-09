@@ -47,11 +47,9 @@ public class User {
 
   @Column(name = "password", nullable = false)
   private String password;
-  // Super secure
 
-  @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "address_id")
-  private Address address;
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+  private List<Address> addresses = new ArrayList<>();
 
   @Column(name = "subscription", nullable = false)
   private Boolean subscription = false;
@@ -61,7 +59,7 @@ public class User {
   private ActivityStatus status = ActivityStatus.Inactive;
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-  private List<Card> savedCards = new ArrayList<Card>();
+  private List<Card> savedCards = new ArrayList<>();
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
   private List<Order> orders;
@@ -136,13 +134,16 @@ public class User {
     this.password = password;
   }
 
-  public Address getAddress() {
-    return this.address;
+  public List<Address> getAddresses() {
+    return this.addresses;
   }
 
-  @JsonSetter("address")
-  public void setAddress(Address address) {
-    this.address = address;
+  @JsonSetter("addresses")
+  public void setAddresses(List<Address> addresses) {
+    for (Address a : addresses) {
+      a.setUser(this);
+    }
+    this.addresses = addresses;
   }
 
   public Boolean getSubscription() {
