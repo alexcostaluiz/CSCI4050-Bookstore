@@ -5,6 +5,7 @@ import com.csci4050.bookstore.events.RegistrationCompletionEvent;
 import com.csci4050.bookstore.model.Address;
 import com.csci4050.bookstore.model.Card;
 import com.csci4050.bookstore.model.User;
+import com.csci4050.bookstore.service.AddressService;
 import com.csci4050.bookstore.service.CardService;
 import com.csci4050.bookstore.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -33,9 +34,51 @@ public class AuthController {
 
   @Autowired private UserService userService;
   @Autowired private CardService cardService;
+  @Autowired private AddressService addressService;
   @Autowired private ApplicationEventPublisher eventPublisher;
   @Autowired ObjectMapper objectMapper = new ObjectMapper();
   /* These all will interface with service files */
+
+  @PostMapping("/saveAddress")
+  public void saveAddress(@RequestBody String json) {
+    try {
+      Address address = objectMapper.readValue(json, Address.class);
+      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+      if (auth != null) {
+        Object principal = auth.getPrincipal();
+        if (principal instanceof UserDetails) {
+          UserDetails user = (UserDetails) principal;
+          User userObj = userService.getUser(user.getUsername());
+          List<Address> addresses = userObj.getAddresses();
+          addresses.add(address);
+          userObj.setAddresses(addresses);
+          userService.updateUser(userObj);
+        }
+      }
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+    } catch (RuntimeException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @PostMapping("/deleteAddress")
+  public void deleteAddress(@RequestBody String json) {
+    try {
+      Address address = objectMapper.readValue(json, Address.class);
+      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+      if (auth != null) {
+        Object principal = auth.getPrincipal();
+        if (principal instanceof UserDetails) {
+          addressService.delete(address.getId());
+        }
+      }
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+    } catch (RuntimeException e) {
+      e.printStackTrace();
+    }
+  }
 
   @PostMapping("/saveCard")
   public void saveCard(@RequestBody String json) {
@@ -53,7 +96,6 @@ public class AuthController {
           userService.updateUser(userObj);
         }
       }
-
     } catch (JsonProcessingException e) {
       e.printStackTrace();
     } catch (RuntimeException e) {
@@ -72,7 +114,6 @@ public class AuthController {
           cardService.delete(card.getId());
         }
       }
-
     } catch (JsonProcessingException e) {
       e.printStackTrace();
     } catch (RuntimeException e) {
@@ -103,22 +144,6 @@ public class AuthController {
     } catch (RuntimeException e) {
       e.printStackTrace();
     }
-  }
-
-  @PostMapping("/updateAddress")
-  public void updateAddress(@RequestBody String json) throws Exception {
-    Address address = objectMapper.readValue(json, Address.class);
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-    if (auth != null) {
-      Object principal = auth.getPrincipal();
-      if (principal instanceof UserDetails) {
-        User userObj = userService.getUser(((UserDetails) principal).getUsername());
-        userObj.setAddress(address);
-        userService.updateUser(userObj);
-      }
-    }
-    throw new Exception("Not logged in");
   }
 
   @PostMapping("/changePassword")

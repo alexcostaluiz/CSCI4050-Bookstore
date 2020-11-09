@@ -77,8 +77,8 @@ function Header(props) {
   const onlyTitle =
     location.pathname.startsWith('/login') ||
     location.pathname.startsWith('/register') ||
-    location.pathname.startsWith('/forgot-password') ||
-    location.pathname.startsWith('/reset-password');
+    location.pathname.startsWith('/forgot_password') ||
+    location.pathname.startsWith('/updatePassword');
 
   const simple =
     onlyTitle ||
@@ -145,8 +145,6 @@ function Header(props) {
             className='bookstore-nav'>
             <Menu.Item key='home'>Home</Menu.Item>
             <Menu.Item key='browse'>Browse</Menu.Item>
-            <Menu.Item key='nav3'>Nav3</Menu.Item>
-            <Menu.Item key='nav4'>Nav4</Menu.Item>
             <Menu.Item key='sale'>Sale</Menu.Item>
           </Menu>
           <div style={{ width: '100%' }} />

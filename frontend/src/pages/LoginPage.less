@@ -1,21 +1,26 @@
-.login-form {
-  min-width: 600px;
+@import "../global.less";
+
+.bookstore-login-container {
+  width: 600px;
+  max-width: 600px;
   margin: auto;
-}
-
-.login-form-forgot {
-  float: right;
-}
-
-.ant-col-rtl .login-form-forgot {
-  float: left;
-}
-
-.login-container {
-  min-width: 600px;
-  margin: auto;
+  background: white;
+  padding: 32px;
+  border-radius: 12px;
+  box-shadow: @card-shadow;
 }
 
 .bookstore-login-title {
   font-weight: 900 !important;
+}
+
+.bookstore-login-form {
+  max-width: 600px;
+  margin: auto;
+}
+
+.bookstore-login-form-forgot {
+  border: none;
+  padding: 0px;
+  float: right;
 }

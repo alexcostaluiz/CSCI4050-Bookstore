@@ -1,43 +1,35 @@
 import './LoginPage.less';
 
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
 import {
-  Col,
-  Row,
-  Form,
-  Input,
   Button,
   Checkbox,
-  Card,
+  Col,
+  Form,
+  Input,
+  message,
+  Row,
   Typography,
 } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
-const { Title } = Typography;
+import AuthContext from '../contexts/AuthContext.js';
 
-var isLoggedIn = Boolean;
+const { Title } = Typography;
 
 function Login(props) {
   const history = useHistory();
+  const auth = useContext(AuthContext);
+  const [form] = Form.useForm();
 
-  const onFinish = (values) => {
-    var querystring = require('querystring');
-    fetch('/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: querystring.stringify(values),
-    }).then((res) => window.location.replace(res.url));
-  };
-  const onSubmit = (values) => {
-    if (isLoggedIn === true) {
-      history.push('/');
-    } else {
-      //isLoggedIn = false;
+  const login = async (values) => {
+    const response = await auth.signIn(values);
+    if (response) {
+      message.error(response);
+      form.resetFields();
     }
   };
 
@@ -45,26 +37,27 @@ function Login(props) {
     <Row justify='center'>
       <Col className='bookstore-column'>
         <div className='bookstore-page-section'>
-          <Card className='login-container'>
+          <div className='bookstore-login-container'>
             <Title className='bookstore-login-title'>Login</Title>
             <Form
+              form={form}
               name='normal_login'
-              className='login-form'
+              className='bookstore-login-form'
               initialValues={{
                 remember: true,
               }}
-              onFinish={onFinish}>
+              onFinish={(values) => login(values)}>
               <Form.Item
                 name='username'
                 rules={[
                   {
                     required: true,
-                    message: 'Please input your Username!',
+                    message: 'Please input a username',
                   },
                 ]}>
                 <Input
                   prefix={<UserOutlined className='site-form-item-icon' />}
-                  placeholder='Username'
+                  placeholder='Email Address'
                 />
               </Form.Item>
               <Form.Item
@@ -72,22 +65,21 @@ function Login(props) {
                 rules={[
                   {
                     required: true,
-                    message: 'Please input your Password!',
+                    message: 'Please input a password',
                   },
                 ]}>
-                <Input
+                <Input.Password
                   prefix={<LockOutlined className='site-form-item-icon' />}
-                  type='password'
                   placeholder='Password'
                 />
               </Form.Item>
               <Form.Item>
                 <Form.Item name='remember' valuePropName='checked' noStyle>
-                  <Checkbox>Remember Me</Checkbox>
+                  <Checkbox style={{ paddingTop: '2px' }}>Remember Me</Checkbox>
                 </Form.Item>
 
                 <Button
-                  className='login-form-forgot'
+                  className='bookstore-login-form-forgot'
                   type='link'
                   onClick={() => history.push('/forgot_password')}>
                   Forgot Password
@@ -95,15 +87,10 @@ function Login(props) {
               </Form.Item>
 
               <Form.Item style={{ marginBottom: '0px' }}>
-                <Button
-                  type='primary'
-                  htmlType='submit'
-                  className='login-form-button'
-                  onClick={onSubmit}
-                  size='large'
-                  block>
+                <Button type='primary' htmlType='submit' size='large' block>
                   LOG IN
                 </Button>
+                Don't have an account yet?{' '}
                 <Button
                   type='link'
                   onClick={() => history.push('/register')}
@@ -112,7 +99,7 @@ function Login(props) {
                 </Button>
               </Form.Item>
             </Form>
-          </Card>
+          </div>
         </div>
       </Col>
     </Row>
