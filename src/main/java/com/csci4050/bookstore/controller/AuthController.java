@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -133,9 +134,12 @@ public class AuthController {
 
           if (bcrypt.matches(dto.getOldPassword(), user.getPassword())) {
             User userObj = userService.getUser(user.getUsername());
-
-            userObj.setPassword(bcrypt.encode(dto.getNewPassword()));
+            String newPass = bcrypt.encode(dto.getNewPassword());
+            userObj.setPassword(newPass);
             userService.updateUser(userObj);
+            System.out.println(user.getPassword());
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getUsername(), newPass);
+            SecurityContextHolder.getContext().setAuthentication(token);
           } else {
             throw new Exception("incorrect password");
           }
