@@ -2,10 +2,12 @@ package com.csci4050.bookstore.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -19,18 +21,18 @@ public class Address {
   @NotNull
   private Integer id;
 
-  @OneToOne(mappedBy = "address")
-  @NotNull
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id", referencedColumnName = "id")
   private User user;
 
-  @Column(name = "street_num")
-  private Integer streetNum;
+  @Column(name = "name")
+  private String name;
 
-  @Column(name = "street_name")
-  private String streetName;
+  @Column(name = "address_1")
+  private String address1;
 
-  @Column(name = "apt_num")
-  private Integer aptNum;
+  @Column(name = "address_2")
+  private String address2;
 
   @Column(name = "city")
   private String city;
@@ -41,35 +43,42 @@ public class Address {
   @Column(name = "zip")
   private Integer zip;
 
-  @Column(name = "po_box")
-  private Integer POBox;
+  @Column(name = "country")
+  private String country;
+
+  @Column(name = "phone")
+  private String phoneNumber;
 
   public Integer getId() {
     return this.id;
   }
 
-  public Integer getStreetNum() {
-    return this.streetNum;
+  public void setUser(User user) {
+    this.user = user;
   }
 
-  public void setStreetNum(Integer streetNum) {
-    this.streetNum = streetNum;
+  public String getName() {
+    return this.name;
   }
 
-  public String getStreetName() {
-    return this.streetName;
+  public void setName(String name) {
+    this.name = name;
   }
 
-  public void setStreetName(String streetName) {
-    this.streetName = streetName;
+  public String getAddress1() {
+    return this.address1;
   }
 
-  public Integer getAptNum() {
-    return this.aptNum;
+  public void setAddress1(String address1) {
+    this.address1 = address1;
   }
 
-  public void setAptNum(Integer aptNum) {
-    this.aptNum = aptNum;
+  public String getAddress2() {
+    return this.address2;
+  }
+
+  public void setAddress2(String address2) {
+    this.address2 = address2;
   }
 
   public String getCity() {
@@ -96,11 +105,19 @@ public class Address {
     this.zip = zip;
   }
 
-  public Integer getPOBox() {
-    return this.POBox;
+  public String getCountry() {
+    return this.country;
   }
 
-  public void setPOBox(Integer POBox) {
-    this.POBox = POBox;
+  public void setCountry(String country) {
+    this.country = country;
+  }
+
+  public String getPhoneNumber() {
+    return this.phoneNumber;
+  }
+
+  public void setPhoneNumber(String phoneNumber) {
+    this.phoneNumber = phoneNumber;
   }
 }

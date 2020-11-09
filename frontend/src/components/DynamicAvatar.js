@@ -1,45 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
-import { Button, Dropdown, Menu } from 'antd';
+import { Button, Dropdown, Menu, Spin } from 'antd';
 import {
   UserOutlined,
   LogoutOutlined,
   HistoryOutlined,
 } from '@ant-design/icons';
 
+import AuthContext from '../contexts/AuthContext.js';
+
 function DynamicAvatar(props) {
-  const [isSignedIn, setIsSignedIn] = useState(false);
   const history = useHistory();
-  const [error, setError] = useState(null);
+  const auth = useContext(AuthContext);
+
   const [isLoaded, setIsLoaded] = useState(false);
-  const [items, setItems] = useState([]);
 
   useEffect(() => {
-    const response = fetch('http://localhost:8080/auth/user').then((res) =>
-      res.text()
-    );
-    response.then(
-      (userData) => {
-        setIsLoaded(true);
-        if (userData.charAt(0) !== '<') {
-          userData = JSON.parse(userData);
-          setItems(userData);
-          setIsSignedIn(userData.id != null);
-        }
-      },
-      (error) => {
-        setIsLoaded(true);
-        setError(error);
-      }
-    );
-  }, []);
-
-  const handleLogout = () => {
-    fetch('/logout');
-    history.push('/');
-  };
+    if (auth.user !== null) {
+      setIsLoaded(true);
+    }
+  }, [auth]);
 
   const menu = (
     <Menu mode='inline'>
@@ -53,18 +35,16 @@ function DynamicAvatar(props) {
         onClick={() => history.push('/orderhistory')}>
         Order History
       </Menu.Item>
-      <Menu.Item icon={<LogoutOutlined />} onClick={handleLogout}>
+      <Menu.Item icon={<LogoutOutlined />} onClick={() => auth.signOut()}>
         Logout
       </Menu.Item>
     </Menu>
   );
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  } else if (!isLoaded) {
-    return <div>Loading...</div>;
+  if (!isLoaded) {
+    return <Spin />;
   } else {
-    if (isSignedIn) {
+    if (auth.user.id !== null) {
       return (
         <Dropdown overlay={menu}>
           <Button
@@ -72,17 +52,14 @@ function DynamicAvatar(props) {
             size='large'
             shape='circle'
             onClick={() => history.push('/profile')}>
-            {String(items.firstName).charAt(0) +
-              String(items.lastName).charAt(0)}
+            {String(auth.user.firstName).charAt(0) +
+              String(auth.user.lastName).charAt(0)}
           </Button>
         </Dropdown>
       );
     } else {
       return (
-        <Button
-          type='primary'
-          size='large'
-          onClick={() => history.push('/login')}>
+        <Button type='primary' onClick={() => history.push('/login')}>
           SIGN IN
         </Button>
       );

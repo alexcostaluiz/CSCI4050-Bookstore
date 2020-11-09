@@ -1,13 +1,10 @@
 package com.csci4050.bookstore.model;
 
 import com.csci4050.bookstore.CardNumberConverter;
-import java.time.LocalDate;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,35 +28,61 @@ public class Card {
   @JoinColumn(name = "user_id", referencedColumnName = "id")
   private User user;
 
-  @Column(name = "acct_num")
+  @Column(name = "card_type")
+  private String cardType;
+
+  @Column(name = "number")
   @Convert(converter = CardNumberConverter.class)
-  private String acctNum;
+  private String number;
+
+  @Column(name = "name")
+  private String name;
+
+  @Column(name = "expiry")
+  private String expiry;
 
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "address_id", referencedColumnName = "id")
   private Address address;
 
-  @Column(name = "exp_date")
-  private LocalDate expDate;
-
-  @Column(name = "card_type")
-  @Enumerated(EnumType.STRING)
-  private CardType cardType;
-
   public Integer getId() {
     return this.id;
   }
 
-  public String getAcctNum() {
-    return this.acctNum;
+  public String getNumber() {
+    return this.number;
   }
 
-  public void setAcctNum(String acctNum) {
-    this.acctNum = acctNum;
+  public void setNumber(String number) {
+    this.number = number;
   }
 
   public void setUser(User user) {
     this.user = user;
+  }
+
+  public String getName() {
+    return this.name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getExpiry() {
+    return this.expiry;
+  }
+
+  public void setExpiry(String expiry) {
+    this.expiry = expiry;
+  }
+
+  public String getCardType() {
+    return this.cardType;
+  }
+
+  public void setCardType(String type) {
+    this.cardType = type;
   }
 
   public Address getAddress() {
@@ -68,22 +91,6 @@ public class Card {
 
   public void setAddress(Address address) {
     this.address = address;
-  }
-
-  public LocalDate getExpDate() {
-    return this.expDate;
-  }
-
-  public void setExpDate(LocalDate expDate) {
-    this.expDate = expDate;
-  }
-
-  public CardType getCardType() {
-    return this.cardType;
-  }
-
-  public void setCardType(CardType type) {
-    this.cardType = type;
   }
 
   @Override
