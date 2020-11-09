@@ -1,7 +1,9 @@
 package com.csci4050.bookstore.model;
 
+import com.csci4050.bookstore.CardNumberConverter;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -33,6 +35,7 @@ public class Card {
   private CardType cardType;
 
   @Column(name = "number")
+  @Convert(converter = CardNumberConverter.class)
   private String number;
 
   @Column(name = "name")
