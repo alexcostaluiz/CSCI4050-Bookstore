@@ -13,13 +13,9 @@ function AddressForm(props) {
     addAddress(values);
     form.resetFields();
   };
-  
+
   return (
-    <Form
-      form={form}
-      id='address-form'
-      layout='vertical'
-      onFinish={onFinish}>
+    <Form form={form} id='address-form' layout='vertical' onFinish={onFinish}>
       <Form.Item
         label='Country'
         name='country'
@@ -53,10 +49,16 @@ function AddressForm(props) {
             message: 'Please enter an address',
           },
         ]}>
-        <Input name='address1' placeholder='Street Address, P.O. Box, Company Name, etc.' />
+        <Input
+          name='address1'
+          placeholder='Street Address, P.O. Box, Company Name, etc.'
+        />
       </Form.Item>
       <Form.Item label='Address Line 2' name='address2'>
-        <Input name='address2' placeholder='Apartment, Suite, Unit, Building, Floor, etc.' />
+        <Input
+          name='address2'
+          placeholder='Apartment, Suite, Unit, Building, Floor, etc.'
+        />
       </Form.Item>
       <div className='bookstore-address-form-input-row'>
         <Form.Item

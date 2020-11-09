@@ -4,12 +4,9 @@ import { Select } from 'antd';
 
 function CountrySelect(props) {
   const { name = 'country', onChange } = props;
-  
+
   return (
-    <Select
-      name={name}
-      placeholder='Select Country'
-      onChange={onChange}>
+    <Select name={name} placeholder='Select Country' onChange={onChange}>
       <Select.Option value='Afganistan'>Afghanistan</Select.Option>
       <Select.Option value='Albania'>Albania</Select.Option>
       <Select.Option value='Algeria'>Algeria</Select.Option>
@@ -36,10 +33,14 @@ function CountrySelect(props) {
       <Select.Option value='Bhutan'>Bhutan</Select.Option>
       <Select.Option value='Bolivia'>Bolivia</Select.Option>
       <Select.Option value='Bonaire'>Bonaire</Select.Option>
-      <Select.Option value='Bosnia/Herzegovina'>Bosnia/Herzegovina</Select.Option>
+      <Select.Option value='Bosnia/Herzegovina'>
+        Bosnia/Herzegovina
+      </Select.Option>
       <Select.Option value='Botswana'>Botswana</Select.Option>
       <Select.Option value='Brazil'>Brazil</Select.Option>
-      <Select.Option value='British Indian Ocean Ter'>British Indian Ocean Ter</Select.Option>
+      <Select.Option value='British Indian Ocean Ter'>
+        British Indian Ocean Ter
+      </Select.Option>
       <Select.Option value='Brunei'>Brunei</Select.Option>
       <Select.Option value='Bulgaria'>Bulgaria</Select.Option>
       <Select.Option value='Burkina Faso'>Burkina Faso</Select.Option>
@@ -50,7 +51,9 @@ function CountrySelect(props) {
       <Select.Option value='Canary Islands'>Canary Islands</Select.Option>
       <Select.Option value='Cape Verde'>Cape Verde</Select.Option>
       <Select.Option value='Cayman Islands'>Cayman Islands</Select.Option>
-      <Select.Option value='Central African Republic'>Central African Republic</Select.Option>
+      <Select.Option value='Central African Republic'>
+        Central African Republic
+      </Select.Option>
       <Select.Option value='Chad'>Chad</Select.Option>
       <Select.Option value='Channel Islands'>Channel Islands</Select.Option>
       <Select.Option value='Chile'>Chile</Select.Option>
@@ -71,7 +74,9 @@ function CountrySelect(props) {
       <Select.Option value='Denmark'>Denmark</Select.Option>
       <Select.Option value='Djibouti'>Djibouti</Select.Option>
       <Select.Option value='Dominica'>Dominica</Select.Option>
-      <Select.Option value='Dominican Republic'>Dominican Republic</Select.Option>
+      <Select.Option value='Dominican Republic'>
+        Dominican Republic
+      </Select.Option>
       <Select.Option value='East Timor'>East Timor</Select.Option>
       <Select.Option value='Ecuador'>Ecuador</Select.Option>
       <Select.Option value='Egypt'>Egypt</Select.Option>
@@ -87,7 +92,9 @@ function CountrySelect(props) {
       <Select.Option value='France'>France</Select.Option>
       <Select.Option value='French Guiana'>French Guiana</Select.Option>
       <Select.Option value='French Polynesia'>French Polynesia</Select.Option>
-      <Select.Option value='French Southern Ter'>French Southern Ter</Select.Option>
+      <Select.Option value='French Southern Ter'>
+        French Southern Ter
+      </Select.Option>
       <Select.Option value='Gabon'>Gabon</Select.Option>
       <Select.Option value='Gambia'>Gambia</Select.Option>
       <Select.Option value='Georgia'>Georgia</Select.Option>
@@ -161,8 +168,12 @@ function CountrySelect(props) {
       <Select.Option value='Nambia'>Nambia</Select.Option>
       <Select.Option value='Nauru'>Nauru</Select.Option>
       <Select.Option value='Nepal'>Nepal</Select.Option>
-      <Select.Option value='Netherland Antilles'>Netherland Antilles</Select.Option>
-      <Select.Option value='Netherlands'>Netherlands (Holland, Europe)</Select.Option>
+      <Select.Option value='Netherland Antilles'>
+        Netherland Antilles
+      </Select.Option>
+      <Select.Option value='Netherlands'>
+        Netherlands (Holland, Europe)
+      </Select.Option>
       <Select.Option value='Nevis'>Nevis</Select.Option>
       <Select.Option value='New Caledonia'>New Caledonia</Select.Option>
       <Select.Option value='New Zealand'>New Zealand</Select.Option>
@@ -186,8 +197,12 @@ function CountrySelect(props) {
       <Select.Option value='Portugal'>Portugal</Select.Option>
       <Select.Option value='Puerto Rico'>Puerto Rico</Select.Option>
       <Select.Option value='Qatar'>Qatar</Select.Option>
-      <Select.Option value='Republic of Montenegro'>Republic of Montenegro</Select.Option>
-      <Select.Option value='Republic of Serbia'>Republic of Serbia</Select.Option>
+      <Select.Option value='Republic of Montenegro'>
+        Republic of Montenegro
+      </Select.Option>
+      <Select.Option value='Republic of Serbia'>
+        Republic of Serbia
+      </Select.Option>
       <Select.Option value='Reunion'>Reunion</Select.Option>
       <Select.Option value='Romania'>Romania</Select.Option>
       <Select.Option value='Russia'>Russia</Select.Option>
@@ -198,8 +213,12 @@ function CountrySelect(props) {
       <Select.Option value='St Kitts-Nevis'>St Kitts-Nevis</Select.Option>
       <Select.Option value='St Lucia'>St Lucia</Select.Option>
       <Select.Option value='St Maarten'>St Maarten</Select.Option>
-      <Select.Option value='St Pierre/Miquelon'>St Pierre/Miquelon</Select.Option>
-      <Select.Option value='St Vincent/Grenadines'>St Vincent/Grenadines</Select.Option>
+      <Select.Option value='St Pierre/Miquelon'>
+        St Pierre/Miquelon
+      </Select.Option>
+      <Select.Option value='St Vincent/Grenadines'>
+        St Vincent/Grenadines
+      </Select.Option>
       <Select.Option value='Saipan'>Saipan</Select.Option>
       <Select.Option value='Samoa'>Samoa</Select.Option>
       <Select.Option value='Samoa American'>Samoa American</Select.Option>
@@ -240,16 +259,24 @@ function CountrySelect(props) {
       <Select.Option value='Uganda'>Uganda</Select.Option>
       <Select.Option value='United Kingdom'>United Kingdom</Select.Option>
       <Select.Option value='Ukraine'>Ukraine</Select.Option>
-      <Select.Option value='United Arab Erimates'>United Arab Emirates</Select.Option>
+      <Select.Option value='United Arab Erimates'>
+        United Arab Emirates
+      </Select.Option>
       <Select.Option value='United States'>United States</Select.Option>
       <Select.Option value='Uraguay'>Uruguay</Select.Option>
       <Select.Option value='Uzbekistan'>Uzbekistan</Select.Option>
       <Select.Option value='Vanuatu'>Vanuatu</Select.Option>
-      <Select.Option value='Vatican City State'>Vatican City State</Select.Option>
+      <Select.Option value='Vatican City State'>
+        Vatican City State
+      </Select.Option>
       <Select.Option value='Venezuela'>Venezuela</Select.Option>
       <Select.Option value='Vietnam'>Vietnam</Select.Option>
-      <Select.Option value='Virgin Islands (Brit)'>Virgin Islands (Brit)</Select.Option>
-      <Select.Option value='Virgin Islands (USA)'>Virgin Islands (USA)</Select.Option>
+      <Select.Option value='Virgin Islands (Brit)'>
+        Virgin Islands (Brit)
+      </Select.Option>
+      <Select.Option value='Virgin Islands (USA)'>
+        Virgin Islands (USA)
+      </Select.Option>
       <Select.Option value='Wake Island'>Wake Island</Select.Option>
       <Select.Option value='Wallis/Futana Is'>Wallis/Futana Is</Select.Option>
       <Select.Option value='Yemen'>Yemen</Select.Option>

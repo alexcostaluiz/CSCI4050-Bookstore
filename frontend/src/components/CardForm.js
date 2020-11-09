@@ -19,7 +19,7 @@ function CardForm(props) {
   };
 
   const onCardChange = (type, isValid) => {
-    form.setFieldsValue({cardType: type.issuer, valid: isValid});
+    form.setFieldsValue({ cardType: type.issuer, valid: isValid });
     if (isValid) {
       form.validateFields(['number']);
     }
@@ -103,7 +103,7 @@ function CardForm(props) {
             },
             {
               pattern: /\d\d\/\d\d/,
-              message: 'Expiry date expected in format "MM/YY"'
+              message: 'Expiry date expected in format "MM/YY"',
             },
           ]}
           hasFeedback
@@ -115,16 +115,10 @@ function CardForm(props) {
           />
         </Form.Item>
         <Form.Item name='cardType' hidden>
-          <Input
-            name='cardType'
-            type='hidden'
-          />
+          <Input name='cardType' type='hidden' />
         </Form.Item>
         <Form.Item name='valid' hidden>
-          <Input
-            name='valid'
-            type='hidden'
-          />
+          <Input name='valid' type='hidden' />
         </Form.Item>
       </Form>
     </div>

@@ -37,7 +37,7 @@ public class AuthController {
   @Autowired private ApplicationEventPublisher eventPublisher;
   @Autowired ObjectMapper objectMapper = new ObjectMapper();
   /* These all will interface with service files */
-  
+
   @PostMapping("/saveAddress")
   public void saveAddress(@RequestBody String json) {
     try {
@@ -60,7 +60,7 @@ public class AuthController {
       e.printStackTrace();
     }
   }
-  
+
   @PostMapping("/deleteAddress")
   public void deleteAddress(@RequestBody String json) {
     try {
@@ -119,7 +119,7 @@ public class AuthController {
       e.printStackTrace();
     }
   }
-  
+
   @PostMapping("/edit_profile")
   public void updateUser(@RequestBody String json) {
     try {

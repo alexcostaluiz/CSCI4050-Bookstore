@@ -20,7 +20,7 @@ public class Address {
   @Column(name = "id")
   @NotNull
   private Integer id;
-  
+
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", referencedColumnName = "id")
   private User user;
@@ -72,7 +72,7 @@ public class Address {
   public void setAddress1(String address1) {
     this.address1 = address1;
   }
-  
+
   public String getAddress2() {
     return this.address2;
   }
