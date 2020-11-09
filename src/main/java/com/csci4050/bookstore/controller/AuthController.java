@@ -163,7 +163,8 @@ public class AuthController {
             userObj.setPassword(newPass);
             userService.updateUser(userObj);
             System.out.println(user.getPassword());
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getUsername(), newPass);
+            UsernamePasswordAuthenticationToken token =
+                new UsernamePasswordAuthenticationToken(user.getUsername(), newPass);
             SecurityContextHolder.getContext().setAuthentication(token);
           } else {
             throw new Exception("incorrect password");
