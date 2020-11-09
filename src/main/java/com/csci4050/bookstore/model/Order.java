@@ -13,7 +13,7 @@ public class Order extends Cart {
   @ManyToOne
   @JoinColumn(name = "user_id")
   @NotNull
-  private RegisteredUser user;
+  private User user;
 
   @ManyToOne
   @JoinColumn(name = "address_id", referencedColumnName = "id")
@@ -36,4 +36,8 @@ public class Order extends Cart {
   @Column(name = "confirmation_no")
   @NotNull
   private Integer confirmationNumber;
+
+  public void setUser(User user) {
+    this.user = user;
+  }
 }

@@ -1,5 +1,9 @@
 package com.csci4050.bookstore.model;
 
+import com.csci4050.bookstore.MyBookDeserializer;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.Map;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -35,17 +39,24 @@ public class Cart {
       joinColumns = {@JoinColumn(name = "cart_id", referencedColumnName = "id")})
   @MapKeyColumn(name = "book")
   @Column(name = "quantity")
+  @JsonProperty("map")
+  @JsonDeserialize(keyUsing = MyBookDeserializer.class)
   private Map<Book, Integer> books;
 
   public Map<Book, Integer> getBooks() {
     return this.books;
   }
 
+  @JsonCreator
   public void setBooks(Map<Book, Integer> books) {
     this.books = books;
   }
 
   public Integer getId() {
     return this.id;
+  }
+
+  public void setUser(User user) {
+    this.user = user;
   }
 }

@@ -17,6 +17,9 @@ import ManageBooksPage from './pages/ManageBooksPage.js';
 import RegisterPage from './pages/RegisterPage.js';
 import ProfilePage from './pages/ProfilePage.js';
 import ScrollToTop from './components/ScrollToTop.js';
+import OrderHistory from './pages/OrderHistory.js';
+import ResetPassword from './pages/ResetPassword.js';
+import ForgotPassword from './pages/ForgotPassword.js';
 
 import * as serviceWorker from './serviceWorker';
 
@@ -43,11 +46,20 @@ ReactDOM.render(
               <Route path='/profile'>
                 <ProfilePage />
               </Route>
+              <Route path='/orderhistory'>
+                <OrderHistory />
+              </Route>
               <Route path='/login'>
                 <LoginPage />
               </Route>
               <Route path='/register'>
                 <RegisterPage />
+              </Route>
+              <Route path='/forgot_password'>
+                <ForgotPassword />
+              </Route>
+              <Route path='/updatePassword'>
+                <ResetPassword />
               </Route>
               <Route path='/admin/manage/books'>
                 <ManageBooksPage />
@@ -67,7 +79,6 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
-
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA

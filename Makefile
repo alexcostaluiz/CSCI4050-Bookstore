@@ -25,6 +25,10 @@ package:
 run:
 	./mvnw spring-boot:run
 
+runprod:
+	./mvnw prepare-package
+	./mvnw spring-boot:run
+
 test:
 	./mvnw test
 

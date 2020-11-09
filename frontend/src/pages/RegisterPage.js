@@ -49,7 +49,8 @@ function Register(props) {
   const openNotification = () => {
     notification.open({
       message: 'Registration Complete',
-      description: 'You are in! Welcome to the Bookstore!',
+      description:
+        'Confirmation email sent. Please use the link to activate account.',
       onClick: () => {
         console.log('Notification Clicked!');
       },
@@ -57,7 +58,14 @@ function Register(props) {
   };
 
   const onFinish = (values) => {
-    console.log('Received values of form: ', values);
+    delete values.confirm;
+    fetch('/auth/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    });
     openNotification();
   };
 
@@ -76,7 +84,7 @@ function Register(props) {
               scrollToFirstError>
               <Form.Item
                 label='First Name'
-                name='firstname'
+                name='firstName'
                 rules={[
                   {
                     required: true,
@@ -87,7 +95,7 @@ function Register(props) {
               </Form.Item>
               <Form.Item
                 label='Last Name'
-                name='lastname'
+                name='lastName'
                 rules={[
                   {
                     required: true,
@@ -97,18 +105,7 @@ function Register(props) {
                 <Input />
               </Form.Item>
               <Form.Item
-                label='Username'
-                name='username'
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input your username!',
-                  },
-                ]}>
-                <Input />
-              </Form.Item>
-              <Form.Item
-                name='email'
+                name='emailAddress'
                 label='E-mail'
                 rules={[
                   {
@@ -127,7 +124,7 @@ function Register(props) {
               </Form.Item>
               <Form.Item
                 label='Phone number'
-                name='phone'
+                name='phoneNumber'
                 rules={[
                   {
                     required: true,
@@ -177,7 +174,7 @@ function Register(props) {
                 <Input.Password />
               </Form.Item>
               <Form.Item
-                name='agreement'
+                name='subscription'
                 valuePropName='checked'
                 rules={[
                   {
@@ -199,7 +196,7 @@ function Register(props) {
                   className='register-form-button'
                   size='large'
                   block
-                  onSubmit={() => history.push('/auth/register')}>
+                  onSubmit={() => history.push('/login')}>
                   Register
                 </Button>
               </Form.Item>

@@ -1,11 +1,14 @@
 package com.csci4050.bookstore.model;
 
+import com.csci4050.bookstore.CardNumberConverter;
 import java.time.LocalDate;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,13 +27,13 @@ public class Card {
   @NotNull
   private Integer id;
 
-  @ManyToOne
-  @JoinColumn(name = "user_id")
-  @NotNull
-  private RegisteredUser user;
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id", referencedColumnName = "id")
+  private User user;
 
   @Column(name = "acct_num")
-  private Integer acctNum;
+  @Convert(converter = CardNumberConverter.class)
+  private String acctNum;
 
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "address_id", referencedColumnName = "id")
@@ -38,9 +41,6 @@ public class Card {
 
   @Column(name = "exp_date")
   private LocalDate expDate;
-
-  @Column(name = "cvv")
-  private Integer cvv;
 
   @Column(name = "card_type")
   @Enumerated(EnumType.STRING)
@@ -50,12 +50,16 @@ public class Card {
     return this.id;
   }
 
-  public Integer getAcctNum() {
+  public String getAcctNum() {
     return this.acctNum;
   }
 
-  public void setAcctNum(Integer acctNum) {
+  public void setAcctNum(String acctNum) {
     this.acctNum = acctNum;
+  }
+
+  public void setUser(User user) {
+    this.user = user;
   }
 
   public Address getAddress() {
@@ -74,19 +78,20 @@ public class Card {
     this.expDate = expDate;
   }
 
-  public Integer getCvv() {
-    return this.cvv;
-  }
-
-  public void setCvv(Integer cvv) {
-    this.cvv = cvv;
-  }
-
   public CardType getCardType() {
     return this.cardType;
   }
 
   public void setCardType(CardType type) {
     this.cardType = type;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof Card) {
+      Card c = (Card) o;
+      return this.id == c.id;
+    }
+    return false;
   }
 }
