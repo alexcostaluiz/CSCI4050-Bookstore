@@ -31,8 +31,7 @@ public class Card {
   private User user;
 
   @Column(name = "card_type")
-  @Enumerated(EnumType.STRING)
-  private CardType cardType;
+  private String cardType;
 
   @Column(name = "number")
   @Convert(converter = CardNumberConverter.class)
@@ -80,11 +79,11 @@ public class Card {
     this.expiry = expiry;
   }
 
-  public CardType getCardType() {
+  public String getCardType() {
     return this.cardType;
   }
 
-  public void setCardType(CardType type) {
+  public void setCardType(String type) {
     this.cardType = type;
   }
 
