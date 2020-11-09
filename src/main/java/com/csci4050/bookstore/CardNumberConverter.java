@@ -8,7 +8,7 @@ import org.springframework.security.crypto.keygen.KeyGenerators;
 
 @Converter
 public class CardNumberConverter implements AttributeConverter<String, String> {
-  String salt = KeyGenerators.string().generateKey();
+  String salt = "73616c74";//KeyGenerators.string().generateKey();
   TextEncryptor enc = Encryptors.text("password", salt);
 
   @Override
