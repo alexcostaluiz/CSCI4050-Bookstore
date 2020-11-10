@@ -34,7 +34,9 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/auth")
 public class AuthController {
 
-  @Resource(name = "authenticationManager") AuthenticationManager authManager;
+  @Resource(name = "authenticationManager")
+  AuthenticationManager authManager;
+
   @Autowired private UserService userService;
   @Autowired private CardService cardService;
   @Autowired private AddressService addressService;
@@ -160,28 +162,27 @@ public class AuthController {
         if (principal instanceof UserDetails) {
           UserDetails user = (UserDetails) principal;
 
-          //check old password 
+          // check old password
           if (bcrypt.matches(dto.getOldPassword(), user.getPassword())) {
-            //change pw
+            // change pw
             User userObj = userService.getUser(user.getUsername());
             String newPass = bcrypt.encode(dto.getNewPassword());
             userObj.setPassword(newPass);
             userService.updateUser(userObj);
 
-            //reauths user after successful pw change
+            // reauths user after successful pw change
             UsernamePasswordAuthenticationToken token =
                 new UsernamePasswordAuthenticationToken(user.getUsername(), dto.getNewPassword());
             auth = authManager.authenticate(token);
             SecurityContextHolder.getContext().setAuthentication(auth);
-            
-            
+
           } else {
             throw new Exception("incorrect password");
           }
         }
       }
     } catch (JsonProcessingException e) {
-      //problems deserializing
+      // problems deserializing
       e.printStackTrace();
     } catch (RuntimeException e) {
       e.printStackTrace();
@@ -194,7 +195,7 @@ public class AuthController {
     try {
       User user = objectMapper.readValue(json, User.class);
       user = userService.getUser(user.getEmailAddress());
-      if (user.getId() != null) { 
+      if (user.getId() != null) {
         String url = request.getContextPath();
         eventPublisher.publishEvent(new PasswordResetEvent(user, request.getLocale(), url));
       }
