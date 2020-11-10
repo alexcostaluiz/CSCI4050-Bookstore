@@ -58,12 +58,18 @@ public class AuthController {
           addresses.add(address);
           userObj.setAddresses(addresses);
           userService.updateUser(userObj);
+        } else {
+          throw new Exception("Authentication failed");
         }
+      } else {
+        throw new Exception("Authentication failed");      
       }
     } catch (JsonProcessingException e) {
       e.printStackTrace();
-    } catch (RuntimeException e) {
+      throw new ResponseStatusException(HttpStatus.CONFLICT, "Error deserializing Address", e);
+    } catch (Exception e) {
       e.printStackTrace();
+      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage(), e);
     }
   }
 
@@ -72,16 +78,22 @@ public class AuthController {
     try {
       Address address = objectMapper.readValue(json, Address.class);
       Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-      if (auth != null) {
+      if (auth != null) { // if authentication is valid
         Object principal = auth.getPrincipal();
         if (principal instanceof UserDetails) {
           addressService.delete(address.getId());
+        } else {
+          throw new Exception("Authentication failed");
         }
+      } else {
+        throw new Exception("Authentication failed");
       }
     } catch (JsonProcessingException e) {
       e.printStackTrace();
-    } catch (RuntimeException e) {
+      throw new ResponseStatusException(HttpStatus.CONFLICT, "Error deserializing Address", e);
+    } catch (Exception e) {
       e.printStackTrace();
+      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage(), e);
     }
   }
 
@@ -99,12 +111,18 @@ public class AuthController {
           cards.add(card);
           userObj.setSavedCards(cards);
           userService.updateUser(userObj);
+        } else {
+          throw new Exception("Authentication failed");
         }
+      } else {
+        throw new Exception("Authentication failed");
       }
     } catch (JsonProcessingException e) {
       e.printStackTrace();
-    } catch (RuntimeException e) {
+      throw new ResponseStatusException(HttpStatus.CONFLICT, "Error deserializing Card", e);
+    } catch (Exception e) {
       e.printStackTrace();
+      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage(), e);
     }
   }
 
@@ -117,12 +135,18 @@ public class AuthController {
         Object principal = auth.getPrincipal();
         if (principal instanceof UserDetails) {
           cardService.delete(card.getId());
+        } else {
+          throw new Exception("Authentication failed");
         }
+      } else {
+        throw new Exception("Authentication failed");
       }
     } catch (JsonProcessingException e) {
       e.printStackTrace();
-    } catch (RuntimeException e) {
+      throw new ResponseStatusException(HttpStatus.CONFLICT, "Error deserializing Card", e);
+    } catch (Exception e) {
       e.printStackTrace();
+      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage(), e);
     }
   }
 
@@ -141,14 +165,19 @@ public class AuthController {
           userObj.setLastName(user.getLastName());
           userObj.setPhoneNumber(user.getPhoneNumber());
           userService.updateUser(userObj);
+        } else {
+          throw new Exception("Authentication failed");
         }
+      } else {
+        throw new Exception("Authentication failed");
       }
-
     } catch (JsonProcessingException e) {
       e.printStackTrace();
-    } catch (RuntimeException e) {
+      throw new ResponseStatusException(HttpStatus.CONFLICT, "Error deserializing user", e);
+    } catch (Exception e) {
       e.printStackTrace();
-    }
+      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage(), e);
+    } 
   }
 
   @PostMapping("/changePassword")
@@ -161,7 +190,6 @@ public class AuthController {
         Object principal = auth.getPrincipal();
         if (principal instanceof UserDetails) {
           UserDetails user = (UserDetails) principal;
-
           // check old password
           if (bcrypt.matches(dto.getOldPassword(), user.getPassword())) {
             // change pw
@@ -175,7 +203,6 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(user.getUsername(), dto.getNewPassword());
             auth = authManager.authenticate(token);
             SecurityContextHolder.getContext().setAuthentication(auth);
-
           } else {
             throw new Exception("incorrect password");
           }
@@ -184,33 +211,37 @@ public class AuthController {
     } catch (JsonProcessingException e) {
       // problems deserializing
       e.printStackTrace();
-    } catch (RuntimeException e) {
+      throw new ResponseStatusException(HttpStatus.CONFLICT, "Error deserializing Password", e);
+    } catch (Exception e) {
       e.printStackTrace();
+      throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage(), e);
     }
   }
 
   @PostMapping("/forgot_password")
   public void forgotPassword(@RequestBody String json, HttpServletRequest request) {
-
     try {
       User user = objectMapper.readValue(json, User.class);
-      user = userService.getUser(user.getEmailAddress());
-      if (user.getId() != null) {
+      user = userService.getUser(user.getEmailAddress()); // find user based on email
+      if (user.getId() != null) { // if the user has been found
         String url = request.getContextPath();
-        eventPublisher.publishEvent(new PasswordResetEvent(user, request.getLocale(), url));
+        eventPublisher.publishEvent(new PasswordResetEvent(user, request.getLocale(), url)); // reset password
+      } else { // if the user isn't found
+        throw new Exception("User not found");
       }
-
     } catch (JsonProcessingException e) {
       e.printStackTrace();
-    } catch (RuntimeException e) {
+      throw new ResponseStatusException(HttpStatus.CONFLICT, "Error deserializing User", e);
+    } catch (Exception e) {
       e.printStackTrace();
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
     }
   }
 
   @GetMapping("/user")
   public User getUser() throws Exception {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    if (auth != null) {
+    if (auth != null) { // if the user exists
       Object principal = auth.getPrincipal();
       if (principal instanceof UserDetails) {
         UserDetails user = (UserDetails) principal;
@@ -218,7 +249,6 @@ public class AuthController {
         return userObj;
       }
     }
-
     User user = new User();
     return user;
   }
@@ -232,11 +262,10 @@ public class AuthController {
       eventPublisher.publishEvent(new RegistrationCompletionEvent(user, request.getLocale(), url));
     } catch (JsonProcessingException e) {
       e.printStackTrace();
+      throw new ResponseStatusException(HttpStatus.CONFLICT, "Error deserializing User Object", e);
     } catch (DataIntegrityViolationException e) {
       e.printStackTrace();
       throw new ResponseStatusException(HttpStatus.CONFLICT, "Email already exists", e);
-    } catch (RuntimeException e) {
-      e.printStackTrace();
     }
   }
 }
