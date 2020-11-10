@@ -3,9 +3,7 @@ package com.csci4050.bookstore.events;
 import com.csci4050.bookstore.model.User;
 import com.csci4050.bookstore.service.UserService;
 import java.util.UUID;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.mail.SimpleMailMessage;
