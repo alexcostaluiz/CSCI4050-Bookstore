@@ -35,8 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/auth/edit_profile",
             "/auth/saveCard",
             "/auth/deleteCard",
-            "/auth/updateAddress",
-            "/auth/user")
+            "/auth/updateAddress")
         .hasAnyAuthority("ADMIN", "USER")
         .antMatchers("/admin", "/admin/manage/books")
         .hasAuthority("ADMIN")
