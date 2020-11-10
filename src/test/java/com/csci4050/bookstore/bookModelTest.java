@@ -72,7 +72,7 @@ class BookstoreApplicationTests {
             restTemplate.getForObject(
                 "http://localhost:"
                     + port
-                    + "/api/books?filter=publisher == \"UGA Publishing\" , publisher == \"UGA not"
+                    + "/books/get?filter=publisher == \"UGA Publishing\" , publisher == \"UGA not"
                     + " publishing\"",
                 Book[].class))
         .containsExactlyInAnyOrder(bookOne, bookTwo);
@@ -84,7 +84,7 @@ class BookstoreApplicationTests {
             restTemplate.getForObject(
                 "http://localhost:"
                     + port
-                    + "/api/books?filter=publisher == \"UGA Publishing\" ; title == \"Book time\"",
+                    + "/books/get?filter=publisher == \"UGA Publishing\" ; title == \"Book time\"",
                 Book[].class))
         .containsExactly(bookOne);
   }
@@ -95,7 +95,7 @@ class BookstoreApplicationTests {
             restTemplate.getForObject(
                 "http://localhost:"
                     + port
-                    + "/api/books?filter=publisher == \"UGA Publishing\" ; title == \"Book time\""
+                    + "/books/get?filter=publisher == \"UGA Publishing\" ; title == \"Book time\""
                     + " , publisher == \"UGA not publishing\"",
                 Book[].class))
         .containsExactlyInAnyOrder(bookOne, bookTwo);
@@ -105,7 +105,7 @@ class BookstoreApplicationTests {
   public void testGTE() throws Exception {
     assertThat(
             restTemplate.getForObject(
-                "http://localhost:" + port + "/api/books?filter=id >= 0", Book[].class))
+                "http://localhost:" + port + "/books/get?filter=id >= 0", Book[].class))
         .containsExactly(bookOne, bookTwo);
   }
 
@@ -113,7 +113,7 @@ class BookstoreApplicationTests {
   public void testGT() throws Exception {
     assertThat(
             restTemplate.getForObject(
-                "http://localhost:" + port + "/api/books?filter=isbn > 111", Book[].class))
+                "http://localhost:" + port + "/books/get?filter=isbn > 111", Book[].class))
         .containsExactly(bookTwo);
   }
 
@@ -121,7 +121,7 @@ class BookstoreApplicationTests {
   public void testLT() throws Exception {
     assertThat(
             restTemplate.getForObject(
-                "http://localhost:" + port + "/api/books?filter=isbn < 140", Book[].class))
+                "http://localhost:" + port + "/books/get?filter=isbn < 140", Book[].class))
         .containsExactly(bookOne);
   }
 
@@ -129,7 +129,7 @@ class BookstoreApplicationTests {
   public void testLTE() throws Exception {
     assertThat(
             restTemplate.getForObject(
-                "http://localhost:" + port + "/api/books?filter=isbn <= 142", Book[].class))
+                "http://localhost:" + port + "/books/get?filter=isbn <= 142", Book[].class))
         .containsExactly(bookOne, bookTwo);
   }
 
@@ -137,7 +137,7 @@ class BookstoreApplicationTests {
   public void testEqual() throws Exception {
     assertThat(
             restTemplate.getForObject(
-                "http://localhost:" + port + "/api/books?filter=isbn == 142", Book[].class))
+                "http://localhost:" + port + "/books/get?filter=isbn == 142", Book[].class))
         .containsExactly(bookTwo);
   }
 
@@ -145,7 +145,7 @@ class BookstoreApplicationTests {
   public void testNotEqual() throws Exception {
     assertThat(
             restTemplate.getForObject(
-                "http://localhost:" + port + "/api/books?filter=isbn != 142", Book[].class))
+                "http://localhost:" + port + "/books/get?filter=isbn != 142", Book[].class))
         .containsExactly(bookOne);
   }
 
