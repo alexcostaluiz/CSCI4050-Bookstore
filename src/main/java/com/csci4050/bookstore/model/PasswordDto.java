@@ -1,4 +1,4 @@
-package com.csci4050.bookstore.controller;
+package com.csci4050.bookstore.model;
 
 public class PasswordDto {
 
