@@ -11,11 +11,13 @@ import com.csci4050.bookstore.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,6 +34,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/auth")
 public class AuthController {
 
+  @Resource(name = "authenticationManager") AuthenticationManager authManager;
   @Autowired private UserService userService;
   @Autowired private CardService cardService;
   @Autowired private AddressService addressService;
@@ -157,21 +160,28 @@ public class AuthController {
         if (principal instanceof UserDetails) {
           UserDetails user = (UserDetails) principal;
 
+          //check old password 
           if (bcrypt.matches(dto.getOldPassword(), user.getPassword())) {
+            //change pw
             User userObj = userService.getUser(user.getUsername());
             String newPass = bcrypt.encode(dto.getNewPassword());
             userObj.setPassword(newPass);
             userService.updateUser(userObj);
-            System.out.println(user.getPassword());
+
+            //reauths user after successful pw change
             UsernamePasswordAuthenticationToken token =
-                new UsernamePasswordAuthenticationToken(user.getUsername(), newPass);
-            SecurityContextHolder.getContext().setAuthentication(token);
+                new UsernamePasswordAuthenticationToken(user.getUsername(), dto.getNewPassword());
+            auth = authManager.authenticate(token);
+            SecurityContextHolder.getContext().setAuthentication(auth);
+            
+            
           } else {
             throw new Exception("incorrect password");
           }
         }
       }
     } catch (JsonProcessingException e) {
+      //problems deserializing
       e.printStackTrace();
     } catch (RuntimeException e) {
       e.printStackTrace();
@@ -184,7 +194,7 @@ public class AuthController {
     try {
       User user = objectMapper.readValue(json, User.class);
       user = userService.getUser(user.getEmailAddress());
-      if (user.getId() != null) {
+      if (user.getId() != null) { 
         String url = request.getContextPath();
         eventPublisher.publishEvent(new PasswordResetEvent(user, request.getLocale(), url));
       }
@@ -207,6 +217,7 @@ public class AuthController {
         return userObj;
       }
     }
+
     User user = new User();
     return user;
   }
