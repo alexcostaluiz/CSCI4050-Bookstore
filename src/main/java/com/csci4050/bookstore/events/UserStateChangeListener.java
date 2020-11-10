@@ -3,6 +3,9 @@ package com.csci4050.bookstore.events;
 import com.csci4050.bookstore.model.User;
 import com.csci4050.bookstore.service.UserService;
 import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.mail.SimpleMailMessage;
@@ -14,6 +17,7 @@ public class UserStateChangeListener {
 
   @Autowired private UserService userService;
   @Autowired private JavaMailSender mailSender;
+  @Autowired private HttpServletRequest request;
 
   @EventListener
   public void resetPassword(PasswordResetEvent event) {
@@ -29,7 +33,9 @@ public class UserStateChangeListener {
     SimpleMailMessage email = new SimpleMailMessage();
     email.setTo(recipientAddress);
     email.setSubject(subject);
-    email.setText("\r\n" + "http://localhost:8080" + confirmationUrl);
+    String ref = request.getHeader("referer");
+    ref = ref.substring(0, ref.lastIndexOf("/"));
+    email.setText("\r\n" + ref + confirmationUrl);
     mailSender.send(email);
   }
 
@@ -48,7 +54,9 @@ public class UserStateChangeListener {
     SimpleMailMessage email = new SimpleMailMessage();
     email.setTo(recipientAddress);
     email.setSubject(subject);
-    email.setText("\r\n" + "http://localhost:8080" + confirmationUrl);
+    String ref = request.getHeader("referer");
+    ref = ref.substring(0, ref.lastIndexOf("/"));
+    email.setText("\r\n" + ref + confirmationUrl);
     mailSender.send(email);
   }
 }
