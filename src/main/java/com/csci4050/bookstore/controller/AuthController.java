@@ -62,7 +62,7 @@ public class AuthController {
           throw new Exception("Authentication failed");
         }
       } else {
-        throw new Exception("Authentication failed");      
+        throw new Exception("Authentication failed");
       }
     } catch (JsonProcessingException e) {
       e.printStackTrace();
@@ -177,7 +177,7 @@ public class AuthController {
     } catch (Exception e) {
       e.printStackTrace();
       throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage(), e);
-    } 
+    }
   }
 
   @PostMapping("/changePassword")
@@ -225,7 +225,8 @@ public class AuthController {
       user = userService.getUser(user.getEmailAddress()); // find user based on email
       if (user.getId() != null) { // if the user has been found
         String url = request.getContextPath();
-        eventPublisher.publishEvent(new PasswordResetEvent(user, request.getLocale(), url)); // reset password
+        eventPublisher.publishEvent(
+            new PasswordResetEvent(user, request.getLocale(), url)); // reset password
       } else { // if the user isn't found
         throw new Exception("User not found");
       }
