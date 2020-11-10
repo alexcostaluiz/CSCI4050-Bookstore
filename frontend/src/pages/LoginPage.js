@@ -81,7 +81,7 @@ function Login(props) {
                 <Button
                   className='bookstore-login-form-forgot'
                   type='link'
-                  onClick={() => history.push('/forgot_password')}>
+                  onClick={() => history.push('/forgotPassword')}>
                   Forgot Password
                 </Button>
               </Form.Item>
