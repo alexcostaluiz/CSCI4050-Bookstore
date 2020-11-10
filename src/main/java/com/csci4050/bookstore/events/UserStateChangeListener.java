@@ -47,7 +47,7 @@ public class UserStateChangeListener {
 
     String recipientAddress = user.getEmailAddress();
     String subject = "Account Registration Confirmation";
-    String confirmationUrl = event.getUrl() + "/registration/accountConfirm?token=" + token;
+    String confirmationUrl = event.getUrl() + "/event/accountConfirm?token=" + token;
 
     SimpleMailMessage email = new SimpleMailMessage();
     email.setTo(recipientAddress);
