@@ -47,7 +47,7 @@ public class Promotion {
   }
 
   public void setStartDate(LocalDateTime startDate) throws ConstraintViolationException {
-    if(startDate.isBefore(endDate)){
+    if (startDate.isBefore(endDate)) {
       this.startDate = startDate;
       return;
     }
@@ -59,7 +59,7 @@ public class Promotion {
   }
 
   public void setEndDate(LocalDateTime endDate) throws ConstraintViolationException {
-    if(endDate.isAfter(startDate)){
+    if (endDate.isAfter(startDate)) {
       this.endDate = endDate;
       return;
     }
@@ -71,11 +71,10 @@ public class Promotion {
   }
 
   public void setDiscount(Double discount) throws ConstraintViolationException {
-    if(discount >= 0 && discount <= 1) {
+    if (discount >= 0 && discount <= 1) {
       this.discount = discount;
       return;
     }
     throw new ConstraintViolationException("invalid discound", null, null);
   }
-
 }

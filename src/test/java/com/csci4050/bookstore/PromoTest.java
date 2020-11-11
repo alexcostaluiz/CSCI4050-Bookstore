@@ -2,10 +2,9 @@ package com.csci4050.bookstore;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.time.LocalDateTime;
-
 import com.csci4050.bookstore.model.Promotion;
 import com.csci4050.bookstore.service.PromoService;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -23,14 +22,12 @@ class PromoTest {
 
   @Autowired private PromoService promoService;
 
-  private Promotion promoOne =
-      new Promotion();
+  private Promotion promoOne = new Promotion();
 
-  private Promotion promoTwo =
-      new Promotion();
-        LocalDateTime start = LocalDateTime.now();
-        LocalDateTime end1 = LocalDateTime.now().plusDays(10);
-        LocalDateTime end2 = LocalDateTime.now().plusDays(11);
+  private Promotion promoTwo = new Promotion();
+  LocalDateTime start = LocalDateTime.now();
+  LocalDateTime end1 = LocalDateTime.now().plusDays(10);
+  LocalDateTime end2 = LocalDateTime.now().plusDays(11);
   @LocalServerPort private int port;
 
   @Autowired private TestRestTemplate restTemplate;
@@ -43,7 +40,6 @@ class PromoTest {
     promoOne.setPromoCode("Test1");
     promoOne.setDiscount(0.5);
 
-    
     promoTwo.setStartDate(start);
     promoTwo.setEndDate(end2);
     promoTwo.setPromoCode("Test2");
@@ -60,7 +56,11 @@ class PromoTest {
             restTemplate.getForObject(
                 "http://localhost:"
                     + port
-                    + "/promos/get?filter=endDate == \"" + end1.toString().replaceAll("T", " ") + "\" , endDate == \"" + end2.toString().replaceAll("T", " ") + "\"",
+                    + "/promos/get?filter=endDate == \""
+                    + end1.toString().replaceAll("T", " ")
+                    + "\" , endDate == \""
+                    + end2.toString().replaceAll("T", " ")
+                    + "\"",
                 Promotion[].class))
         .containsExactlyInAnyOrder(promoOne, promoTwo);
   }
@@ -71,11 +71,15 @@ class PromoTest {
             restTemplate.getForObject(
                 "http://localhost:"
                     + port
-                    + "/promos/get?filter=startDate == \"" + start.toString().replaceAll("T", " ") + "\" ; endDate == \"" + end1.toString().replaceAll("T", " ") + "\"",
-                    Promotion[].class))
+                    + "/promos/get?filter=startDate == \""
+                    + start.toString().replaceAll("T", " ")
+                    + "\" ; endDate == \""
+                    + end1.toString().replaceAll("T", " ")
+                    + "\"",
+                Promotion[].class))
         .containsExactly(promoOne);
   }
-  
+
   @Test
   public void testNested() throws Exception {
     assertThat(
@@ -84,7 +88,7 @@ class PromoTest {
                     + port
                     + "/promos/get?filter=publisher == \"UGA Publishing\" ; title == \"Book time\""
                     + " , publisher == \"UGA not publishing\"",
-                    Promotion[].class))
+                Promotion[].class))
         .containsExactlyInAnyOrder(promoOne, promoTwo);
   }
 
@@ -135,11 +139,10 @@ class PromoTest {
                 "http://localhost:" + port + "/promos/get?filter=isbn != 142", Promotion[].class))
         .containsExactly(promoOne);
   }
-  
+
   @AfterAll
   public void exit() throws Exception {
     promoService.delete(promoOne);
     promoService.delete(promoTwo);
   }
-  
 }
