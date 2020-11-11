@@ -39,7 +39,7 @@ public class ReactController {
   }
 
   @RequestMapping(
-      value = {"/register", "/login", "/forgot_password"},
+      value = {"/register", "/login", "/forgotPassword"},
       method = RequestMethod.GET)
   public String restrictUsers() throws Exception {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();

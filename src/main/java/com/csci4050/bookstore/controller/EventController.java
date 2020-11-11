@@ -1,6 +1,7 @@
 package com.csci4050.bookstore.controller;
 
 import com.csci4050.bookstore.model.ActivityStatus;
+import com.csci4050.bookstore.model.PasswordDto;
 import com.csci4050.bookstore.model.User;
 import com.csci4050.bookstore.model.VerificationToken;
 import com.csci4050.bookstore.service.UserService;
@@ -17,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/registration")
-public class RegistrationController {
+@RequestMapping("/event")
+public class EventController {
 
   @Autowired private UserService userService;
   ObjectMapper objectMapper = new ObjectMapper();

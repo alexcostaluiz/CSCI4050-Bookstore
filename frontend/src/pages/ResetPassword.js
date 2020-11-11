@@ -21,7 +21,7 @@ function ResetPassword(props) {
 
     delete values.confirm;
     values['token'] = location.search.split('=')[1];
-    await fetch('/registration/savePassword', {
+    await fetch('/event/savePassword', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -77,7 +77,7 @@ function ProfilePage(props) {
   };
 
   const savePersonalInfo = async () => {
-    const response = await fetch('/auth/edit_profile', {
+    const response = await fetch('/edit/personalInfo', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ function ProfilePage(props) {
 
   const changePassword = async (values) => {
     delete values.confirm;
-    const response = await fetch('/auth/changePassword', {
+    const response = await fetch('/edit/password', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -111,7 +111,7 @@ function ProfilePage(props) {
 
   const addCard = async (values) => {
     delete values.valid;
-    const response = await fetch('/auth/saveCard', {
+    const response = await fetch('/edit/saveCard', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -126,7 +126,7 @@ function ProfilePage(props) {
 
   const deleteCard = async (card) => {
     delete card.description;
-    const response = await fetch('/auth/deleteCard', {
+    const response = await fetch('/edit/deleteCard', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -140,7 +140,7 @@ function ProfilePage(props) {
   };
 
   const addAddress = async (values) => {
-    const response = await fetch('/auth/saveAddress', {
+    const response = await fetch('/edit/saveAddress', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -154,7 +154,7 @@ function ProfilePage(props) {
   };
 
   const deleteAddress = async (values) => {
-    const response = await fetch('/auth/deleteAddress', {
+    const response = await fetch('/edit/deleteAddress', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

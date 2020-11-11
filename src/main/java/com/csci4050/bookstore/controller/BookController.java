@@ -15,16 +15,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
-public class ApiController {
+@RequestMapping("/books")
+public class BookController {
   @Autowired private BookService bookService;
 
-  @GetMapping("/books/{id}")
+  @GetMapping("/get/{id}")
   public Book getBook(@PathVariable int id) {
     return bookService.get(id);
   }
 
-  @GetMapping("/books")
+  @GetMapping("/get")
   public List<Book> getBooks(@RequestParam Map<String, String> filters) {
     try {
       return bookService.get(filters);
@@ -35,7 +35,7 @@ public class ApiController {
     }
   }
 
-  @GetMapping("/books/categories")
+  @GetMapping("/get/categories")
   public List<Category> getCategories() {
     return Arrays.asList(Category.values());
   }

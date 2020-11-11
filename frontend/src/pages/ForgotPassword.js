@@ -14,7 +14,7 @@ function ForgotPassword(props) {
 
   const onFinish = async (values) => {
     setLoading(true);
-    await fetch('/auth/forgot_password', {
+    await fetch('/auth/forgotPassword', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
