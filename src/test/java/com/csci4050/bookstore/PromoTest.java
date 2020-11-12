@@ -26,8 +26,8 @@ class PromoTest {
 
   private Promotion promoTwo = new Promotion();
 
-  //start is set a higher month than end since date strings are compared lexicographically
-  //this is to test for incorrect date filtering
+  // start is set a higher month than end since date strings are compared lexicographically
+  // this is to test for incorrect date filtering
   LocalDateTime start = LocalDateTime.of(2019, 12, 14, 4, 0, 1);
   LocalDateTime end1 = start.plusDays(60);
   LocalDateTime end2 = start.plusDays(61);
@@ -64,7 +64,7 @@ class PromoTest {
                     + start.toString().replaceAll("T", " ")
                     + "\"",
                 Promotion[].class))
-                .containsExactlyInAnyOrder(promoOne, promoTwo);
+        .containsExactlyInAnyOrder(promoOne, promoTwo);
   }
 
   @Test
@@ -81,11 +81,10 @@ class PromoTest {
                 Promotion[].class))
         .containsExactly(promoOne);
   }
-  
+
   @AfterAll
   public void exit() throws Exception {
     promoService.delete(promoOne);
     promoService.delete(promoTwo);
   }
-  
 }
