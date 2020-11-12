@@ -1,5 +1,6 @@
 package com.csci4050.bookstore.model;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -12,7 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "book")
@@ -21,48 +23,41 @@ public class Book {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
-  @NotNull
   private Integer id;
 
-  @Column(name = "isbn")
-  @NotNull
+  @Column(name = "isbn", nullable = false, unique = true)
   private Integer isbn;
 
-  @Column(name = "pub_year")
-  @NotNull
-  private Integer pubYear;
+  @Column(name = "pub_year", nullable = false)
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  private LocalDateTime pubYear;
 
-  @Column(name = "stock")
-  @NotNull
+  @Column(name = "stock", nullable = false)
   private Integer stock;
 
-  @Column(name = "min_thresh")
-  @NotNull
+  @Column(name = "min_thresh", nullable = false)
   private Integer minThresh;
 
-  @Column(name = "buy_price")
-  @NotNull
+  @Column(name = "buy_price", nullable = false)
   private Double buyPrice;
 
-  @Column(name = "sell_price")
-  @NotNull
+  @Column(name = "sell_price", nullable = false)
   private Double sellPrice;
 
-  @Column(name = "title")
-  @NotNull
+  @Column(name = "title", nullable = false)
   private String title;
 
-  @Column(name = "cover_pic_path")
-  @NotNull
+  @Column(name = "cover_pic_path", nullable = false)
   private String coverPicPath;
 
-  @Column(name = "edition")
-  @NotNull
+  @Column(name = "edition", nullable = false)
   private String edition;
 
-  @Column(name = "publisher")
-  @NotNull
+  @Column(name = "publisher", nullable = false)
   private String publisher;
+
+  @Column(name = "archived", nullable = false)
+  private boolean archived = false;
 
   @ElementCollection
   @Column(name = "category")
@@ -84,7 +79,7 @@ public class Book {
 
   public Book(
       int isbn,
-      int pubYear,
+      LocalDateTime pubYear,
       int stock,
       int minThresh,
       Double buyPrice,
@@ -123,12 +118,20 @@ public class Book {
     this.isbn = isbn;
   }
 
-  public Integer getPubYear() {
+  public LocalDateTime getPubYear() {
     return this.pubYear;
   }
 
-  public void setPubYear(Integer pubYear) {
+  public void setPubYear(LocalDateTime pubYear) {
     this.pubYear = pubYear;
+  }
+
+  public boolean isArchived() {
+    return archived;
+  }
+
+  public void setArchived(boolean archived) {
+    this.archived = archived;
   }
 
   public Integer getStock() {
