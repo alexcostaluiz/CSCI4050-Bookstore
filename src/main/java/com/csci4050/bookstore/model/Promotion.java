@@ -2,12 +2,19 @@ package com.csci4050.bookstore.model;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
+import javax.persistence.JoinColumn;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import org.hibernate.exception.ConstraintViolationException;
 
 @Entity
@@ -23,13 +30,23 @@ public class Promotion {
   private String promoCode;
 
   @Column(name = "start_date", nullable = false, columnDefinition = "TIMESTAMP")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private LocalDateTime startDate = LocalDateTime.now(ZoneId.of("UTC"));
 
   @Column(name = "end_date", nullable = false, columnDefinition = "TIMESTAMP")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private LocalDateTime endDate = startDate.plusHours(8);
 
   @Column(name = "discount", nullable = false)
   private Double discount;
+
+  @Column(name = "description")
+  private String description;
+
+  @Column(name = "books")
+  @ElementCollection
+  @CollectionTable(name = "promo_books", joinColumns = @JoinColumn(name = "id"))
+  private List<Book> books;
 
   public Integer getId() {
     return this.id;
@@ -41,6 +58,22 @@ public class Promotion {
 
   public void setPromoCode(String promoCode) {
     this.promoCode = promoCode;
+  }
+
+  public String getDescription() {
+    return this.description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public List<Book> getBooks() {
+    return this.books;
+  }
+
+  public void setBooks(List<Book> books) {
+    this.books = books;
   }
 
   public LocalDateTime getStartDate() {

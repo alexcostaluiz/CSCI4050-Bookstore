@@ -6,8 +6,11 @@ import com.csci4050.bookstore.service.PromoService;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,12 +21,12 @@ public class PromoController {
   @Autowired private PromoService promoService;
 
   @GetMapping("/get/{id}")
-  public Promotion getBook(@PathVariable int id) {
+  public Promotion getPromo(@PathVariable int id) {
     return promoService.get(id);
   }
 
   @GetMapping("/get")
-  public List<Promotion> getBooks(@RequestParam Map<String, String> filters) {
+  public List<Promotion> getPromos(@RequestParam Map<String, String> filters) {
     try {
       return promoService.get(filters);
     } catch (NoSuchFieldException e) {
@@ -31,5 +34,20 @@ public class PromoController {
     } catch (IllegalArgumentException e) {
       throw new FilterException();
     }
+  }
+  
+  @PostMapping(value = "/create", consumes = "application/json", produces = "application/json")
+  public void createPromo(@RequestBody Promotion promo) {
+    promoService.save(promo);
+  }
+
+  @DeleteMapping(value = "/delete", consumes = "application/json", produces = "application/json")
+  public void deletePromo(@RequestBody Promotion promo) {
+    promoService.delete(promo);
+  }
+
+  @PostMapping(value = "/update", consumes = "application/json", produces = "application/json")
+  public void updatePromo(@RequestBody Promotion promo) {
+    promoService.update(promo);
   }
 }
