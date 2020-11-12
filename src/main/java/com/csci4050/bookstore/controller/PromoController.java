@@ -35,7 +35,7 @@ public class PromoController {
       throw new FilterException();
     }
   }
-  
+
   @PostMapping(value = "/create", consumes = "application/json", produces = "application/json")
   public void createPromo(@RequestBody Promotion promo) {
     promoService.save(promo);

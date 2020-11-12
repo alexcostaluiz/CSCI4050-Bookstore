@@ -50,8 +50,8 @@ public class BookController {
 
   @DeleteMapping(value = "/archive", consumes = "application/json", produces = "application/json")
   public void archiveBook(@RequestBody Book book) {
-      book.setArchived(true);
-      bookService.update(book);
+    book.setArchived(true);
+    bookService.update(book);
   }
 
   @PostMapping(value = "/update", consumes = "application/json", produces = "application/json")
