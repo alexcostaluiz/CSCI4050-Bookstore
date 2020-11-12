@@ -58,4 +58,9 @@ public class PromoDAO implements DAO<Promotion> {
     Promotion promo = session.get(Promotion.class, id);
     session.delete(promo);
   }
+
+  public void update(Promotion p) {
+    Session session = entityManager.unwrap(Session.class);
+    session.update(p);
+  }
 }

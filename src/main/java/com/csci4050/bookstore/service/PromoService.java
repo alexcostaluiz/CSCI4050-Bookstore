@@ -40,4 +40,9 @@ public class PromoService {
   public void delete(Promotion promo) {
     dao.delete(promo.getId());
   }
+  
+  @Transactional
+  public void update(Promotion promo) {
+    dao.update(promo);
+  }
 }

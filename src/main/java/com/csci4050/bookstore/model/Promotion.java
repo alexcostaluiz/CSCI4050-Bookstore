@@ -1,6 +1,8 @@
 package com.csci4050.bookstore.model;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,10 +23,10 @@ public class Promotion {
   @Column(name = "promo_code", unique = true, nullable = false)
   private String promoCode;
 
-  @Column(name = "start_date", nullable = false)
-  private LocalDateTime startDate = LocalDateTime.now();
+  @Column(name = "start_date", nullable = false, columnDefinition = "TIMESTAMP")
+  private LocalDateTime startDate = LocalDateTime.now(ZoneId.of("UTC"));
 
-  @Column(name = "end_date", nullable = false)
+  @Column(name = "end_date", nullable = false, columnDefinition = "TIMESTAMP")
   private LocalDateTime endDate = startDate.plusHours(8);
 
   @Column(name = "discount", nullable = false)
@@ -76,5 +78,13 @@ public class Promotion {
       return;
     }
     throw new ConstraintViolationException("invalid discound", null, null);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof Promotion)) {
+      return false;
+    }
+    return this.id == ((Promotion) o).getId();
   }
 }
