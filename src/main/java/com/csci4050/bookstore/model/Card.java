@@ -41,8 +41,8 @@ public class Card {
   @Column(name = "expiry")
   private String expiry;
 
-  @ManyToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "address_id", referencedColumnName = "id")
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "address_id", referencedColumnName = "id", nullable = true)
   private Address address;
 
   public Integer getId() {
