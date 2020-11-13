@@ -1,6 +1,6 @@
 package com.csci4050.bookstore.dao;
 
-import com.csci4050.bookstore.model.Book;
+import com.csci4050.bookstore.model.Promotion;
 import com.csci4050.bookstore.util.Filter;
 import java.util.List;
 import java.util.Map;
@@ -13,53 +13,54 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class BookDAO implements DAO<Book> {
+public class PromoDAO implements DAO<Promotion> {
+
   @Autowired private EntityManager entityManager;
 
   @Override
-  public List<Book> get() {
+  public List<Promotion> get() {
     Session session = entityManager.unwrap(Session.class);
-    Query<Book> query = session.createQuery("FROM Book", Book.class);
-    List<Book> books = query.getResultList();
-    return books;
+    Query<Promotion> query = session.createQuery("FROM card", Promotion.class);
+    List<Promotion> promos = query.getResultList();
+    return promos;
   }
 
-  public List<Book> get(Map<String, String> filters)
+  @Override
+  public Promotion get(int id) {
+    Session session = entityManager.unwrap(Session.class);
+    Promotion promo = session.get(Promotion.class, id);
+    return promo;
+  }
+
+  public List<Promotion> get(Map<String, String> filters)
       throws IllegalArgumentException, NoSuchFieldException {
     Session session = entityManager.unwrap(Session.class);
 
     // start building query
     CriteriaBuilder cb = session.getCriteriaBuilder();
-    CriteriaQuery<Book> q = Filter.getQuery(filters, cb, Book.class);
+    CriteriaQuery<Promotion> q = Filter.getQuery(filters, cb, Promotion.class);
 
     // custom filter
-    Query<Book> query = session.createQuery(q);
-    List<Book> books = query.getResultList();
+    Query<Promotion> query = session.createQuery(q);
+    List<Promotion> books = query.getResultList();
     return books;
   }
 
   @Override
-  public Book get(int id) {
+  public void save(Promotion p) {
     Session session = entityManager.unwrap(Session.class);
-    Book book = session.get(Book.class, id);
-    return book;
-  }
-
-  @Override
-  public void save(Book book) {
-    Session session = entityManager.unwrap(Session.class);
-    session.save(book);
-  }
-
-  public void update(Book book) {
-    Session session = entityManager.unwrap(Session.class);
-    session.update(book);
+    session.save(p);
   }
 
   @Override
   public void delete(int id) {
     Session session = entityManager.unwrap(Session.class);
-    Book book = session.get(Book.class, id);
-    session.delete(book);
+    Promotion promo = session.get(Promotion.class, id);
+    session.delete(promo);
+  }
+
+  public void update(Promotion p) {
+    Session session = entityManager.unwrap(Session.class);
+    session.update(p);
   }
 }

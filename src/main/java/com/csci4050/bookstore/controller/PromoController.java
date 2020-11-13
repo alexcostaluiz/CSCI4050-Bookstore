@@ -1,10 +1,8 @@
 package com.csci4050.bookstore.controller;
 
 import com.csci4050.bookstore.exceptions.FilterException;
-import com.csci4050.bookstore.model.Book;
-import com.csci4050.bookstore.model.Category;
-import com.csci4050.bookstore.service.BookService;
-import java.util.Arrays;
+import com.csci4050.bookstore.model.Promotion;
+import com.csci4050.bookstore.service.PromoService;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,19 +16,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/books")
-public class BookController {
-  @Autowired private BookService bookService;
+@RequestMapping("/promos")
+public class PromoController {
+  @Autowired private PromoService promoService;
 
   @GetMapping("/get/{id}")
-  public Book getBook(@PathVariable int id) {
-    return bookService.get(id);
+  public Promotion getPromo(@PathVariable int id) {
+    return promoService.get(id);
   }
 
   @GetMapping("/get")
-  public List<Book> getBooks(@RequestParam Map<String, String> filters) {
+  public List<Promotion> getPromos(@RequestParam Map<String, String> filters) {
     try {
-      return bookService.get(filters);
+      return promoService.get(filters);
     } catch (NoSuchFieldException e) {
       throw new FilterException();
     } catch (IllegalArgumentException e) {
@@ -38,24 +36,18 @@ public class BookController {
     }
   }
 
-  @GetMapping("/get/categories")
-  public List<Category> getCategories() {
-    return Arrays.asList(Category.values());
-  }
-
   @PostMapping(value = "/create", consumes = "application/json", produces = "application/json")
-  public void createBook(@RequestBody Book book) {
-    bookService.save(book);
+  public void createPromo(@RequestBody Promotion promo) {
+    promoService.save(promo);
   }
 
-  @DeleteMapping(value = "/archive", consumes = "application/json", produces = "application/json")
-  public void archiveBook(@RequestBody Book book) {
-    book.setArchived(true);
-    bookService.update(book);
+  @DeleteMapping(value = "/delete", consumes = "application/json", produces = "application/json")
+  public void deletePromo(@RequestBody Promotion promo) {
+    promoService.delete(promo);
   }
 
   @PostMapping(value = "/update", consumes = "application/json", produces = "application/json")
-  public void updateBook(@RequestBody Book book) {
-    bookService.update(book);
+  public void updatePromo(@RequestBody Promotion promo) {
+    promoService.update(promo);
   }
 }

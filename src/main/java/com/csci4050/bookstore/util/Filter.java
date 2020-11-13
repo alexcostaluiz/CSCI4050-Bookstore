@@ -9,6 +9,19 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+/**
+ * This is a custom filter used to query for objects in the database. It is completely safe as it
+ * uses the criteria api in hibernate. All comparisons are done as a String except in the case that
+ * the model attribute returns a list. In this case, the value needs to be excplicitly converted to
+ * the corresponding type. This is done to keep this filter as generic as possible. One thing to
+ * note is that when dealing with LocalDateTime, the date string is stored as follows: yyyy-mm-dd
+ * hh:mm:ss. The filter string needs to exactly match this when using == as this comparison is
+ * explicit.
+ *
+ * <p>All operators and values in the filter string must be separated by space Any multi word value
+ * must be enclosed by quotes Symbols in order of highest precedence to lowest: , - OR ; - AND == -
+ * EQ (This and the rest are of equal precedence) != - NE > - GT < - LT >= - GTE <= - LTE
+ */
 public class Filter<T> {
 
   public static <T> CriteriaQuery<T> getQuery(
@@ -81,7 +94,9 @@ public class Filter<T> {
         value = Category.valueOf(filter[2]);
         break;
     }
-
+    for (String s : filter) {
+      System.out.println(s);
+    }
     // base case
     if (filter[1].equals(">")) {
       return cb.greaterThan(c.get(filter[0]).as(String.class), (String) value);
