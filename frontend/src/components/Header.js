@@ -77,7 +77,7 @@ function Header(props) {
   const onlyTitle =
     location.pathname.startsWith('/login') ||
     location.pathname.startsWith('/register') ||
-    location.pathname.startsWith('/forgot_password') ||
+    location.pathname.startsWith('/forgotPassword') ||
     location.pathname.startsWith('/updatePassword');
 
   const simple =
