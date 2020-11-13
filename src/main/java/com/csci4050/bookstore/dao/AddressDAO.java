@@ -43,15 +43,16 @@ public class AddressDAO implements DAO<Address> {
   public void delete(int id) {
     Session session = entityManager.unwrap(Session.class);
     Address address = session.get(Address.class, id);
-    
-    Query<Card> query = session
-      .createQuery("FROM Card C WHERE C.address = :address_id", Card.class)
-      .setParameter("address_id", id, IntegerType.INSTANCE);
+
+    Query<Card> query =
+        session
+            .createQuery("FROM Card C WHERE C.address = :address_id", Card.class)
+            .setParameter("address_id", id, IntegerType.INSTANCE);
     List<Card> cards = query.getResultList();
     for (Card c : cards) {
       c.setAddress(null);
     }
-    
+
     session.delete(address);
   }
 }

@@ -1,7 +1,6 @@
 package com.csci4050.bookstore.model;
 
 import com.csci4050.bookstore.CardNumberConverter;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
