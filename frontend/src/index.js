@@ -48,7 +48,7 @@ ReactDOM.render(
                 <Route path='/profile'>
                   <ProfilePage />
                 </Route>
-                <Route path='/orderhistory'>
+                <Route path='/orderHistory'>
                   <OrderHistory />
                 </Route>
                 <Route path='/login'>
