@@ -41,7 +41,7 @@ function CardForm(props) {
   };
 
   const onFinish = (values) => {
-    values.address = auth.user.addresses.find(a => a.id === values.address);
+    values.address = auth.user.addresses.find((a) => a.id === values.address);
     addCard(values);
     form.resetFields();
     setNumber('');
@@ -169,27 +169,41 @@ function CardForm(props) {
             placeholder='Select a billing address...'
             onChange={onBillingAddressSelect}
             allowClear>
-            <Select.Option value={-1} style={{ color: '#FF1053' }}>Add new address</Select.Option>
-            {auth.user.addresses.map(a => (
+            <Select.Option value={-1} style={{ color: '#FF1053' }}>
+              Add new address
+            </Select.Option>
+            {auth.user.addresses.map((a) => (
               <Select.Option key={a.id} value={a.id}>
-                {a.address1 + (a.address2 ? ' ' + a.address2 : '') + ', ' + a.city + ', ' +
-                 a.state + ', ' + a.zip + ' ' + a.country}
+                {a.address1 +
+                  (a.address2 ? ' ' + a.address2 : '') +
+                  ', ' +
+                  a.city +
+                  ', ' +
+                  a.state +
+                  ', ' +
+                  a.zip +
+                  ' ' +
+                  a.country}
               </Select.Option>
             ))}
           </Select>
         </Form.Item>
       </Form>
       <Modal
-        title={(
+        title={
           <Title level={3} style={{ fontWeight: '900', margin: '0px' }}>
             Save New Billing Address
           </Title>
-        )}
+        }
         width={800}
         visible={addressFormVisible}
         okText='Save'
         onCancel={onCancelAddressForm}
-        okButtonProps={{form: 'address-form', htmlType: 'submit', loading: addressFormLoading }}>
+        okButtonProps={{
+          form: 'address-form',
+          htmlType: 'submit',
+          loading: addressFormLoading,
+        }}>
         <AddressForm addAddress={onSubmitAddressForm} />
       </Modal>
     </div>

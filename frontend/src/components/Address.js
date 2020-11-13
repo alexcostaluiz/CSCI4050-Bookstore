@@ -31,7 +31,10 @@ function Address(props) {
       <br />
       <Text>{country}</Text>
       <br />
-      {phoneNumber && [<Text key='ph'>Phone number: {phoneNumber}</Text>, <br key='br2' />]}
+      {phoneNumber && [
+        <Text key='ph'>Phone number: {phoneNumber}</Text>,
+        <br key='br2' />,
+      ]}
     </div>
   );
 }

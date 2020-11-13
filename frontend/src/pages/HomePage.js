@@ -16,7 +16,7 @@ const { Title } = Typography;
  */
 function HomePage(props) {
   const auth = useContext(AuthContext);
-  
+
   return (
     <Row>
       <Col className='bookstore-hp-col' span={24}>

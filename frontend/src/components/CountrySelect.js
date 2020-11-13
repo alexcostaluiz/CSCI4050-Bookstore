@@ -9,11 +9,12 @@ function CountrySelect(props) {
   const select = useRef(null);
 
   useEffect(() => {
-    const input = ReactDOM.findDOMNode(select.current)
-          .querySelector('.ant-select-selection-search-input');
+    const input = ReactDOM.findDOMNode(select.current).querySelector(
+      '.ant-select-selection-search-input'
+    );
     input.autocomplete = 'nope';
   }, []);
-  
+
   return (
     <Select
       name={name}

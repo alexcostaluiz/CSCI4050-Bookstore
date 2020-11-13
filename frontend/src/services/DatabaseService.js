@@ -14,7 +14,7 @@ const DB = {
       message.success('Profile information successfully updated!');
     }
   },
-  
+
   updatePassword: async (values, auth, form) => {
     delete values.confirm;
     const response = await fetch('/edit/password', {

@@ -100,10 +100,12 @@ function ProfilePage(props) {
               type='primary'
               size='large'
               disabled={changesMade}
-              onClick={() => DB.updatePersonalInfo(
-                { firstName, lastName, phoneNumber },
-                auth,
-              )}>
+              onClick={() =>
+                DB.updatePersonalInfo(
+                  { firstName, lastName, phoneNumber },
+                  auth
+                )
+              }>
               SAVE
             </Button>
           </div>
@@ -117,7 +119,9 @@ function ProfilePage(props) {
             </Title>
             <Form
               form={changePasswordForm}
-              onFinish={(values) => DB.updatePassword(values, auth, changePasswordForm)}>
+              onFinish={(values) =>
+                DB.updatePassword(values, auth, changePasswordForm)
+              }>
               <Card type='inner' title='Current Password'>
                 <Form.Item
                   name='oldPassword'
@@ -213,12 +217,16 @@ function ProfilePage(props) {
                         <Title level={5}>Billing Address</Title>
                         {record.address ? (
                           <Address {...record.address} />
-                        ) : [
-                          <ExclamationCircleFilled key='icon' />,
-                          <Text key='text' style={{ color: '#FF1053', paddingLeft: '8px' }}>
-                            Missing billing address
-                          </Text>
-                        ]}
+                        ) : (
+                          [
+                            <ExclamationCircleFilled key='icon' />,
+                            <Text
+                              key='text'
+                              style={{ color: '#FF1053', paddingLeft: '8px' }}>
+                              Missing billing address
+                            </Text>,
+                          ]
+                        )}
                       </div>
                     </div>
                     <Popconfirm
@@ -238,7 +246,10 @@ function ProfilePage(props) {
               bordered
             />
             <Card type='inner' title='Add New Debit/Credit Card'>
-              <CardForm form={cardForm} addCard={(values) => DB.createCard(values, auth)} />
+              <CardForm
+                form={cardForm}
+                addCard={(values) => DB.createCard(values, auth)}
+              />
             </Card>
             <Button
               type='primary'

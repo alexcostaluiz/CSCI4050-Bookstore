@@ -13,18 +13,14 @@ const errorMapping = {
   'User is disabled': 'Please verify your email before signing in',
 };
 
-const protectedEndpoints = [
-  '/profile',
-  '/admin',
-  '/orderHistory',
-];
+const protectedEndpoints = ['/profile', '/admin', '/orderHistory'];
 
 function Authentication(props) {
   const [user, setUser] = useState(null);
 
   const history = useHistory();
   const location = useLocation();
-  
+
   const isProtected = (pathname) => {
     for (const path of protectedEndpoints) {
       if (pathname.startsWith(path)) {
@@ -37,11 +33,11 @@ function Authentication(props) {
   const fetchUser = async () => {
     const response = await fetch('/auth/user');
     const user = await response.json();
-    setUser(user);    
+    setUser(user);
   };
 
   useEffect(() => {
-    fetchUser();    
+    fetchUser();
   }, []);
 
   useEffect(() => {
@@ -86,19 +82,22 @@ function Authentication(props) {
   return (
     <AuthContext.Provider value={context}>
       {user === null && isProtected(location.pathname) ? (
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: '100vh',
-          flexDirection: 'column',
-        }}>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '100vh',
+            flexDirection: 'column',
+          }}>
           <Spin size='large' />
           <Title level={4} style={{ fontWeight: '900', marginTop: '16px' }}>
             Getting things ready...
           </Title>
         </div>
-      ) : props.children}
+      ) : (
+        props.children
+      )}
     </AuthContext.Provider>
   );
 }
