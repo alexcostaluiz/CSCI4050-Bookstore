@@ -24,14 +24,14 @@ function Address(props) {
       <br />
       <Text>{address1}</Text>
       <br />
-      {address2 && [<Text>{address2}</Text>, <br />]}
+      {address2 && [<Text key='a2'>{address2}</Text>, <br key='br1' />]}
       <Text>
         {city}, {state} {zip}
       </Text>
       <br />
       <Text>{country}</Text>
       <br />
-      {phoneNumber && [<Text>Phone number: {phoneNumber}</Text>, <br />]}
+      {phoneNumber && [<Text key='ph'>Phone number: {phoneNumber}</Text>, <br key='br2' />]}
     </div>
   );
 }
