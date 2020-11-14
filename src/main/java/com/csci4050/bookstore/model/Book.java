@@ -228,11 +228,11 @@ public class Book {
     this.tags = tags;
   }
 
-  public void setPromo(Promotion promo){
+  public void setPromo(Promotion promo) {
     this.promo = promo;
   }
 
-  public Promotion getPromo(){
+  public Promotion getPromo() {
     return this.promo;
   }
 
@@ -245,7 +245,7 @@ public class Book {
   }
 
   @Override
-  public String toString(){
+  public String toString() {
     return "title: " + this.title + "\nid: " + this.id;
   }
 }

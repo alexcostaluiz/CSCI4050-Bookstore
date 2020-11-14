@@ -42,24 +42,25 @@ public class PromoController {
   }
 
   /**
-   * Adds promo to database, only with existing books. Searches by book id, and throws error 422 if any book doesn't exist
+   * Adds promo to database, only with existing books. Searches by book id, and throws error 422 if
+   * any book doesn't exist
+   *
    * @param promo
    */
   @PostMapping(value = "/create", consumes = "application/json", produces = "application/json")
   public void createPromo(@RequestBody Promotion promo) {
     try {
       List<Book> books = promo.getBooks();
-      for (int i = 0; i < books.size(); i++) {       
+      for (int i = 0; i < books.size(); i++) {
         Book book = bookService.get(books.get(i).getId());
         book.setPromo(promo);
         books.set(i, book);
       }
       promo.setBooks(books);
       promoService.save(promo);
-    } catch(NullPointerException e) {
+    } catch (NullPointerException e) {
       throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Book id not found", e);
     }
-    
   }
 
   @DeleteMapping(value = "/delete", consumes = "application/json", produces = "application/json")
