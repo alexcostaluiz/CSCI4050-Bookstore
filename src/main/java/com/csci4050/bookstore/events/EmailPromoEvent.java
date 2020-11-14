@@ -9,8 +9,9 @@ public class EmailPromoEvent extends ApplicationEvent {
 
   public EmailPromoEvent(Promotion promo) {
     super(promo);
-    this.promo  = promo;
+    this.promo = promo;
   }
+
   public Promotion getPromo() {
     return this.promo;
   }

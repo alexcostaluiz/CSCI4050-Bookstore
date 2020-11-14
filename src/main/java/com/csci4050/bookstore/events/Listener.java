@@ -65,35 +65,42 @@ public class Listener {
   @EventListener
   private void sendPromos(EmailPromoEvent event) {
     List<User> subbed_users = userService.getSubbed();
-    
+
     for (User user : subbed_users) {
       String recipientAddress = user.getEmailAddress();
       String subject = "New bookstore promotion!!";
       Promotion promo = event.getPromo();
-      if(promo == null){
-        //send all promos
+      if (promo == null) {
+        // send all promos
         List<Promotion> promos = promoService.get();
         for (Promotion p : promos) {
           SimpleMailMessage email = new SimpleMailMessage();
           email.setTo(recipientAddress);
           email.setSubject(subject);
-          email.setText("Use promo code " + p.getPromoCode() + " to get discounts on books with this description: \n" + p.getDescription());
+          email.setText(
+              "Use promo code "
+                  + p.getPromoCode()
+                  + " to get discounts on books with this description: \n"
+                  + p.getDescription());
           mailSender.send(email);
           p.setEmailed(true);
           promoService.update(promo);
         }
-        
+
       } else {
-        //send specific promo
+        // send specific promo
         SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(recipientAddress);
         email.setSubject(subject);
-        email.setText("Use promo code " + promo.getPromoCode() + " to get discounts on books with this description: \n" + promo.getDescription());
+        email.setText(
+            "Use promo code "
+                + promo.getPromoCode()
+                + " to get discounts on books with this description: \n"
+                + promo.getDescription());
         mailSender.send(email);
         promo.setEmailed(true);
         promoService.update(promo);
       }
-      
     }
   }
 }

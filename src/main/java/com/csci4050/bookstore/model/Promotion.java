@@ -111,7 +111,7 @@ public class Promotion {
     throw new ConstraintViolationException("invalid discound", null, null);
   }
 
- public boolean isEmailed() {
+  public boolean isEmailed() {
     return emailed;
   }
 

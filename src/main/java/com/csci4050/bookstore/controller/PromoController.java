@@ -1,5 +1,6 @@
 package com.csci4050.bookstore.controller;
 
+import com.csci4050.bookstore.events.EmailPromoEvent;
 import com.csci4050.bookstore.exceptions.FilterException;
 import com.csci4050.bookstore.model.Book;
 import com.csci4050.bookstore.model.Promotion;
@@ -7,7 +8,6 @@ import com.csci4050.bookstore.service.BookService;
 import com.csci4050.bookstore.service.PromoService;
 import java.util.List;
 import java.util.Map;
-import com.csci4050.bookstore.events.EmailPromoEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
@@ -68,17 +68,16 @@ public class PromoController {
 
   @DeleteMapping(value = "/delete", consumes = "application/json", produces = "application/json")
   public void deletePromo(@RequestBody Promotion promo) {
-    if(!promo.isEmailed()){
+    if (!promo.isEmailed()) {
       promoService.delete(promo);
     } else {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "promo already emailed");
     }
-    
   }
 
   @PostMapping(value = "/update", consumes = "application/json", produces = "application/json")
   public void updatePromo(@RequestBody Promotion promo) {
-    if(!promo.isEmailed()){
+    if (!promo.isEmailed()) {
       promoService.update(promo);
     } else {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "promo already emailed");

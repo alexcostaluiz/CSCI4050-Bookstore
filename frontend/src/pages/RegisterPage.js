@@ -138,10 +138,11 @@ function Register(props) {
           ]}>
           <Input.Password placeholder='Confirm Password' />
         </Form.Item>
-        <Form.Item name='subscription' valuePropName="checked" initialValue={true}>
-          <Checkbox>
-            Sign up for promotional emails
-          </Checkbox>
+        <Form.Item
+          name='subscription'
+          valuePropName='checked'
+          initialValue={true}>
+          <Checkbox>Sign up for promotional emails</Checkbox>
         </Form.Item>
         <Paragraph>
           By clicking "Register" below, you agree to the Bookstore{' '}
