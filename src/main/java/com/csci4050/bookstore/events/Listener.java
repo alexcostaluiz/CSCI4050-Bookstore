@@ -11,7 +11,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserStateChangeListener {
+public class Listener {
 
   @Autowired private UserService userService;
   @Autowired private JavaMailSender mailSender;
