@@ -17,7 +17,6 @@ function Register(props) {
 
   const onFinish = async (values) => {
     setLoading(true);
-
     delete values.confirm;
     await fetch('/auth/register', {
       method: 'POST',
@@ -139,8 +138,8 @@ function Register(props) {
           ]}>
           <Input.Password placeholder='Confirm Password' />
         </Form.Item>
-        <Form.Item name='subscription'>
-          <Checkbox defaultChecked={true}>
+        <Form.Item name='subscription' valuePropName="checked" initialValue={true}>
+          <Checkbox>
             Sign up for promotional emails
           </Checkbox>
         </Form.Item>
