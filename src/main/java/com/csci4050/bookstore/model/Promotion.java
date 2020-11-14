@@ -44,6 +44,9 @@ public class Promotion {
   @JsonManagedReference
   private List<Book> books;
 
+  @Column(name = "emailed", nullable = false)
+  private boolean emailed = false;
+
   public Integer getId() {
     return this.id;
   }
@@ -106,6 +109,14 @@ public class Promotion {
       return;
     }
     throw new ConstraintViolationException("invalid discound", null, null);
+  }
+
+ public boolean isEmailed() {
+    return emailed;
+  }
+
+  public void setEmailed(boolean emailed) {
+    this.emailed = emailed;
   }
 
   @Override
