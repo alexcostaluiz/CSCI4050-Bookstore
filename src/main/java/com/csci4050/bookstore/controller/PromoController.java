@@ -7,7 +7,9 @@ import com.csci4050.bookstore.service.BookService;
 import com.csci4050.bookstore.service.PromoService;
 import java.util.List;
 import java.util.Map;
+import com.csci4050.bookstore.events.EmailPromoEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +26,7 @@ import org.springframework.web.server.ResponseStatusException;
 public class PromoController {
   @Autowired private PromoService promoService;
   @Autowired private BookService bookService;
+  @Autowired private ApplicationEventPublisher eventPublisher;
 
   @GetMapping("/get/{id}")
   public Promotion getPromo(@PathVariable int id) {
@@ -65,11 +68,26 @@ public class PromoController {
 
   @DeleteMapping(value = "/delete", consumes = "application/json", produces = "application/json")
   public void deletePromo(@RequestBody Promotion promo) {
-    promoService.delete(promo);
+    if(!promo.isEmailed()){
+      promoService.delete(promo);
+    } else {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "promo already emailed");
+    }
+    
   }
 
   @PostMapping(value = "/update", consumes = "application/json", produces = "application/json")
   public void updatePromo(@RequestBody Promotion promo) {
-    promoService.update(promo);
+    if(!promo.isEmailed()){
+      promoService.update(promo);
+    } else {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "promo already emailed");
+    }
+  }
+
+  @PostMapping(value = "/email", consumes = "application/json", produces = "application/json")
+  public void emailPromo(@RequestBody Promotion promo) {
+    promo = promoService.get(promo.getId());
+    eventPublisher.publishEvent(new EmailPromoEvent(promo));
   }
 }

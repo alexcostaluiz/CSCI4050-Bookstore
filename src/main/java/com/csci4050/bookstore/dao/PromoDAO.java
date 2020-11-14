@@ -20,7 +20,7 @@ public class PromoDAO implements DAO<Promotion> {
   @Override
   public List<Promotion> get() {
     Session session = entityManager.unwrap(Session.class);
-    Query<Promotion> query = session.createQuery("FROM card", Promotion.class);
+    Query<Promotion> query = session.createQuery("FROM promo", Promotion.class);
     List<Promotion> promos = query.getResultList();
     return promos;
   }
