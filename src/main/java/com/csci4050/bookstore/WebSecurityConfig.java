@@ -37,7 +37,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/edit/deleteCard",
             "/edit/updateAddress")
         .hasAnyAuthority("ADMIN", "USER")
-        .antMatchers("/admin", "/admin/manage/books")
+        .antMatchers(
+            "/admin",
+            "/admin/manage/books",
+            "/books/create",
+            "/books/update",
+            "/books/archive",
+            "/promos/update",
+            "/promos/delete",
+            "/promos/create",
+            "/promos/email")
         .hasAuthority("ADMIN")
         .antMatchers("/", "/cart", "/b/**")
         .permitAll()

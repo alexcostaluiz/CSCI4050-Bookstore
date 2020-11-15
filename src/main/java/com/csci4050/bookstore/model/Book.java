@@ -1,5 +1,6 @@
 package com.csci4050.bookstore.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDate;
 import java.util.List;
@@ -13,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -63,6 +65,11 @@ public class Book {
 
   @Column(name = "archived", nullable = false)
   private boolean archived = false;
+
+  @ManyToOne
+  @JoinColumn(name = "promo_id", nullable = true)
+  @JsonBackReference
+  private Promotion promo;
 
   @ElementCollection
   @Column(name = "category")
@@ -247,11 +254,24 @@ public class Book {
     this.tags = tags;
   }
 
+  public void setPromo(Promotion promo) {
+    this.promo = promo;
+  }
+
+  public Promotion getPromo() {
+    return this.promo;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (!(o instanceof Book)) {
       return false;
     }
     return this.id == ((Book) o).getId();
+  }
+
+  @Override
+  public String toString() {
+    return "title: " + this.title + "\nid: " + this.id;
   }
 }

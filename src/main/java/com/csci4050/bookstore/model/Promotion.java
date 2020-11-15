@@ -1,17 +1,16 @@
 package com.csci4050.bookstore.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.exception.ConstraintViolationException;
 
@@ -41,10 +40,12 @@ public class Promotion {
   @Column(name = "description")
   private String description;
 
-  @Column(name = "books")
-  @ElementCollection
-  @CollectionTable(name = "promo_books", joinColumns = @JoinColumn(name = "id"))
+  @OneToMany(mappedBy = "promo")
+  @JsonManagedReference
   private List<Book> books;
+
+  @Column(name = "emailed", nullable = false)
+  private boolean emailed = false;
 
   public Integer getId() {
     return this.id;
@@ -108,6 +109,14 @@ public class Promotion {
       return;
     }
     throw new ConstraintViolationException("invalid discound", null, null);
+  }
+
+  public boolean isEmailed() {
+    return emailed;
+  }
+
+  public void setEmailed(boolean emailed) {
+    this.emailed = emailed;
   }
 
   @Override

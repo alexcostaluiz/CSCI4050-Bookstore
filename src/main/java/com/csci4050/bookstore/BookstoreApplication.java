@@ -2,6 +2,7 @@ package com.csci4050.bookstore;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import java.util.TimeZone;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -16,12 +17,14 @@ public class BookstoreApplication {
   @Autowired private ObjectMapper objectMapper;
 
   public static void main(String[] args) {
+
     SpringApplication.run(BookstoreApplication.class, args);
   }
 
   // add time module to object mapper so localdate time can be deserialized
   @PostConstruct
   public void setUp() {
+    TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
     objectMapper.registerModule(new JavaTimeModule());
   }
 

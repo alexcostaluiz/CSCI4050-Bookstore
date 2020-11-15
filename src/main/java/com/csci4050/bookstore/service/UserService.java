@@ -7,6 +7,7 @@ import com.csci4050.bookstore.model.User;
 import com.csci4050.bookstore.model.VerificationToken;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -43,6 +44,12 @@ public class UserService implements UserDetailsService {
   @Transactional
   public User get(int id) {
     return dao.get(id);
+  }
+
+  @Transactional
+  public List<User> getSubbed() {
+    List<User> users = dao.get();
+    return users.stream().filter(u -> u.getSubscription()).collect(Collectors.toList());
   }
 
   @Transactional
