@@ -54,12 +54,17 @@ public class PromoController {
   public void createPromo(@RequestBody Promotion promo) {
     try {
       List<Book> books = promo.getBooks();
-      for (int i = 0; i < books.size(); i++) {
-        Book book = bookService.get(books.get(i).getId());
-        book.setPromo(promo);
-        books.set(i, book);
+
+      //optionally set book relationships
+      if(books != null) {
+        for (int i = 0; i < books.size(); i++) {
+          Book book = bookService.get(books.get(i).getId());
+          book.setPromo(promo);
+          books.set(i, book);
+        }
+        promo.setBooks(books);
       }
-      promo.setBooks(books);
+      
       promoService.save(promo);
     } catch (NullPointerException e) {
       throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Book id not found", e);
