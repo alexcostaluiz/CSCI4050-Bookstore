@@ -49,7 +49,7 @@ public class Book {
   @Column(name = "title", nullable = false)
   private String title;
 
-  @Column(name = "cover_pic", nullable = true,  columnDefinition="BLOB")
+  @Column(name = "cover_pic", nullable = true, columnDefinition = "BLOB")
   @Lob
   private byte[] coverPic;
 
