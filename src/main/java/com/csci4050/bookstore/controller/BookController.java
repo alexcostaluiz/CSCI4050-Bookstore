@@ -53,7 +53,6 @@ public class BookController {
     } catch (DataIntegrityViolationException e) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Book isbn already exists.");
     }
-    
   }
 
   @DeleteMapping(value = "/archive", consumes = "application/json", produces = "application/json")
