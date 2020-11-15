@@ -42,7 +42,7 @@ public class BookService {
   }
 
   @Transactional
-  public void delete(Book book) {
-    dao.delete(book.getId());
+  public void update(Book book) {
+    dao.update(book);
   }
 }
