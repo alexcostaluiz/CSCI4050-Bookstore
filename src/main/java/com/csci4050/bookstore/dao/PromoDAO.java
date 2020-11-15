@@ -61,6 +61,6 @@ public class PromoDAO implements DAO<Promotion> {
 
   public void update(Promotion p) {
     Session session = entityManager.unwrap(Session.class);
-    session.update(p);
+    session.merge(p);
   }
 }

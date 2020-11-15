@@ -61,7 +61,7 @@ public class Book {
   private boolean archived = false;
 
   @ManyToOne
-  @JoinColumn(name = "promo_id")
+  @JoinColumn(name = "promo_id", nullable = true)
   @JsonBackReference
   private Promotion promo;
 

@@ -68,25 +68,62 @@ public class PromoController {
 
   @DeleteMapping(value = "/delete", consumes = "application/json", produces = "application/json")
   public void deletePromo(@RequestBody Promotion promo) {
+    promo = promoService.get(promo.getId());
+    if(promo == null){
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Promotion doesn't exist");
+    }
     if (!promo.isEmailed()) {
+
+      //delete promo from books
+      for(Book book : promo.getBooks()){
+        book.setPromo(null);
+        bookService.update(book);
+      }
+
       promoService.delete(promo);
     } else {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "promo already emailed");
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Promotion already emailed");
     }
   }
 
   @PostMapping(value = "/update", consumes = "application/json", produces = "application/json")
   public void updatePromo(@RequestBody Promotion promo) {
-    if (!promo.isEmailed()) {
-      promoService.update(promo);
+    Promotion oldPromo = promoService.get(promo.getId());
+    if(oldPromo == null){
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Promotion doesn't exist");
+    }
+    if (!oldPromo.isEmailed()) {
+
+      //reset old books to null
+      for(Book book : oldPromo.getBooks()) {
+        book.setPromo(null);
+        bookService.update(book);
+      }
+
+      //update with new list of books (if any were taken away or added)
+      try {
+        List<Book> books = promo.getBooks();
+        for (int i = 0; i < books.size(); i++) {
+          Book book = bookService.get(books.get(i).getId());
+          book.setPromo(promo);
+          books.set(i, book);
+        }
+        promo.setBooks(books);
+        promoService.update(promo);
+      } catch (NullPointerException e) {
+        throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Book id not found", e);
+      }
     } else {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "promo already emailed");
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Promotion already emailed");
     }
   }
 
   @PostMapping(value = "/email", consumes = "application/json", produces = "application/json")
   public void emailPromo(@RequestBody Promotion promo) {
     promo = promoService.get(promo.getId());
+    if(promo == null){
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Promotion doesn't exist");
+    }
     eventPublisher.publishEvent(new EmailPromoEvent(promo));
   }
 }
