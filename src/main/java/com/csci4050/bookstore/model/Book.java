@@ -1,7 +1,7 @@
 package com.csci4050.bookstore.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -25,11 +25,11 @@ public class Book {
   private Integer id;
 
   @Column(name = "isbn", nullable = false, unique = true)
-  private Integer isbn;
+  private String isbn;
 
-  @Column(name = "pub_year", nullable = false)
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  private LocalDateTime pubYear;
+  @Column(name = "pub_date", nullable = false)
+  @JsonFormat(pattern = "yyyy-MM-dd")
+  private LocalDate pubDate;
 
   @Column(name = "stock", nullable = false)
   private Integer stock;
@@ -48,6 +48,12 @@ public class Book {
 
   @Column(name = "cover_pic_path", nullable = false)
   private String coverPicPath;
+
+  @Column(name = "description", nullable = true, columnDefinition = "TEXT")
+  private String description;
+
+  @Column(name = "pages", nullable = false)
+  private Integer pages;
 
   @Column(name = "edition", nullable = false)
   private String edition;
@@ -77,27 +83,31 @@ public class Book {
   public Book() {}
 
   public Book(
-      int isbn,
-      LocalDateTime pubYear,
+      String isbn,
+      LocalDate pubDate,
       int stock,
       int minThresh,
       Double buyPrice,
       Double sellPrice,
       String title,
       String coverPicPath,
+      String description,
+      int pages,
       String edition,
       String publisher,
       List<Category> categories,
       List<String> authors,
       List<String> tags) {
     this.isbn = isbn;
-    this.pubYear = pubYear;
+    this.pubDate = pubDate;
     this.stock = stock;
     this.minThresh = minThresh;
     this.buyPrice = buyPrice;
     this.sellPrice = sellPrice;
     this.title = title;
     this.coverPicPath = coverPicPath;
+    this.description = description;
+    this.pages = pages;
     this.edition = edition;
     this.publisher = publisher;
     this.categories = categories;
@@ -109,20 +119,20 @@ public class Book {
     return this.id;
   }
 
-  public Integer getIsbn() {
+  public String getIsbn() {
     return this.isbn;
   }
 
-  public void setIsbn(Integer isbn) {
+  public void setIsbn(String isbn) {
     this.isbn = isbn;
   }
 
-  public LocalDateTime getPubYear() {
-    return this.pubYear;
+  public LocalDate getPubDate() {
+    return this.pubDate;
   }
 
-  public void setPubYear(LocalDateTime pubYear) {
-    this.pubYear = pubYear;
+  public void setPubDate(LocalDate pubDate) {
+    this.pubDate = pubDate;
   }
 
   public boolean isArchived() {
@@ -179,6 +189,22 @@ public class Book {
 
   public void setCoverPicPath(String coverPicPath) {
     this.coverPicPath = coverPicPath;
+  }
+
+  public String getDescription() {
+    return this.description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public Integer getPages() {
+    return this.pages;
+  }
+
+  public void setPages(Integer pages) {
+    this.pages = pages;
   }
 
   public String getEdition() {
