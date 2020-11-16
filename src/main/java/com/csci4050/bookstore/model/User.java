@@ -54,6 +54,9 @@ public class User {
   @Column(name = "subscription", nullable = false)
   private Boolean subscription = false;
 
+  @Column(name = "employed", nullable = false)
+  private boolean isEmployed = false;
+
   @Enumerated(EnumType.STRING)
   @Column(name = "status", nullable = false)
   private ActivityStatus status = ActivityStatus.Inactive;
@@ -148,6 +151,14 @@ public class User {
 
   public Boolean getSubscription() {
     return this.subscription;
+  }
+
+  public boolean isEmployed() {
+    return isEmployed;
+  }
+
+  public boolean setIsEmployed(boolean isEmployed) {
+    return this.isEmployed = isEmployed;
   }
 
   @JsonSetter("subscription")

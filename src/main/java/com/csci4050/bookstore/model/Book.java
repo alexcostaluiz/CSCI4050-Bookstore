@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -48,8 +49,9 @@ public class Book {
   @Column(name = "title", nullable = false)
   private String title;
 
-  @Column(name = "cover_pic_path", nullable = false)
-  private String coverPicPath;
+  @Column(name = "cover_pic", nullable = true, columnDefinition = "BLOB")
+  @Lob
+  private byte[] coverPic;
 
   @Column(name = "description", nullable = true, columnDefinition = "TEXT")
   private String description;
@@ -97,7 +99,7 @@ public class Book {
       Double buyPrice,
       Double sellPrice,
       String title,
-      String coverPicPath,
+      byte[] coverPic,
       String description,
       int pages,
       String edition,
@@ -112,7 +114,7 @@ public class Book {
     this.buyPrice = buyPrice;
     this.sellPrice = sellPrice;
     this.title = title;
-    this.coverPicPath = coverPicPath;
+    this.coverPic = coverPic;
     this.description = description;
     this.pages = pages;
     this.edition = edition;
@@ -190,12 +192,12 @@ public class Book {
     this.title = title;
   }
 
-  public String getCoverPicPath() {
-    return this.coverPicPath;
+  public byte[] getCoverPicPath() {
+    return this.coverPic;
   }
 
-  public void setCoverPicPath(String coverPicPath) {
-    this.coverPicPath = coverPicPath;
+  public void setCoverPicPath(byte[] coverPic) {
+    this.coverPic = coverPic;
   }
 
   public String getDescription() {
