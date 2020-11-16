@@ -9,7 +9,7 @@ const { Text } = Typography;
 const roleToColor = {
   USER: 'geekblue',
   ADMIN: 'magenta',
-}
+};
 
 const userTableColumns = [
   {
@@ -58,11 +58,12 @@ const userTableColumns = [
     title: 'Roles',
     dataIndex: 'roles',
     key: 'roles',
-    render: (roles) => (
-      roles.map(r => (
-        <Tag key={r} color={roleToColor[r]} style={{ margin: '4px 4px' }}>{r}</Tag>
-      ))
-    )
+    render: (roles) =>
+      roles.map((r) => (
+        <Tag key={r} color={roleToColor[r]} style={{ margin: '4px 4px' }}>
+          {r}
+        </Tag>
+      )),
   },
 ];
 
@@ -78,7 +79,7 @@ const users = [
     isEmployed: false,
     status: 'Active',
     roles: ['USER'],
-  }
+  },
 ];
 
 for (let i = 1; i < 100; i++) {
@@ -93,10 +94,7 @@ function UserTable(props) {
       bordered
       expandable={{
         expandRowByClick: true,
-        expandedRowRender: (record) => (
-          <div>
-          </div>
-        )
+        expandedRowRender: (record) => <div></div>,
       }}
     />
   );
