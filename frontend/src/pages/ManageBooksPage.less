@@ -1,0 +1,43 @@
+@import "../global.less";
+
+.bookstore-book-table .ant-table-container::after {
+  box-shadow: none !important;
+}
+
+.bookstore-book-table-expanded-container {
+  display: flex;
+  align-items: flex-start;
+}
+
+.bookstore-book-table-expanded-image {
+  width: 220px;
+  border-radius: 8px;
+  box-shadow: @card-shadow;
+  margin: 16px;
+}
+
+.bookstore-book-table-expanded-text {
+  margin: 16px;
+}
+
+.bookstore-book-table-expanded-description-tooltip .ant-tooltip-inner {
+  width: 900px;
+}
+
+.bookstore-book-table-expanded-action {
+  float: right;
+  margin: 8px 8px;
+}
+
+.bookstore-book-table-expanded-action:first-of-type {
+  margin-right: 16px;
+}
+
+.bookstore-book-table-expanded-details {
+  background: white;
+  width: min-content;
+}
+
+.bookstore-book-table-expanded-details table {
+  border-collapse: collapse;
+}
