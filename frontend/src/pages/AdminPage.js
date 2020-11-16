@@ -24,9 +24,11 @@ function AdminPage(props) {
   return (
     <Row>
       <Col className='bookstore-column' span={24}>
-        <Title className='bookstore-admin-welcome'>
-          {auth.user ? 'Welcome, ' + auth.user.firstName + '!' : ''}
-        </Title>
+        {auth.user && auth.user.id ? (
+          <Title className='bookstore-admin-welcome'>
+            Welcome, {auth.user.firstName}!
+          </Title>
+        ) : null}
         <div className='bookstore-admin-module-container'>
           <div
             className='bookstore-admin-module'

@@ -20,9 +20,11 @@ function HomePage(props) {
   return (
     <Row>
       <Col className='bookstore-hp-col' span={24}>
-        <Title level={1} className='bookstore-welcome-text'>
-          {auth.user ? 'Welcome, ' + auth.user.firstName + '!' : ''}
-        </Title>
+        {auth.user && auth.user.id ? (
+          <Title level={1} className='bookstore-welcome-text'>
+            Welcome, {auth.user.firstName}!
+          </Title>
+        ) : null}
         <div key='hp-grid' className='bookstore-hp-grid-container'>
           <div className='bookstore-hp-grid one'>
             <Skeleton
