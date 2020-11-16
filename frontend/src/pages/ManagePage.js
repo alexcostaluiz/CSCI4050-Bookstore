@@ -10,7 +10,7 @@ const { Title } = Typography;
 
 function ManagePage(props) {
   const { table, title, shortTitle } = props;
-  
+
   return (
     <Row justify='center'>
       <Col span={24} className='bookstore-column'>
@@ -28,16 +28,12 @@ function ManagePage(props) {
         <div className='bookstore-page-section'>
           <div className='bookstore-manage-table-container'>
             <div className='bookstore-manage-table-title-container'>
-              <Title className='bookstore-manage-table-title'>
-                {title}
-              </Title>
+              <Title className='bookstore-manage-table-title'>{title}</Title>
               <Button type='primary' size='large'>
                 ADD {shortTitle.slice(0, -1).toUpperCase()}
               </Button>
             </div>
-            <div className='bookstore-manage-table-wrapper'>
-              {table}
-            </div>
+            <div className='bookstore-manage-table-wrapper'>{table}</div>
           </div>
         </div>
       </Col>

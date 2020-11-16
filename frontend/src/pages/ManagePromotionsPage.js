@@ -5,9 +5,7 @@ import { Table } from 'antd';
 import ManagePage from './ManagePage.js';
 
 function PromotionTable(props) {
-  return (
-    <Table />
-  );
+  return <Table />;
 }
 
 function ManagePromotionsPage(props) {
