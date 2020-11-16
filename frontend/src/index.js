@@ -15,6 +15,8 @@ import Header from './components/Header.js';
 import HomePage from './pages/HomePage.js';
 import LoginPage from './pages/LoginPage.js';
 import ManageBooksPage from './pages/ManageBooksPage.js';
+import ManagePromotionsPage from './pages/ManagePromotionsPage.js';
+import ManageUsersPage from './pages/ManageUsersPage.js';
 import RegisterPage from './pages/RegisterPage.js';
 import ProfilePage from './pages/ProfilePage.js';
 import ScrollToTop from './components/ScrollToTop.js';
@@ -65,6 +67,12 @@ ReactDOM.render(
                 </Route>
                 <Route path='/admin/manage/books'>
                   <ManageBooksPage />
+                </Route>
+                <Route path='/admin/manage/users'>
+                  <ManageUsersPage />
+                </Route>
+                <Route path='/admin/manage/promotions'>
+                  <ManagePromotionsPage />
                 </Route>
                 <Route path='/admin'>
                   <AdminPage />
