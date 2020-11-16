@@ -44,12 +44,12 @@ public class UserDetailsImp implements UserDetails {
 
   @Override
   public boolean isAccountNonExpired() {
-    return status != ActivityStatus.Inactive;
+    return true;
   }
 
   @Override
   public boolean isAccountNonLocked() {
-    return status == ActivityStatus.Active || status == ActivityStatus.Inactive;
+    return status != ActivityStatus.Suspended;
   }
 
   @Override
