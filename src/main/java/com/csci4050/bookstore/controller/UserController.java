@@ -50,6 +50,7 @@ public class UserController {
         // user is an employee then promote - change role to admin
         roles.add(Role.ADMIN);
         user.setRoles(roles);
+        userService.updateUser(user);
       } else {
         // if user is not an employee throw an exception
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User is not an Employee.");
@@ -78,6 +79,7 @@ public class UserController {
         // demote = change role to employee
         roles.remove(Role.ADMIN);
         user.setRoles(roles);
+        userService.updateUser(user);
       } else {
         // if not ADMIN throw an exception - User is not an Admin
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User is not an Admin.");
@@ -96,18 +98,18 @@ public class UserController {
    */
   @PostMapping(value = "/suspend", consumes = "application/json", produces = "application/json")
   public void suspendUser(@RequestBody String json) {
-    // maybe need to verify that the user trying to access this endpoint is admin?
     try {
       User user = objectMapper.readValue(json, User.class);
       user = userService.getUser(user.getEmailAddress());
       if (user.getId()
           != null) { // check to make sure user exists, although it shouldn't be reflected in a list
-        // of users if they don't
         if (user.getStatus() == ActivityStatus.Suspended) { // if the user is already suspended
-          throw new Exception("The user is already suspended.");
+          throw new ResponseStatusException(
+              HttpStatus.BAD_REQUEST, "The user is already suspended.");
         } else if (user.getStatus()
             == ActivityStatus.Inactive) { // if the user has not activated their account
-          throw new Exception("The user has not yet activated their account");
+          throw new ResponseStatusException(
+              HttpStatus.BAD_REQUEST, "The user has not yet activated their account");
         } else { // if the user is active
           user.setStatus(ActivityStatus.Suspended); // suspend them
           userService.updateUser(user); // update the status in the db
@@ -134,18 +136,20 @@ public class UserController {
       user = userService.getUser(user.getEmailAddress());
       if (user.getId()
           != null) { // check to make sure user exists, although it shouldn't be reflected in a list
-        // of users if they don't
         if (user.getStatus() == ActivityStatus.Active) { // if the user is already suspended
-          throw new Exception("The user is not currently suspended.");
+          throw new ResponseStatusException(
+              HttpStatus.BAD_REQUEST, "The user is not currently suspended.");
         } else if (user.getStatus()
             == ActivityStatus.Inactive) { // if the user has not activated their account
-          throw new Exception("The user has not yet activated their account");
+          throw new ResponseStatusException(
+              HttpStatus.BAD_REQUEST, "The user has not yet activated their account");
         } else { // if the user is suspended
           user.setStatus(ActivityStatus.Active); // suspend them
           userService.updateUser(user); // update the status in the db
         }
       } else {
-        throw new Exception("The indicated user does not exist.");
+        throw new ResponseStatusException(
+            HttpStatus.BAD_REQUEST, "The indicated user does not exist.");
       }
     } catch (JsonProcessingException e) {
       e.printStackTrace();
