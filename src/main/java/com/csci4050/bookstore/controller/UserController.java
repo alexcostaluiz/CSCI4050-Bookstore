@@ -115,7 +115,8 @@ public class UserController {
           userService.updateUser(user); // update the status in the db
         }
       } else {
-        throw new Exception("The indicated user does not exist.");
+        throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST, "The indicated user does not exist.");
       }
     } catch (JsonProcessingException e) {
       e.printStackTrace();
