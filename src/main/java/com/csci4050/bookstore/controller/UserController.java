@@ -116,7 +116,7 @@ public class UserController {
         }
       } else {
         throw new ResponseStatusException(
-                HttpStatus.BAD_REQUEST, "The indicated user does not exist.");
+            HttpStatus.BAD_REQUEST, "The indicated user does not exist.");
       }
     } catch (JsonProcessingException e) {
       e.printStackTrace();
