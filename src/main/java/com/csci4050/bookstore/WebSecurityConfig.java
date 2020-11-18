@@ -46,7 +46,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/promos/update",
             "/promos/delete",
             "/promos/create",
-            "/promos/email")
+            "/promos/email",
+            "/users/get",
+            "/users/get/*",
+            "users/promote",
+            "users/demote",
+            "/users/suspend",
+            "/users/unsuspend")
         .hasAuthority("ADMIN")
         .antMatchers("/", "/cart", "/b/**")
         .permitAll()
