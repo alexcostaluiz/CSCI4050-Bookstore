@@ -81,14 +81,17 @@ public class UserController {
                 if (user.getStatus() == ActivityStatus.Suspended) { // if the user is already suspended
                     throw new Exception("The user is already suspended.");
                 } else if (user.getStatus() == ActivityStatus.Inactive) { // if the user has not activated their account
-                    throw new Exception("The user has not yet activated their account.");            
+                    throw new Exception("The user has not yet activated their account");
                 } else { // if the user is active
                     user.setStatus(ActivityStatus.Suspended); // suspend them
+                    userService.updateUser(user); // update the status in the db
                 }
             } else {
                 throw new Exception("The indicated user does not exist.");
             }
         } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
