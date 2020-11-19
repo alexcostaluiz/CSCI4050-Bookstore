@@ -10,7 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 
 /* The following class was inspired by this baeldung tutorial
 https://www.baeldung.com/registration-verify-user-by-email.
@@ -27,7 +27,7 @@ public class VerificationToken {
   @Column(name = "token", unique = true)
   private String token;
 
-  @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
+  @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
   @JoinColumn(nullable = false, name = "user_id")
   private User user;
 
