@@ -21,7 +21,6 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/users")
 public class UserController {
   @Autowired private UserService userService;
-  @Autowired private Role role;
   @Autowired ObjectMapper objectMapper = new ObjectMapper();
 
   @GetMapping("/get/{id}")
