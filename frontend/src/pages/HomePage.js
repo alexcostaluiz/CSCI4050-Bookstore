@@ -1,9 +1,10 @@
 import './HomePage.less';
 
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { Col, Row, Skeleton, Typography } from 'antd';
 
+import AuthContext from '../contexts/AuthContext.js';
 import BookThumbnail from '../components/BookThumbnail.js';
 import Section, { sections } from '../components/Section.js';
 import Slider from '../components/Slider.js';
@@ -14,12 +15,18 @@ const { Title } = Typography;
  * The home page of the Bookstore Application.
  */
 function HomePage(props) {
+  const auth = useContext(AuthContext);
+
   return (
     <Row>
       <Col className='bookstore-hp-col' span={24}>
+        {auth.user && auth.user.id ? (
+          <Title level={1} className='bookstore-welcome-text'>
+            Welcome, {auth.user.firstName}!
+          </Title>
+        ) : null}
         <div key='hp-grid' className='bookstore-hp-grid-container'>
           <div className='bookstore-hp-grid one'>
-            <Title className='bookstore-welcome-text'>Welcome, Alex.</Title>
             <Skeleton
               title={false}
               paragraph={{ rows: 2, width: ['33%', '100%'] }}

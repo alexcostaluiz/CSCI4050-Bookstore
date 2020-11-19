@@ -1,18 +1,35 @@
 import React, { useEffect, useState } from 'react';
 
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
+
+import { Spin, Typography } from 'antd';
 
 import AuthContext from '../contexts/AuthContext.js';
+
+const { Title } = Typography;
 
 const errorMapping = {
   'Bad credentials': 'Invalid username or password',
   'User is disabled': 'Please verify your email before signing in',
+  'User account is locked': 'Your account has been suspended',
 };
+
+const protectedEndpoints = ['/profile', '/admin', '/orderHistory'];
 
 function Authentication(props) {
   const [user, setUser] = useState(null);
 
   const history = useHistory();
+  const location = useLocation();
+
+  const isProtected = (pathname) => {
+    for (const path of protectedEndpoints) {
+      if (pathname.startsWith(path)) {
+        return true;
+      }
+    }
+    return false;
+  };
 
   const fetchUser = async () => {
     const response = await fetch('/auth/user');
@@ -23,6 +40,12 @@ function Authentication(props) {
   useEffect(() => {
     fetchUser();
   }, []);
+
+  useEffect(() => {
+    if (user && isProtected(location.pathname) && user.id === null) {
+      history.replace('/login');
+    }
+  }, [location.pathname, user, history]);
 
   const signIn = async (values) => {
     const query = new URLSearchParams(values).toString();
@@ -59,7 +82,23 @@ function Authentication(props) {
 
   return (
     <AuthContext.Provider value={context}>
-      {props.children}
+      {user === null && isProtected(location.pathname) ? (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '100vh',
+            flexDirection: 'column',
+          }}>
+          <Spin size='large' />
+          <Title level={4} style={{ fontWeight: '900', marginTop: '16px' }}>
+            Getting things ready...
+          </Title>
+        </div>
+      ) : (
+        props.children
+      )}
     </AuthContext.Provider>
   );
 }

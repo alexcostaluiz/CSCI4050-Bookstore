@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -22,18 +23,10 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
     String redirectUrl = null;
 
     Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-    for (GrantedAuthority grantedAuthority : authorities) {
-      if (grantedAuthority.getAuthority().equals("USER")) {
-        redirectUrl = "/";
-        break;
-      } else if (grantedAuthority.getAuthority().equals("ADMIN")) {
-        redirectUrl = "/admin";
-        break;
-      }
-    }
-
-    if (redirectUrl == null) {
-      throw new IllegalStateException();
+    if (authorities.contains(new SimpleGrantedAuthority("ADMIN"))) {
+      redirectUrl = "/admin";
+    } else {
+      redirectUrl = "/";
     }
     new DefaultRedirectStrategy().sendRedirect(request, response, redirectUrl);
   }

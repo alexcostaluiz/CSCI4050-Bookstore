@@ -36,8 +36,8 @@ public class EditController {
   @Autowired ObjectMapper objectMapper = new ObjectMapper();
   /* These all will interface with service files */
 
-  @PostMapping("/saveAddress")
-  public void saveAddress(@RequestBody String json) {
+  @PostMapping(value = "/saveAddress", produces = "application/json")
+  public Address saveAddress(@RequestBody String json) {
     try {
       Address address = objectMapper.readValue(json, Address.class);
       Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -50,6 +50,7 @@ public class EditController {
           addresses.add(address);
           userObj.setAddresses(addresses);
           userService.updateUser(userObj);
+          return address;
         }
       }
     } catch (JsonProcessingException e) {
@@ -57,6 +58,8 @@ public class EditController {
     } catch (RuntimeException e) {
       e.printStackTrace();
     }
+
+    return null;
   }
 
   @PostMapping("/deleteAddress")
@@ -78,7 +81,7 @@ public class EditController {
   }
 
   @PostMapping("/saveCard")
-  public void saveCard(@RequestBody String json) {
+  public Card saveCard(@RequestBody String json) {
     try {
       Card card = objectMapper.readValue(json, Card.class);
       Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -91,6 +94,7 @@ public class EditController {
           cards.add(card);
           userObj.setSavedCards(cards);
           userService.updateUser(userObj);
+          return card;
         }
       }
     } catch (JsonProcessingException e) {
@@ -98,6 +102,8 @@ public class EditController {
     } catch (RuntimeException e) {
       e.printStackTrace();
     }
+
+    return null;
   }
 
   @PostMapping("/deleteCard")

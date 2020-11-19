@@ -1,4 +1,4 @@
-package com.csci4050.bookstore;
+package com.csci4050.bookstore.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;

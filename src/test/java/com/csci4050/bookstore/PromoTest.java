@@ -43,12 +43,12 @@ class PromoTest {
     promoOne.setEndDate(end1);
     promoOne.setPromoCode("Test1");
     promoOne.setDiscount(0.5);
-
+    promoOne.setDescription("this is a description");
     promoTwo.setStartDate(start);
     promoTwo.setEndDate(end2);
     promoTwo.setPromoCode("Test2");
     promoTwo.setDiscount(0.6);
-
+    promoTwo.setDescription("this is another description");
     promoService.save(promoOne);
     promoService.save(promoTwo);
     System.out.println(promoOne.getStartDate().toString());

@@ -1,7 +1,6 @@
 package com.csci4050.bookstore.model;
 
-import com.csci4050.bookstore.CardNumberConverter;
-import javax.persistence.CascadeType;
+import com.csci4050.bookstore.converter.CardNumberConverter;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -41,8 +40,8 @@ public class Card {
   @Column(name = "expiry")
   private String expiry;
 
-  @ManyToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "address_id", referencedColumnName = "id")
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "address_id", referencedColumnName = "id", nullable = true)
   private Address address;
 
   public Integer getId() {

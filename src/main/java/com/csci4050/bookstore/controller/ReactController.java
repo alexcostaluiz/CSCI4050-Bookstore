@@ -27,6 +27,7 @@ public class ReactController {
         "/",
         "/b/{id}",
         "/profile",
+        "/orderHistory",
         "/cart",
         "/checkout",
         "/admin/manage/books",

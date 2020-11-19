@@ -77,7 +77,7 @@ function Header(props) {
   const onlyTitle =
     location.pathname.startsWith('/login') ||
     location.pathname.startsWith('/register') ||
-    location.pathname.startsWith('/forgot_password') ||
+    location.pathname.startsWith('/forgotPassword') ||
     location.pathname.startsWith('/updatePassword');
 
   const simple =
@@ -147,7 +147,6 @@ function Header(props) {
             <Menu.Item key='browse'>Browse</Menu.Item>
             <Menu.Item key='sale'>Sale</Menu.Item>
           </Menu>
-          <div style={{ width: '100%' }} />
           <AutoComplete
             className='bookstore-search-dropdown'
             options={options}

@@ -1,4 +1,4 @@
-package com.csci4050.bookstore;
+package com.csci4050.bookstore.converter;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

@@ -1,9 +1,9 @@
 package com.csci4050.bookstore.model;
 
-import com.csci4050.bookstore.MyBookDeserializer;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.csci4050.bookstore.json.BookMapDeserializer;
+import com.csci4050.bookstore.json.BookMapSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.Map;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -12,25 +12,29 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "cart")
+@Inheritance(
+    strategy =
+        InheritanceType
+            .JOINED) // joined is chosen to prevent conflicts with user_id mapping between order and
+// cart
 public class Cart {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
-  @NotNull
   private Integer id;
 
   @OneToOne
-  @JoinColumn(name = "user_id")
-  @NotNull
+  @JoinColumn(name = "user_id", nullable = false)
   private User user;
 
   @ElementCollection
@@ -39,15 +43,14 @@ public class Cart {
       joinColumns = {@JoinColumn(name = "cart_id", referencedColumnName = "id")})
   @MapKeyColumn(name = "book")
   @Column(name = "quantity")
-  @JsonProperty("map")
-  @JsonDeserialize(keyUsing = MyBookDeserializer.class)
+  @JsonDeserialize(keyUsing = BookMapDeserializer.class)
+  @JsonSerialize(keyUsing = BookMapSerializer.class)
   private Map<Book, Integer> books;
 
   public Map<Book, Integer> getBooks() {
     return this.books;
   }
 
-  @JsonCreator
   public void setBooks(Map<Book, Integer> books) {
     this.books = books;
   }

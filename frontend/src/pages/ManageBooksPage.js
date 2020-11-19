@@ -1,241 +1,328 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import './ManageBooksPage.less';
 
-import { Table, Input, Button, Popconfirm, Form } from 'antd';
+import React, { useEffect, useState } from 'react';
 
-const EditableContext = React.createContext();
+import dayjs from 'dayjs';
+import moment from 'moment';
 
-const EditableRow = ({ index, ...props }) => {
-  const [form] = Form.useForm();
+import {
+  Button,
+  Descriptions,
+  Modal,
+  Table,
+  Tag,
+  Tooltip,
+  Typography,
+} from 'antd';
+
+import BookForm from '../components/BookForm.js';
+import Colors from '../services/ColorService.js';
+import DB from '../services/DatabaseService.js';
+import ManagePage from './ManagePage.js';
+import Slider from '../components/Slider.js';
+
+const { Paragraph, Text, Title } = Typography;
+
+const bookTableColumns = [
+  {
+    title: 'ID',
+    dataIndex: 'id',
+  },
+  {
+    title: 'Title',
+    dataIndex: 'title',
+    render: (title) => (
+      <Tooltip placement='topLeft' title={title}>
+        <Text style={{ maxWidth: '200px' }} ellipsis={true}>
+          {title}
+        </Text>
+      </Tooltip>
+    ),
+  },
+  {
+    title: 'Author(s)',
+    dataIndex: 'authors',
+    render: (authors) => (
+      <Tooltip placement='topLeft' title={authors.join(', ')}>
+        <Text style={{ maxWidth: '200px' }} ellipsis={true}>
+          {authors.join(', ')}
+        </Text>
+      </Tooltip>
+    ),
+  },
+  {
+    title: 'Publisher',
+    dataIndex: 'publisher',
+    render: (publisher) => (
+      <Tooltip placement='topLeft' title={publisher}>
+        <Text style={{ maxWidth: '200px' }} ellipsis={true}>
+          {publisher}
+        </Text>
+      </Tooltip>
+    ),
+  },
+  { title: 'Published', dataIndex: 'pubDate' },
+  { title: 'ISBN-13', dataIndex: 'isbn' },
+  {
+    title: 'Edition',
+    dataIndex: 'edition',
+    render: (edition) => (
+      <Tooltip placement='topLeft' title={edition}>
+        <Text style={{ maxWidth: '200px' }} ellipsis={true}>
+          {edition || <i>N/A</i>}
+        </Text>
+      </Tooltip>
+    ),
+  },
+  { title: 'Pages', dataIndex: 'pages' },
+  {
+    title: 'Categories',
+    dataIndex: 'categories',
+    render: (categories) =>
+      categories.map((cat) => (
+        <Tag
+          key={cat}
+          color={Colors.category(cat)}
+          style={{ margin: '4px 4px' }}>
+          {cat.replaceAll('_', ' ')}
+        </Tag>
+      )),
+  },
+  {
+    title: 'Tags',
+    dataIndex: 'tags',
+    render: (tags) =>
+      tags.map((tag) => (
+        <Tag
+          key={tag}
+          color={Colors.category(tag)}
+          style={{ margin: '4px 4px' }}>
+          {tag}
+        </Tag>
+      )),
+  },
+  {
+    title: 'Sell Price',
+    dataIndex: 'sellPrice',
+    render: (price) => <Text>${price}</Text>,
+  },
+  {
+    title: 'Buy Price',
+    dataIndex: 'buyPrice',
+    render: (price) => <Text>${price}</Text>,
+  },
+  { title: 'Stock', dataIndex: 'stock' },
+  { title: 'Min Threshold', dataIndex: 'minThresh' },
+  {
+    title: 'Archived',
+    dataIndex: 'archived',
+    render: (a) => <Text>{a.toString()}</Text>,
+  },
+];
+
+function BookTable(props) {
+  const { books, onArchive = () => {}, onEdit = () => {} } = props;
+
   return (
-    <Form form={form} component={false}>
-      <EditableContext.Provider value={form}>
-        <tr {...props} />
-      </EditableContext.Provider>
-    </Form>
+    <Table
+      className='bookstore-book-table'
+      dataSource={books}
+      columns={bookTableColumns}
+      scroll={{ x: true }}
+      loading={books === null}
+      bordered
+      expandable={{
+        expandRowByClick: true,
+        expandedRowRender: (record) => (
+          <div className='bookstore-book-table-expanded-wrapper'>
+            <div className='bookstore-book-table-expanded-container'>
+              <div className='bookstore-book-table-expanded-text'>
+                <img
+                  className='bookstore-book-table-expanded-image'
+                  src={
+                    record.coverPicPath
+                      ? 'data:image/*;base64,' + record.coverPicPath
+                      : 'https://i.stack.imgur.com/1hvpD.jpg'
+                  }
+                  alt={record.title}
+                />
+                <div>
+                  <Title
+                    level={3}
+                    style={{ fontWeight: '900', marginBottom: '0px' }}>
+                    {record.title}
+                  </Title>
+                  <Paragraph>{record.authors.join(', ')}</Paragraph>
+                  <Tooltip
+                    overlayClassName='bookstore-book-table-expanded-description-tooltip'
+                    placement='bottomLeft'
+                    title={record.description}>
+                    <Paragraph
+                      ellipsis={{ rows: 4 }}
+                      style={{ whiteSpace: 'pre-wrap' }}>
+                      {record.description}
+                    </Paragraph>
+                  </Tooltip>
+                </div>
+              </div>
+              <Title level={5}>Book Details</Title>
+              <Slider backgroundColor='#fbfbfb' style={{ padding: '0px' }}>
+                <div></div>
+                <Descriptions
+                  className='bookstore-book-table-expanded-details'
+                  column={6}
+                  size='small'
+                  bordered>
+                  <Descriptions.Item span={2} label='ISBN-13'>
+                    {record.isbn}
+                  </Descriptions.Item>
+                  <Descriptions.Item span={2} label='Pages'>
+                    {record.pages}
+                  </Descriptions.Item>
+                  <Descriptions.Item span={2} label='Publisher'>
+                    {record.publisher}
+                  </Descriptions.Item>
+                  <Descriptions.Item span={4} label='Published'>
+                    {dayjs(record.pubDate).format('MMMM DD, YYYY')}
+                  </Descriptions.Item>
+                  <Descriptions.Item span={1} label='Buy Price'>
+                    ${record.buyPrice}
+                  </Descriptions.Item>
+                  <Descriptions.Item span={1} label='Stock'>
+                    {record.stock}
+                  </Descriptions.Item>
+                  <Descriptions.Item span={4} label='Edition'>
+                    {record.edition || <i>N/A</i>}
+                  </Descriptions.Item>
+                  <Descriptions.Item span={1} label='Sell Price'>
+                    ${record.sellPrice}
+                  </Descriptions.Item>
+                  <Descriptions.Item span={1} label='Threshold'>
+                    {record.minThresh}
+                  </Descriptions.Item>
+                  <Descriptions.Item span={3} label='Tags'>
+                    {record.tags.map((tag) => (
+                      <Tag
+                        key={tag}
+                        color={Colors.category(tag)}
+                        style={{ margin: '4px 4px' }}>
+                        {tag}
+                      </Tag>
+                    ))}
+                  </Descriptions.Item>
+                  <Descriptions.Item span={3} label='Categories'>
+                    {record.categories.map((cat) => (
+                      <Tag
+                        key={cat}
+                        color={Colors.category(cat)}
+                        style={{ margin: '4px 4px' }}>
+                        {cat.replaceAll('_', ' ')}
+                      </Tag>
+                    ))}
+                  </Descriptions.Item>
+                </Descriptions>
+              </Slider>
+            </div>
+            <Button
+              className='bookstore-book-table-expanded-action'
+              type='primary'
+              onClick={() => onArchive(record, record.archived)}>
+              {record.archived && 'UN'}ARCHIVE
+            </Button>
+            <Button
+              className='bookstore-book-table-expanded-action'
+              onClick={() => onEdit(record)}>
+              EDIT
+            </Button>
+          </div>
+        ),
+      }}
+    />
   );
-};
+}
 
-const EditableCell = ({
-  title,
-  editable,
-  children,
-  dataIndex,
-  record,
-  handleSave,
-  ...restProps
-}) => {
-  const [editing, setEditing] = useState(false);
-  const inputRef = useRef();
-  const form = useContext(EditableContext);
+function ManageBooksPage(props) {
+  const [books, setBooks] = useState(null);
+
+  const retrieveBooks = async () => {
+    const books = await DB.retrieveBooks();
+    books.forEach((b) => {
+      b.key = b.id;
+    });
+    setBooks(books);
+  };
+
   useEffect(() => {
-    if (editing) {
-      inputRef.current.focus();
-    }
-  }, [editing]);
+    retrieveBooks();
+  }, []);
 
-  const toggleEdit = () => {
-    setEditing(!editing);
-    form.setFieldsValue({
-      [dataIndex]: record[dataIndex],
-    });
+  const createBook = async (values) => {
+    const response = await DB.createBook(values);
+    retrieveBooks();
+    return response;
   };
 
-  const save = async (e) => {
-    try {
-      const values = await form.validateFields();
-      toggleEdit();
-      handleSave({ ...record, ...values });
-    } catch (errInfo) {
-      console.log('Save failed:', errInfo);
-    }
+  const updateBook = async (values) => {
+    const response = await DB.updateBook(values);
+    retrieveBooks();
+    return response;
   };
 
-  let childNode = children;
+  const archiveBook = async (values, isArchived) => {
+    const response = isArchived
+      ? await DB.unarchiveBook(values)
+      : await DB.archiveBook(values);
+    retrieveBooks();
+    return response;
+  };
 
-  if (editable) {
-    childNode = editing ? (
-      <Form.Item
-        style={{
-          margin: 0,
-        }}
-        name={dataIndex}
-        rules={[
+  const showForm = (onSubmit, title, initialValues) => {
+    const initialValuesCopy = { ...initialValues };
+    if (initialValues) {
+      initialValuesCopy.pubDate = moment(initialValues.pubDate);
+      initialValuesCopy.authors = initialValues.authors.map((a) => ({
+        name: a,
+      }));
+      if (initialValues.coverPicPath) {
+        initialValuesCopy.coverPicPath = [
           {
-            required: true,
-            message: `${title} is required.`,
+            uid: 0,
+            name: 'image',
+            status: 'done',
+            url: 'data:image/*;base64,' + initialValues.coverPicPath,
           },
-        ]}>
-        <Input ref={inputRef} onPressEnter={save} onBlur={save} />
-      </Form.Item>
-    ) : (
-      <div
-        className='editable-cell-value-wrap'
-        style={{
-          paddingRight: 24,
-        }}
-        onClick={toggleEdit}>
-        {children}
-      </div>
-    );
-  }
-
-  return <td {...restProps}>{childNode}</td>;
-};
-
-class EditableTable extends React.Component {
-  constructor(props) {
-    super(props);
-    this.columns = [
-      {
-        title: 'Title',
-        dataIndex: 'title',
-        width: '30%',
-        editable: true,
-      },
-      {
-        title: 'Author',
-        dataIndex: 'author',
-        width: '30%',
-        editable: true,
-      },
-      {
-        title: 'ISBN-13',
-        dataIndex: 'isbn',
-        editable: true,
-      },
-      {
-        title: 'Publication Date',
-        dataIndex: 'pd',
-        editable: true,
-      },
-      {
-        title: 'Publisher',
-        dataIndex: 'publisher',
-        editable: true,
-      },
-      {
-        title: 'operation',
-        dataIndex: 'operation',
-        render: (text, record) =>
-          this.state.dataSource.length >= 1 ? (
-            <Popconfirm
-              title='Sure to delete?'
-              onConfirm={() => this.handleDelete(record.key)}>
-              <Button type='link'>Delete</Button>
-            </Popconfirm>
-          ) : null,
-      },
-    ];
-    this.state = {
-      dataSource: [
-        {
-          key: '0',
-          title: 'A Promised Land',
-          author: 'Barack Obama',
-          isbn: '978-1-524-76316-9',
-          pd: 'November 17, 2020',
-          publisher: 'Crown Publishing Group',
-        },
-        {
-          key: '1',
-          title: 'A Promised Land',
-          author: 'Barack Obama',
-          isbn: '978-1-524-76316-9',
-          pd: 'November 17, 2020',
-          publisher: 'Crown Publishing Group',
-        },
-        {
-          key: '2',
-          title: 'A Promised Land',
-          author: 'Barack Obama',
-          isbn: '978-1-524-76316-9',
-          pd: 'November 17, 2020',
-          publisher: 'Crown Publishing Group',
-        },
-      ],
-      count: 3,
-    };
-  }
-
-  handleDelete = (key) => {
-    const dataSource = [...this.state.dataSource];
-    this.setState({
-      dataSource: dataSource.filter((item) => item.key !== key),
-    });
-  };
-  handleAdd = () => {
-    const { count, dataSource } = this.state;
-    const newData = {
-      key: count,
-      title: 'A Promised Land',
-      author: 'Barack Obama',
-      isbn: '978-1-524-76316-9',
-      pd: 'November 17, 2020',
-      publisher: 'Crown Publishing Group',
-    };
-    this.setState({
-      dataSource: [...dataSource, newData],
-      count: count + 1,
-    });
-  };
-  handleSave = (row) => {
-    const newData = [...this.state.dataSource];
-    const index = newData.findIndex((item) => row.key === item.key);
-    const item = newData[index];
-    newData.splice(index, 1, { ...item, ...row });
-    this.setState({
-      dataSource: newData,
-    });
-  };
-
-  render() {
-    const { dataSource } = this.state;
-    const components = {
-      body: {
-        row: EditableRow,
-        cell: EditableCell,
-      },
-    };
-    const columns = this.columns.map((col) => {
-      if (!col.editable) {
-        return col;
+        ];
       }
-
-      return {
-        ...col,
-        onCell: (record) => ({
-          record,
-          editable: col.editable,
-          dataIndex: col.dataIndex,
-          title: col.title,
-          handleSave: this.handleSave,
-        }),
-      };
-    });
-    return (
-      <div>
-        <Button
-          onClick={this.handleAdd}
-          type='primary'
-          style={{
-            marginBottom: 16,
-          }}>
-          Add a row
-        </Button>
-        <Table
-          components={components}
-          rowClassName={() => 'editable-row'}
-          bordered
-          dataSource={dataSource}
-          columns={columns}
+    }
+    Modal.confirm({
+      content: (
+        <BookForm
+          onSubmit={onSubmit}
+          initialValues={initialValuesCopy}
+          title={title}
         />
-      </div>
-    );
-  }
+      ),
+      icon: null,
+      width: '800px',
+      className: 'bookstore-manage-form',
+      maskClosable: true,
+    });
+  };
+
+  return (
+    <ManagePage
+      title='Manage Books'
+      shortTitle='Books'
+      table={
+        <BookTable
+          books={books}
+          onEdit={(book) => showForm(updateBook, 'Edit Book', book)}
+          onArchive={archiveBook}
+        />
+      }
+      showForm={() => showForm(createBook, 'Add Book')}
+    />
+  );
 }
 
-function ManageBooks(props) {
-  return <EditableTable />;
-}
-
-export default ManageBooks;
+export default ManageBooksPage;

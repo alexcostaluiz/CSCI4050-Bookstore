@@ -16,7 +16,7 @@ import dayjs from 'dayjs';
 
 import BookThumbnail from './BookThumbnail.js';
 import Slider from './Slider.js';
-import { WikiService } from '../services.js';
+import WikiService from '../services/WikiService.js';
 
 const { Paragraph, Title } = Typography;
 

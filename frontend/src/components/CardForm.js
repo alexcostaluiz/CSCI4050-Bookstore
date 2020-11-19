@@ -1,18 +1,31 @@
 import 'react-credit-cards/es/styles-compiled.css';
 
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
-import { Form, Input } from 'antd';
+import { Form, Input, Modal, Select, Typography } from 'antd';
 
 import Cards from 'react-credit-cards';
 
+import AddressForm from './AddressForm.js';
+import AuthContext from '../contexts/AuthContext.js';
+import DB from '../services/DatabaseService.js';
+
+const { Title } = Typography;
+
 function CardForm(props) {
-  const { addCard, form } = props;
+  const { addCard = () => {} } = props;
+
+  const [form] = Form.useForm();
+
+  const auth = useContext(AuthContext);
 
   const [number, setNumber] = useState('');
   const [name, setName] = useState('');
   const [expiry, setExpiry] = useState('');
   const [focus, setFocus] = useState('');
+
+  const [addressFormVisible, setAddressFormVisible] = useState(false);
+  const [addressFormLoading, setAddressFormLoading] = useState(false);
 
   const handleFocusChange = (e) => {
     setFocus(e.target.name);
@@ -26,12 +39,34 @@ function CardForm(props) {
   };
 
   const onFinish = (values) => {
+    values.address = auth.user.addresses.find((a) => a.id === values.address);
     addCard(values);
     form.resetFields();
     setNumber('');
     setName('');
     setExpiry('');
     setFocus('');
+  };
+
+  const onBillingAddressSelect = (value) => {
+    if (value === -1) {
+      setAddressFormVisible(true);
+    }
+  };
+
+  const onCancelAddressForm = () => {
+    setAddressFormVisible(false);
+    form.resetFields(['address']);
+  };
+
+  const onSubmitAddressForm = async (values) => {
+    setAddressFormLoading(true);
+    const address = await DB.createAddress(values, auth);
+    setAddressFormLoading(false);
+    if (address) {
+      form.setFieldsValue({ address: address.id });
+      setAddressFormVisible(false);
+    }
   };
 
   return (
@@ -51,7 +86,7 @@ function CardForm(props) {
         onFinish={onFinish}
         layout='vertical'
         requiredMark={false}
-        style={{ marginLeft: '32px', width: '100%' }}>
+        style={{ width: '100%', marginLeft: '32px' }}>
         <Form.Item
           label='Card Number'
           name='number'
@@ -106,8 +141,7 @@ function CardForm(props) {
               message: 'Expiry date expected in format "MM/YY"',
             },
           ]}
-          hasFeedback
-          style={{ marginBottom: '0px' }}>
+          hasFeedback>
           <Input
             name='expiry'
             onChange={(e) => setExpiry(e.target.value)}
@@ -120,7 +154,56 @@ function CardForm(props) {
         <Form.Item name='valid' hidden>
           <Input name='valid' type='hidden' />
         </Form.Item>
+        <Form.Item
+          label='Billing Address'
+          name='address'
+          rules={[
+            {
+              required: true,
+              message: 'Please select or enter a billing address',
+            },
+          ]}>
+          <Select
+            placeholder='Select a billing address...'
+            onChange={onBillingAddressSelect}
+            allowClear>
+            <Select.Option value={-1} style={{ color: '#FF1053' }}>
+              Add new address
+            </Select.Option>
+            {auth.user.addresses.map((a) => (
+              <Select.Option key={a.id} value={a.id}>
+                {a.address1 +
+                  (a.address2 ? ' ' + a.address2 : '') +
+                  ', ' +
+                  a.city +
+                  ', ' +
+                  a.state +
+                  ', ' +
+                  a.zip +
+                  ' ' +
+                  a.country}
+              </Select.Option>
+            ))}
+          </Select>
+        </Form.Item>
       </Form>
+      <Modal
+        title={
+          <Title level={3} style={{ fontWeight: '900', margin: '0px' }}>
+            Save New Billing Address
+          </Title>
+        }
+        width={800}
+        visible={addressFormVisible}
+        okText='Save'
+        onCancel={onCancelAddressForm}
+        okButtonProps={{
+          form: 'address-form',
+          htmlType: 'submit',
+          loading: addressFormLoading,
+        }}>
+        <AddressForm addAddress={onSubmitAddressForm} />
+      </Modal>
     </div>
   );
 }

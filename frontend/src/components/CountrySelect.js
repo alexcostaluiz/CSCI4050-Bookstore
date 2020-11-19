@@ -1,12 +1,28 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom';
 
 import { Select } from 'antd';
 
 function CountrySelect(props) {
   const { name = 'country', onChange } = props;
 
+  const select = useRef(null);
+
+  useEffect(() => {
+    const input = ReactDOM.findDOMNode(select.current).querySelector(
+      '.ant-select-selection-search-input'
+    );
+    input.autocomplete = 'nope';
+  }, []);
+
   return (
-    <Select name={name} placeholder='Select Country' onChange={onChange}>
+    <Select
+      name={name}
+      placeholder='Select Country'
+      onChange={onChange}
+      ref={select}
+      showSearch
+      allowClear>
       <Select.Option value='Afganistan'>Afghanistan</Select.Option>
       <Select.Option value='Albania'>Albania</Select.Option>
       <Select.Option value='Algeria'>Algeria</Select.Option>

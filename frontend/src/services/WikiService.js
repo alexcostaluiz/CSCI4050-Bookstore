@@ -40,4 +40,4 @@ const WikiService = {
   },
 };
 
-export { WikiService };
+export default WikiService;

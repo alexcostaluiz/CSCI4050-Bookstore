@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.csci4050.bookstore.model.Book;
 import com.csci4050.bookstore.model.Category;
 import com.csci4050.bookstore.service.BookService;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Arrays;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -26,14 +26,16 @@ class BookTest {
 
   private Book bookOne =
       new Book(
-          111,
-          LocalDateTime.of(2011, 1, 1, 1, 1, 1),
+          "111",
+          LocalDate.of(2011, 1, 1),
           15,
           5,
           2.50,
           4.12,
           "Book time",
-          "nope",
+          "nope".getBytes(),
+          "description",
+          514,
           "5th",
           "UGA Publishing",
           Arrays.asList(Category.Action),
@@ -42,14 +44,16 @@ class BookTest {
 
   private Book bookTwo =
       new Book(
-          142,
-          LocalDateTime.of(2013, 1, 1, 1, 1, 1),
+          "142",
+          LocalDate.of(2013, 1, 1),
           25,
           50,
           2.50,
           4.12,
           "Book ayy",
-          "yes",
+          "yes".getBytes(),
+          "another description",
+          412,
           "5th",
           "UGA not publishing",
           Arrays.asList(Category.Action),

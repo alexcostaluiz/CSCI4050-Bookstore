@@ -18,7 +18,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "user")
@@ -29,8 +28,7 @@ public class User {
   @Column(name = "id")
   private Integer id;
 
-  @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
-  @NotNull
+  @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
   private Cart cart;
 
   @Column(name = "first_name", nullable = false)
@@ -61,8 +59,11 @@ public class User {
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
   private List<Card> savedCards = new ArrayList<>();
 
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Order> orders;
+
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+  private List<VerificationToken> token;
 
   @ElementCollection
   @Column(name = "roles")
@@ -85,7 +86,9 @@ public class User {
 
   @JsonSetter("cart")
   public void setCart(Cart cart) {
-    cart.setUser(this);
+    if (cart != null) {
+      cart.setUser(this);
+    }
     this.cart = cart;
   }
 
@@ -182,6 +185,7 @@ public class User {
 
   @JsonSetter("orders")
   public void setOrders(List<Order> orders) {
+
     for (Order o : orders) {
       o.setUser(this);
     }

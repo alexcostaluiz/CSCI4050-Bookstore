@@ -23,7 +23,6 @@ public class UserDetailsImp implements UserDetails {
     this.status = user.getStatus();
 
     List<String> roles = user.getRoles().stream().map(Role::name).collect(Collectors.toList());
-    System.out.println(roles.toString());
     this.authorities = roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
   }
 
@@ -44,12 +43,12 @@ public class UserDetailsImp implements UserDetails {
 
   @Override
   public boolean isAccountNonExpired() {
-    return status != ActivityStatus.Inactive;
+    return true;
   }
 
   @Override
   public boolean isAccountNonLocked() {
-    return status == ActivityStatus.Active || status == ActivityStatus.Inactive;
+    return status != ActivityStatus.Suspended;
   }
 
   @Override

@@ -9,9 +9,8 @@ import {
   Form,
   Input,
   Menu,
-  message,
+  Popconfirm,
   Row,
-  Table,
   Typography,
 } from 'antd';
 
@@ -22,47 +21,19 @@ import {
   EnvironmentOutlined,
 } from '@ant-design/icons';
 
-import Address from '../components/Address.js';
 import AddressForm from '../components/AddressForm.js';
+import AddressTable from '../components/AddressTable.js';
 import AuthContext from '../contexts/AuthContext.js';
 import CardForm from '../components/CardForm.js';
+import CardTable from '../components/CardTable.js';
+import DB from '../services/DatabaseService.js';
 
-const { Paragraph, Text, Title } = Typography;
+const { Text, Title } = Typography;
 
 function ProfilePage(props) {
   const auth = useContext(AuthContext);
 
   const [changePasswordForm] = Form.useForm();
-  const [cardForm] = Form.useForm();
-  const [addressForm] = Form.useForm();
-  /*
-  auth.user = {
-    addresses: [
-      {
-        id: 1,
-        name: 'Alexander Costa',
-        address1: '490 Barnett Shoals Rd',
-        address2: 'Apt 311',
-        city: 'Athens',
-        state: 'Georgia',
-        zip: 30605,
-        country: 'United States',
-        phoneNumber: '4049849898',
-      },
-    ],
-    cart: null,
-    emailAddress: 'alexcostaluiz@outlook.com',
-    firstName: 'Alexander',
-    lastName: 'Costa',
-    orders: [],
-    phoneNumber: '4049849898',
-    roles: ['USER'],
-    savedCards: [],
-    status: 'Active',
-    subscription: true,
-  };
-  */
-  console.log(auth);
 
   const [selectedMenuItem, setSelectedMenuItem] = useState('personal info');
 
@@ -73,97 +44,6 @@ function ProfilePage(props) {
   const updatePersonalInfo = (value, setter) => {
     if (value) {
       setter(value);
-    }
-  };
-
-  const savePersonalInfo = async () => {
-    const response = await fetch('/edit/personalInfo', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ firstName, lastName, phoneNumber }),
-    });
-    if (response.ok) {
-      auth.fetchUser();
-      message.success('Profile information successfully updated!');
-    }
-  };
-
-  const changePassword = async (values) => {
-    delete values.confirm;
-    const response = await fetch('/edit/password', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(values),
-    });
-    if (response.ok) {
-      auth.fetchUser();
-      changePasswordForm.resetFields();
-      message.success('Password successfully updated!');
-    } else {
-      changePasswordForm.resetFields();
-      message.error('Failed to update password. Invalid credentials.');
-    }
-  };
-
-  const addCard = async (values) => {
-    delete values.valid;
-    const response = await fetch('/edit/saveCard', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(values),
-    });
-    if (response.ok) {
-      auth.fetchUser();
-      message.success('Card sucessfully saved!');
-    }
-  };
-
-  const deleteCard = async (card) => {
-    delete card.description;
-    const response = await fetch('/edit/deleteCard', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(card),
-    });
-    if (response.ok) {
-      auth.fetchUser();
-      message.success('Card successfully deleted!');
-    }
-  };
-
-  const addAddress = async (values) => {
-    const response = await fetch('/edit/saveAddress', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(values),
-    });
-    if (response.ok) {
-      auth.fetchUser();
-      message.success('Address sucessfully saved!');
-    }
-  };
-
-  const deleteAddress = async (values) => {
-    const response = await fetch('/edit/deleteAddress', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(values),
-    });
-    if (response.ok) {
-      auth.fetchUser();
-      message.success('Address sucessfully deleted!');
     }
   };
 
@@ -217,7 +97,12 @@ function ProfilePage(props) {
               type='primary'
               size='large'
               disabled={changesMade}
-              onClick={savePersonalInfo}>
+              onClick={() =>
+                DB.updatePersonalInfo(
+                  { firstName, lastName, phoneNumber },
+                  auth
+                )
+              }>
               SAVE
             </Button>
           </div>
@@ -231,7 +116,9 @@ function ProfilePage(props) {
             </Title>
             <Form
               form={changePasswordForm}
-              onFinish={(values) => changePassword(values)}>
+              onFinish={(values) =>
+                DB.updatePassword(values, auth, changePasswordForm)
+              }>
               <Card type='inner' title='Current Password'>
                 <Form.Item
                   name='oldPassword'
@@ -289,57 +176,29 @@ function ProfilePage(props) {
         );
 
       case 'payment methods':
-        const savedCards = auth.user.savedCards.map((c) => ({
-          ...c,
-          description:
-            c.cardType.charAt(0).toUpperCase() +
-            c.cardType.slice(1) +
-            ' ending in ' +
-            c.number.slice(-4),
-          key: c.id,
-        }));
-        const cardColumns = [
-          {
-            title: 'Your Credit and Debit Cards',
-            dataIndex: 'description',
-            key: 'description',
-          },
-          { title: 'Expires', dataIndex: 'expiry', key: 'expiry' },
-        ];
         return (
           <div className='bookstore-profile-content-container'>
             <Title className='bookstore-profile-content-title'>
               Payment Methods
             </Title>
-            <Table
-              dataSource={savedCards}
-              columns={cardColumns}
-              expandable={{
-                expandedRowRender: (record) => (
-                  <div>
-                    <div className='bookstore-credit-card-table-expanded-container'>
-                      <div>
-                        <Title level={5}>Name on Card</Title>
-                        <Paragraph>{record.name}</Paragraph>
-                      </div>
-                      <div>
-                        <Title level={5}>Billing Address</Title>
-                        <Paragraph>[insert billing address]</Paragraph>
-                      </div>
-                    </div>
-                    <Button
-                      type='primary'
-                      onClick={() => deleteCard(record)}
-                      style={{ float: 'right', marginTop: '32px' }}>
-                      DELETE
-                    </Button>
-                  </div>
-                ),
-              }}
-              bordered
+            <CardTable
+              cards={auth.user.savedCards}
+              expandedAction={(record) => (
+                <Popconfirm
+                  title='Are your sure?'
+                  onConfirm={() => DB.deleteCard(record, auth)}
+                  okText='Yes'
+                  cancelText='Cancel'>
+                  <Button
+                    type='primary'
+                    style={{ float: 'right', marginTop: '32px' }}>
+                    DELETE
+                  </Button>
+                </Popconfirm>
+              )}
             />
             <Card type='inner' title='Add New Debit/Credit Card'>
-              <CardForm form={cardForm} addCard={addCard} />
+              <CardForm addCard={(values) => DB.createCard(values, auth)} />
             </Card>
             <Button
               type='primary'
@@ -352,58 +211,31 @@ function ProfilePage(props) {
         );
 
       default:
-        const addresses = auth.user.addresses.map((a) => ({
-          ...a,
-          address:
-            a.address1 +
-            (a.address2 ? ' ' + a.address2 : '') +
-            ', ' +
-            a.city +
-            ', ' +
-            a.state +
-            ', ' +
-            a.zip +
-            ' ' +
-            a.country,
-          key: a.id,
-        }));
-        const addressColumns = [
-          {
-            title: 'Name',
-            dataIndex: 'name',
-            key: 'name',
-          },
-          {
-            title: 'Address',
-            dataIndex: 'address',
-            key: 'address',
-          },
-        ];
         return (
           <div className='bookstore-profile-content-container'>
             <Title className='bookstore-profile-content-title'>
               Saved Addresses
             </Title>
-            <Table
-              dataSource={addresses}
-              columns={addressColumns}
-              expandable={{
-                expandedRowRender: (record) => (
-                  <div>
-                    <Address {...record} />
-                    <Button
-                      type='primary'
-                      onClick={() => deleteAddress(record)}
-                      style={{ float: 'right', marginTop: '16px' }}>
-                      DELETE
-                    </Button>
-                  </div>
-                ),
-              }}
-              bordered
+            <AddressTable
+              addresses={auth.user.addresses}
+              expandedAction={(record) => (
+                <Popconfirm
+                  title='Are your sure?'
+                  onConfirm={() => DB.deleteAddress(record, auth)}
+                  okText='Yes'
+                  cancelText='Cancel'>
+                  <Button
+                    type='primary'
+                    style={{ float: 'right', marginTop: '16px' }}>
+                    DELETE
+                  </Button>
+                </Popconfirm>
+              )}
             />
             <Card type='inner' title='Add New Address'>
-              <AddressForm form={addressForm} addAddress={addAddress} />
+              <AddressForm
+                addAddress={(values) => DB.createAddress(values, auth)}
+              />
             </Card>
             <Button
               type='primary'
