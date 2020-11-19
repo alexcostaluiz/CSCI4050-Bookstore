@@ -95,6 +95,28 @@ const DB = {
       message.success('Card successfully deleted!');
     }
   },
+
+  retrieveBooks: async () => {
+    const response = await fetch('/books/get');
+    const json = await response.json();
+    console.log(json);
+    return json;
+  },
+
+  createBook: async (values) => {
+    const response = await fetch('/books/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    });
+    if (response.ok) {
+      message.success('Book successfully created!');
+    } else {
+      message.error('Failed to create book.');
+    }
+  }
 };
 
 export default DB;
