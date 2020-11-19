@@ -59,7 +59,7 @@ public class Book {
   @Column(name = "pages", nullable = false)
   private Integer pages;
 
-  @Column(name = "edition", nullable = false)
+  @Column(name = "edition", nullable = true)
   private String edition;
 
   @Column(name = "publisher", nullable = false)

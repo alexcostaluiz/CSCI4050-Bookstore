@@ -28,16 +28,16 @@ public class Promotion {
 
   @Column(name = "start_date", nullable = false, columnDefinition = "TIMESTAMP")
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  private LocalDateTime startDate = LocalDateTime.now(ZoneId.of("UTC"));
+  private LocalDateTime startDate;
 
   @Column(name = "end_date", nullable = false, columnDefinition = "TIMESTAMP")
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  private LocalDateTime endDate = startDate.plusHours(8);
+  private LocalDateTime endDate;
 
   @Column(name = "discount", nullable = false)
   private Double discount;
 
-  @Column(name = "description")
+  @Column(name = "description", nullable = false)
   private String description;
 
   @OneToMany(mappedBy = "promo")
@@ -79,12 +79,8 @@ public class Promotion {
     return this.startDate;
   }
 
-  public void setStartDate(LocalDateTime startDate) throws ConstraintViolationException {
-    if (startDate.isBefore(endDate)) {
-      this.startDate = startDate;
-      return;
-    }
-    throw new ConstraintViolationException("invalid start date", null, null);
+  public void setStartDate(LocalDateTime startDate) {
+    this.startDate = startDate;
   }
 
   public LocalDateTime getEndDate() {
