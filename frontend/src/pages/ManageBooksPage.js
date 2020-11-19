@@ -6,7 +6,10 @@ import dayjs from 'dayjs';
 
 import { Button, Descriptions, Table, Tag, Tooltip, Typography } from 'antd';
 
+import BookForm from '../components/BookForm.js';
+import DB from '../services/DatabaseService.js';
 import ManagePage from './ManagePage.js';
+import Slider from '../components/Slider.js';
 
 const { Paragraph, Text, Title } = Typography;
 
@@ -30,61 +33,53 @@ const colors = {
 
 const bookTableColumns = [
   {
+    title: 'ID',
+    dataIndex: 'id',
+  },
+  {
     title: 'Title',
     dataIndex: 'title',
-    key: 'title',
-    fixed: 'left',
-    width: '166px',
-    ellipsis: { showTitle: false },
     render: (title) => (
       <Tooltip placement='topLeft' title={title}>
-        {title}
+        <Text style={{ maxWidth: '200px' }} ellipsis={true}>{title}</Text>
       </Tooltip>
     ),
   },
   {
     title: 'Author(s)',
     dataIndex: 'authors',
-    key: 'authors',
-    width: '166px',
-    ellipsis: { showTitle: false },
     render: (authors) => (
       <Tooltip placement='topLeft' title={authors.join(', ')}>
-        <Text>{authors.join(', ')}</Text>
+        <Text style={{ maxWidth: '200px' }} ellipsis={true}>{authors.join(', ')}</Text>
       </Tooltip>
     ),
   },
   {
     title: 'Publisher',
     dataIndex: 'publisher',
-    key: 'publisher',
-    width: '210px',
-    ellipsis: { showTitle: false },
     render: (publisher) => (
       <Tooltip placement='topLeft' title={publisher}>
-        {publisher}
+        <Text style={{ maxWidth: '200px' }} ellipsis={true}>{publisher}</Text>
       </Tooltip>
     ),
   },
-  { title: 'Published', dataIndex: 'pubDate', key: 'pubDate', width: '130px' },
-  { title: 'ISBN-13', dataIndex: 'isbn', key: 'isbn', width: '166px' },
+  { title: 'Published', dataIndex: 'pubDate' },
+  { title: 'ISBN-13', dataIndex: 'isbn' },
   {
     title: 'Edition',
     dataIndex: 'edition',
-    key: 'edition',
-    ellipsis: { showTitle: false },
     render: (edition) => (
       <Tooltip placement='topLeft' title={edition}>
-        {edition || <i>N/A</i>}
+        <Text style={{ maxWidth: '200px' }} ellipsis={true}>
+          {edition || <i>N/A</i>}
+        </Text>
       </Tooltip>
     ),
   },
-  { title: 'Pages', dataIndex: 'pages', key: 'pages', width: '88px' },
+  { title: 'Pages', dataIndex: 'pages' },
   {
     title: 'Categories',
     dataIndex: 'categories',
-    key: 'categories',
-    width: '200px',
     render: (categories) =>
       categories.map((cat) => (
         <Tag key={cat} color={colors.random()} style={{ margin: '4px 4px' }}>
@@ -95,8 +90,6 @@ const bookTableColumns = [
   {
     title: 'Tags',
     dataIndex: 'tags',
-    key: 'tags',
-    width: '200px',
     render: (tags) =>
       tags.map((tag) => (
         <Tag key={tag} color={colors.random()} style={{ margin: '4px 4px' }}>
@@ -107,26 +100,17 @@ const bookTableColumns = [
   {
     title: 'Sell Price',
     dataIndex: 'sellPrice',
-    key: 'sellPrice',
     render: (price) => <Text>${price}</Text>,
   },
   {
     title: 'Buy Price',
     dataIndex: 'buyPrice',
-    key: 'buyPrice',
     render: (price) => <Text>${price}</Text>,
   },
-  { title: 'Stock', dataIndex: 'stock', key: 'stock' },
+  { title: 'Stock', dataIndex: 'stock' },
   {
     title: 'Min Threshold',
     dataIndex: 'minThresh',
-    key: 'minThresh',
-    width: '110px',
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    render: () => <Button type='link'>EDIT</Button>,
   },
 ];
 
@@ -148,9 +132,9 @@ const books = [
     stock: 10000,
     minThresh: 100,
     coverPicPath:
-      'https://kottke.org/plus/misc/images/obama-promised-land-book.jpg',
+    'https://kottke.org/plus/misc/images/obama-promised-land-book.jpg',
     description:
-      'A riveting, deeply personal account of history in the making from the president who inspired us to believe in the power of democracy. In the stirring, highly anticipated first volume of his presidential memoirs, Barack Obama tells the story of his improbable odyssey from young man searching for his identity to leader of the free world, describing in strikingly personal detail both his political education and the landmark moments of the first term of his historic presidency a time of dramatic transformation and turmoil.',
+    'A riveting, deeply personal account of history in the making from the president who inspired us to believe in the power of democracy. In the stirring, highly anticipated first volume of his presidential memoirs, Barack Obama tells the story of his improbable odyssey from young man searching for his identity to leader of the free world, describing in strikingly personal detail both his political education and the landmark moments of the first term of his historic presidency a time of dramatic transformation and turmoil.',
   },
 ];
 
@@ -164,33 +148,39 @@ function BookTable(props) {
       className='bookstore-book-table'
       dataSource={books}
       columns={bookTableColumns}
-      scroll={{ x: '160%' }}
+      scroll={{ x: true }}
       bordered
       expandable={{
         expandRowByClick: true,
         expandedRowRender: (record) => (
-          <div>
+          <div className='bookstore-book-table-expanded-wrapper'>
             <div className='bookstore-book-table-expanded-container'>
-              <img
-                className='bookstore-book-table-expanded-image'
-                src={record.coverPicPath}
-                alt={record.title}
-              />
               <div className='bookstore-book-table-expanded-text'>
-                <Title
-                  level={3}
-                  style={{ fontWeight: '900', marginBottom: '0px' }}>
-                  {record.title}
-                </Title>
-                <Paragraph>{record.authors.join(', ')}</Paragraph>
-                <Tooltip
-                  overlayClassName='bookstore-book-table-expanded-description-tooltip'
-                  placement='bottomLeft'
-                  title={record.description}>
-                  <Paragraph ellipsis={{ rows: 4, expandable: false }}>
-                    {record.description}
-                  </Paragraph>
-                </Tooltip>
+                <img
+                  className='bookstore-book-table-expanded-image'
+                  src={record.coverPicPath}
+                  alt={record.title}
+                />
+                <div>
+                  <Title
+                    level={3}
+                    style={{ fontWeight: '900', marginBottom: '0px' }}>
+                    {record.title}
+                  </Title>
+                  <Paragraph>{record.authors.join(', ')}</Paragraph>
+                  <Tooltip
+                    overlayClassName='bookstore-book-table-expanded-description-tooltip'
+                    placement='bottomLeft'
+                    title={record.description}>
+                    <Paragraph ellipsis={{ rows: 4 }}>
+                      {record.description}
+                    </Paragraph>
+                  </Tooltip>
+                </div>
+              </div>
+              <Title level={5}>Book Details</Title>
+              <Slider backgroundColor='#fbfbfb' style={{ padding: '0px' }}>
+                <div></div>
                 <Descriptions
                   className='bookstore-book-table-expanded-details'
                   column={6}
@@ -244,7 +234,7 @@ function BookTable(props) {
                     ))}
                   </Descriptions.Item>
                 </Descriptions>
-              </div>
+              </Slider>
             </div>
             <Button
               className='bookstore-book-table-expanded-action'
@@ -262,7 +252,12 @@ function BookTable(props) {
 
 function ManageBooks(props) {
   return (
-    <ManagePage title='Manage Books' shortTitle='Books' table={<BookTable />} />
+    <ManagePage
+      title='Manage Books'
+      shortTitle='Books'
+      table={<BookTable />}
+      form={<BookForm addBook={(values) => DB.createBook(values)}/>}
+    />
   );
 }
 

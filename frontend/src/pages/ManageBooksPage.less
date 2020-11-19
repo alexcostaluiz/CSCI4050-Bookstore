@@ -1,36 +1,58 @@
 @import "../global.less";
 
+.bookstore-book-table {
+  white-space: nowrap;
+}
+
+.bookstore-book-table .ant-table-container::before,
 .bookstore-book-table .ant-table-container::after {
   box-shadow: none !important;
 }
 
-.bookstore-book-table-expanded-container {
-  display: flex;
-  align-items: flex-start;
+.bookstore-book-table .ant-table-expanded-row > td {
+  padding: 0px;
 }
 
-.bookstore-book-table-expanded-image {
-  width: 220px;
-  border-radius: 8px;
-  box-shadow: @card-shadow;
-  margin: 16px;
+.bookstore-book-table-expanded-wrapper {
+  position: sticky;
+  left: 0;
+  padding: 32px;
+  padding-bottom: 16px;
+  overflow: hidden;
+  width: calc(100vw - 264px - 2px);
+}
+
+.bookstore-book-table-expanded-container {
+  width: calc(100vw - 328px - 2px);
+  max-width: 820px;
+  margin: 0px auto;
 }
 
 .bookstore-book-table-expanded-text {
-  margin: 16px;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  white-space: normal;
+}
+
+.bookstore-book-table-expanded-image {
+  width: 104px;
+  border-radius: 8px;
+  box-shadow: @card-shadow;
+  margin-right: 16px;
 }
 
 .bookstore-book-table-expanded-description-tooltip .ant-tooltip-inner {
-  width: 900px;
+  width: ~"min(100vw - 328px - 2px - 120px, 820px - 120px)";
 }
 
 .bookstore-book-table-expanded-action {
   float: right;
-  margin: 8px 8px;
+  margin: 16px 8px 0px 8px;
 }
 
 .bookstore-book-table-expanded-action:first-of-type {
-  margin-right: 16px;
+  margin-right: 0px;
 }
 
 .bookstore-book-table-expanded-details {
