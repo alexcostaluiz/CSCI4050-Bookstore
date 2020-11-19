@@ -4,7 +4,6 @@ import com.csci4050.bookstore.model.ActivityStatus;
 import com.csci4050.bookstore.model.Role;
 import com.csci4050.bookstore.model.User;
 import com.csci4050.bookstore.service.UserService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

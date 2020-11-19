@@ -59,8 +59,11 @@ public class User {
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
   private List<Card> savedCards = new ArrayList<>();
 
-  @OneToMany(mappedBy = "user")
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Order> orders;
+
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+  private List<VerificationToken> token;
 
   @ElementCollection
   @Column(name = "roles")
