@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,6 +38,12 @@ public class UserController {
 
   @PostMapping(value = "/update", consumes = "application/json", produces = "application/json")
   public void updateUser(@RequestBody User user) {
+    BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+    if(user.getPassword() != null) {
+      user.setPassword(bcrypt.encode(user.getPassword()));
+    } else {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password is empty.");
+    }
     userService.updateUser(user);
   }
 
