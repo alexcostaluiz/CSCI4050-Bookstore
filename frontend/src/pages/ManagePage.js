@@ -4,12 +4,22 @@ import React from 'react';
 
 import { Link } from 'react-router-dom';
 
-import { Breadcrumb, Button, Col, Row, Typography } from 'antd';
+import { Breadcrumb, Button, Col, Modal, Row, Typography } from 'antd';
 
 const { Title } = Typography;
 
 function ManagePage(props) {
-  const { table, title, shortTitle } = props;
+  const { form, table, title, shortTitle } = props;
+
+  const showForm = () => {
+    Modal.confirm({
+      content: form,
+      icon: null,
+      width: '800px',
+      className: 'bookstore-manage-form',
+      maskClosable: true,
+    });
+  };
 
   return (
     <Row justify='center'>
@@ -29,7 +39,7 @@ function ManagePage(props) {
           <div className='bookstore-manage-table-container'>
             <div className='bookstore-manage-table-title-container'>
               <Title className='bookstore-manage-table-title'>{title}</Title>
-              <Button type='primary' size='large'>
+              <Button type='primary' size='large' onClick={showForm}>
                 ADD {shortTitle.slice(0, -1).toUpperCase()}
               </Button>
             </div>
