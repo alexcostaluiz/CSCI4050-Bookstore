@@ -1,10 +1,11 @@
 import './ManageBooksPage.less';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import dayjs from 'dayjs';
+import moment from 'moment';
 
-import { Button, Descriptions, Table, Tag, Tooltip, Typography } from 'antd';
+import { Button, Descriptions, Modal, Table, Tag, Tooltip, Typography } from 'antd';
 
 import BookForm from '../components/BookForm.js';
 import DB from '../services/DatabaseService.js';
@@ -114,47 +115,20 @@ const bookTableColumns = [
     render: (price) => <Text>${price}</Text>,
   },
   { title: 'Stock', dataIndex: 'stock' },
-  {
-    title: 'Min Threshold',
-    dataIndex: 'minThresh',
-  },
+  { title: 'Min Threshold', dataIndex: 'minThresh' },
+  { title: 'Archived', dataIndex: 'archived', render: (a) => <Text>{a.toString()}</Text> },
 ];
-
-const books = [
-  {
-    id: 0,
-    key: 0,
-    title: 'A Promised Land',
-    authors: ['Barack Obama'],
-    publisher: 'Crown Publishing Group',
-    pubDate: '2020-11-17',
-    isbn: '9781524763169',
-    edition: '',
-    pages: 768,
-    categories: ['Autobiography', 'Biography', 'Memoir'],
-    tags: ['Bestseller'],
-    sellPrice: 32.99,
-    buyPrice: 15.99,
-    stock: 10000,
-    minThresh: 100,
-    coverPicPath:
-      'https://kottke.org/plus/misc/images/obama-promised-land-book.jpg',
-    description:
-      'A riveting, deeply personal account of history in the making from the president who inspired us to believe in the power of democracy. In the stirring, highly anticipated first volume of his presidential memoirs, Barack Obama tells the story of his improbable odyssey from young man searching for his identity to leader of the free world, describing in strikingly personal detail both his political education and the landmark moments of the first term of his historic presidency a time of dramatic transformation and turmoil.',
-  },
-];
-
-for (let i = 1; i < 1000; i++) {
-  books.push({ ...books[0], id: i, key: i });
-}
 
 function BookTable(props) {
+  const { books, onArchive = () => {}, onEdit = () => {} } = props;
+  
   return (
     <Table
       className='bookstore-book-table'
       dataSource={books}
       columns={bookTableColumns}
       scroll={{ x: true }}
+      loading={books === null}
       bordered
       expandable={{
         expandRowByClick: true,
@@ -164,7 +138,11 @@ function BookTable(props) {
               <div className='bookstore-book-table-expanded-text'>
                 <img
                   className='bookstore-book-table-expanded-image'
-                  src={record.coverPicPath}
+                  src={
+                    record.coverPicPath ?
+                      'data:image/*;base64,' + record.coverPicPath :
+                      'https://i.stack.imgur.com/1hvpD.jpg'
+                  }
                   alt={record.title}
                 />
                 <div>
@@ -178,7 +156,7 @@ function BookTable(props) {
                     overlayClassName='bookstore-book-table-expanded-description-tooltip'
                     placement='bottomLeft'
                     title={record.description}>
-                    <Paragraph ellipsis={{ rows: 4 }}>
+                    <Paragraph ellipsis={{ rows: 4 }} style={{ whiteSpace: 'pre-wrap' }}>
                       {record.description}
                     </Paragraph>
                   </Tooltip>
@@ -244,27 +222,94 @@ function BookTable(props) {
             </div>
             <Button
               className='bookstore-book-table-expanded-action'
-              type='primary'>
-              ARCHIVE
+              type='primary'
+              onClick={() => onArchive(record, record.archived)}>
+              {record.archived && 'UN'}ARCHIVE
             </Button>
-            <Button className='bookstore-book-table-expanded-action'>
+            <Button
+              className='bookstore-book-table-expanded-action'
+              onClick={() => onEdit(record)}>
               EDIT
             </Button>
           </div>
         ),
-      }}></Table>
-  );
-}
-
-function ManageBooks(props) {
-  return (
-    <ManagePage
-      title='Manage Books'
-      shortTitle='Books'
-      table={<BookTable />}
-      form={<BookForm addBook={(values) => DB.createBook(values)} />}
+      }}
     />
   );
 }
 
-export default ManageBooks;
+function ManageBooksPage(props) {
+  const [books, setBooks] = useState(null);
+
+  const retrieveBooks = async () => {
+    const books = await DB.retrieveBooks();
+    books.forEach(b => {
+      b.key = b.id;
+    });
+    setBooks(books);    
+  };
+  
+  useEffect(() => {
+    retrieveBooks();
+  }, []);
+  
+  const createBook = async (values) => {
+    const response = await DB.createBook(values);
+    retrieveBooks();
+    return response;
+  };
+
+  const updateBook = async (values) => {
+    const response = await DB.updateBook(values);
+    retrieveBooks();
+    return response;
+  };
+
+  const archiveBook = async (values, isArchived) => {
+    const response = isArchived ? await DB.unarchiveBook(values) : await DB.archiveBook(values);
+    retrieveBooks();
+    return response;
+  };
+  
+  const showForm = (onSubmit, title, initialValues) => {
+    const initialValuesCopy = {...initialValues};
+    if (initialValues) {
+      initialValuesCopy.pubDate = moment(initialValues.pubDate);
+      initialValuesCopy.authors = initialValues.authors.map(a => ({name: a}));
+      if (initialValues.coverPicPath) {
+        initialValuesCopy.coverPicPath = [
+          {
+            uid: 0,
+            name: 'image',
+            status: 'done',
+            url: 'data:image/*;base64,' + initialValues.coverPicPath
+          }
+        ];
+      }
+    }
+    Modal.confirm({
+      content: <BookForm onSubmit={onSubmit} initialValues={initialValuesCopy} title={title} />,
+      icon: null,
+      width: '800px',
+      className: 'bookstore-manage-form',
+      maskClosable: true,
+    });
+  };
+
+  return (
+    <ManagePage
+      title='Manage Books'
+      shortTitle='Books'
+      table={(
+        <BookTable
+          books={books}
+          onEdit={(book) => showForm(updateBook, 'Edit Book', book)}
+          onArchive={archiveBook}
+        />
+      )}
+      showForm={() => showForm(createBook, 'Add Book')}
+    />
+  );
+}
+
+export default ManageBooksPage;
