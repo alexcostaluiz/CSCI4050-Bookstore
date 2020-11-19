@@ -17,13 +17,17 @@ import React, { useRef, useLayoutEffect } from 'react';
  *     to the parent container of this component.
  */
 function Slider(props) {
-  const { spaceBetween, primary } = props;
+  const { spaceBetween, primary, backgroundColor } = props;
   let { children, className, style } = props;
 
   const slider = useRef(null);
   const scrollbarCover = useRef(null);
 
   useLayoutEffect(() => {
+    if (scrollbarCover.current && backgroundColor) {
+      scrollbarCover.current.style.background = backgroundColor;
+    }
+    
     if (
       !primary &&
       scrollbarCover.current &&
@@ -32,7 +36,7 @@ function Slider(props) {
     ) {
       scrollbarCover.current.classList.add('disabled');
     }
-  }, [primary]);
+  }, [primary, backgroundColor]);
 
   if (!primary) {
     children = children.map((child, index) =>
