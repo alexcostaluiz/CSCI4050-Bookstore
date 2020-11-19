@@ -11,7 +11,6 @@ import {
   Menu,
   Popconfirm,
   Row,
-  Table,
   Typography,
 } from 'antd';
 
@@ -20,23 +19,21 @@ import {
   KeyOutlined,
   CreditCardOutlined,
   EnvironmentOutlined,
-  ExclamationCircleFilled,
 } from '@ant-design/icons';
 
-import Address from '../components/Address.js';
 import AddressForm from '../components/AddressForm.js';
+import AddressTable from '../components/AddressTable.js';
 import AuthContext from '../contexts/AuthContext.js';
 import CardForm from '../components/CardForm.js';
+import CardTable from '../components/CardTable.js';
 import DB from '../services/DatabaseService.js';
 
-const { Paragraph, Text, Title } = Typography;
+const { Text, Title } = Typography;
 
 function ProfilePage(props) {
   const auth = useContext(AuthContext);
 
   const [changePasswordForm] = Form.useForm();
-  const [cardForm] = Form.useForm();
-  const [addressForm] = Form.useForm();
 
   const [selectedMenuItem, setSelectedMenuItem] = useState('personal info');
 
@@ -179,77 +176,29 @@ function ProfilePage(props) {
         );
 
       case 'payment methods':
-        const savedCards = auth.user.savedCards.map((c) => ({
-          ...c,
-          description:
-            c.cardType.charAt(0).toUpperCase() +
-            c.cardType.slice(1) +
-            ' ending in ' +
-            c.number.slice(-4),
-          key: c.id,
-        }));
-        const cardColumns = [
-          {
-            title: 'Your Credit and Debit Cards',
-            dataIndex: 'description',
-            key: 'description',
-          },
-          { title: 'Expires', dataIndex: 'expiry', key: 'expiry' },
-        ];
         return (
           <div className='bookstore-profile-content-container'>
             <Title className='bookstore-profile-content-title'>
               Payment Methods
             </Title>
-            <Table
-              dataSource={savedCards}
-              columns={cardColumns}
-              expandable={{
-                expandRowByClick: true,
-                expandedRowRender: (record) => (
-                  <div>
-                    <div className='bookstore-credit-card-table-expanded-container'>
-                      <div>
-                        <Title level={5}>Name on Card</Title>
-                        <Paragraph>{record.name}</Paragraph>
-                      </div>
-                      <div>
-                        <Title level={5}>Billing Address</Title>
-                        {record.address ? (
-                          <Address {...record.address} />
-                        ) : (
-                          [
-                            <ExclamationCircleFilled key='icon' />,
-                            <Text
-                              key='text'
-                              style={{ color: '#FF1053', paddingLeft: '8px' }}>
-                              Missing billing address
-                            </Text>,
-                          ]
-                        )}
-                      </div>
-                    </div>
-                    <Popconfirm
-                      title='Are your sure?'
-                      onConfirm={() => DB.deleteCard(record, auth)}
-                      okText='Yes'
-                      cancelText='Cancel'>
-                      <Button
-                        type='primary'
-                        style={{ float: 'right', marginTop: '32px' }}>
-                        DELETE
-                      </Button>
-                    </Popconfirm>
-                  </div>
-                ),
-              }}
-              bordered
+            <CardTable
+              cards={auth.user.savedCards}
+              expandedAction={(record) => (
+                <Popconfirm
+                  title='Are your sure?'
+                  onConfirm={() => DB.deleteCard(record, auth)}
+                  okText='Yes'
+                  cancelText='Cancel'>
+                  <Button
+                    type='primary'
+                    style={{ float: 'right', marginTop: '32px' }}>
+                    DELETE
+                  </Button>
+                </Popconfirm>
+              )}
             />
             <Card type='inner' title='Add New Debit/Credit Card'>
-              <CardForm
-                form={cardForm}
-                addCard={(values) => DB.createCard(values, auth)}
-              />
+              <CardForm addCard={(values) => DB.createCard(values, auth)} />
             </Card>
             <Button
               type='primary'
@@ -262,65 +211,29 @@ function ProfilePage(props) {
         );
 
       default:
-        const addresses = auth.user.addresses.map((a) => ({
-          ...a,
-          address:
-            a.address1 +
-            (a.address2 ? ' ' + a.address2 : '') +
-            ', ' +
-            a.city +
-            ', ' +
-            a.state +
-            ', ' +
-            a.zip +
-            ' ' +
-            a.country,
-          key: a.id,
-        }));
-        const addressColumns = [
-          {
-            title: 'Name',
-            dataIndex: 'name',
-            key: 'name',
-          },
-          {
-            title: 'Address',
-            dataIndex: 'address',
-            key: 'address',
-          },
-        ];
         return (
           <div className='bookstore-profile-content-container'>
             <Title className='bookstore-profile-content-title'>
               Saved Addresses
             </Title>
-            <Table
-              dataSource={addresses}
-              columns={addressColumns}
-              expandable={{
-                expandRowByClick: true,
-                expandedRowRender: (record) => (
-                  <div>
-                    <Address {...record} />
-                    <Popconfirm
-                      title='Are your sure?'
-                      onConfirm={() => DB.deleteAddress(record, auth)}
-                      okText='Yes'
-                      cancelText='Cancel'>
-                      <Button
-                        type='primary'
-                        style={{ float: 'right', marginTop: '16px' }}>
-                        DELETE
-                      </Button>
-                    </Popconfirm>
-                  </div>
-                ),
-              }}
-              bordered
+            <AddressTable
+              addresses={auth.user.addresses}
+              expandedAction={(record) => (
+                <Popconfirm
+                  title='Are your sure?'
+                  onConfirm={() => DB.deleteAddress(record, auth)}
+                  okText='Yes'
+                  cancelText='Cancel'>
+                  <Button
+                    type='primary'
+                    style={{ float: 'right', marginTop: '16px' }}>
+                    DELETE
+                  </Button>
+                </Popconfirm>
+              )}
             />
             <Card type='inner' title='Add New Address'>
               <AddressForm
-                form={addressForm}
                 addAddress={(values) => DB.createAddress(values, auth)}
               />
             </Card>

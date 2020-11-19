@@ -147,7 +147,6 @@ function Header(props) {
             <Menu.Item key='browse'>Browse</Menu.Item>
             <Menu.Item key='sale'>Sale</Menu.Item>
           </Menu>
-          <div style={{ width: '100%' }} />
           <AutoComplete
             className='bookstore-search-dropdown'
             options={options}

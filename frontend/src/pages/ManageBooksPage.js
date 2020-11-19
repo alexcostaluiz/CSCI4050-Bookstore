@@ -1,12 +1,24 @@
 import './ManageBooksPage.less';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import dayjs from 'dayjs';
+import moment from 'moment';
 
-import { Button, Descriptions, Table, Tag, Tooltip, Typography } from 'antd';
+import {
+  Button,
+  Descriptions,
+  Modal,
+  Table,
+  Tag,
+  Tooltip,
+  Typography,
+} from 'antd';
 
+import BookForm from '../components/BookForm.js';
+import DB from '../services/DatabaseService.js';
 import ManagePage from './ManagePage.js';
+import Slider from '../components/Slider.js';
 
 const { Paragraph, Text, Title } = Typography;
 
@@ -30,61 +42,59 @@ const colors = {
 
 const bookTableColumns = [
   {
+    title: 'ID',
+    dataIndex: 'id',
+  },
+  {
     title: 'Title',
     dataIndex: 'title',
-    key: 'title',
-    fixed: 'left',
-    width: '166px',
-    ellipsis: { showTitle: false },
     render: (title) => (
       <Tooltip placement='topLeft' title={title}>
-        {title}
+        <Text style={{ maxWidth: '200px' }} ellipsis={true}>
+          {title}
+        </Text>
       </Tooltip>
     ),
   },
   {
     title: 'Author(s)',
     dataIndex: 'authors',
-    key: 'authors',
-    width: '166px',
-    ellipsis: { showTitle: false },
     render: (authors) => (
       <Tooltip placement='topLeft' title={authors.join(', ')}>
-        <Text>{authors.join(', ')}</Text>
+        <Text style={{ maxWidth: '200px' }} ellipsis={true}>
+          {authors.join(', ')}
+        </Text>
       </Tooltip>
     ),
   },
   {
     title: 'Publisher',
     dataIndex: 'publisher',
-    key: 'publisher',
-    width: '210px',
-    ellipsis: { showTitle: false },
     render: (publisher) => (
       <Tooltip placement='topLeft' title={publisher}>
-        {publisher}
+        <Text style={{ maxWidth: '200px' }} ellipsis={true}>
+          {publisher}
+        </Text>
       </Tooltip>
     ),
   },
-  { title: 'Published', dataIndex: 'pubDate', key: 'pubDate', width: '130px' },
-  { title: 'ISBN-13', dataIndex: 'isbn', key: 'isbn', width: '166px' },
+  { title: 'Published', dataIndex: 'pubDate' },
+  { title: 'ISBN-13', dataIndex: 'isbn' },
   {
     title: 'Edition',
     dataIndex: 'edition',
-    key: 'edition',
-    ellipsis: { showTitle: false },
     render: (edition) => (
       <Tooltip placement='topLeft' title={edition}>
-        {edition || <i>N/A</i>}
+        <Text style={{ maxWidth: '200px' }} ellipsis={true}>
+          {edition || <i>N/A</i>}
+        </Text>
       </Tooltip>
     ),
   },
-  { title: 'Pages', dataIndex: 'pages', key: 'pages', width: '88px' },
+  { title: 'Pages', dataIndex: 'pages' },
   {
     title: 'Categories',
     dataIndex: 'categories',
-    key: 'categories',
-    width: '200px',
     render: (categories) =>
       categories.map((cat) => (
         <Tag key={cat} color={colors.random()} style={{ margin: '4px 4px' }}>
@@ -95,8 +105,6 @@ const bookTableColumns = [
   {
     title: 'Tags',
     dataIndex: 'tags',
-    key: 'tags',
-    width: '200px',
     render: (tags) =>
       tags.map((tag) => (
         <Tag key={tag} color={colors.random()} style={{ margin: '4px 4px' }}>
@@ -107,90 +115,70 @@ const bookTableColumns = [
   {
     title: 'Sell Price',
     dataIndex: 'sellPrice',
-    key: 'sellPrice',
     render: (price) => <Text>${price}</Text>,
   },
   {
     title: 'Buy Price',
     dataIndex: 'buyPrice',
-    key: 'buyPrice',
     render: (price) => <Text>${price}</Text>,
   },
-  { title: 'Stock', dataIndex: 'stock', key: 'stock' },
+  { title: 'Stock', dataIndex: 'stock' },
+  { title: 'Min Threshold', dataIndex: 'minThresh' },
   {
-    title: 'Min Threshold',
-    dataIndex: 'minThresh',
-    key: 'minThresh',
-    width: '110px',
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    render: () => <Button type='link'>EDIT</Button>,
+    title: 'Archived',
+    dataIndex: 'archived',
+    render: (a) => <Text>{a.toString()}</Text>,
   },
 ];
-
-const books = [
-  {
-    id: 0,
-    key: 0,
-    title: 'A Promised Land',
-    authors: ['Barack Obama'],
-    publisher: 'Crown Publishing Group',
-    pubDate: '2020-11-17',
-    isbn: '9781524763169',
-    edition: '',
-    pages: 768,
-    categories: ['Autobiography', 'Biography', 'Memoir'],
-    tags: ['Bestseller'],
-    sellPrice: 32.99,
-    buyPrice: 15.99,
-    stock: 10000,
-    minThresh: 100,
-    coverPicPath:
-      'https://kottke.org/plus/misc/images/obama-promised-land-book.jpg',
-    description:
-      'A riveting, deeply personal account of history in the making from the president who inspired us to believe in the power of democracy. In the stirring, highly anticipated first volume of his presidential memoirs, Barack Obama tells the story of his improbable odyssey from young man searching for his identity to leader of the free world, describing in strikingly personal detail both his political education and the landmark moments of the first term of his historic presidency a time of dramatic transformation and turmoil.',
-  },
-];
-
-for (let i = 1; i < 1000; i++) {
-  books.push({ ...books[0], id: i, key: i });
-}
 
 function BookTable(props) {
+  const { books, onArchive = () => {}, onEdit = () => {} } = props;
+
   return (
     <Table
       className='bookstore-book-table'
       dataSource={books}
       columns={bookTableColumns}
-      scroll={{ x: '160%' }}
+      scroll={{ x: true }}
+      loading={books === null}
       bordered
       expandable={{
         expandRowByClick: true,
         expandedRowRender: (record) => (
-          <div>
+          <div className='bookstore-book-table-expanded-wrapper'>
             <div className='bookstore-book-table-expanded-container'>
-              <img
-                className='bookstore-book-table-expanded-image'
-                src={record.coverPicPath}
-                alt={record.title}
-              />
               <div className='bookstore-book-table-expanded-text'>
-                <Title
-                  level={3}
-                  style={{ fontWeight: '900', marginBottom: '0px' }}>
-                  {record.title}
-                </Title>
-                <Paragraph>{record.authors.join(', ')}</Paragraph>
-                <Tooltip
-                  overlayClassName='bookstore-book-table-expanded-description-tooltip'
-                  placement='bottomLeft'
-                  title={record.description}>
-                  <Paragraph ellipsis={{ rows: 4, expandable: false }}>
-                    {record.description}
-                  </Paragraph>
-                </Tooltip>
+                <img
+                  className='bookstore-book-table-expanded-image'
+                  src={
+                    record.coverPicPath
+                      ? 'data:image/*;base64,' + record.coverPicPath
+                      : 'https://i.stack.imgur.com/1hvpD.jpg'
+                  }
+                  alt={record.title}
+                />
+                <div>
+                  <Title
+                    level={3}
+                    style={{ fontWeight: '900', marginBottom: '0px' }}>
+                    {record.title}
+                  </Title>
+                  <Paragraph>{record.authors.join(', ')}</Paragraph>
+                  <Tooltip
+                    overlayClassName='bookstore-book-table-expanded-description-tooltip'
+                    placement='bottomLeft'
+                    title={record.description}>
+                    <Paragraph
+                      ellipsis={{ rows: 4 }}
+                      style={{ whiteSpace: 'pre-wrap' }}>
+                      {record.description}
+                    </Paragraph>
+                  </Tooltip>
+                </div>
+              </div>
+              <Title level={5}>Book Details</Title>
+              <Slider backgroundColor='#fbfbfb' style={{ padding: '0px' }}>
+                <div></div>
                 <Descriptions
                   className='bookstore-book-table-expanded-details'
                   column={6}
@@ -244,26 +232,108 @@ function BookTable(props) {
                     ))}
                   </Descriptions.Item>
                 </Descriptions>
-              </div>
+              </Slider>
             </div>
             <Button
               className='bookstore-book-table-expanded-action'
-              type='primary'>
-              ARCHIVE
+              type='primary'
+              onClick={() => onArchive(record, record.archived)}>
+              {record.archived && 'UN'}ARCHIVE
             </Button>
-            <Button className='bookstore-book-table-expanded-action'>
+            <Button
+              className='bookstore-book-table-expanded-action'
+              onClick={() => onEdit(record)}>
               EDIT
             </Button>
           </div>
         ),
-      }}></Table>
+      }}
+    />
   );
 }
 
-function ManageBooks(props) {
+function ManageBooksPage(props) {
+  const [books, setBooks] = useState(null);
+
+  const retrieveBooks = async () => {
+    const books = await DB.retrieveBooks();
+    books.forEach((b) => {
+      b.key = b.id;
+    });
+    setBooks(books);
+  };
+
+  useEffect(() => {
+    retrieveBooks();
+  }, []);
+
+  const createBook = async (values) => {
+    const response = await DB.createBook(values);
+    retrieveBooks();
+    return response;
+  };
+
+  const updateBook = async (values) => {
+    const response = await DB.updateBook(values);
+    retrieveBooks();
+    return response;
+  };
+
+  const archiveBook = async (values, isArchived) => {
+    const response = isArchived
+      ? await DB.unarchiveBook(values)
+      : await DB.archiveBook(values);
+    retrieveBooks();
+    return response;
+  };
+
+  const showForm = (onSubmit, title, initialValues) => {
+    const initialValuesCopy = { ...initialValues };
+    if (initialValues) {
+      initialValuesCopy.pubDate = moment(initialValues.pubDate);
+      initialValuesCopy.authors = initialValues.authors.map((a) => ({
+        name: a,
+      }));
+      if (initialValues.coverPicPath) {
+        initialValuesCopy.coverPicPath = [
+          {
+            uid: 0,
+            name: 'image',
+            status: 'done',
+            url: 'data:image/*;base64,' + initialValues.coverPicPath,
+          },
+        ];
+      }
+    }
+    Modal.confirm({
+      content: (
+        <BookForm
+          onSubmit={onSubmit}
+          initialValues={initialValuesCopy}
+          title={title}
+        />
+      ),
+      icon: null,
+      width: '800px',
+      className: 'bookstore-manage-form',
+      maskClosable: true,
+    });
+  };
+
   return (
-    <ManagePage title='Manage Books' shortTitle='Books' table={<BookTable />} />
+    <ManagePage
+      title='Manage Books'
+      shortTitle='Books'
+      table={
+        <BookTable
+          books={books}
+          onEdit={(book) => showForm(updateBook, 'Edit Book', book)}
+          onArchive={archiveBook}
+        />
+      }
+      showForm={() => showForm(createBook, 'Add Book')}
+    />
   );
 }
 
-export default ManageBooks;
+export default ManageBooksPage;

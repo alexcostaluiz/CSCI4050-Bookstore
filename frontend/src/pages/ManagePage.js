@@ -9,7 +9,7 @@ import { Breadcrumb, Button, Col, Row, Typography } from 'antd';
 const { Title } = Typography;
 
 function ManagePage(props) {
-  const { table, title, shortTitle } = props;
+  const { shortTitle, showForm, table, title } = props;
 
   return (
     <Row justify='center'>
@@ -29,7 +29,7 @@ function ManagePage(props) {
           <div className='bookstore-manage-table-container'>
             <div className='bookstore-manage-table-title-container'>
               <Title className='bookstore-manage-table-title'>{title}</Title>
-              <Button type='primary' size='large'>
+              <Button type='primary' size='large' onClick={showForm}>
                 ADD {shortTitle.slice(0, -1).toUpperCase()}
               </Button>
             </div>

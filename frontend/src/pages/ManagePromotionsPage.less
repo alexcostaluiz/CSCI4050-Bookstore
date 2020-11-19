@@ -1,0 +1,67 @@
+.bookstore-promotion-table {
+  white-space: nowrap;
+}
+
+.bookstore-promotion-table .ant-table-container::after,
+.bookstore-promotion-table .ant-table-container::before {
+  display: none;
+}
+
+.bookstore-promotion-table .ant-table-expanded-row > td {
+  padding: 0px;
+}
+
+.bookstore-promotion-table-status > .ant-badge-status-dot::after,
+.bookstore-promotion-table-status > .ant-badge-status-dot {
+  background: #ff1053;
+  border-color: #ff1053;
+}
+
+.bookstore-promotion-table-expanded-wrapper {
+  position: sticky;
+  left: 0;
+  padding: 32px;
+  padding-bottom: 16px;
+  overflow: hidden;
+  width: calc(100vw - 264px - 2px);
+}
+
+.bookstore-promotion-table-expanded-container {
+  width: calc(100vw - 328px - 2px);
+  white-space: normal;
+  max-width: 820px;
+  margin: 0px auto;
+}
+
+.bookstore-promotion-table-expanded-title {
+  font-weight: 900 !important;
+}
+
+.bookstore-promotion-table-expanded-descriptions {
+  background: white;
+  width: min-content;
+  white-space: nowrap;
+}
+
+.bookstore-promotion-table-expanded-descriptions table {
+  border-collapse: collapse;
+}
+
+.bookstore-promotion-table-expanded-action {
+  float: right;
+  margin: 16px 0px 0px 16px;
+}
+
+.bookstore-promotion-table-nested-book-table {
+  border-radius: 8px 8px 4px 8px;
+  overflow: hidden;
+  border-top: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
+  white-space: nowrap;
+  margin-bottom: 8px;
+}
+
+.bookstore-promotion-table-nested-book-table .ant-table-container::after,
+.bookstore-promotion-table-nested-book-table .ant-table-container::before {
+  display: none;
+}

@@ -54,13 +54,10 @@ public class PromoController {
   public void createPromo(@RequestBody Promotion promo) {
     try {
       List<Book> books = promo.getBooks();
-
-      // optionally set book relationships
       if (books != null) {
         for (int i = 0; i < books.size(); i++) {
           Book book = bookService.get(books.get(i).getId());
           book.setPromo(promo);
-          books.set(i, book);
         }
         promo.setBooks(books);
       }
@@ -78,11 +75,13 @@ public class PromoController {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Promotion doesn't exist");
     }
     if (!promo.isEmailed()) {
-
       // delete promo from books
-      for (Book book : promo.getBooks()) {
-        book.setPromo(null);
-        bookService.update(book);
+      List<Book> books = promo.getBooks();
+      if (books != null) {
+        for (Book book : books) {
+          book.setPromo(null);
+          bookService.update(book);
+        }
       }
 
       promoService.delete(promo);
@@ -98,26 +97,29 @@ public class PromoController {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Promotion doesn't exist");
     }
     if (!oldPromo.isEmailed()) {
-
       // reset old books to null
-      for (Book book : oldPromo.getBooks()) {
-        book.setPromo(null);
-        bookService.update(book);
+      List<Book> oldBooks = oldPromo.getBooks();
+      if (oldBooks != null) {
+        for (Book book : oldBooks) {
+          book.setPromo(null);
+          bookService.update(book);
+        }
       }
 
       // update with new list of books (if any were taken away or added)
-      try {
-        List<Book> books = promo.getBooks();
+      List<Book> books = promo.getBooks();
+      if (books != null) {
         for (int i = 0; i < books.size(); i++) {
           Book book = bookService.get(books.get(i).getId());
-          book.setPromo(promo);
-          books.set(i, book);
+          try {
+            book.setPromo(promo);
+          } catch (NullPointerException e) {
+          }
         }
-        promo.setBooks(books);
-        promoService.update(promo);
-      } catch (NullPointerException e) {
-        throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Book id not found", e);
       }
+
+      promo.setBooks(books);
+      promoService.update(promo);
     } else {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Promotion already emailed");
     }

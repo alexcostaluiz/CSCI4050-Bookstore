@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 @RequestMapping("/users")
 public class UserController {
+
   @Autowired private UserService userService;
   @Autowired ObjectMapper objectMapper = new ObjectMapper();
 
@@ -31,6 +33,16 @@ public class UserController {
   @GetMapping("/get")
   public List<User> getUsers() {
     return userService.get();
+  }
+
+  @PostMapping(value = "/update", consumes = "application/json", produces = "application/json")
+  public void updateUser(@RequestBody User user) {
+    userService.updateUser(user);
+  }
+
+  @DeleteMapping(value = "/delete", consumes = "application/json", produces = "application/json")
+  public void deleteUser(@RequestBody User user) {
+    userService.delete(user);
   }
 
   /**

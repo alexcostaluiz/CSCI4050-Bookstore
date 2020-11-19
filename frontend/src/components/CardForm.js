@@ -13,11 +13,9 @@ import DB from '../services/DatabaseService.js';
 const { Title } = Typography;
 
 function CardForm(props) {
-  let { form, addCard = () => {} } = props;
+  const { addCard = () => {} } = props;
 
-  if (!form) {
-    form = Form.useForm()[0];
-  }
+  const [form] = Form.useForm();
 
   const auth = useContext(AuthContext);
 

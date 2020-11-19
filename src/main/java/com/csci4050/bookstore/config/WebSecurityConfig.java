@@ -32,9 +32,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers(
             "/admin",
             "/admin/manage/books",
-            "/books/create",
+            "/admin/manage/users",
+            "/admin/manage/promotions",
             "/books/update",
             "/books/archive",
+            "/books/unarchive",
             "/promos/update",
             "/promos/delete",
             "/promos/create",
