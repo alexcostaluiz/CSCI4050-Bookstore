@@ -30,7 +30,7 @@ public class User {
 
   @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
   private Cart cart;
-  
+
   @Column(name = "first_name", nullable = false)
   private String firstName;
 
@@ -79,7 +79,7 @@ public class User {
   public void setId(Integer id) {
     this.id = id;
   }
-  
+
   public Cart getCart() {
     return this.cart;
   }
@@ -191,7 +191,7 @@ public class User {
 
   @JsonSetter("orders")
   public void setOrders(List<Order> orders) {
-    
+
     for (Order o : orders) {
       o.setUser(this);
     }

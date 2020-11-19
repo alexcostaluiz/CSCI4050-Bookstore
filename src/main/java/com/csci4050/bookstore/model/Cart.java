@@ -21,7 +21,11 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "cart")
-@Inheritance(strategy = InheritanceType.JOINED)//joined is chosen to prevent conflicts with user_id mapping between order and cart
+@Inheritance(
+    strategy =
+        InheritanceType
+            .JOINED) // joined is chosen to prevent conflicts with user_id mapping between order and
+                     // cart
 public class Cart {
 
   @Id
@@ -32,7 +36,7 @@ public class Cart {
   @OneToOne
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
-  
+
   @ElementCollection
   @CollectionTable(
       name = "cart_book_mapping",
@@ -42,7 +46,7 @@ public class Cart {
   @JsonDeserialize(keyUsing = BookMapDeserializer.class)
   @JsonSerialize(keyUsing = BookMapSerializer.class)
   private Map<Book, Integer> books;
-  
+
   public Map<Book, Integer> getBooks() {
     return this.books;
   }
@@ -50,11 +54,11 @@ public class Cart {
   public void setBooks(Map<Book, Integer> books) {
     this.books = books;
   }
-  
+
   public Integer getId() {
     return this.id;
   }
-  
+
   public void setUser(User user) {
     this.user = user;
   }

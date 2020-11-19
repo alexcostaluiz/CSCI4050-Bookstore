@@ -57,7 +57,7 @@ public class Listener {
     email.setTo(recipientAddress);
     email.setSubject(subject);
     String ref = request.getHeader("referer");
-    if(ref != null) {
+    if (ref != null) {
       ref = ref.substring(0, ref.lastIndexOf("/"));
     }
     email.setText("\r\n" + ref + confirmationUrl);

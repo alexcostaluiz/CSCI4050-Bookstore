@@ -7,8 +7,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
-//order is a reserved keyword, so it must be escaped
-@Entity(name="\"order\"")
+// order is a reserved keyword, so it must be escaped
+@Entity(name = "\"order\"")
 @PrimaryKeyJoinColumn(name = "orderId")
 public class Order extends Cart {
 
