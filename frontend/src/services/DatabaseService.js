@@ -250,7 +250,7 @@ const DB = {
       message.error('Failed to create user.');
     }
     return response.ok;
-  },  
+  },
 
   retrieveUsers: async () => {
     const response = await fetch('/users/get');
