@@ -23,7 +23,7 @@ function DynamicAvatar(props) {
     }
   }, [auth]);
 
-  var menu = (
+  const menu = (
     <Menu mode='inline'>
       <Menu.Item
         icon={<UserOutlined />}
@@ -50,7 +50,6 @@ function DynamicAvatar(props) {
     </Menu>
   );
 
-  console.log(menu);
   if (!isLoaded) {
     return <Spin />;
   } else {

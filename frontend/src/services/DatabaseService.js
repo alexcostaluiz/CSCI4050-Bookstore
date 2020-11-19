@@ -353,6 +353,12 @@ const DB = {
     }
     return response.ok;
   },
+
+  retrieveCategories: async () => {
+    const response = await fetch('/books/get/categories');
+    const json = await response.json();
+    return json;
+  },
 };
 
 export default DB;

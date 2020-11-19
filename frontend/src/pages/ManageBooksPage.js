@@ -16,29 +16,12 @@ import {
 } from 'antd';
 
 import BookForm from '../components/BookForm.js';
+import Colors from '../services/ColorService.js';
 import DB from '../services/DatabaseService.js';
 import ManagePage from './ManagePage.js';
 import Slider from '../components/Slider.js';
 
 const { Paragraph, Text, Title } = Typography;
-
-const colors = {
-  all: [
-    'magenta',
-    'red',
-    'volcano',
-    'orange',
-    'gold',
-    'lime',
-    'green',
-    'cyan',
-    'blue',
-    'geekblue',
-    'purple',
-  ],
-  random: () => colors.all[Math.floor(Math.random() * colors.all.length)],
-  get: (i) => colors.all[i],
-};
 
 const bookTableColumns = [
   {
@@ -97,8 +80,8 @@ const bookTableColumns = [
     dataIndex: 'categories',
     render: (categories) =>
       categories.map((cat) => (
-        <Tag key={cat} color={colors.random()} style={{ margin: '4px 4px' }}>
-          {cat}
+        <Tag key={cat} color={Colors.category(cat)} style={{ margin: '4px 4px' }}>
+          {cat.replaceAll('_', ' ')}
         </Tag>
       )),
   },
@@ -107,7 +90,7 @@ const bookTableColumns = [
     dataIndex: 'tags',
     render: (tags) =>
       tags.map((tag) => (
-        <Tag key={tag} color={colors.random()} style={{ margin: '4px 4px' }}>
+        <Tag key={tag} color={Colors.category(tag)} style={{ margin: '4px 4px' }}>
           {tag}
         </Tag>
       )),
@@ -215,7 +198,7 @@ function BookTable(props) {
                     {record.tags.map((tag) => (
                       <Tag
                         key={tag}
-                        color={colors.random()}
+                        color={Colors.category(tag)}
                         style={{ margin: '4px 4px' }}>
                         {tag}
                       </Tag>
@@ -225,9 +208,9 @@ function BookTable(props) {
                     {record.categories.map((cat) => (
                       <Tag
                         key={cat}
-                        color={colors.random()}
+                        color={Colors.category(cat)}
                         style={{ margin: '4px 4px' }}>
-                        {cat}
+                        {cat.replaceAll('_', ' ')}
                       </Tag>
                     ))}
                   </Descriptions.Item>
