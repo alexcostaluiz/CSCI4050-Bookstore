@@ -220,6 +220,22 @@ const DB = {
     return response.ok;
   },
 
+  activatePromotion: async (values) => {
+    const response = await fetch('/promos/email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    });
+    if (response.ok) {
+      message.success('Promotion successfully activated!');
+    } else {
+      message.error('Failed to activate promotion.');
+    }
+    return response.ok;
+  },
+
   createUser: async (values) => {
     const response = await fetch('/auth/register', {
       method: 'POST',
@@ -234,7 +250,7 @@ const DB = {
       message.error('Failed to create user.');
     }
     return response.ok;
-  },
+  },  
 
   retrieveUsers: async () => {
     const response = await fetch('/users/get');
@@ -280,7 +296,7 @@ const DB = {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(values),
+      body: values.emailAddress,
     });
     if (response.ok) {
       message.success('User successfully promoted!');
@@ -296,7 +312,7 @@ const DB = {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(values),
+      body: values.emailAddress,
     });
     if (response.ok) {
       message.success('User successfully demoted!');
@@ -312,7 +328,7 @@ const DB = {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(values),
+      body: values.emailAddress,
     });
     if (response.ok) {
       message.success('User successfully suspended!');
@@ -328,7 +344,7 @@ const DB = {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(values),
+      body: values.emailAddress,
     });
     if (response.ok) {
       message.success('User successfully unsuspended!');
