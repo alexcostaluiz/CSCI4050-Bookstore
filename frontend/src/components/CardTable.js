@@ -15,7 +15,7 @@ function CardTable(props) {
   const dataSource = cards.map((c) => ({
     ...c,
     description:
-    c.cardType.charAt(0).toUpperCase() +
+      c.cardType.charAt(0).toUpperCase() +
       c.cardType.slice(1) +
       ' ending in ' +
       c.number.slice(-4),

@@ -41,7 +41,9 @@ const bookTableColumns = [
     dataIndex: 'title',
     render: (title) => (
       <Tooltip placement='topLeft' title={title}>
-        <Text style={{ maxWidth: '200px' }} ellipsis={true}>{title}</Text>
+        <Text style={{ maxWidth: '200px' }} ellipsis={true}>
+          {title}
+        </Text>
       </Tooltip>
     ),
   },
@@ -50,7 +52,9 @@ const bookTableColumns = [
     dataIndex: 'authors',
     render: (authors) => (
       <Tooltip placement='topLeft' title={authors.join(', ')}>
-        <Text style={{ maxWidth: '200px' }} ellipsis={true}>{authors.join(', ')}</Text>
+        <Text style={{ maxWidth: '200px' }} ellipsis={true}>
+          {authors.join(', ')}
+        </Text>
       </Tooltip>
     ),
   },
@@ -59,7 +63,9 @@ const bookTableColumns = [
     dataIndex: 'publisher',
     render: (publisher) => (
       <Tooltip placement='topLeft' title={publisher}>
-        <Text style={{ maxWidth: '200px' }} ellipsis={true}>{publisher}</Text>
+        <Text style={{ maxWidth: '200px' }} ellipsis={true}>
+          {publisher}
+        </Text>
       </Tooltip>
     ),
   },
@@ -132,9 +138,9 @@ const books = [
     stock: 10000,
     minThresh: 100,
     coverPicPath:
-    'https://kottke.org/plus/misc/images/obama-promised-land-book.jpg',
+      'https://kottke.org/plus/misc/images/obama-promised-land-book.jpg',
     description:
-    'A riveting, deeply personal account of history in the making from the president who inspired us to believe in the power of democracy. In the stirring, highly anticipated first volume of his presidential memoirs, Barack Obama tells the story of his improbable odyssey from young man searching for his identity to leader of the free world, describing in strikingly personal detail both his political education and the landmark moments of the first term of his historic presidency a time of dramatic transformation and turmoil.',
+      'A riveting, deeply personal account of history in the making from the president who inspired us to believe in the power of democracy. In the stirring, highly anticipated first volume of his presidential memoirs, Barack Obama tells the story of his improbable odyssey from young man searching for his identity to leader of the free world, describing in strikingly personal detail both his political education and the landmark moments of the first term of his historic presidency a time of dramatic transformation and turmoil.',
   },
 ];
 
@@ -256,7 +262,7 @@ function ManageBooks(props) {
       title='Manage Books'
       shortTitle='Books'
       table={<BookTable />}
-      form={<BookForm addBook={(values) => DB.createBook(values)}/>}
+      form={<BookForm addBook={(values) => DB.createBook(values)} />}
     />
   );
 }

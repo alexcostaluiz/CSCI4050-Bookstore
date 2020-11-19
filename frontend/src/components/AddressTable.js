@@ -12,7 +12,7 @@ function AddressTable(props) {
   const dataSource = addresses.map((a) => ({
     ...a,
     address:
-    a.address1 +
+      a.address1 +
       (a.address2 ? ' ' + a.address2 : '') +
       ', ' +
       a.city +
@@ -24,7 +24,7 @@ function AddressTable(props) {
       a.country,
     key: a.id,
   }));
-  
+
   const addressColumns = [
     {
       title: 'Name',

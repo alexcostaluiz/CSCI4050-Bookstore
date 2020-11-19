@@ -2,7 +2,15 @@ import './ManageUsersPage.less';
 
 import React from 'react';
 
-import { Badge, Button, Descriptions, Modal, Table, Tag, Typography } from 'antd';
+import {
+  Badge,
+  Button,
+  Descriptions,
+  Modal,
+  Table,
+  Tag,
+  Typography,
+} from 'antd';
 import AddressTable from '../components/AddressTable.js';
 import CardTable from '../components/CardTable.js';
 import ManagePage from './ManagePage.js';
@@ -50,9 +58,7 @@ const userTableColumns = [
   {
     title: 'Status',
     dataIndex: 'status',
-    render: (s) => (
-      <Badge status={statusToBadge[s]} text={s} />
-    ),
+    render: (s) => <Badge status={statusToBadge[s]} text={s} />,
   },
   {
     title: 'Roles',
@@ -86,7 +92,7 @@ const sampleUser = {
       state: 'GA',
       zip: 30605,
       country: 'United States',
-      phoneNumber: '4049849898',      
+      phoneNumber: '4049849898',
     },
   ],
   savedCards: [
@@ -105,7 +111,7 @@ const sampleUser = {
         state: 'GA',
         zip: 30605,
         country: 'United States',
-        phoneNumber: '4049849898',        
+        phoneNumber: '4049849898',
       },
     },
   ],
@@ -119,7 +125,7 @@ for (let i = 0; i < 100; i++) {
 }
 
 function UserTable(props) {
-  const showTableModal = ({content, title}) => {
+  const showTableModal = ({ content, title }) => {
     Modal.info({
       content: (
         <div>
@@ -135,7 +141,7 @@ function UserTable(props) {
       maskClosable: true,
     });
   };
-  
+
   return (
     <Table
       className='bookstore-user-table'
@@ -151,17 +157,23 @@ function UserTable(props) {
               <div className='bookstore-user-table-expanded-text'>
                 <Button type='primary' size='large' shape='circle'>
                   {String(record.firstName).charAt(0) +
-                   String(record.lastName).charAt(0)}
+                    String(record.lastName).charAt(0)}
                 </Button>
                 <div style={{ marginLeft: '16px' }}>
-                  <Title className='bookstore-user-table-expanded-title' level={3}>
+                  <Title
+                    className='bookstore-user-table-expanded-title'
+                    level={3}>
                     {record.firstName + ' ' + record.lastName}
                   </Title>
-                  <Paragraph style={{ marginBottom: '0px' }}>{record.emailAddress}</Paragraph>
+                  <Paragraph style={{ marginBottom: '0px' }}>
+                    {record.emailAddress}
+                  </Paragraph>
                 </div>
               </div>
               <Title level={5}>User Details</Title>
-              <Slider backgroundColor='#fbfbfb' style={{ padding: '0px', textAlign: 'unset' }}>
+              <Slider
+                backgroundColor='#fbfbfb'
+                style={{ padding: '0px', textAlign: 'unset' }}>
                 <div />
                 <Descriptions
                   className='bookstore-user-table-expanded-details'
@@ -175,15 +187,22 @@ function UserTable(props) {
                     {record.subscription.toString()}
                   </Descriptions.Item>
                   <Descriptions.Item label='Status'>
-                    {<Badge status={statusToBadge[record.status]} text={record.status} />}
+                    {
+                      <Badge
+                        status={statusToBadge[record.status]}
+                        text={record.status}
+                      />
+                    }
                   </Descriptions.Item>
                   <Descriptions.Item label='Cart'>
                     <Button
                       type='link'
-                      onClick={() => showTableModal({
-                        content: <Text>N/A</Text>,
-                        title: 'Cart (' + record.emailAddress + ')',
-                      })}>
+                      onClick={() =>
+                        showTableModal({
+                          content: <Text>N/A</Text>,
+                          title: 'Cart (' + record.emailAddress + ')',
+                        })
+                      }>
                       View
                     </Button>
                   </Descriptions.Item>
@@ -192,7 +211,7 @@ function UserTable(props) {
                       type='link'
                       onClick={() => {
                         showTableModal({
-                          content: <CardTable cards={record.savedCards}/>,
+                          content: <CardTable cards={record.savedCards} />,
                           title: 'Cards (' + record.emailAddress + ')',
                         });
                       }}>
@@ -204,7 +223,9 @@ function UserTable(props) {
                       type='link'
                       onClick={() => {
                         showTableModal({
-                          content: <AddressTable addresses={record.addresses}/>,
+                          content: (
+                            <AddressTable addresses={record.addresses} />
+                          ),
                           title: 'Addresses (' + record.emailAddress + ')',
                         });
                       }}>
@@ -214,22 +235,25 @@ function UserTable(props) {
                   <Descriptions.Item label='Orders'>
                     <Button
                       type='link'
-                      onClick={() => (
+                      onClick={() =>
                         showTableModal({
                           content: <Text>N/A</Text>,
                           title: 'Orders (' + record.emailAddress + ')',
                         })
-                      )}>
+                      }>
                       View
                     </Button>
                   </Descriptions.Item>
                   <Descriptions.Item span={2} label='Roles'>
                     {record.roles.map((r) => (
-                      <Tag key={r} color={roleToColor[r]} style={{ margin: '4px 4px' }}>
+                      <Tag
+                        key={r}
+                        color={roleToColor[r]}
+                        style={{ margin: '4px 4px' }}>
                         {r}
                       </Tag>
                     ))}
-                  </Descriptions.Item> 
+                  </Descriptions.Item>
                 </Descriptions>
               </Slider>
             </div>

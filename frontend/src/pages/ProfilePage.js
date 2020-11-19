@@ -210,30 +210,32 @@ function ProfilePage(props) {
           </div>
         );
 
-    default:
-      return (
-        <div className='bookstore-profile-content-container'>
-          <Title className='bookstore-profile-content-title'>
-            Saved Addresses
-          </Title>
-          <AddressTable
-            addresses={auth.user.addresses}
-            expandedAction={(record) => (
-              <Popconfirm
-                title='Are your sure?'
-                onConfirm={() => DB.deleteAddress(record, auth)}
-                okText='Yes'
-                cancelText='Cancel'>
-                <Button
-                  type='primary'
-                  style={{ float: 'right', marginTop: '16px' }}>
-                  DELETE
-                </Button>
-              </Popconfirm>
+      default:
+        return (
+          <div className='bookstore-profile-content-container'>
+            <Title className='bookstore-profile-content-title'>
+              Saved Addresses
+            </Title>
+            <AddressTable
+              addresses={auth.user.addresses}
+              expandedAction={(record) => (
+                <Popconfirm
+                  title='Are your sure?'
+                  onConfirm={() => DB.deleteAddress(record, auth)}
+                  okText='Yes'
+                  cancelText='Cancel'>
+                  <Button
+                    type='primary'
+                    style={{ float: 'right', marginTop: '16px' }}>
+                    DELETE
+                  </Button>
+                </Popconfirm>
               )}
             />
             <Card type='inner' title='Add New Address'>
-              <AddressForm addAddress={(values) => DB.createAddress(values, auth)} />
+              <AddressForm
+                addAddress={(values) => DB.createAddress(values, auth)}
+              />
             </Card>
             <Button
               type='primary'

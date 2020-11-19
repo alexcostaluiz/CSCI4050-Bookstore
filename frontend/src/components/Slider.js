@@ -27,7 +27,7 @@ function Slider(props) {
     if (scrollbarCover.current && backgroundColor) {
       scrollbarCover.current.style.background = backgroundColor;
     }
-    
+
     if (
       !primary &&
       scrollbarCover.current &&

@@ -116,7 +116,7 @@ const DB = {
     } else {
       message.error('Failed to create book.');
     }
-  }
+  },
 };
 
 export default DB;
