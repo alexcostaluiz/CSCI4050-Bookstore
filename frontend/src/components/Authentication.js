@@ -11,6 +11,7 @@ const { Title } = Typography;
 const errorMapping = {
   'Bad credentials': 'Invalid username or password',
   'User is disabled': 'Please verify your email before signing in',
+  'User account is locked': 'Your account has been suspended',
 };
 
 const protectedEndpoints = ['/profile', '/admin', '/orderHistory'];
