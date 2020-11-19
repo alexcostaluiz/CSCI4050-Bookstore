@@ -4,22 +4,12 @@ import React from 'react';
 
 import { Link } from 'react-router-dom';
 
-import { Breadcrumb, Button, Col, Modal, Row, Typography } from 'antd';
+import { Breadcrumb, Button, Col, Row, Typography } from 'antd';
 
 const { Title } = Typography;
 
 function ManagePage(props) {
-  const { form, table, title, shortTitle } = props;
-
-  const showForm = () => {
-    Modal.confirm({
-      content: form,
-      icon: null,
-      width: '800px',
-      className: 'bookstore-manage-form',
-      maskClosable: true,
-    });
-  };
+  const { shortTitle, showForm, table, title } = props;
 
   return (
     <Row justify='center'>
