@@ -57,7 +57,7 @@ function AdminPage(props) {
             <Title className='bookstore-admin-module-title'>
               Manage
               <br />
-              Promotions
+              Promos
             </Title>
           </div>
         </div>
