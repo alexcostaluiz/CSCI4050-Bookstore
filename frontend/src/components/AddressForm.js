@@ -7,7 +7,7 @@ import { Form, Input } from 'antd';
 import CountrySelect from '../components/CountrySelect.js';
 
 function AddressForm(props) {
-  let { addAddress = () => {} } = props;
+  const { addAddress = () => {} } = props;
 
   const [form] = Form.useForm();
 

@@ -13,7 +13,7 @@ import DB from '../services/DatabaseService.js';
 const { Title } = Typography;
 
 function CardForm(props) {
-  let { addCard = () => {} } = props;
+  const { addCard = () => {} } = props;
 
   const [form] = Form.useForm();
 
