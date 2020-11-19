@@ -1,4 +1,4 @@
-package com.csci4050.bookstore;
+package com.csci4050.bookstore.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -27,15 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     http.csrf()
         .disable()
         .authorizeRequests()
-        .antMatchers(
-            "/profile",
-            "/checkout",
-            "/logout",
-            "/edit/changePassword",
-            "/edit/personalInfo",
-            "/edit/saveCard",
-            "/edit/deleteCard",
-            "/edit/updateAddress")
+        .antMatchers("/profile", "/checkout", "/logout", "/edit/**")
         .hasAnyAuthority("ADMIN", "USER")
         .antMatchers(
             "/admin",
@@ -49,15 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/promos/delete",
             "/promos/create",
             "/promos/email",
-            "/users/get",
-            "/users/get/*",
-            "/users/create",
-            "/users/update",
-            "/users/delete",
-            "/users/promote",
-            "/users/demote",
-            "/users/suspend",
-            "/users/unsuspend")
+            "/users/**")
         .hasAuthority("ADMIN")
         .antMatchers("/", "/cart", "/b/**")
         .permitAll()

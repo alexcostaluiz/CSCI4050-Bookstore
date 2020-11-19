@@ -50,6 +50,7 @@ public class BookController {
     try {
       bookService.save(book);
     } catch (DataIntegrityViolationException e) {
+      e.printStackTrace();
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Book isbn already exists.");
     }
   }
