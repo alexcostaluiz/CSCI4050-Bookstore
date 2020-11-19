@@ -1,0 +1,59 @@
+.bookstore-user-table {
+  white-space: nowrap;
+}
+
+.bookstore-user-table .ant-table-container::after,
+.bookstore-user-table .ant-table-container::before {
+  display: none;
+}
+
+.bookstore-user-table .ant-table-expanded-row > td {
+  padding: 0px;
+}
+.bookstore-user-table-expanded-wrapper {
+  position: sticky;
+  left: 0;
+  padding: 32px;
+  padding-bottom: 16px;
+  overflow: hidden;
+  width: calc(100vw - 264px - 2px);
+}
+
+.bookstore-user-table-expanded-container {
+  width: calc(100vw - 328px - 2px);
+  white-space: normal;
+  max-width: 820px;
+  margin: 0px auto;
+}
+
+.bookstore-user-table-expanded-text {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.bookstore-user-table-expanded-title {
+  font-weight: 900 !important;
+  margin-bottom: 0px !important;
+}
+
+.bookstore-user-table-expanded-details {
+  background: white;
+  width: min-content;
+  white-space: nowrap;
+  margin-bottom: 8px;
+}
+
+.bookstore-user-table-expanded-details table {
+  border-collapse: collapse;
+}
+
+.bookstore-user-table-expanded-details .ant-btn-link {
+  padding: 0px 16px 0px 0px;
+  height: unset;
+}
+
+.bookstore-user-table-expanded-action {
+  float: right;
+  margin: 16px 0px 0px 0px;
+}
