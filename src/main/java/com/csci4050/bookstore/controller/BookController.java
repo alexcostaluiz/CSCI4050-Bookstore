@@ -10,7 +10,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,7 +53,7 @@ public class BookController {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Book isbn already exists.");
     }
   }
-  
+
   @PostMapping(value = "/update", consumes = "application/json", produces = "application/json")
   public void updateBook(@RequestBody Book book) {
     bookService.update(book);
@@ -65,7 +64,7 @@ public class BookController {
     book.setArchived(true);
     bookService.update(book);
   }
-  
+
   @PostMapping(value = "/unarchive", consumes = "application/json", produces = "application/json")
   public void unarchiveBook(@RequestBody Book book) {
     book.setArchived(false);

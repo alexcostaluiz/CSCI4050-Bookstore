@@ -113,10 +113,11 @@ public class PromoController {
           Book book = bookService.get(books.get(i).getId());
           try {
             book.setPromo(promo);
-          } catch (NullPointerException e) {}
+          } catch (NullPointerException e) {
+          }
         }
       }
-      
+
       promo.setBooks(books);
       promoService.update(promo);
     } else {

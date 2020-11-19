@@ -27,15 +27,20 @@ function BookForm(props) {
   const onFinish = async (values) => {
     setLoading(true);
 
-    values.authors = values.authors.map(a => a.name);
+    values.authors = values.authors.map((a) => a.name);
     values.pubDate = values.pubDate.format('YYYY-MM-DD');
-    
-    if (values.coverPicPath &&
-        values.coverPicPath.length > 0 &&
-        values.coverPicPath[0].originFileObj) {
+
+    if (
+      values.coverPicPath &&
+      values.coverPicPath.length > 0 &&
+      values.coverPicPath[0].originFileObj
+    ) {
       let reader = new FileReader();
       reader.onload = async (e) => {
-        values.coverPicPath = e.target.result.replace(/^data:image\/.*;base64,/, "");
+        values.coverPicPath = e.target.result.replace(
+          /^data:image\/.*;base64,/,
+          ''
+        );
         const ok = await onSubmit(values);
         if (ok) {
           Modal.destroyAll();
@@ -45,7 +50,10 @@ function BookForm(props) {
       reader.readAsDataURL(values.coverPicPath[0].originFileObj);
     } else {
       if (values.coverPicPath) {
-        values.coverPicPath = values.coverPicPath[0].url.replace(/^data:image\/.*;base64,/, "");
+        values.coverPicPath = values.coverPicPath[0].url.replace(
+          /^data:image\/.*;base64,/,
+          ''
+        );
       }
       const ok = await onSubmit(values);
       if (ok) {
@@ -54,7 +62,7 @@ function BookForm(props) {
       setLoading(false);
     }
   };
-  
+
   return (
     <Form
       form={form}
@@ -84,13 +92,18 @@ function BookForm(props) {
                 return Promise.reject(new Error('Too many files (maximum: 1)'));
               }
               if (value && value[0] && value[0].size > 64000) {
-                return Promise.reject(new Error('File is too large (maximum: 64KB)'));
+                return Promise.reject(
+                  new Error('File is too large (maximum: 64KB)')
+                );
               }
               return Promise.resolve();
             },
           },
         ]}>
-        <Upload listType='picture-card' accept='image/*' beforeUpload={() => false}>
+        <Upload
+          listType='picture-card'
+          accept='image/*'
+          beforeUpload={() => false}>
           <div>
             <PlusOutlined />
             <br />

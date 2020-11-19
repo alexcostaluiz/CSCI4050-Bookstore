@@ -2,7 +2,15 @@ import './ManagePromotionsPage.less';
 
 import React, { useEffect, useState } from 'react';
 
-import { Badge, Button, Descriptions, Modal, Table, Tooltip, Typography } from 'antd';
+import {
+  Badge,
+  Button,
+  Descriptions,
+  Modal,
+  Table,
+  Tooltip,
+  Typography,
+} from 'antd';
 
 import moment from 'moment';
 
@@ -95,7 +103,7 @@ function PromotionTable(props) {
     onDelete = () => {},
     onEdit = () => {},
   } = props;
-  
+
   return (
     <Table
       className='bookstore-promotion-table'
@@ -195,16 +203,16 @@ function ManagePromotionsPage(props) {
 
   const retrievePromotions = async () => {
     const promotions = await DB.retrievePromotions();
-    promotions.forEach(b => {
+    promotions.forEach((b) => {
       b.key = b.id;
     });
-    setPromotions(promotions);    
+    setPromotions(promotions);
   };
-  
+
   useEffect(() => {
     retrievePromotions();
   }, []);
-  
+
   const createPromotion = async (values) => {
     const response = await DB.createPromotion(values);
     retrievePromotions();
@@ -224,18 +232,18 @@ function ManagePromotionsPage(props) {
   };
 
   const activatePromotion = async (values) => {
-    const response =  await DB.activatePromotion(values);
+    const response = await DB.activatePromotion(values);
     retrievePromotions();
     return response;
   };
-  
+
   const showForm = (onSubmit, title, initialValues) => {
-    const initialValuesCopy = {...initialValues};
+    const initialValuesCopy = { ...initialValues };
     if (initialValues) {
       initialValuesCopy.startDate = moment(initialValues.startDate);
       initialValuesCopy.endDate = moment(initialValues.endDate);
     }
-    
+
     Modal.confirm({
       content: (
         <PromotionForm
@@ -250,19 +258,21 @@ function ManagePromotionsPage(props) {
       maskClosable: true,
     });
   };
-  
+
   return (
     <ManagePage
       title='Manage Promotions'
       shortTitle='Promotions'
-      table={(
+      table={
         <PromotionTable
           promotions={promotions}
-          onEdit={(promotion) => showForm(updatePromotion, 'Edit Promotion', promotion)}
+          onEdit={(promotion) =>
+            showForm(updatePromotion, 'Edit Promotion', promotion)
+          }
           onDelete={deletePromotion}
           onActivate={activatePromotion}
         />
-      )}
+      }
       showForm={() => showForm(createPromotion, 'Add Promotion')}
     />
   );

@@ -3,7 +3,6 @@ package com.csci4050.bookstore.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;

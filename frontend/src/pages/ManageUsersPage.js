@@ -83,7 +83,7 @@ function UserTable(props) {
     onSuspend = () => {},
     users,
   } = props;
-  
+
   const showTableModal = ({ content, title }) => {
     Modal.info({
       content: (
@@ -222,15 +222,19 @@ function UserTable(props) {
               type='primary'
               disabled={record.status === 'Inactive'}
               onClick={
-                (record.roles.includes('ADMIN') || record.roles.includes('EMPLOYEE')) ?
-                  () => onPromote(record, record.roles.includes('ADMIN')) :
-                  () => onSuspend(record, record.status === 'Suspended')
+                record.roles.includes('ADMIN') ||
+                record.roles.includes('EMPLOYEE')
+                  ? () => onPromote(record, record.roles.includes('ADMIN'))
+                  : () => onSuspend(record, record.status === 'Suspended')
               }>
-              {
-                (record.roles.includes('ADMIN') || record.roles.includes('EMPLOYEE')) ?
-                  (record.roles.includes('ADMIN') ? 'DEMOTE' : 'PROMOTE') :
-                  (record.status === 'Suspended' ? 'UNSUSPEND' : 'SUSPEND')
-              }
+              {record.roles.includes('ADMIN') ||
+              record.roles.includes('EMPLOYEE')
+                ? record.roles.includes('ADMIN')
+                  ? 'DEMOTE'
+                  : 'PROMOTE'
+                : record.status === 'Suspended'
+                ? 'UNSUSPEND'
+                : 'SUSPEND'}
             </Button>
             <Button
               className='bookstore-user-table-expanded-action'
@@ -254,16 +258,16 @@ function ManageUsersPage(props) {
 
   const retrieveUsers = async () => {
     const users = await DB.retrieveUsers();
-    users.forEach(b => {
+    users.forEach((b) => {
       b.key = b.id;
     });
-    setUsers(users);    
+    setUsers(users);
   };
-  
+
   useEffect(() => {
     retrieveUsers();
   }, []);
-  
+
   const createUser = async (values) => {
     const response = await DB.createUser(values);
     retrieveUsers();
@@ -283,36 +287,46 @@ function ManageUsersPage(props) {
   };
 
   const promoteUser = async (values, isPromoted) => {
-    const response =  isPromoted ? await DB.demoteUser(values) : await DB.promoteUser(values);
+    const response = isPromoted
+      ? await DB.demoteUser(values)
+      : await DB.promoteUser(values);
     retrieveUsers();
     return response;
   };
-  
+
   const suspendUser = async (values, isSuspended) => {
-    const response =  isSuspended ? await DB.unsuspendUser(values) : await DB.suspendUser(values);
+    const response = isSuspended
+      ? await DB.unsuspendUser(values)
+      : await DB.suspendUser(values);
     retrieveUsers();
     return response;
   };
-  
+
   const showForm = (onSubmit, title, initialValues) => {
-    const initialValuesCopy = {...initialValues};
+    const initialValuesCopy = { ...initialValues };
     if (initialValues) {
     }
-    
+
     Modal.confirm({
-      content: <UserForm onSubmit={onSubmit} initialValues={initialValuesCopy} title={title} />,
+      content: (
+        <UserForm
+          onSubmit={onSubmit}
+          initialValues={initialValuesCopy}
+          title={title}
+        />
+      ),
       icon: null,
       width: '800px',
       className: 'bookstore-manage-form',
       maskClosable: true,
     });
   };
-  
+
   return (
     <ManagePage
       title='Manage Users'
       shortTitle='Users'
-      table={(
+      table={
         <UserTable
           users={users}
           onEdit={(user) => showForm(updateUser, 'Edit User', user)}
@@ -320,7 +334,7 @@ function ManageUsersPage(props) {
           onPromote={promoteUser}
           onSuspend={suspendUser}
         />
-      )}
+      }
       showForm={() => showForm(createUser, 'Add User')}
     />
   );

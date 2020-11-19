@@ -16,7 +16,7 @@ const { Title } = Typography;
 
 function PromotionForm(props) {
   const { initialValues, onSubmit = () => {}, title } = props;
-  
+
   const [form] = Form.useForm();
 
   const [loading, setLoading] = useState(false);
@@ -31,7 +31,7 @@ function PromotionForm(props) {
     }
     setLoading(false);
   };
-  
+
   return (
     <Form
       form={form}
@@ -41,7 +41,7 @@ function PromotionForm(props) {
       onFinish={onFinish}
       requiredMark={false}>
       <Title style={{ fontWeight: '900' }}>{title}</Title>
-      
+
       <Form.Item name='id' hidden>
         <Input />
       </Form.Item>
@@ -65,7 +65,7 @@ function PromotionForm(props) {
           <InputNumber step={0.01} style={{ width: '100%' }} />
         </Form.Item>
       </div>
-      
+
       <Form.Item
         label='Description'
         name='description'
@@ -73,24 +73,36 @@ function PromotionForm(props) {
         rules={[{ required: true, message: 'Please enter a description' }]}>
         <Input.TextArea rows={2} />
       </Form.Item>
-      
+
       <div className='bookstore-book-form-field-container'>
         <Form.Item
           label='Start Date & Time'
           name='startDate'
           hasFeedback
-          rules={[{ required: true, message: 'Please enter a start date and time' }]}>
-          <DatePicker showTime format='YYYY-MM-DD HH:mm:ss' style={{ width: '100%' }} />
+          rules={[
+            { required: true, message: 'Please enter a start date and time' },
+          ]}>
+          <DatePicker
+            showTime
+            format='YYYY-MM-DD HH:mm:ss'
+            style={{ width: '100%' }}
+          />
         </Form.Item>
         <Form.Item
           label='End Date & Time'
           name='endDate'
           hasFeedback
-          rules={[{ required: true, message: 'Please enter an end date and time' }]}>
-          <DatePicker showTime format='YYYY-MM-DD HH:mm:ss' style={{ width: '100%' }} />
+          rules={[
+            { required: true, message: 'Please enter an end date and time' },
+          ]}>
+          <DatePicker
+            showTime
+            format='YYYY-MM-DD HH:mm:ss'
+            style={{ width: '100%' }}
+          />
         </Form.Item>
       </div>
-      
+
       <Form.Item style={{ margin: '16px 0px 0px 0px' }}>
         <Button
           className='bookstore-book-form-action'
@@ -104,7 +116,7 @@ function PromotionForm(props) {
           onClick={() => Modal.destroyAll()}>
           CANCEL
         </Button>
-      </Form.Item>      
+      </Form.Item>
     </Form>
   );
 }

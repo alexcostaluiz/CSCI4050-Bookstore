@@ -5,7 +5,15 @@ import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import moment from 'moment';
 
-import { Button, Descriptions, Modal, Table, Tag, Tooltip, Typography } from 'antd';
+import {
+  Button,
+  Descriptions,
+  Modal,
+  Table,
+  Tag,
+  Tooltip,
+  Typography,
+} from 'antd';
 
 import BookForm from '../components/BookForm.js';
 import DB from '../services/DatabaseService.js';
@@ -116,12 +124,16 @@ const bookTableColumns = [
   },
   { title: 'Stock', dataIndex: 'stock' },
   { title: 'Min Threshold', dataIndex: 'minThresh' },
-  { title: 'Archived', dataIndex: 'archived', render: (a) => <Text>{a.toString()}</Text> },
+  {
+    title: 'Archived',
+    dataIndex: 'archived',
+    render: (a) => <Text>{a.toString()}</Text>,
+  },
 ];
 
 function BookTable(props) {
   const { books, onArchive = () => {}, onEdit = () => {} } = props;
-  
+
   return (
     <Table
       className='bookstore-book-table'
@@ -139,9 +151,9 @@ function BookTable(props) {
                 <img
                   className='bookstore-book-table-expanded-image'
                   src={
-                    record.coverPicPath ?
-                      'data:image/*;base64,' + record.coverPicPath :
-                      'https://i.stack.imgur.com/1hvpD.jpg'
+                    record.coverPicPath
+                      ? 'data:image/*;base64,' + record.coverPicPath
+                      : 'https://i.stack.imgur.com/1hvpD.jpg'
                   }
                   alt={record.title}
                 />
@@ -156,7 +168,9 @@ function BookTable(props) {
                     overlayClassName='bookstore-book-table-expanded-description-tooltip'
                     placement='bottomLeft'
                     title={record.description}>
-                    <Paragraph ellipsis={{ rows: 4 }} style={{ whiteSpace: 'pre-wrap' }}>
+                    <Paragraph
+                      ellipsis={{ rows: 4 }}
+                      style={{ whiteSpace: 'pre-wrap' }}>
                       {record.description}
                     </Paragraph>
                   </Tooltip>
@@ -243,16 +257,16 @@ function ManageBooksPage(props) {
 
   const retrieveBooks = async () => {
     const books = await DB.retrieveBooks();
-    books.forEach(b => {
+    books.forEach((b) => {
       b.key = b.id;
     });
-    setBooks(books);    
+    setBooks(books);
   };
-  
+
   useEffect(() => {
     retrieveBooks();
   }, []);
-  
+
   const createBook = async (values) => {
     const response = await DB.createBook(values);
     retrieveBooks();
@@ -266,29 +280,39 @@ function ManageBooksPage(props) {
   };
 
   const archiveBook = async (values, isArchived) => {
-    const response = isArchived ? await DB.unarchiveBook(values) : await DB.archiveBook(values);
+    const response = isArchived
+      ? await DB.unarchiveBook(values)
+      : await DB.archiveBook(values);
     retrieveBooks();
     return response;
   };
-  
+
   const showForm = (onSubmit, title, initialValues) => {
-    const initialValuesCopy = {...initialValues};
+    const initialValuesCopy = { ...initialValues };
     if (initialValues) {
       initialValuesCopy.pubDate = moment(initialValues.pubDate);
-      initialValuesCopy.authors = initialValues.authors.map(a => ({name: a}));
+      initialValuesCopy.authors = initialValues.authors.map((a) => ({
+        name: a,
+      }));
       if (initialValues.coverPicPath) {
         initialValuesCopy.coverPicPath = [
           {
             uid: 0,
             name: 'image',
             status: 'done',
-            url: 'data:image/*;base64,' + initialValues.coverPicPath
-          }
+            url: 'data:image/*;base64,' + initialValues.coverPicPath,
+          },
         ];
       }
     }
     Modal.confirm({
-      content: <BookForm onSubmit={onSubmit} initialValues={initialValuesCopy} title={title} />,
+      content: (
+        <BookForm
+          onSubmit={onSubmit}
+          initialValues={initialValuesCopy}
+          title={title}
+        />
+      ),
       icon: null,
       width: '800px',
       className: 'bookstore-manage-form',
@@ -300,13 +324,13 @@ function ManageBooksPage(props) {
     <ManagePage
       title='Manage Books'
       shortTitle='Books'
-      table={(
+      table={
         <BookTable
           books={books}
           onEdit={(book) => showForm(updateBook, 'Edit Book', book)}
           onArchive={archiveBook}
         />
-      )}
+      }
       showForm={() => showForm(createBook, 'Add Book')}
     />
   );

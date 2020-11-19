@@ -10,7 +10,7 @@ function UserForm(props) {
   const { initialValues, onSubmit = () => {}, title } = props;
 
   const [form] = Form.useForm();
-  
+
   const [loading, setLoading] = useState(false);
 
   const onFinish = async (values) => {
@@ -31,7 +31,7 @@ function UserForm(props) {
       onFinish={onFinish}
       requiredMark={false}>
       <Title style={{ fontWeight: '900' }}>{title}</Title>
-      
+
       <Form.Item name='id' hidden>
         <Input />
       </Form.Item>
@@ -42,8 +42,8 @@ function UserForm(props) {
         hasFeedback
         style={{ width: '50%' }}
         rules={[
-          {type: 'email', message: 'Please enter a valid email address'},
-          {required: true, message: 'Please enter an email address'},
+          { type: 'email', message: 'Please enter a valid email address' },
+          { required: true, message: 'Please enter an email address' },
         ]}>
         <Input />
       </Form.Item>
@@ -74,15 +74,15 @@ function UserForm(props) {
 
       <div className='bookstore-book-form-field-container'>
         <Form.Item
-          label="Password"
-          name="password"
+          label='Password'
+          name='password'
           hasFeedback
           rules={[{ required: true, message: 'Please enter a password' }]}>
           <Input.Password />
         </Form.Item>
         <Form.Item
-          label="Confirm Password"
-          name="confirm"
+          label='Confirm Password'
+          name='confirm'
           dependencies={['password']}
           hasFeedback
           rules={[
@@ -127,7 +127,7 @@ function UserForm(props) {
           </Select>
         </Form.Item>
       </div>
-      
+
       <Form.Item style={{ margin: '16px 0px 0px 0px' }}>
         <Button
           className='bookstore-book-form-action'
@@ -141,7 +141,7 @@ function UserForm(props) {
           onClick={() => Modal.destroyAll()}>
           CANCEL
         </Button>
-      </Form.Item>      
+      </Form.Item>
     </Form>
   );
 }

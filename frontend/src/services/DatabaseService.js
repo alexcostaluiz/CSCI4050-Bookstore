@@ -165,7 +165,7 @@ const DB = {
     }
     return response.ok;
   },
-  
+
   createPromotion: async (values) => {
     const response = await fetch('/promos/create', {
       method: 'POST',
@@ -337,7 +337,6 @@ const DB = {
     }
     return response.ok;
   },
-
 };
 
 export default DB;

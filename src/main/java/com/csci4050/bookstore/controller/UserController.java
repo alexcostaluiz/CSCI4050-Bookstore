@@ -1,6 +1,5 @@
 package com.csci4050.bookstore.controller;
 
-import com.csci4050.bookstore.events.RegistrationCompletionEvent;
 import com.csci4050.bookstore.model.ActivityStatus;
 import com.csci4050.bookstore.model.Role;
 import com.csci4050.bookstore.model.User;
@@ -8,14 +7,12 @@ import com.csci4050.bookstore.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,12 +35,12 @@ public class UserController {
   public List<User> getUsers() {
     return userService.get();
   }
-  
+
   @PostMapping(value = "/update", consumes = "application/json", produces = "application/json")
   public void updateUser(@RequestBody User user) {
     userService.updateUser(user);
   }
-  
+
   @DeleteMapping(value = "/delete", consumes = "application/json", produces = "application/json")
   public void deleteUser(@RequestBody User user) {
     userService.delete(user);
