@@ -1,6 +1,6 @@
 import './BookForm.less';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   Button,
@@ -15,6 +15,8 @@ import {
 } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
+import DB from '../services/DatabaseService.js';
+
 const { Text, Title } = Typography;
 
 function BookForm(props) {
@@ -23,6 +25,14 @@ function BookForm(props) {
   const [form] = Form.useForm();
 
   const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      const categories = await DB.retrieveCategories();
+      setCategories(categories);
+    })();
+  }, []);
 
   const onFinish = async (values) => {
     setLoading(true);
@@ -254,7 +264,11 @@ function BookForm(props) {
 
       <div className='bookstore-book-form-field-container'>
         <Form.Item label='Categories' name='categories'>
-          <Select mode='multiple' />
+          <Select mode='multiple'>
+            {categories.map(cat => (
+              <Select.Option value={cat}>{cat.replaceAll('_', ' ')}</Select.Option>
+            ))}
+          </Select>
         </Form.Item>
         <Form.Item label='Tags' name='tags'>
           <Select mode='tags' />
