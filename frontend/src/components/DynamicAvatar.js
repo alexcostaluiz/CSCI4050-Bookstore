@@ -30,16 +30,15 @@ function DynamicAvatar(props) {
         onClick={() => history.push('/profile')}>
         My Profile
       </Menu.Item>
-      {
-        auth.user != null && auth.user.roles.includes("ADMIN")?
-          <Menu.Item
-            icon={<UserOutlined />}
-            onClick={() => history.push('/admin')}>
-            Admin Dashboard
-          </Menu.Item>
-          :
-          <div></div>
-      }
+      {auth.user != null && auth.user.roles.includes('ADMIN') ? (
+        <Menu.Item
+          icon={<UserOutlined />}
+          onClick={() => history.push('/admin')}>
+          Admin Dashboard
+        </Menu.Item>
+      ) : (
+        <div></div>
+      )}
       <Menu.Item
         icon={<HistoryOutlined />}
         onClick={() => history.push('/orderhistory')}>
@@ -50,9 +49,8 @@ function DynamicAvatar(props) {
       </Menu.Item>
     </Menu>
   );
-  
-  
-  console.log(menu)
+
+  console.log(menu);
   if (!isLoaded) {
     return <Spin />;
   } else {

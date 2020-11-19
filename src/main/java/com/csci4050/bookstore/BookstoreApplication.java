@@ -41,9 +41,9 @@ public class BookstoreApplication {
                 "http://localhost:3000",
                 "http://192.168.1.19:3000",
                 "http://192.168.1.19:8080")
-                .allowCredentials(true)
-                .allowedMethods("*")
-                .allowedHeaders("*");
+            .allowCredentials(true)
+            .allowedMethods("*")
+            .allowedHeaders("*");
       }
     };
   }
