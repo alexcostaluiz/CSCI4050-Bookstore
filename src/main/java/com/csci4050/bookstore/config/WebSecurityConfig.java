@@ -31,28 +31,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/profile",
             "/checkout",
             "/logout",
-            "/edit/changePassword",
-            "/edit/personalInfo",
-            "/edit/saveCard",
-            "/edit/deleteCard",
-            "/edit/updateAddress")
+            "/edit/**")
         .hasAnyAuthority("ADMIN", "USER")
         .antMatchers(
             "/admin",
             "/admin/manage/books",
-            // "/books/create",
+            "/books/create",
             "/books/update",
             "/books/archive",
             "/promos/update",
             "/promos/delete",
             "/promos/create",
             "/promos/email",
-            "/users/get",
-            "/users/get/*",
-            "/users/promote",
-            "/users/demote",
-            "/users/suspend",
-            "/users/unsuspend")
+            "/users/**")
         .hasAuthority("ADMIN")
         .antMatchers("/", "/cart", "/b/**")
         .permitAll()
