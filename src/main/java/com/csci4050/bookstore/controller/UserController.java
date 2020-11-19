@@ -39,7 +39,7 @@ public class UserController {
   @PostMapping(value = "/update", consumes = "application/json", produces = "application/json")
   public void updateUser(@RequestBody User user) {
     BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
-    if(user.getPassword() != null) {
+    if (user.getPassword() != null) {
       user.setPassword(bcrypt.encode(user.getPassword()));
     } else {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password is empty.");
