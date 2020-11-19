@@ -51,10 +51,9 @@ public class UserController {
    * @param json
    */
   @PostMapping(value = "/promote", consumes = "application/json", produces = "application/json")
-  public void promoteUser(@RequestBody String json) {
+  public void promoteUser(@RequestBody String email) {
     try {
-      User user = objectMapper.readValue(json, User.class);
-      user = userService.getUser(user.getEmailAddress());
+      User user = userService.getUser(email);
       // check to see if the user is an employee
       List<Role> roles = user.getRoles();
       if (roles.contains(Role.EMPLOYEE)) {
@@ -66,8 +65,6 @@ public class UserController {
         // if user is not an employee throw an exception
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User is not an Employee.");
       }
-    } catch (JsonProcessingException e) {
-      e.printStackTrace();
     } catch (RuntimeException e) {
       e.printStackTrace();
     }
@@ -79,10 +76,9 @@ public class UserController {
    * @param json
    */
   @PostMapping(value = "/demote", consumes = "application/json", produces = "application/json")
-  public void demoteUser(@RequestBody String json) {
+  public void demoteUser(@RequestBody String email) {
     try {
-      User user = objectMapper.readValue(json, User.class);
-      user = userService.getUser(user.getEmailAddress());
+      User user = userService.getUser(email);
       // check to see if the user is an ADMIN - check their role
       List<Role> roles = user.getRoles();
       if (roles.contains(Role.ADMIN)) {
@@ -95,10 +91,8 @@ public class UserController {
         // if not ADMIN throw an exception - User is not an Admin
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User is not an Admin.");
       }
-    } catch (JsonProcessingException e) {
-      e.printStackTrace();
     } catch (RuntimeException e) {
-
+      e.printStackTrace();
     }
   }
 
@@ -108,10 +102,9 @@ public class UserController {
    * @param json
    */
   @PostMapping(value = "/suspend", consumes = "application/json", produces = "application/json")
-  public void suspendUser(@RequestBody String json) {
+  public void suspendUser(@RequestBody String email) {
     try {
-      User user = objectMapper.readValue(json, User.class);
-      user = userService.getUser(user.getEmailAddress());
+      User user = userService.getUser(email);
       if (user.getId()
           != null) { // check to make sure user exists, although it shouldn't be reflected in a list
         if (user.getStatus() == ActivityStatus.Suspended) { // if the user is already suspended
@@ -129,8 +122,6 @@ public class UserController {
         throw new ResponseStatusException(
             HttpStatus.BAD_REQUEST, "The indicated user does not exist.");
       }
-    } catch (JsonProcessingException e) {
-      e.printStackTrace();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -142,10 +133,9 @@ public class UserController {
    * @param json
    */
   @PostMapping(value = "/unsuspend", consumes = "application/json", produces = "application/json")
-  public void unSuspendUser(@RequestBody String json) {
+  public void unSuspendUser(@RequestBody String email) {
     try {
-      User user = objectMapper.readValue(json, User.class);
-      user = userService.getUser(user.getEmailAddress());
+      User user = userService.getUser(email);
       if (user.getId()
           != null) { // check to make sure user exists, although it shouldn't be reflected in a list
         if (user.getStatus() == ActivityStatus.Active) { // if the user is already suspended
@@ -163,8 +153,6 @@ public class UserController {
         throw new ResponseStatusException(
             HttpStatus.BAD_REQUEST, "The indicated user does not exist.");
       }
-    } catch (JsonProcessingException e) {
-      e.printStackTrace();
     } catch (Exception e) {
       e.printStackTrace();
     }
