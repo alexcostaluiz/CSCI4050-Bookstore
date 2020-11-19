@@ -1,6 +1,6 @@
 import './BookForm.less';
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   Button,
@@ -18,43 +18,79 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 const { Text, Title } = Typography;
 
 function BookForm(props) {
-  let { addBook = () => {} } = props;
+  const { initialValues, onSubmit = () => {}, title } = props;
 
   const [form] = Form.useForm();
 
-  const onFinish = (values) => {
-    delete values.coverPicPath;
-    values.authors = ['Alex Costa', 'Barack Obama'];
+  const [loading, setLoading] = useState(false);
 
+  const onFinish = async (values) => {
+    setLoading(true);
+
+    values.authors = values.authors.map(a => a.name);
     values.pubDate = values.pubDate.format('YYYY-MM-DD');
-
-    console.log(values);
-    console.log(JSON.stringify(values));
-    addBook(values);
-    // form.resetFields();
+    
+    if (values.coverPicPath &&
+        values.coverPicPath.length > 0 &&
+        values.coverPicPath[0].originFileObj) {
+      let reader = new FileReader();
+      reader.onload = async (e) => {
+        values.coverPicPath = e.target.result.replace(/^data:image\/.*;base64,/, "");
+        const ok = await onSubmit(values);
+        if (ok) {
+          Modal.destroyAll();
+        }
+        setLoading(false);
+      };
+      reader.readAsDataURL(values.coverPicPath[0].originFileObj);
+    } else {
+      if (values.coverPicPath) {
+        values.coverPicPath = values.coverPicPath[0].url.replace(/^data:image\/.*;base64,/, "");
+      }
+      const ok = await onSubmit(values);
+      if (ok) {
+        Modal.destroyAll();
+      }
+      setLoading(false);
+    }
   };
-
-  const getFile = (e) => {
-    console.log(e.fileList);
-    return e.fileList;
-  };
-
+  
   return (
     <Form
       form={form}
       id='book-form'
       layout='vertical'
       onFinish={onFinish}
+      initialValues={initialValues}
       requiredMark={false}>
-      <Title style={{ fontWeight: '900' }}>Add Book</Title>
+      <Title style={{ fontWeight: '900' }}>{title}</Title>
+
+      <Form.Item name='id' hidden>
+        <Input />
+      </Form.Item>
+      <Form.Item name='archived' hidden>
+        <Input />
+      </Form.Item>
 
       <Form.Item
         label='Book Cover'
         name='coverPicPath'
         valuePropName='fileList'
-        getValueFromEvent={getFile}
-        rules={[{ required: true, message: 'Please upload a cover picture' }]}>
-        <Upload listType='picture-card' accept='image/*'>
+        getValueFromEvent={(e) => e.fileList}
+        rules={[
+          {
+            validator: (_, value) => {
+              if (value && value.length > 1) {
+                return Promise.reject(new Error('Too many files (maximum: 1)'));
+              }
+              if (value && value[0] && value[0].size > 64000) {
+                return Promise.reject(new Error('File is too large (maximum: 64KB)'));
+              }
+              return Promise.resolve();
+            },
+          },
+        ]}>
+        <Upload listType='picture-card' accept='image/*' beforeUpload={() => false}>
           <div>
             <PlusOutlined />
             <br />
@@ -249,6 +285,7 @@ function BookForm(props) {
         <Button
           className='bookstore-book-form-action'
           type='primary'
+          loading={loading}
           htmlType='submit'>
           SAVE
         </Button>
