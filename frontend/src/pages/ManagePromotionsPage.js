@@ -1,10 +1,14 @@
 import './ManagePromotionsPage.less';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { Badge, Button, Descriptions, Table, Tooltip, Typography } from 'antd';
+import { Badge, Button, Descriptions, Modal, Table, Tooltip, Typography } from 'antd';
 
+import moment from 'moment';
+
+import DB from '../services/DatabaseService.js';
 import ManagePage from './ManagePage.js';
+import PromotionForm from '../components/PromotionForm.js';
 import Slider from '../components/Slider.js';
 
 const { Text, Title, Paragraph } = Typography;
@@ -55,49 +59,6 @@ const promotionTableColumns = [
   },
 ];
 
-const samplePromo = {
-  id: 0,
-  key: 0,
-  promoCode: 'HOLIDAY20',
-  description: '20% off during December holidays.',
-  discount: 0.2,
-  startDate: '2020-12-01 00:00:00',
-  endDate: '2020-12-31 23:59:59',
-  emailed: false,
-  books: [],
-};
-
-const sampleBook = {
-  id: 0,
-  key: 0,
-  title: 'A Promised Land',
-  authors: ['Barack Obama'],
-  publisher: 'Crown Publishing Group',
-  pubDate: '2020-11-17',
-  isbn: '9781524763169',
-  edition: '',
-  pages: 768,
-  categories: ['Autobiography', 'Biography', 'Memoir'],
-  tags: ['Bestseller'],
-  sellPrice: 32.99,
-  buyPrice: 15.99,
-  stock: 10000,
-  minThresh: 100,
-  coverPicPath:
-    'https://kottke.org/plus/misc/images/obama-promised-land-book.jpg',
-  description:
-    'A riveting, deeply personal account of history in the making from the president who inspired us to believe in the power of democracy. In the stirring, highly anticipated first volume of his presidential memoirs, Barack Obama tells the story of his improbable odyssey from young man searching for his identity to leader of the free world, describing in strikingly personal detail both his political education and the landmark moments of the first term of his historic presidency a time of dramatic transformation and turmoil.',
-};
-
-const promotions = [];
-for (let i = 0; i < 100; i++) {
-  const books = [];
-  for (let j = 0; j < 20; j++) {
-    books.push({ ...sampleBook, id: j, key: j });
-  }
-  promotions.push({ ...samplePromo, id: i, key: i, emailed: i % 2, books });
-}
-
 const nestedBookTableColumns = [
   {
     title: 'Title',
@@ -128,11 +89,19 @@ const nestedBookTableColumns = [
 ];
 
 function PromotionTable(props) {
+  const {
+    promotions,
+    onActivate = () => {},
+    onDelete = () => {},
+    onEdit = () => {},
+  } = props;
+  
   return (
     <Table
       className='bookstore-promotion-table'
       dataSource={promotions}
       columns={promotionTableColumns}
+      loading={promotions === null}
       scroll={{ x: true }}
       bordered
       expandable={{
@@ -198,7 +167,20 @@ function PromotionTable(props) {
             <Button
               className='bookstore-promotion-table-expanded-action'
               type='primary'
-              disabled={record.emailed}>
+              disabled={record.emailed}
+              onClick={() => onActivate(record)}>
+              ACTIVATE
+            </Button>
+            <Button
+              className='bookstore-promotion-table-expanded-action'
+              disabled={record.emailed}
+              onClick={() => onDelete(record)}>
+              DELETE
+            </Button>
+            <Button
+              className='bookstore-promotion-table-expanded-action'
+              disabled={record.emailed}
+              onClick={() => onEdit(record)}>
               EDIT
             </Button>
           </div>
@@ -209,11 +191,79 @@ function PromotionTable(props) {
 }
 
 function ManagePromotionsPage(props) {
+  const [promotions, setPromotions] = useState(null);
+
+  const retrievePromotions = async () => {
+    const promotions = await DB.retrievePromotions();
+    promotions.forEach(b => {
+      b.key = b.id;
+    });
+    setPromotions(promotions);    
+  };
+  
+  useEffect(() => {
+    retrievePromotions();
+  }, []);
+  
+  const createPromotion = async (values) => {
+    const response = await DB.createPromotion(values);
+    retrievePromotions();
+    return response;
+  };
+
+  const updatePromotion = async (values) => {
+    const response = await DB.updatePromotion(values);
+    retrievePromotions();
+    return response;
+  };
+
+  const deletePromotion = async (values) => {
+    const response = await DB.deletePromotion(values);
+    retrievePromotions();
+    return response;
+  };
+
+  const activatePromotion = async (values) => {
+    const response =  await DB.activatePromotion(values);
+    retrievePromotions();
+    return response;
+  };
+  
+  const showForm = (onSubmit, title, initialValues) => {
+    const initialValuesCopy = {...initialValues};
+    if (initialValues) {
+      initialValuesCopy.startDate = moment(initialValues.startDate);
+      initialValuesCopy.endDate = moment(initialValues.endDate);
+    }
+    
+    Modal.confirm({
+      content: (
+        <PromotionForm
+          onSubmit={onSubmit}
+          initialValues={initialValuesCopy}
+          title={title}
+        />
+      ),
+      icon: null,
+      width: '800px',
+      className: 'bookstore-manage-form',
+      maskClosable: true,
+    });
+  };
+  
   return (
     <ManagePage
       title='Manage Promotions'
       shortTitle='Promotions'
-      table={<PromotionTable />}
+      table={(
+        <PromotionTable
+          promotions={promotions}
+          onEdit={(promotion) => showForm(updatePromotion, 'Edit Promotion', promotion)}
+          onDelete={deletePromotion}
+          onActivate={activatePromotion}
+        />
+      )}
+      showForm={() => showForm(createPromotion, 'Add Promotion')}
     />
   );
 }
