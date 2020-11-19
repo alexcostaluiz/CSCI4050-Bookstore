@@ -265,8 +265,10 @@ function BookForm(props) {
       <div className='bookstore-book-form-field-container'>
         <Form.Item label='Categories' name='categories'>
           <Select mode='multiple'>
-            {categories.map(cat => (
-              <Select.Option value={cat}>{cat.replaceAll('_', ' ')}</Select.Option>
+            {categories.map((cat) => (
+              <Select.Option value={cat}>
+                {cat.replaceAll('_', ' ')}
+              </Select.Option>
             ))}
           </Select>
         </Form.Item>

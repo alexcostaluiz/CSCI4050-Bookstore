@@ -80,7 +80,10 @@ const bookTableColumns = [
     dataIndex: 'categories',
     render: (categories) =>
       categories.map((cat) => (
-        <Tag key={cat} color={Colors.category(cat)} style={{ margin: '4px 4px' }}>
+        <Tag
+          key={cat}
+          color={Colors.category(cat)}
+          style={{ margin: '4px 4px' }}>
           {cat.replaceAll('_', ' ')}
         </Tag>
       )),
@@ -90,7 +93,10 @@ const bookTableColumns = [
     dataIndex: 'tags',
     render: (tags) =>
       tags.map((tag) => (
-        <Tag key={tag} color={Colors.category(tag)} style={{ margin: '4px 4px' }}>
+        <Tag
+          key={tag}
+          color={Colors.category(tag)}
+          style={{ margin: '4px 4px' }}>
           {tag}
         </Tag>
       )),
