@@ -1,6 +1,6 @@
 import './ManageUsersPage.less';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   Badge,
@@ -11,10 +11,13 @@ import {
   Tag,
   Typography,
 } from 'antd';
+
 import AddressTable from '../components/AddressTable.js';
 import CardTable from '../components/CardTable.js';
+import DB from '../services/DatabaseService.js';
 import ManagePage from './ManagePage.js';
 import Slider from '../components/Slider.js';
+import UserForm from '../components/UserForm.js';
 
 const { Paragraph, Text, Title } = Typography;
 
@@ -72,59 +75,15 @@ const userTableColumns = [
   },
 ];
 
-const sampleUser = {
-  id: 0,
-  key: 0,
-  emailAddress: 'alexcostaluiz@outlook.com',
-  firstName: 'Alexander',
-  lastName: 'Costa',
-  phoneNumber: '4049849898',
-  subscription: true,
-  status: 'Active',
-  roles: ['USER'],
-  addresses: [
-    {
-      id: 0,
-      name: 'Alexander Costa',
-      address1: '490 Barnett Shoals Rd',
-      address2: 'Apt 911',
-      city: 'Athens',
-      state: 'GA',
-      zip: 30605,
-      country: 'United States',
-      phoneNumber: '4049849898',
-    },
-  ],
-  savedCards: [
-    {
-      id: 0,
-      cardType: 'discover',
-      number: '6011010373940967',
-      name: 'Alexander L Costa',
-      expiry: '04/22',
-      address: {
-        id: 0,
-        name: 'Alexander Costa',
-        address1: '490 Barnett Shoals Rd',
-        address2: 'Apt 911',
-        city: 'Athens',
-        state: 'GA',
-        zip: 30605,
-        country: 'United States',
-        phoneNumber: '4049849898',
-      },
-    },
-  ],
-  orders: [],
-  cart: {},
-};
-
-const users = [];
-for (let i = 0; i < 100; i++) {
-  users.push({ ...sampleUser, id: i, key: i });
-}
-
 function UserTable(props) {
+  const {
+    onDelete = () => {},
+    onEdit = () => {},
+    onPromote = () => {},
+    onSuspend = () => {},
+    users,
+  } = props;
+  
   const showTableModal = ({ content, title }) => {
     Modal.info({
       content: (
@@ -148,6 +107,7 @@ function UserTable(props) {
       dataSource={users}
       columns={userTableColumns}
       scroll={{ x: true }}
+      loading={users === null}
       bordered
       expandable={{
         expandRowByClick: true,
@@ -259,7 +219,27 @@ function UserTable(props) {
             </div>
             <Button
               className='bookstore-user-table-expanded-action'
-              type='primary'>
+              type='primary'
+              disabled={record.status === 'Inactive'}
+              onClick={
+                (record.roles.includes('ADMIN') || record.roles.includes('EMPLOYEE')) ?
+                  () => onPromote(record, record.roles.includes('ADMIN')) :
+                  () => onSuspend(record, record.status === 'Suspended')
+              }>
+              {
+                (record.roles.includes('ADMIN') || record.roles.includes('EMPLOYEE')) ?
+                  (record.roles.includes('ADMIN') ? 'DEMOTE' : 'PROMOTE') :
+                  (record.status === 'Suspended' ? 'UNSUSPEND' : 'SUSPEND')
+              }
+            </Button>
+            <Button
+              className='bookstore-user-table-expanded-action'
+              onClick={() => onDelete(record)}>
+              DELETE
+            </Button>
+            <Button
+              className='bookstore-user-table-expanded-action'
+              onClick={() => onEdit(record)}>
               EDIT
             </Button>
           </div>
@@ -270,8 +250,79 @@ function UserTable(props) {
 }
 
 function ManageUsersPage(props) {
+  const [users, setUsers] = useState(null);
+
+  const retrieveUsers = async () => {
+    const users = await DB.retrieveUsers();
+    users.forEach(b => {
+      b.key = b.id;
+    });
+    setUsers(users);    
+  };
+  
+  useEffect(() => {
+    retrieveUsers();
+  }, []);
+  
+  const createUser = async (values) => {
+    const response = await DB.createUser(values);
+    retrieveUsers();
+    return response;
+  };
+
+  const updateUser = async (values) => {
+    const response = await DB.updateUser(values);
+    retrieveUsers();
+    return response;
+  };
+
+  const deleteUser = async (values) => {
+    const response = await DB.deleteUser(values);
+    retrieveUsers();
+    return response;
+  };
+
+  const promoteUser = async (values, isPromoted) => {
+    const response =  isPromoted ? await DB.demoteUser(values) : await DB.promoteUser(values);
+    retrieveUsers();
+    return response;
+  };
+  
+  const suspendUser = async (values, isSuspended) => {
+    const response =  isSuspended ? await DB.unsuspendUser(values) : await DB.suspendUser(values);
+    retrieveUsers();
+    return response;
+  };
+  
+  const showForm = (onSubmit, title, initialValues) => {
+    const initialValuesCopy = {...initialValues};
+    if (initialValues) {
+    }
+    
+    Modal.confirm({
+      content: <UserForm onSubmit={onSubmit} initialValues={initialValuesCopy} title={title} />,
+      icon: null,
+      width: '800px',
+      className: 'bookstore-manage-form',
+      maskClosable: true,
+    });
+  };
+  
   return (
-    <ManagePage title='Manage Users' shortTitle='Users' table={<UserTable />} />
+    <ManagePage
+      title='Manage Users'
+      shortTitle='Users'
+      table={(
+        <UserTable
+          users={users}
+          onEdit={(user) => showForm(updateUser, 'Edit User', user)}
+          onDelete={deleteUser}
+          onPromote={promoteUser}
+          onSuspend={suspendUser}
+        />
+      )}
+      showForm={() => showForm(createUser, 'Add User')}
+    />
   );
 }
 
