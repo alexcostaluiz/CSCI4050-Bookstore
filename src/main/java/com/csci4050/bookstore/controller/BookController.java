@@ -54,15 +54,21 @@ public class BookController {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Book isbn already exists.");
     }
   }
+  
+  @PostMapping(value = "/update", consumes = "application/json", produces = "application/json")
+  public void updateBook(@RequestBody Book book) {
+    bookService.update(book);
+  }
 
-  @DeleteMapping(value = "/archive", consumes = "application/json", produces = "application/json")
+  @PostMapping(value = "/archive", consumes = "application/json", produces = "application/json")
   public void archiveBook(@RequestBody Book book) {
     book.setArchived(true);
     bookService.update(book);
   }
-
-  @PostMapping(value = "/update", consumes = "application/json", produces = "application/json")
-  public void updateBook(@RequestBody Book book) {
+  
+  @PostMapping(value = "/unarchive", consumes = "application/json", produces = "application/json")
+  public void unarchiveBook(@RequestBody Book book) {
+    book.setArchived(false);
     bookService.update(book);
   }
 }
