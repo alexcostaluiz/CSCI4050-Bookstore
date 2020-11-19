@@ -25,7 +25,7 @@ import javax.persistence.Table;
     strategy =
         InheritanceType
             .JOINED) // joined is chosen to prevent conflicts with user_id mapping between order and
-                     // cart
+// cart
 public class Cart {
 
   @Id
