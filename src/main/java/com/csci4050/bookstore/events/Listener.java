@@ -9,9 +9,12 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
+import org.springframework.http.HttpStatus;
+import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 
 @Component
 public class Listener {
@@ -38,7 +41,12 @@ public class Listener {
     String ref = request.getHeader("referer");
     ref = ref.substring(0, ref.lastIndexOf("/"));
     email.setText("\r\n" + ref + confirmationUrl);
-    mailSender.send(email);
+    try {
+      mailSender.send(email);
+    } catch (MailException e) {
+      e.printStackTrace();
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Mail failed to send");
+    }
   }
 
   @EventListener
@@ -61,35 +69,25 @@ public class Listener {
       ref = ref.substring(0, ref.lastIndexOf("/"));
     }
     email.setText("\r\n" + ref + confirmationUrl);
-    mailSender.send(email);
+    try {
+      mailSender.send(email);
+    } catch (MailException e) {
+      e.printStackTrace();
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Mail failed to send");
+    }
   }
 
   @EventListener
   private void sendPromos(EmailPromoEvent event) {
     List<User> subbed_users = userService.getSubbed();
-
+    if (subbed_users.size() == 0) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No subscribed users exist.");
+    }
     for (User user : subbed_users) {
       String recipientAddress = user.getEmailAddress();
       String subject = "New bookstore promotion!!";
       Promotion promo = event.getPromo();
-      if (promo == null) {
-        // send all promos
-        List<Promotion> promos = promoService.get();
-        for (Promotion p : promos) {
-          SimpleMailMessage email = new SimpleMailMessage();
-          email.setTo(recipientAddress);
-          email.setSubject(subject);
-          email.setText(
-              "Use promo code "
-                  + p.getPromoCode()
-                  + " to get discounts on books with this description: \n"
-                  + p.getDescription());
-          mailSender.send(email);
-          p.setEmailed(true);
-          promoService.update(promo);
-        }
-
-      } else {
+      try {
         // send specific promo
         SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(recipientAddress);
@@ -102,6 +100,10 @@ public class Listener {
         mailSender.send(email);
         promo.setEmailed(true);
         promoService.update(promo);
+
+      } catch (MailException e) {
+        e.printStackTrace();
+        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Mail failed to send");
       }
     }
   }

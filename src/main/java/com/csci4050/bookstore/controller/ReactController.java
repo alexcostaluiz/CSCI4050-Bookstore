@@ -32,7 +32,9 @@ public class ReactController {
         "/checkout",
         "/admin/manage/books",
         "/admin",
-        "/books"
+        "/books",
+        "/admin/manage/users",
+        "/admin/manage/promotions"
       },
       method = RequestMethod.GET)
   public String mainController() {

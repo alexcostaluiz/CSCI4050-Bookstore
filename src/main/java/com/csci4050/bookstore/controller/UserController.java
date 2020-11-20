@@ -8,6 +8,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.session.SessionInformation;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +27,7 @@ public class UserController {
 
   @Autowired private UserService userService;
   @Autowired ObjectMapper objectMapper = new ObjectMapper();
+  @Autowired private SessionRegistry sessionRegistry;
 
   @GetMapping("/get/{id}")
   public User getUser(@PathVariable int id) {
@@ -67,6 +71,23 @@ public class UserController {
         roles.add(Role.ADMIN);
         user.setRoles(roles);
         userService.updateUser(user);
+
+        // reload user sessions
+        List<Object> loggedUsers = sessionRegistry.getAllPrincipals();
+        for (Object principal : loggedUsers) {
+          if (principal instanceof UserDetails) {
+            UserDetails loggedUser = (UserDetails) principal;
+            if (user.getEmailAddress().equals(loggedUser.getUsername())) {
+              List<SessionInformation> sessionsInfo =
+                  sessionRegistry.getAllSessions(principal, false);
+              if (null != sessionsInfo && sessionsInfo.size() > 0) {
+                for (SessionInformation sessionInformation : sessionsInfo) {
+                  sessionInformation.expireNow();
+                }
+              }
+            }
+          }
+        }
       } else {
         // if user is not an employee throw an exception
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User is not an Employee.");
@@ -84,7 +105,9 @@ public class UserController {
   @PostMapping(value = "/demote", consumes = "application/json", produces = "application/json")
   public void demoteUser(@RequestBody String email) {
     try {
+
       User user = userService.getUser(email);
+
       // check to see if the user is an ADMIN - check their role
       List<Role> roles = user.getRoles();
       if (roles.contains(Role.ADMIN)) {
@@ -93,6 +116,23 @@ public class UserController {
         roles.remove(Role.ADMIN);
         user.setRoles(roles);
         userService.updateUser(user);
+
+        // reload user sessions
+        List<Object> loggedUsers = sessionRegistry.getAllPrincipals();
+        for (Object principal : loggedUsers) {
+          if (principal instanceof UserDetails) {
+            UserDetails loggedUser = (UserDetails) principal;
+            if (user.getEmailAddress().equals(loggedUser.getUsername())) {
+              List<SessionInformation> sessionsInfo =
+                  sessionRegistry.getAllSessions(principal, false);
+              if (null != sessionsInfo && sessionsInfo.size() > 0) {
+                for (SessionInformation sessionInformation : sessionsInfo) {
+                  sessionInformation.expireNow();
+                }
+              }
+            }
+          }
+        }
       } else {
         // if not ADMIN throw an exception - User is not an Admin
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User is not an Admin.");
