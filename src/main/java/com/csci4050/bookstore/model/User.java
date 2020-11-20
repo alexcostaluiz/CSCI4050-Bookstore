@@ -1,9 +1,14 @@
 package com.csci4050.bookstore.model;
 
+import com.csci4050.bookstore.json.BookMapDeserializer;
+import com.csci4050.bookstore.json.BookMapSerializer;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -15,8 +20,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -27,9 +32,6 @@ public class User {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private Integer id;
-
-  @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-  private Cart cart;
 
   @Column(name = "first_name", nullable = false)
   private String firstName;
@@ -71,25 +73,31 @@ public class User {
   @CollectionTable(name = "roles", joinColumns = @JoinColumn(name = "id"))
   private List<Role> roles = Arrays.asList(Role.USER);
 
+  @ElementCollection
+  @CollectionTable(
+      name = "book_quantity_mapping",
+      joinColumns = @JoinColumn(name = "cart_id", updatable = false, insertable = false))
+  @MapKeyJoinColumn(name = "book_id", referencedColumnName = "id", updatable = true)
+  @Column(name = "quantity")
+  @JsonDeserialize(keyUsing = BookMapDeserializer.class)
+  @JsonSerialize(keyUsing = BookMapSerializer.class)
+  private Map<Book, Integer> cart;
+
   public Integer getId() {
     return this.id;
+  }
+
+  public Map<Book, Integer> getCart() {
+    return this.cart;
+  }
+
+  public void setCart(Map<Book, Integer> cart) {
+    this.cart = cart;
   }
 
   @JsonSetter("id")
   public void setId(Integer id) {
     this.id = id;
-  }
-
-  public Cart getCart() {
-    return this.cart;
-  }
-
-  @JsonSetter("cart")
-  public void setCart(Cart cart) {
-    if (cart != null) {
-      cart.setUser(this);
-    }
-    this.cart = cart;
   }
 
   public String getFirstName() {
@@ -178,7 +186,7 @@ public class User {
     }
     this.savedCards = savedCards;
   }
-
+  /*
   public List<Order> getOrders() {
     return this.orders;
   }
@@ -191,7 +199,7 @@ public class User {
     }
     this.orders = orders;
   }
-
+  */
   public List<Role> getRoles() {
     return this.roles;
   }

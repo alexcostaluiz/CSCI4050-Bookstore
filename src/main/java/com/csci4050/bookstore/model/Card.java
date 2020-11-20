@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "card")
@@ -20,24 +19,23 @@ public class Card {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
-  @NotNull
   private Integer id;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", referencedColumnName = "id")
   private User user;
 
-  @Column(name = "card_type")
+  @Column(name = "card_type", nullable = false)
   private String cardType;
 
-  @Column(name = "number")
+  @Column(name = "number", nullable = false)
   @Convert(converter = CardNumberConverter.class)
   private String number;
 
-  @Column(name = "name")
+  @Column(name = "name", nullable = false)
   private String name;
 
-  @Column(name = "expiry")
+  @Column(name = "expiry", nullable = false)
   private String expiry;
 
   @ManyToOne(fetch = FetchType.LAZY)

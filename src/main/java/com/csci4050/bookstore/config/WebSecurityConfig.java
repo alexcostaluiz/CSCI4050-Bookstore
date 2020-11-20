@@ -37,6 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/admin/**",
             "/books/update",
             "/books/archive",
+            "/books/create",
             "/books/unarchive",
             "/promos/update",
             "/promos/delete",
