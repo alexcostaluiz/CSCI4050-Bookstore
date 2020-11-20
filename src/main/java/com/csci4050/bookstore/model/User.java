@@ -186,7 +186,7 @@ public class User {
     }
     this.savedCards = savedCards;
   }
-  
+
   public List<Order> getOrders() {
     return this.orders;
   }
@@ -199,7 +199,7 @@ public class User {
     }
     this.orders = orders;
   }
-  
+
   public List<Role> getRoles() {
     return this.roles;
   }

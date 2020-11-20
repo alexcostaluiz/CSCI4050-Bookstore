@@ -9,7 +9,6 @@ public class ExpireUserEvent extends ApplicationEvent {
   public ExpireUserEvent(String email) {
     super(email);
     this.email = email;
-
   }
 
   public String getEmail() {

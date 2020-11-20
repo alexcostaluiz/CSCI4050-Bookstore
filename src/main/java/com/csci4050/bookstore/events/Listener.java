@@ -116,19 +116,18 @@ public class Listener {
   private void expireUser(ExpireUserEvent event) {
 
     List<Object> loggedUsers = sessionRegistry.getAllPrincipals();
-        for (Object principal : loggedUsers) {
-          if (principal instanceof UserDetails) {
-            UserDetails loggedUser = (UserDetails) principal;
-            if (event.getEmail().equals(loggedUser.getUsername())) {
-              List<SessionInformation> sessionsInfo =
-                  sessionRegistry.getAllSessions(principal, false);
-              if (null != sessionsInfo && sessionsInfo.size() > 0) {
-                for (SessionInformation sessionInformation : sessionsInfo) {
-                  sessionInformation.expireNow();
-                }
-              }
+    for (Object principal : loggedUsers) {
+      if (principal instanceof UserDetails) {
+        UserDetails loggedUser = (UserDetails) principal;
+        if (event.getEmail().equals(loggedUser.getUsername())) {
+          List<SessionInformation> sessionsInfo = sessionRegistry.getAllSessions(principal, false);
+          if (null != sessionsInfo && sessionsInfo.size() > 0) {
+            for (SessionInformation sessionInformation : sessionsInfo) {
+              sessionInformation.expireNow();
             }
           }
         }
+      }
+    }
   }
 }

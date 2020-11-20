@@ -28,7 +28,6 @@ public class UserController {
   @Autowired ObjectMapper objectMapper = new ObjectMapper();
   @Autowired private ApplicationEventPublisher eventPublisher;
 
-
   @GetMapping("/get/{id}")
   public User getUser(@PathVariable int id) {
     return userService.get(id);
@@ -136,7 +135,7 @@ public class UserController {
         } else { // if the user is active
           user.setStatus(ActivityStatus.Suspended); // suspend them
           userService.updateUser(user); // update the status in the db
-          eventPublisher.publishEvent(new ExpireUserEvent(email));//reload user session
+          eventPublisher.publishEvent(new ExpireUserEvent(email)); // reload user session
         }
       } else {
         throw new ResponseStatusException(
@@ -168,7 +167,7 @@ public class UserController {
         } else { // if the user is suspended
           user.setStatus(ActivityStatus.Active); // suspend them
           userService.updateUser(user); // update the status in the db
-          eventPublisher.publishEvent(new ExpireUserEvent(email));//reload user session
+          eventPublisher.publishEvent(new ExpireUserEvent(email)); // reload user session
         }
       } else {
         throw new ResponseStatusException(
