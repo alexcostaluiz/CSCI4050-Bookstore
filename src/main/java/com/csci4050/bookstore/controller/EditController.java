@@ -1,7 +1,6 @@
 package com.csci4050.bookstore.controller;
 
 import com.csci4050.bookstore.model.Address;
-import com.csci4050.bookstore.model.Book;
 import com.csci4050.bookstore.model.Card;
 import com.csci4050.bookstore.model.CartDto;
 import com.csci4050.bookstore.model.PasswordDto;
@@ -197,9 +196,6 @@ public class EditController {
       Object principal = auth.getPrincipal();
       if (principal instanceof UserDetails) {
         User user = userService.getUser(((UserDetails) principal).getUsername());
-        for (Book key : cart.getBooks().keySet()) {
-          System.out.println(key.getIsbn());
-        }
         user.setCart(cart.getBooks());
         userService.updateUser(user);
       }

@@ -13,6 +13,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.session.SessionInformation;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -23,6 +26,7 @@ public class Listener {
   @Autowired private JavaMailSender mailSender;
   @Autowired private HttpServletRequest request;
   @Autowired private PromoService promoService;
+  @Autowired private SessionRegistry sessionRegistry;
 
   @EventListener
   public void resetPassword(PasswordResetEvent event) {
@@ -106,5 +110,25 @@ public class Listener {
         throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Mail failed to send");
       }
     }
+  }
+
+  @EventListener
+  private void expireUser(ExpireUserEvent event) {
+
+    List<Object> loggedUsers = sessionRegistry.getAllPrincipals();
+        for (Object principal : loggedUsers) {
+          if (principal instanceof UserDetails) {
+            UserDetails loggedUser = (UserDetails) principal;
+            if (event.getEmail().equals(loggedUser.getUsername())) {
+              List<SessionInformation> sessionsInfo =
+                  sessionRegistry.getAllSessions(principal, false);
+              if (null != sessionsInfo && sessionsInfo.size() > 0) {
+                for (SessionInformation sessionInformation : sessionsInfo) {
+                  sessionInformation.expireNow();
+                }
+              }
+            }
+          }
+        }
   }
 }

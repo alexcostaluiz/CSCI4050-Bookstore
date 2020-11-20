@@ -10,6 +10,7 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,6 +28,10 @@ public class Order {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private Integer id;
+
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id", referencedColumnName = "id")
+  private User user;
 
   @ManyToOne
   @JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false, updatable = false)
@@ -55,4 +60,12 @@ public class Order {
   @JsonDeserialize(keyUsing = BookMapDeserializer.class)
   @JsonSerialize(keyUsing = BookMapSerializer.class)
   private Map<Book, Integer> cart;
+
+  public User getUser() {
+    return this.user;
+  }
+
+  public void setUser(User user) {
+    this.user = user;
+  }
 }

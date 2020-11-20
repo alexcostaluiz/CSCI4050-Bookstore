@@ -1,5 +1,6 @@
 package com.csci4050.bookstore.controller;
 
+import com.csci4050.bookstore.events.ExpireUserEvent;
 import com.csci4050.bookstore.model.ActivityStatus;
 import com.csci4050.bookstore.model.Role;
 import com.csci4050.bookstore.model.User;
@@ -7,10 +8,8 @@ import com.csci4050.bookstore.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.session.SessionInformation;
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +26,8 @@ public class UserController {
 
   @Autowired private UserService userService;
   @Autowired ObjectMapper objectMapper = new ObjectMapper();
-  @Autowired private SessionRegistry sessionRegistry;
+  @Autowired private ApplicationEventPublisher eventPublisher;
+
 
   @GetMapping("/get/{id}")
   public User getUser(@PathVariable int id) {
@@ -48,6 +48,7 @@ public class UserController {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password is empty.");
     }
     userService.updateUser(user);
+    eventPublisher.publishEvent(new ExpireUserEvent(user.getEmailAddress()));
   }
 
   @DeleteMapping(value = "/delete", consumes = "application/json", produces = "application/json")
@@ -73,21 +74,7 @@ public class UserController {
         userService.updateUser(user);
 
         // reload user sessions
-        List<Object> loggedUsers = sessionRegistry.getAllPrincipals();
-        for (Object principal : loggedUsers) {
-          if (principal instanceof UserDetails) {
-            UserDetails loggedUser = (UserDetails) principal;
-            if (user.getEmailAddress().equals(loggedUser.getUsername())) {
-              List<SessionInformation> sessionsInfo =
-                  sessionRegistry.getAllSessions(principal, false);
-              if (null != sessionsInfo && sessionsInfo.size() > 0) {
-                for (SessionInformation sessionInformation : sessionsInfo) {
-                  sessionInformation.expireNow();
-                }
-              }
-            }
-          }
-        }
+        eventPublisher.publishEvent(new ExpireUserEvent(email));
       } else {
         // if user is not an employee throw an exception
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User is not an Employee.");
@@ -118,21 +105,7 @@ public class UserController {
         userService.updateUser(user);
 
         // reload user sessions
-        List<Object> loggedUsers = sessionRegistry.getAllPrincipals();
-        for (Object principal : loggedUsers) {
-          if (principal instanceof UserDetails) {
-            UserDetails loggedUser = (UserDetails) principal;
-            if (user.getEmailAddress().equals(loggedUser.getUsername())) {
-              List<SessionInformation> sessionsInfo =
-                  sessionRegistry.getAllSessions(principal, false);
-              if (null != sessionsInfo && sessionsInfo.size() > 0) {
-                for (SessionInformation sessionInformation : sessionsInfo) {
-                  sessionInformation.expireNow();
-                }
-              }
-            }
-          }
-        }
+        eventPublisher.publishEvent(new ExpireUserEvent(email));
       } else {
         // if not ADMIN throw an exception - User is not an Admin
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User is not an Admin.");
@@ -163,6 +136,7 @@ public class UserController {
         } else { // if the user is active
           user.setStatus(ActivityStatus.Suspended); // suspend them
           userService.updateUser(user); // update the status in the db
+          eventPublisher.publishEvent(new ExpireUserEvent(email));//reload user session
         }
       } else {
         throw new ResponseStatusException(
@@ -194,6 +168,7 @@ public class UserController {
         } else { // if the user is suspended
           user.setStatus(ActivityStatus.Active); // suspend them
           userService.updateUser(user); // update the status in the db
+          eventPublisher.publishEvent(new ExpireUserEvent(email));//reload user session
         }
       } else {
         throw new ResponseStatusException(
