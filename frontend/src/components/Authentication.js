@@ -12,7 +12,7 @@ const errorMapping = {
   'Bad credentials': 'Invalid username or password',
   'User is disabled': 'Please verify your email before signing in',
   'User account is locked': 'Your account has been suspended',
-  409 : 'User account already exists.'
+  409: 'User account already exists.',
 };
 
 const protectedEndpoints = ['/profile', '/admin', '/orderHistory'];
@@ -83,8 +83,8 @@ function Authentication(props) {
       body: JSON.stringify(values),
     });
 
-    if(response.status === 409){
-       return errorMapping[response.status];
+    if (response.status === 409) {
+      return errorMapping[response.status];
     } else {
       return values;
     }

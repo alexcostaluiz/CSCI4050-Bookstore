@@ -1,7 +1,7 @@
 package com.csci4050.bookstore.controller;
 
 import com.csci4050.bookstore.model.VerificationToken;
-import com.csci4050.bookstore.service.UserService;
+import com.csci4050.bookstore.service.TokenService;
 import java.util.Calendar;
 import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class ReactController {
 
-  @Autowired private UserService userService;
+  @Autowired private TokenService tokenService;
 
   @Resource(name = "authenticationManager")
   private AuthenticationManager authManager;
@@ -61,7 +61,7 @@ public class ReactController {
       method = RequestMethod.GET)
   public String updatePassword(@RequestParam("token") String token) throws Exception {
 
-    VerificationToken verificationToken = userService.getVerificationToken(token);
+    VerificationToken verificationToken = tokenService.get(token);
 
     if (verificationToken == null) {
       return "redirect:/login";
@@ -69,7 +69,7 @@ public class ReactController {
 
     Calendar cal = Calendar.getInstance();
     if ((verificationToken.getExpirationDate().getTime() - cal.getTime().getTime()) <= 0) {
-      userService.deleteToken(verificationToken);
+      tokenService.delete(verificationToken.getId());
       return "redirect:/login";
     }
     return "index.html";

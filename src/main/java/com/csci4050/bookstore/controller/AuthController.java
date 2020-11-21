@@ -74,8 +74,16 @@ public class AuthController {
     try {
       User user = objectMapper.readValue(json, User.class);
       String url = request.getContextPath();
-      userService.createUser(user);
-      eventPublisher.publishEvent(new RegistrationCompletionEvent(user, request.getLocale(), url));
+      User temp = userService.getUser(user.getEmailAddress());
+      if (temp == null) {
+        userService.createUser(user);
+        eventPublisher.publishEvent(
+            new RegistrationCompletionEvent(user, request.getLocale(), url, false));
+      } else {
+        eventPublisher.publishEvent(
+            new RegistrationCompletionEvent(user, request.getLocale(), url, true));
+      }
+
     } catch (JsonProcessingException e) {
       e.printStackTrace();
     } catch (DataIntegrityViolationException e) {

@@ -4,7 +4,17 @@ import React, { useState, useContext } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
-import { Button, Checkbox, Col, Form, Input, Row, Typography, message } from 'antd';
+import {
+  Button,
+  Checkbox,
+  Col,
+  Form,
+  Input,
+  Row,
+  Typography,
+  message,
+  Space
+} from 'antd';
 
 import AuthContext from '../contexts/AuthContext.js';
 
@@ -21,11 +31,9 @@ function Register(props) {
     setLoading(true);
     delete values.confirm;
     const response = await auth.register(values);
-    console.log(typeof response);
-    if(typeof response == 'string'){
+    if (typeof response == 'string') {
       message.error(response);
       form.resetFields();
-      
     } else {
       setSubmitted(values);
     }
@@ -45,12 +53,21 @@ function Register(props) {
         email address. Once you have confirmed your email address, you may sign
         in.
       </Paragraph>
-      <Button
-        type='primary'
-        size='large'
-        onClick={() => history.push('/login')}>
-        SIGN IN
-      </Button>
+      <Space>
+        <Button
+          type='primary'
+          size='large'
+          onClick={() => history.push('/login')}>
+          SIGN IN
+        </Button>
+        <Button
+          type='primary'
+          size='large'
+          onClick={() => onFinish(submitted)}
+          loading={loading}>
+          RESEND EMAIL
+        </Button>
+      </Space>
     </div>
   ) : (
     <div className='bookstore-register-container'>

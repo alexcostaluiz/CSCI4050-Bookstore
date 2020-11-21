@@ -9,12 +9,14 @@ public class RegistrationCompletionEvent extends ApplicationEvent {
   private String url;
   private Locale locale;
   private User user;
+  private boolean saved;
 
-  public RegistrationCompletionEvent(User user, Locale locale, String url) {
+  public RegistrationCompletionEvent(User user, Locale locale, String url, boolean saved) {
     super(user);
     this.user = user;
     this.locale = locale;
     this.url = url;
+    this.saved = saved;
   }
 
   public String getUrl() {
@@ -27,5 +29,9 @@ public class RegistrationCompletionEvent extends ApplicationEvent {
 
   public User getUser() {
     return this.user;
+  }
+
+  public boolean isSaved() {
+    return this.saved;
   }
 }
