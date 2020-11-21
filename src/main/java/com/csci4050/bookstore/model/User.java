@@ -76,7 +76,7 @@ public class User {
   @ElementCollection
   @CollectionTable(
       name = "cart",
-      joinColumns = @JoinColumn(name = "cart_id", updatable = false, insertable = false))
+      joinColumns = @JoinColumn(name = "user_id", updatable = false, insertable = false))
   @MapKeyJoinColumn(name = "book_id", referencedColumnName = "id", updatable = true)
   @Column(name = "quantity")
   @JsonDeserialize(keyUsing = BookMapDeserializer.class)
