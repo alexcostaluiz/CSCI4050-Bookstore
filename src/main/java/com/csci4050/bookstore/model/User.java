@@ -75,7 +75,7 @@ public class User {
 
   @ElementCollection
   @CollectionTable(
-      name = "book_quantity_mapping",
+      name = "cart",
       joinColumns = @JoinColumn(name = "cart_id", updatable = false, insertable = false))
   @MapKeyJoinColumn(name = "book_id", referencedColumnName = "id", updatable = true)
   @Column(name = "quantity")
