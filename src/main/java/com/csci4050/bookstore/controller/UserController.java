@@ -1,5 +1,6 @@
 package com.csci4050.bookstore.controller;
 
+import com.csci4050.bookstore.events.ExpireUserEvent;
 import com.csci4050.bookstore.model.ActivityStatus;
 import com.csci4050.bookstore.model.Role;
 import com.csci4050.bookstore.model.User;
@@ -7,6 +8,7 @@ import com.csci4050.bookstore.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,6 +26,7 @@ public class UserController {
 
   @Autowired private UserService userService;
   @Autowired ObjectMapper objectMapper = new ObjectMapper();
+  @Autowired private ApplicationEventPublisher eventPublisher;
 
   @GetMapping("/get/{id}")
   public User getUser(@PathVariable int id) {
@@ -44,6 +47,7 @@ public class UserController {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password is empty.");
     }
     userService.updateUser(user);
+    eventPublisher.publishEvent(new ExpireUserEvent(user.getEmailAddress()));
   }
 
   @DeleteMapping(value = "/delete", consumes = "application/json", produces = "application/json")
@@ -67,6 +71,9 @@ public class UserController {
         roles.add(Role.ADMIN);
         user.setRoles(roles);
         userService.updateUser(user);
+
+        // reload user sessions
+        eventPublisher.publishEvent(new ExpireUserEvent(email));
       } else {
         // if user is not an employee throw an exception
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User is not an Employee.");
@@ -84,7 +91,9 @@ public class UserController {
   @PostMapping(value = "/demote", consumes = "application/json", produces = "application/json")
   public void demoteUser(@RequestBody String email) {
     try {
+
       User user = userService.getUser(email);
+
       // check to see if the user is an ADMIN - check their role
       List<Role> roles = user.getRoles();
       if (roles.contains(Role.ADMIN)) {
@@ -93,6 +102,9 @@ public class UserController {
         roles.remove(Role.ADMIN);
         user.setRoles(roles);
         userService.updateUser(user);
+
+        // reload user sessions
+        eventPublisher.publishEvent(new ExpireUserEvent(email));
       } else {
         // if not ADMIN throw an exception - User is not an Admin
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User is not an Admin.");
@@ -123,6 +135,7 @@ public class UserController {
         } else { // if the user is active
           user.setStatus(ActivityStatus.Suspended); // suspend them
           userService.updateUser(user); // update the status in the db
+          eventPublisher.publishEvent(new ExpireUserEvent(email)); // reload user session
         }
       } else {
         throw new ResponseStatusException(
@@ -154,6 +167,7 @@ public class UserController {
         } else { // if the user is suspended
           user.setStatus(ActivityStatus.Active); // suspend them
           userService.updateUser(user); // update the status in the db
+          eventPublisher.publishEvent(new ExpireUserEvent(email)); // reload user session
         }
       } else {
         throw new ResponseStatusException(

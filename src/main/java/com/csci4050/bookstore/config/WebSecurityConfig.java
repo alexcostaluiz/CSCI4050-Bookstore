@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,21 +23,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Autowired UserDetailsService userDetailsService;
   @Autowired AuthenticationFailureHandler failureHandler;
   @Autowired AuthenticationSuccessHandler successHandler;
+  private static final SessionRegistry SESSION_REGISTRY = new SessionRegistryImpl();
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
+
     http.csrf()
         .disable()
         .authorizeRequests()
         .antMatchers("/profile", "/checkout", "/logout", "/edit/**")
-        .hasAnyAuthority("ADMIN", "USER")
+        .authenticated()
         .antMatchers(
-            "/admin",
-            "/admin/manage/books",
-            "/admin/manage/users",
-            "/admin/manage/promotions",
+            "/admin/**",
             "/books/update",
             "/books/archive",
+            "/books/create",
             "/books/unarchive",
             "/promos/update",
             "/promos/delete",
@@ -58,7 +60,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         .logout()
         .logoutSuccessUrl("/login")
-        .invalidateHttpSession(true);
+        .invalidateHttpSession(true)
+        .and()
+        .sessionManagement()
+        .maximumSessions(-1)
+        .sessionRegistry(sessionRegistry())
+        .expiredUrl("/");
   }
 
   @Override
@@ -75,5 +82,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Bean
   public PasswordEncoder getPasswordEncoder() {
     return new BCryptPasswordEncoder();
+  }
+
+  @Bean
+  public static SessionRegistry sessionRegistry() {
+    return SESSION_REGISTRY;
   }
 }

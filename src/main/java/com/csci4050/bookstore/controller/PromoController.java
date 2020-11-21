@@ -128,6 +128,7 @@ public class PromoController {
   @PostMapping(value = "/email", consumes = "application/json", produces = "application/json")
   public void emailPromo(@RequestBody Promotion promo) {
     promo = promoService.get(promo.getId());
+
     if (promo == null) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Promotion doesn't exist");
     }
