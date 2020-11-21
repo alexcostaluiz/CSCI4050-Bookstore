@@ -5,6 +5,7 @@ import com.csci4050.bookstore.service.TokenService;
 import java.util.Calendar;
 import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 
 @Controller
 public class ReactController {
@@ -53,7 +55,7 @@ public class ReactController {
       }
     }
 
-    throw new Exception("User already logged in");
+    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User already logged in");
   }
 
   @RequestMapping(

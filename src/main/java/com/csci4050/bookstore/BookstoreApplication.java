@@ -36,16 +36,8 @@ public class BookstoreApplication {
     return new WebMvcConfigurer() {
       @Override
       public void addCorsMappings(CorsRegistry registry) {
-        registry
-            .addMapping("/**")
-            .allowedOrigins(
-                "http://localhost:8080",
-                "http://localhost:3000",
-                "http://192.168.1.19:3000",
-                "http://192.168.1.19:8080")
-            .allowCredentials(true)
-            .allowedMethods("*")
-            .allowedHeaders("*");
+        registry.addMapping("/**").allowedOrigins("*")
+        .allowedMethods("*").allowedHeaders("*");
       }
     };
   }

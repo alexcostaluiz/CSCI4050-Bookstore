@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDate;
 import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -15,7 +17,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -79,15 +83,17 @@ public class Book {
   @CollectionTable(name = "categories", joinColumns = @JoinColumn(name = "id"))
   private List<Category> categories;
 
-  @Column(name = "author")
-  @ElementCollection
-  @CollectionTable(name = "authors", joinColumns = @JoinColumn(name = "id"))
-  private List<String> authors;
+  @ManyToMany(mappedBy = "books", cascade = {CascadeType.PERSIST,
+    CascadeType.MERGE})
+  private List<Author> authors;
 
   @Column(name = "tag")
   @ElementCollection
   @CollectionTable(name = "tags", joinColumns = @JoinColumn(name = "id"))
-  private List<String> tags;
+  private List<Tag> tags;
+
+  @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+  private List<Review> reviews;
 
   public Book() {}
 
@@ -105,8 +111,8 @@ public class Book {
       String edition,
       String publisher,
       List<Category> categories,
-      List<String> authors,
-      List<String> tags) {
+      List<Author> authors,
+      List<Tag> tags) {
     this.isbn = isbn;
     this.pubDate = pubDate;
     this.stock = stock;
@@ -240,19 +246,19 @@ public class Book {
     this.categories = categories;
   }
 
-  public List<String> getAuthors() {
+  public List<Author> getAuthors() {
     return this.authors;
   }
 
-  public void setAuthors(List<String> authors) {
+  public void setAuthors(List<Author> authors) {
     this.authors = authors;
   }
 
-  public List<String> getTags() {
+  public List<Tag> getTags() {
     return this.tags;
   }
 
-  public void setTags(List<String> tags) {
+  public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
 
