@@ -4,7 +4,6 @@ import com.csci4050.bookstore.exceptions.FilterException;
 import com.csci4050.bookstore.model.Book;
 import com.csci4050.bookstore.model.Category;
 import com.csci4050.bookstore.service.BookService;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -50,15 +49,16 @@ public class BookController {
   @PostMapping(value = "/create", consumes = "application/json", produces = "application/json")
   public void createBook(@RequestBody Book book) {
 
-
-    book.getAuthors().stream().forEach(e -> {
-      List<Book> books = e.getBooks();
-      if(books == null){
-        books = new ArrayList<Book>();
-      }
-      books.add(book);
-      e.setBooks(books);
-    });
+    book.getAuthors().stream()
+        .forEach(
+            e -> {
+              List<Book> books = e.getBooks();
+              if (books == null) {
+                books = new ArrayList<Book>();
+              }
+              books.add(book);
+              e.setBooks(books);
+            });
 
     try {
       bookService.save(book);

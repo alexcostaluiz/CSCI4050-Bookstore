@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDate;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -83,8 +82,9 @@ public class Book {
   @CollectionTable(name = "categories", joinColumns = @JoinColumn(name = "id"))
   private List<Category> categories;
 
-  @ManyToMany(mappedBy = "books", cascade = {CascadeType.PERSIST,
-    CascadeType.MERGE})
+  @ManyToMany(
+      mappedBy = "books",
+      cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   private List<Author> authors;
 
   @Column(name = "tag")

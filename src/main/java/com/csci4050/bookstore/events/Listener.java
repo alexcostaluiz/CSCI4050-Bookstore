@@ -39,7 +39,7 @@ public class Listener {
         UUID.randomUUID().toString(); // cryptographically strong pseudo random 128-bit value
     VerificationToken myToken = new VerificationToken(token, user, TokenType.FORGOT_PW);
     tokenService.save(myToken);
-    
+
     String recipientAddress = user.getEmailAddress();
     String subject = "Password Reset Link";
     String confirmationUrl = event.getUrl() + "/updatePassword?token=" + token;
