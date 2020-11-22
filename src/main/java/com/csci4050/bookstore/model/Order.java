@@ -2,9 +2,11 @@ package com.csci4050.bookstore.model;
 
 import com.csci4050.bookstore.json.BookMapDeserializer;
 import com.csci4050.bookstore.json.BookMapSerializer;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Map;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -31,6 +33,7 @@ public class Order {
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", referencedColumnName = "id")
+  @JsonIgnore
   private User user;
 
   @ManyToOne
@@ -46,11 +49,9 @@ public class Order {
   private Promotion promo;
 
   @Column(name = "order_date", nullable = false, updatable = false)
-  private LocalDateTime orderDate;
-
-  @Column(name = "confirmation_no", nullable = false, updatable = false)
-  private Integer confirmationNumber;
-
+  @JsonFormat(pattern = "yyyy-MM-dd")
+  private LocalDate orderDate;
+  
   @ElementCollection
   @CollectionTable(
       name = "order_cart",
@@ -59,7 +60,47 @@ public class Order {
   @Column(name = "quantity", updatable = false, insertable = false)
   @JsonDeserialize(keyUsing = BookMapDeserializer.class)
   @JsonSerialize(keyUsing = BookMapSerializer.class)
-  private Map<Book, Integer> cart;
+  private Map<Book, Integer> orderCart;
+  
+  public Address getAddress() {
+    return this.address;
+  }
+
+  public void setAddress(Address address) {
+    this.address = address;
+  }
+
+  public Card getPayment() {
+    return this.payment;
+  }
+
+  public void setPayment(Card payment) {
+    this.payment = payment;
+  }
+
+  public Promotion getPromo() {
+    return this.promo;
+  }
+
+  public void setPromo(Promotion promo) {
+    this.promo = promo;
+  }
+
+  public LocalDate getOrderDate() {
+    return this.orderDate;
+  }
+
+  public void setOrderDate(LocalDate orderDate) {
+    this.orderDate = orderDate;
+  }
+  
+  public Map<Book, Integer> getOrderCart() {
+		return this.orderCart;
+	}
+
+  public void setOrderCart(Map<Book,Integer> orderCart) {
+		this.orderCart = orderCart;
+	}
 
   public User getUser() {
     return this.user;
@@ -67,5 +108,9 @@ public class Order {
 
   public void setUser(User user) {
     this.user = user;
+  }
+
+  public Integer getId() {
+    return this.id;
   }
 }

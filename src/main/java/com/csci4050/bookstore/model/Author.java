@@ -2,6 +2,8 @@ package com.csci4050.bookstore.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,7 +26,7 @@ public class Author {
   @Column(name = "name")
   private String name;
 
-  @ManyToMany
+  @ManyToMany(cascade = CascadeType.REMOVE)
   @JoinTable(
       name = "author_books",
       joinColumns = @JoinColumn(name = "author_id"),
