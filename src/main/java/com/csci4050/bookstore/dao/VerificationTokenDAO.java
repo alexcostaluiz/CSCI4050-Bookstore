@@ -34,9 +34,9 @@ public class VerificationTokenDAO implements DAO<VerificationToken> {
   }
 
   @Override
-  public void save(VerificationToken token) {
+  public Integer save(VerificationToken token) {
     Session session = entityManager.unwrap(Session.class);
-    session.save(token);
+    return (Integer) session.save(token);
   }
 
   @Override
@@ -58,5 +58,10 @@ public class VerificationTokenDAO implements DAO<VerificationToken> {
     VerificationToken desiredToken = query.uniqueResult();
 
     return desiredToken;
+  }
+
+  @Override
+  public void update(VerificationToken t) {
+    return;
   }
 }

@@ -47,9 +47,9 @@ public class PromoDAO implements DAO<Promotion> {
   }
 
   @Override
-  public void save(Promotion p) {
+  public Integer save(Promotion p) {
     Session session = entityManager.unwrap(Session.class);
-    session.save(p);
+    return (Integer) session.save(p);
   }
 
   @Override
@@ -59,6 +59,7 @@ public class PromoDAO implements DAO<Promotion> {
     session.delete(promo);
   }
 
+  @Override
   public void update(Promotion p) {
     Session session = entityManager.unwrap(Session.class);
     session.merge(p);
