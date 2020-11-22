@@ -47,7 +47,7 @@ function Register(props) {
     if (typeof response == 'string') {
       message.error(response);
     } else {
-      message.success("Success!");
+      message.success('Success!');
     }
     setLoading(false);
   };

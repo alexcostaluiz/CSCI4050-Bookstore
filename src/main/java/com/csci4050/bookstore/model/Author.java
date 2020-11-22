@@ -2,7 +2,6 @@ package com.csci4050.bookstore.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;

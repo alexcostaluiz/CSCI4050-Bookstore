@@ -35,42 +35,41 @@ class BookTest {
   @BeforeAll
   public void init() throws Exception {
 
-
-        bookOne =
+    bookOne =
         new Book(
-                "111",
-                LocalDate.of(2011, 1, 1),
-                15,
-                5,
-                2.50,
-                4.12,
-                "Book time",
-                "nope".getBytes(),
-                "description",
-                514,
-                "5th",
-                "UGA Publishing",
-                Arrays.asList(Category.Action),
-                null,
-                Arrays.asList(Tag.BEST_SELLERS));
+            "111",
+            LocalDate.of(2011, 1, 1),
+            15,
+            5,
+            2.50,
+            4.12,
+            "Book time",
+            "nope".getBytes(),
+            "description",
+            514,
+            "5th",
+            "UGA Publishing",
+            Arrays.asList(Category.Action),
+            null,
+            Arrays.asList(Tag.BEST_SELLERS));
 
-        bookTwo =
+    bookTwo =
         new Book(
-                "142",
-                LocalDate.of(2013, 1, 1),
-                25,
-                50,
-                2.50,
-                4.12,
-                "Book ayy",
-                "yes".getBytes(),
-                "another description",
-                412,
-                "5th",
-                "UGA not publishing",
-                Arrays.asList(Category.Action),
-                null,
-                Arrays.asList(Tag.FEATURED));
+            "142",
+            LocalDate.of(2013, 1, 1),
+            25,
+            50,
+            2.50,
+            4.12,
+            "Book ayy",
+            "yes".getBytes(),
+            "another description",
+            412,
+            "5th",
+            "UGA not publishing",
+            Arrays.asList(Category.Action),
+            null,
+            Arrays.asList(Tag.FEATURED));
     // temporarily create books in database
     bookService.save(bookOne);
     bookService.save(bookTwo);

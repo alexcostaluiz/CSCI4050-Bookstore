@@ -13,7 +13,7 @@ const errorMapping = {
   'User is disabled': 'Please verify your email before signing in',
   'User account is locked': 'Your account has been suspended',
   409: 'User account already exists.',
-  400: 'User account has not been created yet.'
+  400: 'User account has not been created yet.',
 };
 
 const protectedEndpoints = ['/profile', '/admin', '/orderHistory'];

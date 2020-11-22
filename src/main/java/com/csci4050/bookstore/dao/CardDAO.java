@@ -48,6 +48,5 @@ public class CardDAO implements DAO<Card> {
   public void update(Card card) {
     Session session = entityManager.unwrap(Session.class);
     session.update(card);
-
   }
 }

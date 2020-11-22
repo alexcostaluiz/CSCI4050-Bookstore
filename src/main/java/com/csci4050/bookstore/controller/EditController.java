@@ -1,13 +1,13 @@
 package com.csci4050.bookstore.controller;
 
+import com.csci4050.bookstore.dto.CartDto;
+import com.csci4050.bookstore.dto.OrderDTO;
+import com.csci4050.bookstore.dto.PasswordDto;
+import com.csci4050.bookstore.events.OrderEvent;
 import com.csci4050.bookstore.model.Address;
 import com.csci4050.bookstore.model.Book;
 import com.csci4050.bookstore.model.Card;
-import com.csci4050.bookstore.dto.CartDto;
-import com.csci4050.bookstore.dto.OrderDTO;
 import com.csci4050.bookstore.model.Order;
-import com.csci4050.bookstore.dto.PasswordDto;
-import com.csci4050.bookstore.events.OrderEvent;
 import com.csci4050.bookstore.model.User;
 import com.csci4050.bookstore.service.AddressService;
 import com.csci4050.bookstore.service.CardService;
@@ -18,7 +18,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -42,18 +41,12 @@ public class EditController {
   @Resource(name = "authenticationManager")
   AuthenticationManager authManager;
 
-  @Autowired
-  private UserService userService;
-  @Autowired
-  private CardService cardService;
-  @Autowired
-  private AddressService addressService;
-  @Autowired
-  private OrderService orderService;
-  @Autowired
-  ObjectMapper objectMapper = new ObjectMapper();
-  @Autowired
-  private ApplicationEventPublisher eventPublisher;
+  @Autowired private UserService userService;
+  @Autowired private CardService cardService;
+  @Autowired private AddressService addressService;
+  @Autowired private OrderService orderService;
+  @Autowired ObjectMapper objectMapper = new ObjectMapper();
+  @Autowired private ApplicationEventPublisher eventPublisher;
   /* These all will interface with service files */
 
   @PostMapping(value = "/saveAddress", produces = "application/json")
@@ -189,8 +182,8 @@ public class EditController {
             userService.updateUser(userObj);
 
             // reauths user after successful pw change
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getUsername(),
-                dto.getNewPassword());
+            UsernamePasswordAuthenticationToken token =
+                new UsernamePasswordAuthenticationToken(user.getUsername(), dto.getNewPassword());
             auth = authManager.authenticate(token);
             SecurityContextHolder.getContext().setAuthentication(auth);
 
@@ -223,11 +216,13 @@ public class EditController {
 
   /**
    * Clears the cart and saves the order
-   * 
+   *
    * @throws JsonProcessingException
    * @throws JsonMappingException
    */
-  @PostMapping(value = "/checkout", consumes = { "application/json" })
+  @PostMapping(
+      value = "/checkout",
+      consumes = {"application/json"})
   public void checkout(@RequestBody OrderDTO dto) {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     if (auth != null) {
@@ -235,15 +230,15 @@ public class EditController {
       if (principal instanceof UserDetails) {
         User user = userService.getUser(((UserDetails) principal).getUsername());
 
-        //reset cart, add order to history and send email
-        if(user.getCart() != null && user.getCart().size() > 0){
+        // reset cart, add order to history and send email
+        if (user.getCart() != null && user.getCart().size() > 0) {
           Map<Book, Integer> cart = user.getCart();
 
-          //reset cart
+          // reset cart
           user.setCart(null);
           userService.updateUser(user);
 
-          //setup order object to be persisted
+          // setup order object to be persisted
           Order order = new Order();
           order.setAddress(dto.getAddress());
           order.setOrderCart(cart);
@@ -252,18 +247,15 @@ public class EditController {
           order.setPromo(dto.getPromo());
           order.setUser(user);
 
-          //persist order
+          // persist order
           int orderId = orderService.save(order);
 
-          
-          
-
-          //send email
+          // send email
           eventPublisher.publishEvent(new OrderEvent(orderService.get(orderId), user));
         } else {
           throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cart is empty.");
         }
-      } 
+      }
     }
   }
 }

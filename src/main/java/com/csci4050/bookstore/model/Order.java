@@ -51,7 +51,7 @@ public class Order {
   @Column(name = "order_date", nullable = false, updatable = false)
   @JsonFormat(pattern = "yyyy-MM-dd")
   private LocalDate orderDate;
-  
+
   @ElementCollection
   @CollectionTable(
       name = "order_cart",
@@ -61,7 +61,7 @@ public class Order {
   @JsonDeserialize(keyUsing = BookMapDeserializer.class)
   @JsonSerialize(keyUsing = BookMapSerializer.class)
   private Map<Book, Integer> orderCart;
-  
+
   public Address getAddress() {
     return this.address;
   }
@@ -93,14 +93,14 @@ public class Order {
   public void setOrderDate(LocalDate orderDate) {
     this.orderDate = orderDate;
   }
-  
-  public Map<Book, Integer> getOrderCart() {
-		return this.orderCart;
-	}
 
-  public void setOrderCart(Map<Book,Integer> orderCart) {
-		this.orderCart = orderCart;
-	}
+  public Map<Book, Integer> getOrderCart() {
+    return this.orderCart;
+  }
+
+  public void setOrderCart(Map<Book, Integer> orderCart) {
+    this.orderCart = orderCart;
+  }
 
   public User getUser() {
     return this.user;
