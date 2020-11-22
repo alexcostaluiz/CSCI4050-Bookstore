@@ -50,10 +50,10 @@ public class UserService implements UserDetailsService {
   }
 
   @Transactional
-  public void createUser(User user) {
+  public Integer createUser(User user) {
     BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
     user.setPassword(bcrypt.encode(user.getPassword()));
-    dao.save(user);
+    return dao.save(user);
   }
 
   @Transactional
