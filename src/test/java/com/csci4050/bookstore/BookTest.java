@@ -2,7 +2,6 @@ package com.csci4050.bookstore;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.csci4050.bookstore.model.Author;
 import com.csci4050.bookstore.model.Book;
 import com.csci4050.bookstore.model.Category;
 import com.csci4050.bookstore.model.Tag;
@@ -35,43 +34,43 @@ class BookTest {
 
   @BeforeAll
   public void init() throws Exception {
-    Author author = new Author();
-    author.setName("Lennon Scariano");
-    bookOne =
-        new Book(
-            "111",
-            LocalDate.of(2011, 1, 1),
-            15,
-            5,
-            2.50,
-            4.12,
-            "Book time",
-            "nope".getBytes(),
-            "description",
-            514,
-            "5th",
-            "UGA Publishing",
-            Arrays.asList(Category.Action),
-            Arrays.asList(author),
-            Arrays.asList(Tag.BEST_SELLERS));
 
-    bookTwo =
+
+        bookOne =
         new Book(
-            "142",
-            LocalDate.of(2013, 1, 1),
-            25,
-            50,
-            2.50,
-            4.12,
-            "Book ayy",
-            "yes".getBytes(),
-            "another description",
-            412,
-            "5th",
-            "UGA not publishing",
-            Arrays.asList(Category.Action),
-            Arrays.asList(author),
-            Arrays.asList(Tag.FEATURED));
+                "111",
+                LocalDate.of(2011, 1, 1),
+                15,
+                5,
+                2.50,
+                4.12,
+                "Book time",
+                "nope".getBytes(),
+                "description",
+                514,
+                "5th",
+                "UGA Publishing",
+                Arrays.asList(Category.Action),
+                null,
+                Arrays.asList(Tag.BEST_SELLERS));
+
+        bookTwo =
+        new Book(
+                "142",
+                LocalDate.of(2013, 1, 1),
+                25,
+                50,
+                2.50,
+                4.12,
+                "Book ayy",
+                "yes".getBytes(),
+                "another description",
+                412,
+                "5th",
+                "UGA not publishing",
+                Arrays.asList(Category.Action),
+                null,
+                Arrays.asList(Tag.FEATURED));
     // temporarily create books in database
     bookService.save(bookOne);
     bookService.save(bookTwo);
