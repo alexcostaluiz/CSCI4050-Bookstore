@@ -1,7 +1,7 @@
 package com.csci4050.bookstore.controller;
 
 import com.csci4050.bookstore.model.ActivityStatus;
-import com.csci4050.bookstore.model.PasswordDto;
+import com.csci4050.bookstore.dto.PasswordDto;
 import com.csci4050.bookstore.model.TokenType;
 import com.csci4050.bookstore.model.User;
 import com.csci4050.bookstore.model.VerificationToken;
