@@ -150,4 +150,21 @@ public class Listener {
       }
     }
   }
+
+  @EventListener
+  private void emailOrder(OrderEvent event) {
+    String recipientAddress = event.getUser().getEmailAddress();
+    String subject = "Order confirmation";
+    String message = "Your order has been sent! Your order no is: " + event.getOrder().getId();
+    SimpleMailMessage email = new SimpleMailMessage();
+    email.setTo(recipientAddress);
+    email.setSubject(subject);
+    email.setText(message);
+    try {
+      mailSender.send(email);
+    } catch (MailException e) {
+      e.printStackTrace();
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Mail failed to send");
+    }
+  }
 }
