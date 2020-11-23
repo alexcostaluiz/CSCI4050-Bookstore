@@ -95,41 +95,6 @@ public class Book {
   @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
   private List<Review> reviews;
 
-  public Book() {}
-
-  public Book(
-      String isbn,
-      LocalDate pubDate,
-      int stock,
-      int minThresh,
-      Double buyPrice,
-      Double sellPrice,
-      String title,
-      byte[] coverPic,
-      String description,
-      int pages,
-      String edition,
-      String publisher,
-      List<Category> categories,
-      List<Author> authors,
-      List<Tag> tags) {
-    this.isbn = isbn;
-    this.pubDate = pubDate;
-    this.stock = stock;
-    this.minThresh = minThresh;
-    this.buyPrice = buyPrice;
-    this.sellPrice = sellPrice;
-    this.title = title;
-    this.coverPic = coverPic;
-    this.description = description;
-    this.pages = pages;
-    this.edition = edition;
-    this.publisher = publisher;
-    this.categories = categories;
-    this.authors = authors;
-    this.tags = tags;
-  }
-
   public Integer getId() {
     return this.id;
   }
@@ -198,11 +163,11 @@ public class Book {
     this.title = title;
   }
 
-  public byte[] getCoverPicPath() {
+  public byte[] getCoverPic() {
     return this.coverPic;
   }
 
-  public void setCoverPicPath(byte[] coverPic) {
+  public void setCoverPic(byte[] coverPic) {
     this.coverPic = coverPic;
   }
 
@@ -268,6 +233,14 @@ public class Book {
 
   public Promotion getPromo() {
     return this.promo;
+  }
+
+  public List<Review> getReviews() {
+    return this.reviews;
+  }
+
+  public void setReviews(List<Review> reviews) {
+    this.reviews = reviews;
   }
 
   @Override
