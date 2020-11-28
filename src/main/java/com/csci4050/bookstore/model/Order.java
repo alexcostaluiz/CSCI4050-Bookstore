@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Map;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -49,8 +49,8 @@ public class Order {
   private Promotion promo;
 
   @Column(name = "order_date", nullable = false, updatable = false)
-  @JsonFormat(pattern = "yyyy-MM-dd")
-  private LocalDate orderDate;
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  private LocalDateTime orderDate;
 
   @ElementCollection
   @CollectionTable(
@@ -86,11 +86,11 @@ public class Order {
     this.promo = promo;
   }
 
-  public LocalDate getOrderDate() {
+  public LocalDateTime getOrderDate() {
     return this.orderDate;
   }
 
-  public void setOrderDate(LocalDate orderDate) {
+  public void setOrderDate(LocalDateTime orderDate) {
     this.orderDate = orderDate;
   }
 
