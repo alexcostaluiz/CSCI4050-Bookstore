@@ -20,7 +20,7 @@ public class OrderDAO implements DAO<Order> {
   @Override
   public List<Order> get() {
     Session session = entityManager.unwrap(Session.class);
-    Query<Order> query = session.createQuery("FROM card", Order.class);
+    Query<Order> query = session.createQuery("FROM order", Order.class);
     List<Order> orders = query.getResultList();
     return orders;
   }
