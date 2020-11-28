@@ -56,8 +56,7 @@ public class UserDAO implements DAO<User> {
   @Override
   public Integer save(User user) {
     Session session = entityManager.unwrap(Session.class);
-    int id = (Integer) session.save(user);
-    return id;
+    return (Integer) session.save(user);
   }
 
   /* Delete a user */
