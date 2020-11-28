@@ -1,5 +1,6 @@
 package com.csci4050.bookstore.model;
 
+import com.csci4050.bookstore.dto.ReviewDto;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,8 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import com.csci4050.bookstore.dto.ReviewDto;
 
 @Entity
 @Table(name = "review")
@@ -59,7 +58,7 @@ public class Review {
   public Integer getId() {
     return this.id;
   }
-  
+
   private void setId(Integer id) {
     this.id = id;
   }

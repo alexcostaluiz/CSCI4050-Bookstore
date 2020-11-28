@@ -12,40 +12,40 @@ import javax.persistence.Table;
 @Table(name = "author_book_association")
 @IdClass(AuthorBookId.class)
 public class AuthorBookAssociation {
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "author_id", referencedColumnName = "id")
-    private Author author;
+  @Id
+  @ManyToOne
+  @JoinColumn(name = "author_id", referencedColumnName = "id")
+  private Author author;
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "book_id", referencedColumnName = "id")
-    private Book book;
+  @Id
+  @ManyToOne
+  @JoinColumn(name = "book_id", referencedColumnName = "id")
+  private Book book;
 
-    @Column(name = "role")
-    private String role;
-    
-    public Author getAuthor() {
-        return this.author;
-    }
+  @Column(name = "role")
+  private String role;
 
-    public void setAuthor(Author author) {
-        this.author = author;
-    }
+  public Author getAuthor() {
+    return this.author;
+  }
 
-    public Book getBook() {
-        return this.book;
-    }
+  public void setAuthor(Author author) {
+    this.author = author;
+  }
 
-    public void setBook(Book book) {
-        this.book = book;
-    }
+  public Book getBook() {
+    return this.book;
+  }
 
-    public String getRole() {
-        return this.role;
-    }
+  public void setBook(Book book) {
+    this.book = book;
+  }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
+  public String getRole() {
+    return this.role;
+  }
+
+  public void setRole(String role) {
+    this.role = role;
+  }
 }

@@ -40,7 +40,7 @@ public class BookController {
     try {
       List<Book> books = bookService.get(filters);
       List<BookDto> dtos = new ArrayList<BookDto>();
-      for(Book book : books) {
+      for (Book book : books) {
         dtos.add(Book.bookToDto(book));
       }
       return dtos;
@@ -61,10 +61,10 @@ public class BookController {
     try {
       Book book = Book.dtoToBook(bookDto);
 
-      for(AuthorBookAssociation assoc : book.getAuthors()) {
-        
+      for (AuthorBookAssociation assoc : book.getAuthors()) {
+
         Author author = assoc.getAuthor();
-        if(author.getId() == null || authorService.get(author.getId()) == null){ //create author
+        if (author.getId() == null || authorService.get(author.getId()) == null) { // create author
           authorService.save(author);
         }
       }
@@ -72,7 +72,7 @@ public class BookController {
     } catch (DataIntegrityViolationException e) {
       e.printStackTrace();
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Book isbn already exists.");
-    } catch(NullPointerException e) {
+    } catch (NullPointerException e) {
       e.printStackTrace();
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Authors must be non-null");
     }
@@ -86,11 +86,10 @@ public class BookController {
     } catch (DataIntegrityViolationException e) {
       e.printStackTrace();
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Book isbn already exists.");
-    } catch(NullPointerException e) {
+    } catch (NullPointerException e) {
       e.printStackTrace();
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Authors must be non-null");
     }
-    
   }
 
   @PostMapping(value = "/archive", consumes = "application/json", produces = "application/json")

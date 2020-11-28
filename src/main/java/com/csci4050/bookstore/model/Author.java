@@ -24,7 +24,7 @@ public class Author {
 
   @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
   private List<AuthorBookAssociation> books;
-  
+
   @Override
   public String toString() {
     return name;

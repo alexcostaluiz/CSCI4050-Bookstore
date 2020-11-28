@@ -1,13 +1,13 @@
 package com.csci4050.bookstore.dto;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import com.csci4050.bookstore.model.Category;
 import com.csci4050.bookstore.model.Promotion;
 import com.csci4050.bookstore.model.Review;
 import com.csci4050.bookstore.model.Tag;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BookDto {
 
@@ -15,6 +15,7 @@ public class BookDto {
 
   @JsonFormat(pattern = "yyyy-MM-dd")
   private LocalDate pubDate;
+
   private String isbn;
   private Integer stock;
   private Integer minThresh;

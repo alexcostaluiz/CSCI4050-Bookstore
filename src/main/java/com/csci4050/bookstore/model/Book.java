@@ -84,8 +84,7 @@ public class Book {
   @CollectionTable(name = "categories", joinColumns = @JoinColumn(name = "id"))
   private List<Category> categories = new ArrayList<Category>();
 
-  @OneToMany(
-      mappedBy = "book", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
   private List<AuthorBookAssociation> authors = new ArrayList<AuthorBookAssociation>();
 
   @Column(name = "tag")
@@ -281,8 +280,8 @@ public class Book {
     book.setStock(dto.getStock());
     book.setTags(dto.getTags());
     book.setTitle(dto.getTitle());
-    List<AuthorBookAssociation> list  = book.getAuthors();
-    for(AuthorDto authorDto : dto.getAuthors()){
+    List<AuthorBookAssociation> list = book.getAuthors();
+    for (AuthorDto authorDto : dto.getAuthors()) {
       Author author = new Author();
       author.setName(authorDto.getName());
 
@@ -291,9 +290,7 @@ public class Book {
       assoc.setAuthor(author);
       assoc.setBook(book);
 
-      
       list.add(assoc);
-      
     }
     book.setAuthors(list);
 
@@ -321,15 +318,15 @@ public class Book {
     dto.setTags(book.getTags());
     dto.setTitle(book.getTitle());
     List<AuthorDto> list = dto.getAuthors();
-    for(AuthorBookAssociation assoc : book.getAuthors()) {
-  
+    for (AuthorBookAssociation assoc : book.getAuthors()) {
+
       AuthorDto authorDto = new AuthorDto();
       authorDto.setName(assoc.getAuthor().getName());
       authorDto.setRole(assoc.getRole());
-      
+
       list.add(authorDto);
     }
-    
+
     dto.setAuthors(list);
     return dto;
   }

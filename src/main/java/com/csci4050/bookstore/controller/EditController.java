@@ -233,7 +233,7 @@ public class EditController {
         // reset cart, add order to history and send email
         if (user.getCart().size() > 0) {
           Map<Book, Integer> cart = user.getCart();
-          
+
           // setup order object to be persisted
           Order order = new Order();
           order.setAddress(dto.getAddress());
@@ -247,7 +247,7 @@ public class EditController {
           cart.clear();
           user.setCart(cart);
           userService.updateUser(user);
-          
+
           // persist order
           int orderId = orderService.save(order);
 

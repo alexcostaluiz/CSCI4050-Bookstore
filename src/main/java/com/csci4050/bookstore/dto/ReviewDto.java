@@ -42,7 +42,7 @@ public class ReviewDto {
   }
 
   public void setStars(Float stars) {
-      this.stars = stars;
+    this.stars = stars;
   }
 
   public String getDescription() {

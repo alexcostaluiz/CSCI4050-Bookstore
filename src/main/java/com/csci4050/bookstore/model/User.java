@@ -82,7 +82,7 @@ public class User {
   @Column(name = "quantity")
   @JsonDeserialize(keyUsing = BookMapDeserializer.class)
   @JsonSerialize(keyUsing = BookMapSerializer.class)
-  private Map<Book, Integer> cart = new HashMap<Book,Integer>();
+  private Map<Book, Integer> cart = new HashMap<Book, Integer>();
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Review> reviews;
