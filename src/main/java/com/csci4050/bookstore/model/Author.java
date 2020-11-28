@@ -1,6 +1,5 @@
 package com.csci4050.bookstore.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -8,9 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -25,17 +22,9 @@ public class Author {
   @Column(name = "name")
   private String name;
 
-  @ManyToMany(cascade = CascadeType.REMOVE)
-  @JoinTable(
-      name = "author_books",
-      joinColumns = @JoinColumn(name = "author_id"),
-      inverseJoinColumns = @JoinColumn(name = "book_id"))
-  @JsonIgnore
-  private List<Book> books;
-
-  @Column(name = "role")
-  private String role;
-
+  @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+  private List<AuthorBookAssociation> books;
+  
   @Override
   public String toString() {
     return name;
@@ -57,11 +46,15 @@ public class Author {
     return this.name;
   }
 
-  public void setBooks(List<Book> books) {
+  public void setBooks(List<AuthorBookAssociation> books) {
     this.books = books;
   }
 
-  public List<Book> getBooks() {
+  public List<AuthorBookAssociation> getBooks() {
     return this.books;
+  }
+
+  public Integer getId() {
+    return this.id;
   }
 }
