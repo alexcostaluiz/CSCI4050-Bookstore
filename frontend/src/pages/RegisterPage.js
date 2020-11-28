@@ -40,6 +40,18 @@ function Register(props) {
     setLoading(false);
   };
 
+  const resend = async (values) => {
+    setLoading(true);
+    delete values.confirm;
+    const response = await auth.resend(values);
+    if (typeof response == 'string') {
+      message.error(response);
+    } else {
+      message.success('Success!');
+    }
+    setLoading(false);
+  };
+
   const content = submitted ? (
     <div className='bookstore-register-container'>
       <Title
@@ -63,7 +75,7 @@ function Register(props) {
         <Button
           type='primary'
           size='large'
-          onClick={() => onFinish(submitted)}
+          onClick={() => resend(submitted)}
           loading={loading}>
           RESEND EMAIL
         </Button>

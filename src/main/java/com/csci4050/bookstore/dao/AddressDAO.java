@@ -33,9 +33,9 @@ public class AddressDAO implements DAO<Address> {
 
   /* Save address */
   @Override
-  public void save(Address address) {
+  public Integer save(Address address) {
     Session session = entityManager.unwrap(Session.class);
-    session.saveOrUpdate(address);
+    return (Integer) session.save(address);
   }
 
   /* Delete an address */
@@ -54,5 +54,11 @@ public class AddressDAO implements DAO<Address> {
     }
 
     session.delete(address);
+  }
+
+  @Override
+  public void update(Address address) {
+    Session session = entityManager.unwrap(Session.class);
+    session.update(address);
   }
 }

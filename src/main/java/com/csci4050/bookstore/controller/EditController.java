@@ -1,18 +1,27 @@
 package com.csci4050.bookstore.controller;
 
+import com.csci4050.bookstore.dto.CartDto;
+import com.csci4050.bookstore.dto.OrderDto;
+import com.csci4050.bookstore.dto.PasswordDto;
+import com.csci4050.bookstore.events.OrderEvent;
 import com.csci4050.bookstore.model.Address;
+import com.csci4050.bookstore.model.Book;
 import com.csci4050.bookstore.model.Card;
-import com.csci4050.bookstore.model.CartDto;
-import com.csci4050.bookstore.model.PasswordDto;
+import com.csci4050.bookstore.model.Order;
 import com.csci4050.bookstore.model.User;
 import com.csci4050.bookstore.service.AddressService;
 import com.csci4050.bookstore.service.CardService;
+import com.csci4050.bookstore.service.OrderService;
 import com.csci4050.bookstore.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,6 +32,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/edit")
@@ -34,7 +44,9 @@ public class EditController {
   @Autowired private UserService userService;
   @Autowired private CardService cardService;
   @Autowired private AddressService addressService;
+  @Autowired private OrderService orderService;
   @Autowired ObjectMapper objectMapper = new ObjectMapper();
+  @Autowired private ApplicationEventPublisher eventPublisher;
   /* These all will interface with service files */
 
   @PostMapping(value = "/saveAddress", produces = "application/json")
@@ -198,6 +210,52 @@ public class EditController {
         User user = userService.getUser(((UserDetails) principal).getUsername());
         user.setCart(cart.getBooks());
         userService.updateUser(user);
+      }
+    }
+  }
+
+  /**
+   * Clears the cart and saves the order
+   *
+   * @throws JsonProcessingException
+   * @throws JsonMappingException
+   */
+  @PostMapping(
+      value = "/checkout",
+      consumes = {"application/json"})
+  public void checkout(@RequestBody OrderDto dto) {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    if (auth != null) {
+      Object principal = auth.getPrincipal();
+      if (principal instanceof UserDetails) {
+        User user = userService.getUser(((UserDetails) principal).getUsername());
+
+        // reset cart, add order to history and send email
+        if (user.getCart().size() > 0) {
+          Map<Book, Integer> cart = user.getCart();
+
+          // setup order object to be persisted
+          Order order = new Order();
+          order.setAddress(dto.getAddress());
+          order.setOrderCart(cart);
+          order.setOrderDate(dto.getOrderDate());
+          order.setPayment(dto.getPayment());
+          order.setPromo(dto.getPromo());
+          order.setUser(user);
+
+          // reset cart
+          cart.clear();
+          user.setCart(cart);
+          userService.updateUser(user);
+
+          // persist order
+          int orderId = orderService.save(order);
+
+          // send email
+          eventPublisher.publishEvent(new OrderEvent(orderService.get(orderId), user));
+        } else {
+          throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cart is empty.");
+        }
       }
     }
   }

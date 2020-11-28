@@ -46,11 +46,12 @@ public class BookDAO implements DAO<Book> {
   }
 
   @Override
-  public void save(Book book) {
+  public Integer save(Book book) {
     Session session = entityManager.unwrap(Session.class);
-    session.save(book);
+    return (Integer) session.save(book);
   }
 
+  @Override
   public void update(Book book) {
     Session session = entityManager.unwrap(Session.class);
     session.update(book);

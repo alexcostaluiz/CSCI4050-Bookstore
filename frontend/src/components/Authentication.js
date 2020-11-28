@@ -13,6 +13,7 @@ const errorMapping = {
   'User is disabled': 'Please verify your email before signing in',
   'User account is locked': 'Your account has been suspended',
   409: 'User account already exists.',
+  400: 'User account has not been created yet.',
 };
 
 const protectedEndpoints = ['/profile', '/admin', '/orderHistory'];
@@ -90,10 +91,25 @@ function Authentication(props) {
     }
   };
 
+  const resend = async (values) => {
+    const response = await fetch('/auth/resendConfirmation', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    });
+
+    if (response.status === 400) {
+      return errorMapping[response.status];
+    }
+  };
+
   const context = {
     signIn,
     signOut,
     register,
+    resend,
     user,
     fetchUser,
   };

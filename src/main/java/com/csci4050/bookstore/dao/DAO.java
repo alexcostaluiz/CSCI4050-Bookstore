@@ -7,7 +7,9 @@ public interface DAO<T> {
 
   T get(int id);
 
-  void save(T t);
+  Integer save(T t);
 
   void delete(int id);
+
+  void update(T t);
 }
