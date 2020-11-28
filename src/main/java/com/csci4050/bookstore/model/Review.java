@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.csci4050.bookstore.dto.ReviewDto;
+
 @Entity
 @Table(name = "review")
 public class Review {
@@ -19,7 +21,7 @@ public class Review {
   private Integer id;
 
   @Column(name = "stars")
-  private Integer stars;
+  private Float stars;
 
   @Column(name = "description")
   private String description;
@@ -27,8 +29,8 @@ public class Review {
   @Column(name = "spoiler")
   private boolean containsSpoilers;
 
-  @Column(name = "reccomended")
-  private boolean reccomended;
+  @Column(name = "recommended")
+  private boolean recommended;
 
   @ManyToOne
   @JoinColumn(name = "book_id", nullable = false)
@@ -45,20 +47,20 @@ public class Review {
   public Integer getId() {
     return this.id;
   }
-
-  public void setId(Integer id) {
+  
+  private void setId(Integer id) {
     this.id = id;
   }
 
-  public Integer getStars() {
+  public Float getStars() {
     return this.stars;
   }
 
-  public void setStars(Integer stars) throws Exception {
-    if (stars >= 0 && stars <= 5) {
+  public void setStars(Float stars) throws Exception {
+    if (stars >= 0 && stars <= 5 && stars % 0.5 == 0) {
       this.stars = stars;
     } else {
-      throw new Exception("Star number > 5 or < 0");
+      throw new Exception("Incorrect star number");
     }
   }
 
@@ -78,11 +80,35 @@ public class Review {
     this.containsSpoilers = containsSpoilers;
   }
 
-  public boolean isReccomended() {
-    return this.reccomended;
+  public boolean isRecommended() {
+    return this.recommended;
   }
 
-  public void setReccomended(boolean reccomended) {
-    this.reccomended = reccomended;
+  public void setRecommended(boolean recommended) {
+    this.recommended = recommended;
+  }
+
+  public static Review dtoToReview(ReviewDto dto) throws Exception {
+    Review review = new Review();
+    review.setId(dto.getId());
+    review.setBook(dto.getBook());
+    review.setContainsSpoilers(dto.containsSpoilers());
+    review.setDescription(dto.getDescription());
+    review.setRecommended(dto.isRecommended());
+    review.setStars(dto.getStars());
+
+    return review;
+  }
+
+  public static ReviewDto reviewToDto(Review review) throws Exception {
+    ReviewDto dto = new ReviewDto();
+    dto.setId(review.getId());
+    dto.setBook(review.getBook());
+    dto.setContainsSpoilers(review.containsSpoilers());
+    dto.setDescription(review.getDescription());
+    dto.setRecommended(review.isRecommended());
+    dto.setStars(review.getStars());
+
+    return dto;
   }
 }
