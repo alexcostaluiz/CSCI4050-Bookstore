@@ -1,6 +1,7 @@
 package com.csci4050.bookstore.dto;
 
 import com.csci4050.bookstore.model.Book;
+import com.csci4050.bookstore.model.User;
 
 public class ReviewDto {
 
@@ -10,6 +11,15 @@ public class ReviewDto {
   private boolean containsSpoilers;
   private boolean recommended;
   private Book book;
+  private User user;
+
+  public User getUser() {
+    return this.user;
+  }
+
+  public void setUser(User user) {
+    this.user = user;
+  }
 
   public Integer getId() {
     return this.id;

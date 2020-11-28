@@ -84,6 +84,9 @@ public class User {
   @JsonSerialize(keyUsing = BookMapSerializer.class)
   private Map<Book, Integer> cart = new HashMap<Book,Integer>();
 
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+  private List<Review> reviews;
+
   public Integer getId() {
     return this.id;
   }

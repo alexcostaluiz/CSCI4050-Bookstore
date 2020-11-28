@@ -36,6 +36,18 @@ public class Review {
   @JoinColumn(name = "book_id", nullable = false)
   private Book book;
 
+  @ManyToOne
+  @JoinColumn(name = "user_id", nullable = false)
+  private User user;
+
+  public User getUser() {
+    return this.user;
+  }
+
+  public void setUser(User user) {
+    this.user = user;
+  }
+
   public Book getBook() {
     return this.book;
   }
@@ -92,6 +104,7 @@ public class Review {
     Review review = new Review();
     review.setId(dto.getId());
     review.setBook(dto.getBook());
+    review.setUser(dto.getUser());
     review.setContainsSpoilers(dto.containsSpoilers());
     review.setDescription(dto.getDescription());
     review.setRecommended(dto.isRecommended());
@@ -104,6 +117,7 @@ public class Review {
     ReviewDto dto = new ReviewDto();
     dto.setId(review.getId());
     dto.setBook(review.getBook());
+    dto.setUser(review.getUser());
     dto.setContainsSpoilers(review.containsSpoilers());
     dto.setDescription(review.getDescription());
     dto.setRecommended(review.isRecommended());
