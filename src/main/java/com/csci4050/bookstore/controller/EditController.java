@@ -1,7 +1,7 @@
 package com.csci4050.bookstore.controller;
 
 import com.csci4050.bookstore.dto.CartDto;
-import com.csci4050.bookstore.dto.OrderDTO;
+import com.csci4050.bookstore.dto.OrderDto;
 import com.csci4050.bookstore.dto.PasswordDto;
 import com.csci4050.bookstore.events.OrderEvent;
 import com.csci4050.bookstore.model.Address;
@@ -223,7 +223,7 @@ public class EditController {
   @PostMapping(
       value = "/checkout",
       consumes = {"application/json"})
-  public void checkout(@RequestBody OrderDTO dto) {
+  public void checkout(@RequestBody OrderDto dto) {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     if (auth != null) {
       Object principal = auth.getPrincipal();
@@ -231,13 +231,9 @@ public class EditController {
         User user = userService.getUser(((UserDetails) principal).getUsername());
 
         // reset cart, add order to history and send email
-        if (user.getCart() != null && user.getCart().size() > 0) {
+        if (user.getCart().size() > 0) {
           Map<Book, Integer> cart = user.getCart();
-
-          // reset cart
-          user.setCart(null);
-          userService.updateUser(user);
-
+          
           // setup order object to be persisted
           Order order = new Order();
           order.setAddress(dto.getAddress());
@@ -247,6 +243,11 @@ public class EditController {
           order.setPromo(dto.getPromo());
           order.setUser(user);
 
+          // reset cart
+          cart.clear();
+          user.setCart(cart);
+          userService.updateUser(user);
+          
           // persist order
           int orderId = orderService.save(order);
 
