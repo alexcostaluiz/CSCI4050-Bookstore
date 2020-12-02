@@ -9,6 +9,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Lob;
+
 public class BookDto {
 
   private Integer id;
@@ -22,7 +24,10 @@ public class BookDto {
   private Double buyPrice;
   private Double sellPrice;
   private String title;
+
+  @Lob
   private byte[] coverPic;
+  
   private String description;
   private Integer pages;
   private String edition;

@@ -1,11 +1,16 @@
 package com.csci4050.bookstore.util;
 
+import com.csci4050.bookstore.model.Author;
+import com.csci4050.bookstore.model.Book;
 import com.csci4050.bookstore.model.Category;
+import com.csci4050.bookstore.model.Tag;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -22,16 +27,17 @@ import javax.persistence.criteria.Root;
  * must be enclosed by quotes Symbols in order of highest precedence to lowest: , - OR ; - AND == -
  * EQ (This and the rest are of equal precedence) != - NE > - GT < - LT >= - GTE <= - LTE
  */
-public class Filter<T> {
+public class Filter {
 
-  public static <T> CriteriaQuery<T> getQuery(
-      Map<String, String> filters, CriteriaBuilder cb, Class<T> type)
+
+  public static CriteriaQuery<Book> getQuery(
+      Map<String, String> filters, CriteriaBuilder cb, Class<Book> type)
       throws IllegalArgumentException, NoSuchFieldException {
 
     String orderBy = filters.get("orderBy");
     String filter = filters.get("filter");
-    CriteriaQuery<T> q = cb.createQuery(type);
-    Root<T> c = q.from(type);
+    CriteriaQuery<Book> q = cb.createQuery(type);
+    Root<Book> c = q.from(type);
 
     if (filter != null) {
       // string is split by space, but quoted entries are kept in tact
@@ -50,8 +56,8 @@ public class Filter<T> {
     return q;
   }
 
-  private static <T> Predicate parseFilter(
-      String[] filter, CriteriaBuilder cb, Root<T> c, Class<T> type)
+  private static Predicate parseFilter(
+      String[] filter, CriteriaBuilder cb, Root<Book> c, Class<Book> type)
       throws IllegalArgumentException, NoSuchFieldException {
     for (int i = 0; i < filter.length; i++) {
       filter[i] = filter[i].replaceAll("^\"|\"$", "");
@@ -84,18 +90,30 @@ public class Filter<T> {
     throw new IllegalArgumentException();
   }
 
-  private static <T> Predicate base(String[] filter, CriteriaBuilder cb, Root<T> c, Class<T> type)
-      throws IllegalArgumentException, NoSuchFieldException {
+  private static Predicate base(String[] filter, CriteriaBuilder cb, Root<Book> c, Class<Book> type)
+      throws NoSuchFieldException {
     Object value = filter[2];
-
     // convert types that arent string/number
     switch (filter[0]) {
       case "categories":
-        value = Category.valueOf(filter[2]);
+        try {
+          value = Category.valueOf(filter[2]);
+        } catch(IllegalArgumentException e){
+          return cb.equal(c.get("id"), -1);
+        }
         break;
-    }
-    for (String s : filter) {
-      System.out.println(s);
+      case "tags":
+        try {
+          value = Tag.valueOf(filter[2]);
+        } catch(IllegalArgumentException e){
+          return cb.equal(c.get("id"), -1);
+        }
+        break;
+      case "author": 
+        Join<Book, Author> join = c.join("authors", JoinType.LEFT);
+        filter[0] = "author";
+        return joinAuthorBase(filter, cb, join, type);
+
     }
     // base case
     if (filter[1].equals(">")) {
@@ -121,6 +139,37 @@ public class Filter<T> {
       } else {
         return cb.notEqual(c.get(filter[0]).as(String.class), (String) value);
       }
+    } else if (filter[1].equals("<>")) { //like operator
+      // check if attribute returns list
+      if (Collection.class.isAssignableFrom(type.getDeclaredField(filter[0]).getType())) {
+        return cb.isMember(value, c.get(filter[0]));
+      } else {
+        return cb.like(c.get(filter[0]).as(String.class), (String) value);
+      }
+    } else {
+      throw new IllegalArgumentException();
+    }
+  }
+
+  private static Predicate joinAuthorBase(String[] filter, CriteriaBuilder cb, Join<Book, Author> c, Class<Book> type)
+      throws NoSuchFieldException {
+    String value = filter[2];
+    // base case
+    if (filter[1].equals(">")) {
+      return cb.greaterThan(c.get(filter[0]).get("name").as(String.class), value);
+    } else if (filter[1].equals(">=")) {
+      return cb.greaterThanOrEqualTo(c.get(filter[0]).get("name").as(String.class), value);
+    } else if (filter[1].equals("<")) {
+      return cb.lessThan(c.get(filter[0]).get("name").as(String.class), value);
+    } else if (filter[1].equals("<=")) {
+      return cb.lessThanOrEqualTo(c.get(filter[0]).get("name").as(String.class), value);
+    } else if (filter[1].equals("==")) {
+        return cb.equal(c.get(filter[0]).get("name").as(String.class), value);
+
+    } else if (filter[1].equals("!=")) {
+      return cb.notEqual(c.get(filter[0]).get("name").as(String.class), value);
+    } else if (filter[1].equals("<>")) { //like operator
+      return cb.like(c.get(filter[0]).get("name").as(String.class), value);
     } else {
       throw new IllegalArgumentException();
     }
