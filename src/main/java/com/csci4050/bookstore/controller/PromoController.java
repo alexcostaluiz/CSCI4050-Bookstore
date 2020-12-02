@@ -1,13 +1,11 @@
 package com.csci4050.bookstore.controller;
 
 import com.csci4050.bookstore.events.EmailPromoEvent;
-import com.csci4050.bookstore.exceptions.FilterException;
 import com.csci4050.bookstore.model.Book;
 import com.csci4050.bookstore.model.Promotion;
 import com.csci4050.bookstore.service.BookService;
 import com.csci4050.bookstore.service.PromoService;
 import java.util.List;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -34,14 +31,8 @@ public class PromoController {
   }
 
   @GetMapping("/get")
-  public List<Promotion> getPromos(@RequestParam Map<String, String> filters) {
-    try {
-      return promoService.get(filters);
-    } catch (NoSuchFieldException e) {
-      throw new FilterException();
-    } catch (IllegalArgumentException e) {
-      throw new FilterException();
-    }
+  public List<Promotion> getPromos() {
+    return promoService.get();
   }
 
   /**
