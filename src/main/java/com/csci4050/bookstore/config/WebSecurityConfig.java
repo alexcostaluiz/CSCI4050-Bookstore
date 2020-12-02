@@ -31,7 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     http.csrf()
         .disable()
         .authorizeRequests()
-        .antMatchers("/profile", "/checkout", "/logout", "/edit/**")
+        .antMatchers("/profile", "/checkout", "/logout", "/edit/**", "/review/**", "/cart/**")
         .authenticated()
         .antMatchers(
             "/admin/**",
@@ -43,7 +43,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/promos/delete",
             "/promos/create",
             "/promos/email",
-            "/users/**")
+            "/users/**",
+            "/authors/**")
         .hasAuthority("ADMIN")
         .antMatchers("/", "/cart", "/b/**")
         .permitAll()

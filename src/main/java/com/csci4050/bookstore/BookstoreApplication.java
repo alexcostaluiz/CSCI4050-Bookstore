@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
+@EnableScheduling
 public class BookstoreApplication {
 
   @Autowired private ObjectMapper objectMapper;
@@ -34,16 +36,7 @@ public class BookstoreApplication {
     return new WebMvcConfigurer() {
       @Override
       public void addCorsMappings(CorsRegistry registry) {
-        registry
-            .addMapping("/**")
-            .allowedOrigins(
-                "http://localhost:8080",
-                "http://localhost:3000",
-                "http://192.168.1.19:3000",
-                "http://192.168.1.19:8080")
-            .allowCredentials(true)
-            .allowedMethods("*")
-            .allowedHeaders("*");
+        registry.addMapping("/**").allowedOrigins("*").allowedMethods("*").allowedHeaders("*");
       }
     };
   }

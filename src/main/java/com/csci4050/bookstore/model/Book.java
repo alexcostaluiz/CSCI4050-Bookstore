@@ -1,9 +1,13 @@
 package com.csci4050.bookstore.model;
 
+import com.csci4050.bookstore.dto.AuthorDto;
+import com.csci4050.bookstore.dto.BookDto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -16,6 +20,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -77,55 +82,25 @@ public class Book {
   @Column(name = "category")
   @Enumerated(EnumType.STRING)
   @CollectionTable(name = "categories", joinColumns = @JoinColumn(name = "id"))
-  private List<Category> categories;
+  private List<Category> categories = new ArrayList<Category>();
 
-  @Column(name = "author")
-  @ElementCollection
-  @CollectionTable(name = "authors", joinColumns = @JoinColumn(name = "id"))
-  private List<String> authors;
+  @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+  private List<AuthorBookAssociation> authors = new ArrayList<AuthorBookAssociation>();
 
   @Column(name = "tag")
   @ElementCollection
   @CollectionTable(name = "tags", joinColumns = @JoinColumn(name = "id"))
-  private List<String> tags;
+  private List<Tag> tags = new ArrayList<Tag>();
 
-  public Book() {}
-
-  public Book(
-      String isbn,
-      LocalDate pubDate,
-      int stock,
-      int minThresh,
-      Double buyPrice,
-      Double sellPrice,
-      String title,
-      byte[] coverPic,
-      String description,
-      int pages,
-      String edition,
-      String publisher,
-      List<Category> categories,
-      List<String> authors,
-      List<String> tags) {
-    this.isbn = isbn;
-    this.pubDate = pubDate;
-    this.stock = stock;
-    this.minThresh = minThresh;
-    this.buyPrice = buyPrice;
-    this.sellPrice = sellPrice;
-    this.title = title;
-    this.coverPic = coverPic;
-    this.description = description;
-    this.pages = pages;
-    this.edition = edition;
-    this.publisher = publisher;
-    this.categories = categories;
-    this.authors = authors;
-    this.tags = tags;
-  }
+  @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+  private List<Review> reviews = new ArrayList<Review>();
 
   public Integer getId() {
     return this.id;
+  }
+
+  public void setId(Integer id) {
+    this.id = id;
   }
 
   public String getIsbn() {
@@ -192,11 +167,11 @@ public class Book {
     this.title = title;
   }
 
-  public byte[] getCoverPicPath() {
+  public byte[] getCoverPic() {
     return this.coverPic;
   }
 
-  public void setCoverPicPath(byte[] coverPic) {
+  public void setCoverPic(byte[] coverPic) {
     this.coverPic = coverPic;
   }
 
@@ -240,19 +215,19 @@ public class Book {
     this.categories = categories;
   }
 
-  public List<String> getAuthors() {
+  public List<AuthorBookAssociation> getAuthors() {
     return this.authors;
   }
 
-  public void setAuthors(List<String> authors) {
+  public void setAuthors(List<AuthorBookAssociation> authors) {
     this.authors = authors;
   }
 
-  public List<String> getTags() {
+  public List<Tag> getTags() {
     return this.tags;
   }
 
-  public void setTags(List<String> tags) {
+  public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
 
@@ -262,6 +237,14 @@ public class Book {
 
   public Promotion getPromo() {
     return this.promo;
+  }
+
+  public List<Review> getReviews() {
+    return this.reviews;
+  }
+
+  public void setReviews(List<Review> reviews) {
+    this.reviews = reviews;
   }
 
   @Override
@@ -275,5 +258,76 @@ public class Book {
   @Override
   public String toString() {
     return "title: " + this.title + "\nid: " + this.id;
+  }
+
+  public static Book dtoToBook(BookDto dto) {
+    Book book = new Book();
+    book.setId(dto.getId());
+    book.setArchived(dto.getArchived());
+    book.setBuyPrice(dto.getBuyPrice());
+    book.setCategories(dto.getCategories());
+    book.setCoverPic(dto.getCoverPic());
+    book.setDescription(dto.getDescription());
+    book.setEdition(dto.getEdition());
+    book.setIsbn(dto.getIsbn());
+    book.setMinThresh(dto.getMinThresh());
+    book.setPages(dto.getPages());
+    book.setPromo(dto.getPromo());
+    book.setPubDate(dto.getPubDate());
+    book.setPublisher(dto.getPublisher());
+    book.setReviews(dto.getReviews());
+    book.setSellPrice(dto.getSellPrice());
+    book.setStock(dto.getStock());
+    book.setTags(dto.getTags());
+    book.setTitle(dto.getTitle());
+    List<AuthorBookAssociation> list = book.getAuthors();
+    for (AuthorDto authorDto : dto.getAuthors()) {
+      Author author = new Author();
+      author.setName(authorDto.getName());
+
+      AuthorBookAssociation assoc = new AuthorBookAssociation();
+      assoc.setRole(authorDto.getRole());
+      assoc.setAuthor(author);
+      assoc.setBook(book);
+
+      list.add(assoc);
+    }
+    book.setAuthors(list);
+
+    return book;
+  }
+
+  public static BookDto bookToDto(Book book) {
+    BookDto dto = new BookDto();
+    dto.setId(book.getId());
+    dto.setArchived(book.isArchived());
+    dto.setBuyPrice(book.getBuyPrice());
+    dto.setCategories(book.getCategories());
+    dto.setCoverPic(book.getCoverPic());
+    dto.setDescription(book.getDescription());
+    dto.setEdition(book.getEdition());
+    dto.setIsbn(book.getIsbn());
+    dto.setMinThresh(book.getMinThresh());
+    dto.setPages(book.getPages());
+    dto.setPromo(book.getPromo());
+    dto.setPubDate(book.getPubDate());
+    dto.setPublisher(book.getPublisher());
+    dto.setReviews(book.getReviews());
+    dto.setSellPrice(book.getSellPrice());
+    dto.setStock(book.getStock());
+    dto.setTags(book.getTags());
+    dto.setTitle(book.getTitle());
+    List<AuthorDto> list = dto.getAuthors();
+    for (AuthorBookAssociation assoc : book.getAuthors()) {
+
+      AuthorDto authorDto = new AuthorDto();
+      authorDto.setName(assoc.getAuthor().getName());
+      authorDto.setRole(assoc.getRole());
+
+      list.add(authorDto);
+    }
+
+    dto.setAuthors(list);
+    return dto;
   }
 }

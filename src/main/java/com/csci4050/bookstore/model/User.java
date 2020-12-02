@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.CascadeType;
@@ -65,7 +66,7 @@ public class User {
   private List<Order> orders;
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-  private List<VerificationToken> token;
+  private List<VerificationToken> tokens;
 
   @ElementCollection
   @Column(name = "roles")
@@ -81,7 +82,10 @@ public class User {
   @Column(name = "quantity")
   @JsonDeserialize(keyUsing = BookMapDeserializer.class)
   @JsonSerialize(keyUsing = BookMapSerializer.class)
-  private Map<Book, Integer> cart;
+  private Map<Book, Integer> cart = new HashMap<Book, Integer>();
+
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+  private List<Review> reviews;
 
   public Integer getId() {
     return this.id;
@@ -207,5 +211,13 @@ public class User {
   @JsonSetter("roles")
   public void setRoles(List<Role> roles) {
     this.roles = roles;
+  }
+
+  public List<VerificationToken> getTokens() {
+    return this.tokens;
+  }
+
+  public void setTokens(List<VerificationToken> tokens) {
+    this.tokens = tokens;
   }
 }

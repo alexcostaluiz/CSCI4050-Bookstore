@@ -31,9 +31,9 @@ public class CardDAO implements DAO<Card> {
 
   /* Save card */
   @Override
-  public void save(Card card) {
+  public Integer save(Card card) {
     Session session = entityManager.unwrap(Session.class);
-    session.saveOrUpdate(card);
+    return (Integer) session.save(card);
   }
 
   /* Delete a card */
@@ -42,5 +42,11 @@ public class CardDAO implements DAO<Card> {
     Session session = entityManager.unwrap(Session.class);
     Card card = session.get(Card.class, id);
     session.delete(card);
+  }
+
+  @Override
+  public void update(Card card) {
+    Session session = entityManager.unwrap(Session.class);
+    session.update(card);
   }
 }

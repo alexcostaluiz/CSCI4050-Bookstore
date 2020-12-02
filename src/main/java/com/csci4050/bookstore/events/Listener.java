@@ -1,8 +1,11 @@
 package com.csci4050.bookstore.events;
 
 import com.csci4050.bookstore.model.Promotion;
+import com.csci4050.bookstore.model.TokenType;
 import com.csci4050.bookstore.model.User;
+import com.csci4050.bookstore.model.VerificationToken;
 import com.csci4050.bookstore.service.PromoService;
+import com.csci4050.bookstore.service.TokenService;
 import com.csci4050.bookstore.service.UserService;
 import java.util.List;
 import java.util.UUID;
@@ -26,14 +29,16 @@ public class Listener {
   @Autowired private JavaMailSender mailSender;
   @Autowired private HttpServletRequest request;
   @Autowired private PromoService promoService;
+  @Autowired private TokenService tokenService;
   @Autowired private SessionRegistry sessionRegistry;
 
   @EventListener
   public void resetPassword(PasswordResetEvent event) {
-    User user = event.getUser();
+    User user = userService.getUser(event.getUser().getEmailAddress());
     String token =
         UUID.randomUUID().toString(); // cryptographically strong pseudo random 128-bit value
-    userService.createVerificationToken(user, token);
+    VerificationToken myToken = new VerificationToken(token, user, TokenType.FORGOT_PW);
+    tokenService.save(myToken);
 
     String recipientAddress = user.getEmailAddress();
     String subject = "Password Reset Link";
@@ -56,14 +61,29 @@ public class Listener {
   @EventListener
   private void confirmRegistration(RegistrationCompletionEvent event) {
 
-    User user = event.getUser();
-    String token =
-        UUID.randomUUID().toString(); // cryptographically strong pseudo random 128-bit value
-    userService.createVerificationToken(user, token);
+    User user = userService.getUser(event.getUser().getEmailAddress());
+    VerificationToken myToken;
+
+    // resend already existing token if user has been saved
+    if (event.isSaved()) {
+      myToken =
+          user.getTokens().stream()
+              .filter(
+                  t -> {
+                    return t.getType() == TokenType.REGISTRATION;
+                  })
+              .findFirst()
+              .get();
+    } else {
+      String token =
+          UUID.randomUUID().toString(); // cryptographically strong pseudo random 128-bit value
+      myToken = new VerificationToken(token, user, TokenType.REGISTRATION);
+      tokenService.save(myToken);
+    }
 
     String recipientAddress = user.getEmailAddress();
     String subject = "Account Registration Confirmation";
-    String confirmationUrl = event.getUrl() + "/event/accountConfirm?token=" + token;
+    String confirmationUrl = event.getUrl() + "/event/accountConfirm?token=" + myToken.getToken();
 
     SimpleMailMessage email = new SimpleMailMessage();
     email.setTo(recipientAddress);
@@ -128,6 +148,23 @@ public class Listener {
           }
         }
       }
+    }
+  }
+
+  @EventListener
+  private void emailOrder(OrderEvent event) {
+    String recipientAddress = event.getUser().getEmailAddress();
+    String subject = "Order confirmation";
+    String message = "Your order has been sent! Your order no is: " + event.getOrder().getId();
+    SimpleMailMessage email = new SimpleMailMessage();
+    email.setTo(recipientAddress);
+    email.setSubject(subject);
+    email.setText(message);
+    try {
+      mailSender.send(email);
+    } catch (MailException e) {
+      e.printStackTrace();
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Mail failed to send");
     }
   }
 }

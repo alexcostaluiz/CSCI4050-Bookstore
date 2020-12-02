@@ -1,6 +1,6 @@
 package com.csci4050.bookstore.dao;
 
-import com.csci4050.bookstore.model.Promotion;
+import com.csci4050.bookstore.model.Order;
 import com.csci4050.bookstore.util.Filter;
 import java.util.List;
 import java.util.Map;
@@ -13,55 +13,56 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class PromoDAO implements DAO<Promotion> {
+public class OrderDAO implements DAO<Order> {
 
   @Autowired private EntityManager entityManager;
 
   @Override
-  public List<Promotion> get() {
+  public List<Order> get() {
     Session session = entityManager.unwrap(Session.class);
-    Query<Promotion> query = session.createQuery("FROM promo", Promotion.class);
-    List<Promotion> promos = query.getResultList();
-    return promos;
+    Query<Order> query = session.createQuery("FROM order", Order.class);
+    List<Order> orders = query.getResultList();
+    return orders;
   }
 
   @Override
-  public Promotion get(int id) {
+  public Order get(int id) {
     Session session = entityManager.unwrap(Session.class);
-    Promotion promo = session.get(Promotion.class, id);
-    return promo;
+    Order order = session.get(Order.class, id);
+    return order;
   }
 
-  public List<Promotion> get(Map<String, String> filters)
+  public List<Order> get(Map<String, String> filters)
       throws IllegalArgumentException, NoSuchFieldException {
+
     Session session = entityManager.unwrap(Session.class);
 
     // start building query
     CriteriaBuilder cb = session.getCriteriaBuilder();
-    CriteriaQuery<Promotion> q = Filter.getQuery(filters, cb, Promotion.class);
+    CriteriaQuery<Order> q = Filter.getQuery(filters, cb, Order.class);
 
     // custom filter
-    Query<Promotion> query = session.createQuery(q);
-    List<Promotion> books = query.getResultList();
-    return books;
+    Query<Order> query = session.createQuery(q);
+    List<Order> orders = query.getResultList();
+    return orders;
   }
 
   @Override
-  public Integer save(Promotion p) {
+  public Integer save(Order order) {
     Session session = entityManager.unwrap(Session.class);
-    return (Integer) session.save(p);
+    return (Integer) session.save(order);
   }
 
   @Override
   public void delete(int id) {
     Session session = entityManager.unwrap(Session.class);
-    Promotion promo = session.get(Promotion.class, id);
-    session.delete(promo);
+    Order order = session.get(Order.class, id);
+    session.delete(order);
   }
 
   @Override
-  public void update(Promotion p) {
+  public void update(Order order) {
     Session session = entityManager.unwrap(Session.class);
-    session.merge(p);
+    session.update(order);
   }
 }

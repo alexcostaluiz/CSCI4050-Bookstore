@@ -75,7 +75,10 @@ public class AuthController {
       User user = objectMapper.readValue(json, User.class);
       String url = request.getContextPath();
       userService.createUser(user);
-      eventPublisher.publishEvent(new RegistrationCompletionEvent(user, request.getLocale(), url));
+
+      eventPublisher.publishEvent(
+          new RegistrationCompletionEvent(user, request.getLocale(), url, false));
+
     } catch (JsonProcessingException e) {
       e.printStackTrace();
     } catch (DataIntegrityViolationException e) {
@@ -83,6 +86,19 @@ public class AuthController {
       throw new ResponseStatusException(HttpStatus.CONFLICT, "Email already exists", e);
     } catch (RuntimeException e) {
       e.printStackTrace();
+    }
+  }
+
+  @PostMapping(value = "/resendConfirmation", consumes = "application/json")
+  public void resend(@RequestBody User user, HttpServletRequest request) {
+    String url = request.getContextPath();
+    user = userService.getUser(user.getEmailAddress());
+
+    if (user == null) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User has not been registered.");
+    } else {
+      eventPublisher.publishEvent(
+          new RegistrationCompletionEvent(user, request.getLocale(), url, true));
     }
   }
 }

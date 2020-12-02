@@ -1,33 +1,55 @@
 import './RegisterPage.less';
 
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
-import { Button, Checkbox, Col, Form, Input, Row, Typography } from 'antd';
+import {
+  Button,
+  Checkbox,
+  Col,
+  Form,
+  Input,
+  Row,
+  Typography,
+  message,
+  Space,
+} from 'antd';
+
+import AuthContext from '../contexts/AuthContext.js';
 
 const { Paragraph, Title } = Typography;
 
 function Register(props) {
   const history = useHistory();
   const [form] = Form.useForm();
-
+  const auth = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(null);
 
   const onFinish = async (values) => {
     setLoading(true);
     delete values.confirm;
-    await fetch('/auth/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(values),
-    });
-
+    const response = await auth.register(values);
+    if (typeof response == 'string') {
+      message.error(response);
+      form.resetFields();
+    } else {
+      setSubmitted(values);
+    }
     setLoading(false);
-    setSubmitted(values);
+  };
+
+  const resend = async (values) => {
+    setLoading(true);
+    delete values.confirm;
+    const response = await auth.resend(values);
+    if (typeof response == 'string') {
+      message.error(response);
+    } else {
+      message.success('Success!');
+    }
+    setLoading(false);
   };
 
   const content = submitted ? (
@@ -43,12 +65,21 @@ function Register(props) {
         email address. Once you have confirmed your email address, you may sign
         in.
       </Paragraph>
-      <Button
-        type='primary'
-        size='large'
-        onClick={() => history.push('/login')}>
-        SIGN IN
-      </Button>
+      <Space>
+        <Button
+          type='primary'
+          size='large'
+          onClick={() => history.push('/login')}>
+          SIGN IN
+        </Button>
+        <Button
+          type='primary'
+          size='large'
+          onClick={() => resend(submitted)}
+          loading={loading}>
+          RESEND EMAIL
+        </Button>
+      </Space>
     </div>
   ) : (
     <div className='bookstore-register-container'>

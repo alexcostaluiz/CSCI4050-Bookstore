@@ -2,9 +2,7 @@ package com.csci4050.bookstore.service;
 
 import com.csci4050.bookstore.dao.UserDAO;
 import com.csci4050.bookstore.dao.UserDetailsImp;
-import com.csci4050.bookstore.dao.VerificationTokenDAO;
 import com.csci4050.bookstore.model.User;
-import com.csci4050.bookstore.model.VerificationToken;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,7 +18,6 @@ import org.springframework.stereotype.Service;
 public class UserService implements UserDetailsService {
 
   @Autowired private UserDAO dao;
-  @Autowired private VerificationTokenDAO tokenDAO;
 
   @Override
   @Transactional
@@ -53,10 +50,10 @@ public class UserService implements UserDetailsService {
   }
 
   @Transactional
-  public void createUser(User user) {
+  public Integer createUser(User user) {
     BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
     user.setPassword(bcrypt.encode(user.getPassword()));
-    dao.save(user);
+    return dao.save(user);
   }
 
   @Transactional
@@ -72,21 +69,5 @@ public class UserService implements UserDetailsService {
   @Transactional
   public void delete(User user) {
     dao.delete(user.getId());
-  }
-
-  @Transactional
-  public VerificationToken getVerificationToken(String token) {
-    return tokenDAO.findByToken(token);
-  }
-
-  @Transactional
-  public void deleteToken(VerificationToken token) {
-    tokenDAO.delete(token.getId());
-  }
-
-  @Transactional
-  public void createVerificationToken(User user, String token) {
-    VerificationToken myToken = new VerificationToken(token, user);
-    tokenDAO.save(myToken);
   }
 }

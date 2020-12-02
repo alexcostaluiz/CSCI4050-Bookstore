@@ -37,7 +37,7 @@ function BookForm(props) {
   const onFinish = async (values) => {
     setLoading(true);
 
-    values.authors = values.authors.map((a) => a.name);
+    //values.authors = values.authors.map((a) => a.name);
     values.pubDate = values.pubDate.format('YYYY-MM-DD');
 
     if (
