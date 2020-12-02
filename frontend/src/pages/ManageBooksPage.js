@@ -140,8 +140,8 @@ function BookTable(props) {
                 <img
                   className='bookstore-book-table-expanded-image'
                   src={
-                    record.coverPicPath
-                      ? 'data:image/*;base64,' + record.coverPicPath
+                    record.coverPic
+                      ? 'data:image/*;base64,' + record.coverPic
                       : 'https://i.stack.imgur.com/1hvpD.jpg'
                   }
                   alt={record.title}
@@ -283,13 +283,13 @@ function ManageBooksPage(props) {
       initialValuesCopy.authors = initialValues.authors.map((a) => ({
         name: a,
       }));
-      if (initialValues.coverPicPath) {
-        initialValuesCopy.coverPicPath = [
+      if (initialValues.coverPic) {
+        initialValuesCopy.coverPic = [
           {
             uid: 0,
             name: 'image',
             status: 'done',
-            url: 'data:image/*;base64,' + initialValues.coverPicPath,
+            url: 'data:image/*;base64,' + initialValues.coverPic,
           },
         ];
       }

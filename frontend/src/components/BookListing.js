@@ -22,13 +22,13 @@ const { Paragraph, Title } = Typography;
 function BookListing(props) {
   const { book, noAction } = props;
   const {
-    author,
+    authors,
     bookType: initBookType,
-    /** edition, **/
-    numRatings,
-    price,
+    edition,
+    /**numRatings,**/
+    buyPrice,
     quantity: initQuantity,
-    rating,
+    /**rating,**/
     title,
   } = book;
 
@@ -53,20 +53,23 @@ function BookListing(props) {
   return (
     <div className='bookstore-bp-book-info'>
       <Title className='bookstore-bp-book-title'>{title}</Title>
-      <Paragraph className='bookstore-bp-book-author'>by {author}</Paragraph>
+      <Paragraph className='bookstore-bp-book-author'>by {authors[0].name}</Paragraph>
       <div>
+        {/*
         <Rate className='bookstore-bp-book-rate' value={rating} disabled />
+        
         <Paragraph className='bookstore-bp-book-rate-text'>
           {rating}&emsp;|&emsp;{numRatings} review
           {numRatings === 1 ? '' : 's'}
         </Paragraph>
+        */}
       </div>
       <Divider />
       <Paragraph className='bookstore-bp-book-type'>{bookType}</Paragraph>
       <div>
-        <Title className='bookstore-bp-book-price'>${price.toFixed(2)}</Title>
+        <Title className='bookstore-bp-book-price'>${buyPrice.toFixed(2)}</Title>
         <Paragraph className='bookstore-bp-book-sale'>
-          ${(price * 1.2).toFixed(2)}
+          ${(buyPrice * 1.2).toFixed(2)}
         </Paragraph>
       </div>
       <Paragraph className='bookstore-bp-label'>Select Type</Paragraph>
@@ -78,15 +81,15 @@ function BookListing(props) {
         size='large'>
         <Radio.Button value='Hardcover'>
           <span>Hardcover</span>
-          <span className='bookstore-bp-book-type-price'>${price}</span>
+          <span className='bookstore-bp-book-type-price'>${buyPrice}</span>
         </Radio.Button>
         <Radio.Button value='Paperback'>
           <span>Paperback</span>
-          <span className='bookstore-bp-book-type-price'>${price}</span>
+          <span className='bookstore-bp-book-type-price'>${buyPrice}</span>
         </Radio.Button>
         <Radio.Button value='Audio'>
           <span>Audio</span>
-          <span className='bookstore-bp-book-type-price'>${price}</span>
+          <span className='bookstore-bp-book-type-price'>${buyPrice}</span>
         </Radio.Button>
       </Radio.Group>
       <Paragraph className='bookstore-bp-label'>Select Quantity</Paragraph>
