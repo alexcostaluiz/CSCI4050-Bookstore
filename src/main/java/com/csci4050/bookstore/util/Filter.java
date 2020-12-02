@@ -29,7 +29,6 @@ import javax.persistence.criteria.Root;
  */
 public class Filter {
 
-
   public static CriteriaQuery<Book> getQuery(
       Map<String, String> filters, CriteriaBuilder cb, Class<Book> type)
       throws IllegalArgumentException, NoSuchFieldException {
@@ -98,22 +97,21 @@ public class Filter {
       case "categories":
         try {
           value = Category.valueOf(filter[2]);
-        } catch(IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
           return cb.equal(c.get("id"), -1);
         }
         break;
       case "tags":
         try {
           value = Tag.valueOf(filter[2]);
-        } catch(IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
           return cb.equal(c.get("id"), -1);
         }
         break;
-      case "author": 
+      case "author":
         Join<Book, Author> join = c.join("authors", JoinType.LEFT);
         filter[0] = "author";
         return joinAuthorBase(filter, cb, join, type);
-
     }
     // base case
     if (filter[1].equals(">")) {
@@ -139,7 +137,7 @@ public class Filter {
       } else {
         return cb.notEqual(c.get(filter[0]).as(String.class), (String) value);
       }
-    } else if (filter[1].equals("<>")) { //like operator
+    } else if (filter[1].equals("<>")) { // like operator
       // check if attribute returns list
       if (Collection.class.isAssignableFrom(type.getDeclaredField(filter[0]).getType())) {
         return cb.isMember(value, c.get(filter[0]));
@@ -151,7 +149,8 @@ public class Filter {
     }
   }
 
-  private static Predicate joinAuthorBase(String[] filter, CriteriaBuilder cb, Join<Book, Author> c, Class<Book> type)
+  private static Predicate joinAuthorBase(
+      String[] filter, CriteriaBuilder cb, Join<Book, Author> c, Class<Book> type)
       throws NoSuchFieldException {
     String value = filter[2];
     // base case
@@ -164,11 +163,11 @@ public class Filter {
     } else if (filter[1].equals("<=")) {
       return cb.lessThanOrEqualTo(c.get(filter[0]).get("name").as(String.class), value);
     } else if (filter[1].equals("==")) {
-        return cb.equal(c.get(filter[0]).get("name").as(String.class), value);
+      return cb.equal(c.get(filter[0]).get("name").as(String.class), value);
 
     } else if (filter[1].equals("!=")) {
       return cb.notEqual(c.get(filter[0]).get("name").as(String.class), value);
-    } else if (filter[1].equals("<>")) { //like operator
+    } else if (filter[1].equals("<>")) { // like operator
       return cb.like(c.get(filter[0]).get("name").as(String.class), value);
     } else {
       throw new IllegalArgumentException();

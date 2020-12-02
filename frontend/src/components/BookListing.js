@@ -53,7 +53,9 @@ function BookListing(props) {
   return (
     <div className='bookstore-bp-book-info'>
       <Title className='bookstore-bp-book-title'>{title}</Title>
-      <Paragraph className='bookstore-bp-book-author'>by {authors[0].name}</Paragraph>
+      <Paragraph className='bookstore-bp-book-author'>
+        by {authors[0].name}
+      </Paragraph>
       <div>
         {/*
         <Rate className='bookstore-bp-book-rate' value={rating} disabled />
@@ -67,7 +69,9 @@ function BookListing(props) {
       <Divider />
       <Paragraph className='bookstore-bp-book-type'>{bookType}</Paragraph>
       <div>
-        <Title className='bookstore-bp-book-price'>${buyPrice.toFixed(2)}</Title>
+        <Title className='bookstore-bp-book-price'>
+          ${buyPrice.toFixed(2)}
+        </Title>
         <Paragraph className='bookstore-bp-book-sale'>
           ${(buyPrice * 1.2).toFixed(2)}
         </Paragraph>

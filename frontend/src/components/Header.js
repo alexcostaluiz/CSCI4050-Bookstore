@@ -56,9 +56,11 @@ function Header(props) {
       <div className='bookstore-cart-item'>
         <img
           className='bookstore-cart-item-image'
-          src={b.coverPic
-                      ? 'data:image/*;base64,' + b.coverPic
-                      : 'https://i.stack.imgur.com/1hvpD.jpg'}
+          src={
+            b.coverPic
+              ? 'data:image/*;base64,' + b.coverPic
+              : 'https://i.stack.imgur.com/1hvpD.jpg'
+          }
           alt={b.title}
           style={{ height: '75px', objectFit: 'contain', width: 'unset' }}
         />
@@ -70,7 +72,7 @@ function Header(props) {
         </div>
       </div>
     );
-    return { value: (String) (b.id), label };
+    return { value: String(b.id), label };
   };
 
   const [options, setOptions] = useState(null);
@@ -114,11 +116,13 @@ function Header(props) {
   }
 
   const onSelect = (e) => {
-    history.push("/b/" + e);
+    history.push('/b/' + e);
   };
 
   const handleSearch = async (query) => {
-    const response = await fetch(`/books/get?filter=title <> "${query}" , isbn <> "${query}" , categories <> "${query}" , author <> "${query}"`);
+    const response = await fetch(
+      `/books/get?filter=title <> "${query}" , isbn <> "${query}" , categories <> "${query}" , author <> "${query}"`
+    );
     const json = await response.json();
     setOptions(json.map((e) => convert(e)));
   };
