@@ -3,7 +3,6 @@ package com.csci4050.bookstore.service;
 import com.csci4050.bookstore.dao.OrderDAO;
 import com.csci4050.bookstore.model.Order;
 import java.util.List;
-import java.util.Map;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,15 +14,6 @@ public class OrderService {
   @Transactional
   public List<Order> get() {
     return dao.get();
-  }
-
-  @Transactional
-  public List<Order> get(Map<String, String> filters)
-      throws IllegalArgumentException, NoSuchFieldException {
-
-    List<Order> orders = dao.get(filters);
-
-    return orders;
   }
 
   @Transactional
