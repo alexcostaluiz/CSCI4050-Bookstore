@@ -6,6 +6,7 @@ import com.csci4050.bookstore.model.Author;
 import com.csci4050.bookstore.model.AuthorBookAssociation;
 import com.csci4050.bookstore.model.Book;
 import com.csci4050.bookstore.model.Category;
+import com.csci4050.bookstore.model.Tag;
 import com.csci4050.bookstore.service.AuthorService;
 import com.csci4050.bookstore.service.BookService;
 import java.util.ArrayList;
@@ -54,6 +55,11 @@ public class BookController {
   @GetMapping("/get/categories")
   public List<Category> getCategories() {
     return Arrays.asList(Category.values());
+  }
+
+  @GetMapping("/get/tags")
+  public List<Tag> getTags() {
+    return Arrays.asList(Tag.values());
   }
 
   @PostMapping(value = "/create", consumes = "application/json", produces = "application/json")
