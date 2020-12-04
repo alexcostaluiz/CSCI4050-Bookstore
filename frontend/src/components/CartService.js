@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
+
 import AuthContext from '../contexts/AuthContext.js';
 import DB from '../services/DatabaseService.js';
 import CartContext from '../contexts/CartContext.js';
@@ -27,12 +28,13 @@ function CartService(props) {
     }
   }, [auth]);
 
-  const add = (item) => {
+  const add = async (item) => {
     if (auth.user.id != null) {
-      DB.addToCart(item, auth);
+      return await DB.addToCart(item, auth);
     } else {
       cart.push(item);
       setCart([...cart]);
+      return true;
     }
   };
 
