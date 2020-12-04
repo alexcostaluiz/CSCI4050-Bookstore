@@ -27,11 +27,11 @@ const { Paragraph, Title } = Typography;
 function BookListing(props) {
   const { book, noAction } = props;
   const {
-    authors,
+    /* authors, */
     /*bookType: initBookType,*/
     /*edition, <- this might actually need to be displayed*/
     /**numRatings,**/
-    buyPrice,
+    /* buyPrice, */
     /*quantity: initQuantity,*/
     /**rating,**/
     title,
@@ -95,19 +95,19 @@ function BookListing(props) {
         <Radio.Button value='Hardcover'>
           <span>Hardcover</span>
           <span className='bookstore-bp-book-type-price'>
-            ${/* buyPrice */}
+            ${/* buyPrice}
           </span>
         </Radio.Button>
         <Radio.Button value='Paperback'>
           <span>Paperback</span>
           <span className='bookstore-bp-book-type-price'>
-            ${/* buyPrice */}
+            ${/* buyPrice}
           </span>
         </Radio.Button>
         <Radio.Button value='Audio'>
           <span>Audio</span>
           <span className='bookstore-bp-book-type-price'>
-            ${/* buyPrice */}
+            ${/* buyPrice}
           </span>
         </Radio.Button>
       </Radio.Group>
