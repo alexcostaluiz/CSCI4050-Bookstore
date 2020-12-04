@@ -1,6 +1,6 @@
 package com.csci4050.bookstore.service;
 
-import com.csci4050.bookstore.dao.OrderDAO;
+import com.csci4050.bookstore.dao.DAO;
 import com.csci4050.bookstore.model.Order;
 import java.util.List;
 import javax.transaction.Transactional;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class OrderService {
-  @Autowired private OrderDAO dao;
+  @Autowired private DAO<Order> dao;
 
   @Transactional
   public List<Order> get() {

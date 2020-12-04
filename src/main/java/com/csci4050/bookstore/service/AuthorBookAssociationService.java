@@ -1,6 +1,6 @@
 package com.csci4050.bookstore.service;
 
-import com.csci4050.bookstore.dao.AuthorBookAssociationDAO;
+import com.csci4050.bookstore.dao.DAO;
 import com.csci4050.bookstore.model.AuthorBookAssociation;
 import java.util.List;
 import javax.transaction.Transactional;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AuthorBookAssociationService {
-  @Autowired private AuthorBookAssociationDAO dao;
+  @Autowired private DAO<AuthorBookAssociation> dao;
 
   @Transactional
   public List<AuthorBookAssociation> get() {
