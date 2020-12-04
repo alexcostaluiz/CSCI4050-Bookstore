@@ -1,6 +1,6 @@
 import '../pages/CheckoutPage.less';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Breadcrumb,  Col, Row, Typography } from 'antd';
 
