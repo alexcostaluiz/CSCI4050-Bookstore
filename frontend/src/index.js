@@ -83,7 +83,6 @@ ReactDOM.render(
                 <Route path='/'>
                   <HomePage />
                 </Route>
-                
               </Switch>
             </Content>
             <Footer />
