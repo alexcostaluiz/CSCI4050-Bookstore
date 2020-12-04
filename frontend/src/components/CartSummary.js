@@ -23,7 +23,7 @@ function CartSummary(props) {
   const history = useHistory();
   const subtotal = cart
     .get()
-    .reduce((a, b) => a + b.book.buyPrice * b.quantity, 0);
+    .reduce((a, b) => a + b.book.sellPrice * b.quantity, 0);
   const quantity = cart.get().reduce((a, b) => a + b.quantity, 0);
   const tax = 4.99;
   const total = subtotal + tax;
