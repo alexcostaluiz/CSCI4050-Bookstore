@@ -16,7 +16,7 @@ const errorMapping = {
   400: 'User account has not been created yet.',
 };
 
-const protectedEndpoints = ['/profile', '/admin', '/orderHistory'];
+const protectedEndpoints = ['/profile', '/admin', '/orderHistory', '/o/'];
 
 function Authentication(props) {
   const [user, setUser] = useState(null);
