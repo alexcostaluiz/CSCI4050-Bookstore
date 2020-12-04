@@ -148,7 +148,6 @@ function Header(props) {
             className='bookstore-nav'>
             <Menu.Item key='home'>Home</Menu.Item>
             <Menu.Item key='browse'>Browse</Menu.Item>
-            <Menu.Item key='sale'>Sale</Menu.Item>
           </Menu>
           <AutoComplete
             className='bookstore-search-dropdown'
