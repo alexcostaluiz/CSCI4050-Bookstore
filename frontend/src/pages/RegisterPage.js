@@ -17,6 +17,7 @@ import {
 } from 'antd';
 
 import AuthContext from '../contexts/AuthContext.js';
+import CartContext from '../contexts/CartContext.js';
 
 const { Paragraph, Title } = Typography;
 
@@ -24,13 +25,14 @@ function Register(props) {
   const history = useHistory();
   const [form] = Form.useForm();
   const auth = useContext(AuthContext);
+  const cart = useContext(CartContext);
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(null);
 
   const onFinish = async (values) => {
     setLoading(true);
     delete values.confirm;
-    const response = await auth.register(values);
+    const response = await auth.register(values, cart.get());
     if (typeof response == 'string') {
       message.error(response);
       form.resetFields();

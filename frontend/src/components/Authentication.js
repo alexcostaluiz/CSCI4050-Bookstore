@@ -20,7 +20,6 @@ const protectedEndpoints = ['/profile', '/admin', '/orderHistory'];
 
 function Authentication(props) {
   const [user, setUser] = useState(null);
-
   const history = useHistory();
   const location = useLocation();
 
@@ -75,7 +74,10 @@ function Authentication(props) {
     history.push(redirect.pathname);
   };
 
-  const register = async (values) => {
+  const register = async (values, currentCart) => {
+    var cart = {};
+    currentCart.forEach((item) => cart[item.book.id] = item.quantity);
+    values['cart'] = cart;
     const response = await fetch('/auth/register', {
       method: 'POST',
       headers: {

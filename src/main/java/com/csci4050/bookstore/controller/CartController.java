@@ -133,7 +133,7 @@ public class CartController {
   @PostMapping(
       value = "/checkout",
       consumes = {"application/json"})
-  public void checkout(@RequestBody OrderDto dto) {
+  public Integer checkout(@RequestBody OrderDto dto) {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     if (auth != null) {
       Object principal = auth.getPrincipal();
@@ -143,7 +143,6 @@ public class CartController {
         // reset cart, add order to history and send email
         if (user.getCart().size() > 0) {
           Map<Book, Integer> cart = user.getCart();
-
           // setup order object to be persisted
           Order order = new Order();
           order.setAddress(dto.getAddress());
@@ -154,19 +153,20 @@ public class CartController {
           order.setUser(user);
 
           // reset cart
-          cart.clear();
-          user.setCart(cart);
+          user.setCart(null);//reset cart to null due to a bug in copying the map over to a new table
           userService.updateUser(user);
 
           // persist order
-          int orderId = orderService.save(order);
+          Integer orderId = orderService.save(order);
 
           // send email
           eventPublisher.publishEvent(new OrderEvent(orderService.get(orderId), user));
+          return orderId;
         } else {
           throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cart is empty.");
         }
       }
     }
+    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not logged in.");
   }
 }

@@ -5,6 +5,8 @@ import com.csci4050.bookstore.model.Book;
 import com.csci4050.bookstore.model.Promotion;
 import com.csci4050.bookstore.service.BookService;
 import com.csci4050.bookstore.service.PromoService;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -26,8 +28,21 @@ public class PromoController {
   @Autowired private ApplicationEventPublisher eventPublisher;
 
   @GetMapping("/get/{id}")
-  public Promotion getPromo(@PathVariable int id) {
+  public Promotion getPromo(@PathVariable Integer id) {
     return promoService.get(id);
+  }
+
+  @GetMapping("/getCode/{code}")
+  public Promotion getPromo(@PathVariable String code) {
+    Promotion promo = promoService.get(code);
+    System.out.println(LocalDateTime.now().isBefore(promo.getEndDate()));
+    if(promo != null && LocalDateTime.now().isBefore(promo.getEndDate()) && promo.isEmailed()) {
+      return promo;
+    } else {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Promotion code doesn't exist.");
+    }
+
+
   }
 
   @GetMapping("/get")

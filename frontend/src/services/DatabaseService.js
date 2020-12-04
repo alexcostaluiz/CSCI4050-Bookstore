@@ -15,6 +15,98 @@ const DB = {
     }
   },
 
+  addToCart: async (item, auth) => {
+    
+    const temp = {
+      book: {
+        id: item.book.id
+      },
+      quantity: item.quantity
+    };
+    const response = await fetch('/cart/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(temp),
+    });
+    if (response.ok) {
+      auth.fetchUser();
+      message.success('Book successfully addded!');
+    }
+  },
+
+  removeFromCart: async (book, auth) => {
+    const temp = {
+      id: book.id
+    }
+    const response = await fetch('/cart/remove', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(temp),
+    });
+    if (response.ok) {
+      auth.fetchUser();
+      message.success('Book successfully removed!');
+    }
+  },
+
+  updateCartItemQuantity: async (item, auth) => {
+    delete item.book.coverPic;
+    const response = await fetch('/cart/updateQuantity', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(item),
+    });
+    if (response.ok) {
+      auth.fetchUser();
+      message.success('Book quantity successfully updated!');
+    }
+  },
+
+  checkout: async (order, auth) => {
+    const response = await fetch('/cart/checkout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(order),
+    });
+    if (response.ok) {
+      auth.fetchUser();
+      message.success('Checkout successful!');
+      return response;
+    }
+  },
+
+  fetchBook: async (id) => {
+    const response = await fetch('/books/get/' + id);
+    const json = await response.json();
+    if (json.coverPic == null) {
+      json.coverPic = 'https://i.stack.imgur.com/1hvpD.jpg';
+    } else {
+      json.coverPic = 'data:image/*;base64,' + json.coverPic;
+    }
+    return json;
+  },
+
+  fetchPromo: async (code) => {
+    const response = await fetch('/promos/getCode/' + code);
+    if(response.ok){
+      const json = await response.json();
+      message.success('Promotion correct!');
+      return json;
+    } else {
+      message.error('Promotion code doesn\'t exist');
+      return null;
+    }
+    
+  },
+
   updatePassword: async (values, auth, form) => {
     delete values.confirm;
     const response = await fetch('/edit/password', {

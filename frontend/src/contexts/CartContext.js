@@ -73,7 +73,7 @@ const book3 = {
   tags: ['Fiction', 'Philosophy', 'Literary Fiction'],
   title: 'Nausea',
 };
-const cart = [book0, book1, book2, book3];
+const cart = [];
 
 const CartContext = React.createContext(cart);
 

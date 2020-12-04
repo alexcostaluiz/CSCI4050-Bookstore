@@ -12,6 +12,7 @@ import BookThumbnail from '../components/BookThumbnail.js';
 import ReviewSection from '../components/ReviewSection.js';
 import Section from '../components/Section.js';
 import Slider from '../components/Slider.js';
+import DB from '../services/DatabaseService.js';
 
 /**
  * A page to display detailed information about one book.
@@ -20,30 +21,18 @@ import Slider from '../components/Slider.js';
  */
 function BookPage(props) {
   const [book, setBook] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const id = useLocation().pathname.substr(3);
 
-  const fetchBook = async (id) => {
-    await fetch('/books/get/' + id)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.coverPic == null) {
-          data.coverPic = 'https://i.stack.imgur.com/1hvpD.jpg';
-        } else {
-          data.coverPic = 'data:image/*;base64,' + data.coverPic;
-        }
-        setBook(data);
-      });
+  const retrieveBook = async (id) => {
+    const book = await DB.fetchBook(id);
+    setBook(book);
   };
 
-  fetchBook(useLocation().pathname.substr(3));
-
   useEffect(() => {
-    if (book !== null) {
-      setIsLoaded(true);
-    }
-  }, [book]);
+    retrieveBook(id);
+  }, [id]);
 
-  if (!isLoaded) {
+  if (book === null) {
     return <div></div>;
   } else {
     const { coverPic, title } = book;
