@@ -29,7 +29,8 @@ function BookThumbnail(props) {
     style,
     className,
   } = props;
-  const { author, id, image, numRatings, rating, title } = book;
+
+  const { author, id, coverPic, numRatings = 492, rating = 4.5, title } = book;
 
   const history = useHistory();
 
@@ -42,14 +43,18 @@ function BookThumbnail(props) {
       }
       bordered={false}
       style={style}
-      onClick={() => history.push({ pathname: `/b/00${id}`, state: { book } })}
+      onClick={() => history.push({ pathname: `/b/${id}`, state: { book } })}
       cover={
         <img
           className={
             'bookstore-book-thumbnail-image' +
             (size === 'large' ? ' bookstore-book-thumbnail-image-lg' : '')
           }
-          src={image}
+          src={
+            coverPic
+              ? 'data:image/*;base64,' + coverPic
+              : 'https://i.stack.imgur.com/1hvpD.jpg'
+          }
           alt='Book cover'
           draggable={false}
         />

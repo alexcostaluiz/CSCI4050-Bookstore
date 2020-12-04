@@ -1,6 +1,6 @@
 import '../pages/CheckoutPage.less';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Breadcrumb, Col, Row, Spin, Typography } from 'antd';
 
@@ -12,20 +12,25 @@ const { Paragraph, Title } = Typography;
 
 function OrderListing(props) {
   const { order } = props;
-  (async () => {
-    let cart = [];
-    for (var item in order.orderCart) {
-      const book = await DB.fetchBook(item);
-      const obj = {
-        book: book,
-        quantity: order.orderCart[item],
-      };
-      cart.push(obj);
-    }
-    order.orderCart = cart;
-  })();
 
-  if (order != null) {
+  const [orderCart, setOrderCart] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      let cart = [];
+      for (var item in order.orderCart) {
+        const book = await DB.fetchBook(item);
+        const obj = {
+          book: book,
+          quantity: order.orderCart[item],
+        };
+        cart.push(obj);
+      }
+      setOrderCart(cart);
+    })();
+  }, [order]);
+
+  if (orderCart) {
     return (
       <Row justify='center'>
         <Col span={24} className='bookstore-column'>
@@ -60,7 +65,7 @@ function OrderListing(props) {
                 </Paragraph>
               </div>
 
-              <CartList title='Review Cart' />
+              <CartList title='Review Order' orderCart={orderCart} readOnly />
               {order.promo ? (
                 <div className='bookstore-checkout-module'>
                   <Title className='bookstore-checkout-module-title'>
@@ -76,7 +81,15 @@ function OrderListing(props) {
                 <div />
               )}
             </div>
+<<<<<<< HEAD
             <CartSummary promo={order.promo} action={<div />} order={order} />
+=======
+            <CartSummary
+              promo={order.promo}
+              action={<div />}
+              order={{ ...order, orderCart }}
+            />
+>>>>>>> 04b4037d614de46af3bf8fd26658ee16991e88ad
           </div>
         </Col>
       </Row>

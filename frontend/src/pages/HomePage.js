@@ -1,11 +1,12 @@
 import './HomePage.less';
 
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { Col, Row, Skeleton, Typography } from 'antd';
 
 import AuthContext from '../contexts/AuthContext.js';
 import BookThumbnail from '../components/BookThumbnail.js';
+import DB from '../services/DatabaseService.js';
 import Section, { sections } from '../components/Section.js';
 import Slider from '../components/Slider.js';
 
@@ -16,6 +17,15 @@ const { Title } = Typography;
  */
 function HomePage(props) {
   const auth = useContext(AuthContext);
+
+  const [books, setBooks] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      const books = await DB.retrieveBooks();
+      setBooks(books.filter((b) => !b.archived));
+    })();
+  }, []);
 
   return (
     <Row>
@@ -61,23 +71,24 @@ function HomePage(props) {
         </div>
         <Section key='hp-section-1' title={sections[0]}>
           <Slider itemWidth={216} spaceBetween={16} primary>
-            {Array.from({ length: 16 }, (e, i) => (
-              <BookThumbnail key={i} />
-            ))}
+            {books
+              .filter((b) => {
+                return b.tags.includes('BESTSELLER');
+              })
+              .map((b) => (
+                <BookThumbnail key={b.id} book={b} />
+              ))}
           </Slider>
         </Section>
-        <Section key='hp-section-2' title={sections[2]}>
+        <Section key='hp-section-2' title={sections[1]}>
           <Slider itemWidth={216} spaceBetween={16}>
-            {Array.from({ length: 16 }, (e, i) => (
-              <BookThumbnail key={i} />
-            ))}
-          </Slider>
-        </Section>
-        <Section key='hp-section-3' title={sections[1]}>
-          <Slider itemWidth={216} spaceBetween={16}>
-            {Array.from({ length: 16 }, (e, i) => (
-              <BookThumbnail key={i} />
-            ))}
+            {books
+              .filter((b) => {
+                return b.tags.includes('FEATURED');
+              })
+              .map((b) => (
+                <BookThumbnail key={b.id} book={b} />
+              ))}
           </Slider>
         </Section>
       </Col>

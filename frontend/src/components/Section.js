@@ -11,7 +11,7 @@ const { Title } = Typography;
  *
  * @type {!Array<String>}
  */
-const sections = ['Bestsellers', 'New Arrivals', 'Featured'];
+const sections = ['Bestsellers', 'Featured'];
 
 /**
  * Sections for registered users.

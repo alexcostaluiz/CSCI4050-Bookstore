@@ -7,6 +7,7 @@ import { Layout } from 'antd';
 import AdminPage from './pages/AdminPage.js';
 import Authentication from './components/Authentication.js';
 import BookPage from './pages/BookPage.js';
+import BrowsePage from './pages/BrowsePage.js';
 import CartPage from './pages/CartPage.js';
 import CartService from './components/CartService.js';
 import CheckoutPage from './pages/CheckoutPage.js';
@@ -48,6 +49,9 @@ ReactDOM.render(
                 </Route>
                 <Route path='/cart'>
                   <CartPage />
+                </Route>
+                <Route path='/browse'>
+                  <BrowsePage />
                 </Route>
                 <Route path='/checkout/confirm'>
                   <ConfirmOrderPage />

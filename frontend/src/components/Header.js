@@ -76,6 +76,7 @@ function Header(props) {
   };
 
   const [options, setOptions] = useState(null);
+  const [results, setResults] = useState(null);
 
   const onlyTitle =
     location.pathname.startsWith('/login') ||
@@ -90,6 +91,11 @@ function Header(props) {
 
   const handleClick = (e) => {
     setCurrent(e.key);
+    if (e.key === 'browse' && !location.pathname.startsWith('/browse')) {
+      history.push('/browse');
+    } else if (e.key === 'home' && location.pathname !== '/') {
+      history.push('/');
+    }
   };
 
   if (simple) {
@@ -124,11 +130,15 @@ function Header(props) {
       `/books/get?filter=title <> "${query}" , isbn <> "${query}" , categories <> "${query}" , author <> "${query}"`
     );
     const json = await response.json();
+    setResults(json);
     setOptions(json.map((e) => convert(e)));
   };
 
   const displaySearchResults = async (query) => {
-    history.push('/search');
+    history.push({
+      pathname: '/search',
+      state: { query: query, books: results },
+    });
   };
 
   return (

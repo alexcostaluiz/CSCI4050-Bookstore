@@ -2,27 +2,19 @@ import './SearchPage.less';
 
 import React from 'react';
 
-import BookListing from '../components/BookListing.js';
-import SearchResult from '../components/SearchResult.js';
-import { sampleBooks } from '../contexts/CartContext.js';
+import { useLocation } from 'react-router-dom';
 
-import { Col, Row } from 'antd';
-import BookThumbnail from '../components/BookThumbnail.js';
+import BrowsePage from './BrowsePage.js';
 
 /**
  *  The page returning book search results
  */
 function SearchPage(props) {
-  const { books = sampleBooks } = props;
-  console.log(books);
+  const location = useLocation();
+  const { query, books } = location.state;
+
   return (
-    <Row>
-      <Col className='search-results'>
-        {books.map((book) => (
-          <SearchResult className='result' book={book} />
-        ))}
-      </Col>
-    </Row>
+    <BrowsePage results={books} title={'Search Results for "' + query + '"'} />
   );
 }
 

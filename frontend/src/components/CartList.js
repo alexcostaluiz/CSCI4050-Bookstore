@@ -15,8 +15,11 @@ const { Title } = Typography;
  * @param {?boolean} props.readOnly True if this cart should not be editable; false otherwise.
  */
 function CartList(props) {
-  const { title = 'Cart' } = props;
-  const cart = useContext(CartContext);
+  const { title = 'Cart', orderCart, readOnly } = props;
+
+  const cartContext = useContext(CartContext);
+
+  const cart = orderCart ? { get: () => orderCart } : cartContext;
 
   return (
     <div className='bookstore-cart-list'>
@@ -34,6 +37,7 @@ function CartList(props) {
               quantity={i.quantity}
               cart={cart}
               book={i.book}
+              readOnly={readOnly}
             />
           );
         })

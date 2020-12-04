@@ -203,8 +203,9 @@ const DB = {
     return response.ok;
   },
 
-  retrieveBooks: async () => {
-    const response = await fetch('/books/get');
+  retrieveBooks: async (query) => {
+    const url = '/books/get' + (query ? query : '');
+    const response = await fetch(url);
     const json = await response.json();
     return json;
   },
