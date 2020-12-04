@@ -1,10 +1,11 @@
 import './ProfilePage.less';
 
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import {
   Button,
   Card,
+  Checkbox,
   Col,
   Form,
   Input,
@@ -36,27 +37,28 @@ function ProfilePage(props) {
   const [changePasswordForm] = Form.useForm();
 
   const [selectedMenuItem, setSelectedMenuItem] = useState('personal info');
-
   const [firstName, setFirstName] = useState(auth.user.firstName);
   const [lastName, setLastName] = useState(auth.user.lastName);
   const [phoneNumber, setPhoneNumber] = useState(auth.user.phoneNumber);
+  const [subscription, setSubscribed] = useState(auth.user.subscription);
 
   const updatePersonalInfo = (value, setter) => {
     if (value) {
       setter(value);
     }
   };
-
   const menuSwitch = (key) => {
     switch (key) {
       case 'personal info':
         const changesMade =
           firstName === auth.user.firstName &&
           lastName === auth.user.lastName &&
-          phoneNumber === auth.user.phoneNumber;
+          phoneNumber === auth.user.phoneNumber &&
+          subscription === auth.user.subscription;
         const editable = {
           autoSize: { minRows: 1, maxRows: 1 },
         };
+        
         return (
           <div className='bookstore-profile-content-container'>
             <Title className='bookstore-profile-content-title'>
@@ -93,13 +95,16 @@ function ProfilePage(props) {
                 {phoneNumber}
               </Text>
             </Card>
+            <Card type='inner' title='Subscription'>
+              <Checkbox onChange={(value) => setSubscribed(value.target.checked)} defaultChecked={subscription}>Check here to subscribe to promotions</Checkbox>
+            </Card>
             <Button
               type='primary'
               size='large'
               disabled={changesMade}
               onClick={() =>
                 DB.updatePersonalInfo(
-                  { firstName, lastName, phoneNumber },
+                  { firstName, lastName, phoneNumber, subscription },
                   auth
                 )
               }>

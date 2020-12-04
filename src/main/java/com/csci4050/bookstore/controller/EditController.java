@@ -138,6 +138,7 @@ public class EditController {
           userObj.setFirstName(user.getFirstName());
           userObj.setLastName(user.getLastName());
           userObj.setPhoneNumber(user.getPhoneNumber());
+          userObj.setSubscription(user.getSubscription());
           userService.updateUser(userObj);
         }
       }
