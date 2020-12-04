@@ -41,7 +41,7 @@ function DynamicAvatar(props) {
       )}
       <Menu.Item
         icon={<HistoryOutlined />}
-        onClick={() => history.push('/orderhistory')}>
+        onClick={() => history.push('/orderHistory')}>
         Order History
       </Menu.Item>
       <Menu.Item icon={<LogoutOutlined />} onClick={() => auth.signOut()}>
