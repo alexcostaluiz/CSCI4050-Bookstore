@@ -31,8 +31,9 @@ const DB = {
     });
     if (response.ok) {
       auth.fetchUser();
-      message.success('Book successfully addded!');
+      return true;
     }
+    return false;
   },
 
   removeFromCart: async (book, auth) => {
@@ -446,6 +447,12 @@ const DB = {
 
   retrieveCategories: async () => {
     const response = await fetch('/books/get/categories');
+    const json = await response.json();
+    return json;
+  },
+
+  retrieveTags: async () => {
+    const response = await fetch('/books/get/tags');
     const json = await response.json();
     return json;
   },
