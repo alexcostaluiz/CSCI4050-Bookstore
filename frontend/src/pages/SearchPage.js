@@ -1,30 +1,30 @@
 import React from 'react';
 
 import BookListing from '../components/BookListing.js';
-
+import SearchResult from '../components/SearchResult.js';
 import { sampleBooks } from '../contexts/CartContext.js';
 
 import { Col, Row } from 'antd';
+import BookThumbnail from '../components/BookThumbnail.js';
 
 /**
  *  The page returning book search results 
  */
 function SearchPage(props) {
-    const { book = sampleBooks[Math.floor(Math.random() * sampleBooks.length)] } = props
-    
-    return result(book)
-    
-}
-
-function result(book) {
-
+    const { books = sampleBooks } = props
+    console.log(books);    
     return (
+
         <Row>
-            <Col span={24} className=''>
-              <BookListing book></BookListing>
+            <Col className='search-results'>
+                
+                {books.map(book => (
+                    <SearchResult book={book} />
+                ))}
             </Col>
-        </Row>       
-    );
+        </Row>  
+    )
+    
 }
 
-export default SearchPage;
+export default SearchPage; 

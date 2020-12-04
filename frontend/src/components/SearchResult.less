@@ -1,0 +1,96 @@
+@bookstore-book-thumbnail-size: 216px;
+@bookstore-book-thumbnail-size-lg: @bookstore-book-thumbnail-size * 2 + 32;
+
+.bookstore-book-thumbnail {
+  display: inline-block;
+  overflow: hidden;
+  background: #f0f0f0;
+  width: @bookstore-book-thumbnail-size;
+  box-shadow: 0 0.5px 2px -1px rgba(0, 0, 0, 0.08),
+    0 1px 5px 0 rgba(0, 0, 0, 0.08), 0 1.5px 12px 2px rgba(0, 0, 0, 0.06);
+}
+
+.bookstore-book-thumbnail-lg {
+  width: @bookstore-book-thumbnail-size-lg;
+}
+
+.bookstore-book-thumbnail-image {
+  object-fit: contain;
+  width: @bookstore-book-thumbnail-size;
+  height: @bookstore-book-thumbnail-size;
+}
+
+.bookstore-book-thumbnail-image-lg {
+  width: @bookstore-book-thumbnail-size-lg;
+  height: @bookstore-book-thumbnail-size-lg;
+}
+
+.bookstore-book-thumbnail-title {
+  width: fit-content;
+  margin-bottom: 0px !important;
+  transition: transform 1s;
+}
+
+.bookstore-book-thumbnail-title-lg {
+  font-size: 18px !important;
+}
+
+.bookstore-book-thumbnail-title:hover {
+  transform: ~"translateX(min(@{bookstore-book-thumbnail-size} - 32px - 100%, 1px - 1px))";
+}
+
+.bookstore-book-thumbnail-title-lg:hover {
+  transform: ~"translateX(min(@{bookstore-book-thumbnail-size-lg} - 64px - 100%, 1px - 1px))";
+}
+
+.bookstore-book-thumbnail-author {
+  width: fit-content;
+  transition: transform 1s;
+}
+
+.bookstore-book-thumbnail-author-lg {
+  font-size: 16px !important;
+}
+
+.bookstore-book-thumbnail-author:hover {
+  transform: ~"translateX(min(@{bookstore-book-thumbnail-size} - 32px - 100%, 1px - 1px))";
+}
+
+.bookstore-book-thumbnail-author-lg:hover {
+  transform: ~"translateX(min(@{bookstore-book-thumbnail-size-lg} - 64px - 100%, 1px - 1px))";
+}
+
+.bookstore-book-thumbnail > .ant-card-body {
+  width: 100%;
+  padding: 16px;
+  background: white;
+}
+
+.bookstore-book-thumbnail-lg > .ant-card-body {
+  padding: 32px;
+}
+
+.bookstore-book-thumbnail-rate-container {
+  display: block;
+  text-align: center;
+}
+
+.bookstore-book-thumbnail-rate {
+  margin-right: 8px;
+  font-size: 18px;
+}
+
+.bookstore-book-thumbnail-rate-lg {
+  font-size: 22px;
+}
+
+/* .bookstore-book-thumbnail-rate-text {
+  display: block;
+  text-align: center;
+  margin-bottom: 0px !important;
+  font-size: 12px;
+} */
+
+.bookstore-book-thumbnail-rate-text-lg {
+  font-size: 14px;
+}

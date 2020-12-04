@@ -54,7 +54,7 @@ function BookListing(props) {
     <div className='bookstore-bp-book-info'>
       <Title className='bookstore-bp-book-title'>{title}</Title>
       <Paragraph className='bookstore-bp-book-author'>
-        by {authors[0].name}
+        {/* by {authors[0].name} */}
       </Paragraph>
       <div>
         {/*
@@ -70,10 +70,11 @@ function BookListing(props) {
       <Paragraph className='bookstore-bp-book-type'>{bookType}</Paragraph>
       <div>
         <Title className='bookstore-bp-book-price'>
-          ${buyPrice.toFixed(2)}
+          ${/* {buyPrice.toFixed(2)} */}
+
         </Title>
         <Paragraph className='bookstore-bp-book-sale'>
-          ${(buyPrice * 1.2).toFixed(2)}
+          ${/* (buyPrice * 1.2).toFixed(2) */}
         </Paragraph>
       </div>
       <Paragraph className='bookstore-bp-label'>Select Type</Paragraph>
@@ -85,15 +86,15 @@ function BookListing(props) {
         size='large'>
         <Radio.Button value='Hardcover'>
           <span>Hardcover</span>
-          <span className='bookstore-bp-book-type-price'>${buyPrice}</span>
+          <span className='bookstore-bp-book-type-price'>${/* buyPrice */}</span>
         </Radio.Button>
         <Radio.Button value='Paperback'>
           <span>Paperback</span>
-          <span className='bookstore-bp-book-type-price'>${buyPrice}</span>
+          <span className='bookstore-bp-book-type-price'>${/* buyPrice */}</span>
         </Radio.Button>
         <Radio.Button value='Audio'>
           <span>Audio</span>
-          <span className='bookstore-bp-book-type-price'>${buyPrice}</span>
+          <span className='bookstore-bp-book-type-price'>${/* buyPrice */}</span>
         </Radio.Button>
       </Radio.Group>
       <Paragraph className='bookstore-bp-label'>Select Quantity</Paragraph>
