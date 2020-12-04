@@ -31,7 +31,7 @@ const colors = ['magenta', 'purple', 'red', 'orange'];
 function BookAuthorDetails(props) {
   const { book } = props;
   const {
-    author,
+    authors,
     /* edition, */
     isbn,
     pages,
@@ -44,10 +44,10 @@ function BookAuthorDetails(props) {
 
   useEffect(() => {
     (async () => {
-      const result = await WikiService.fetchAuthor(author);
+      const result = await WikiService.fetchAuthor(authors[0].name);
       if (result) setAuthorWiki(result);
     })();
-  }, [author]);
+  }, [authors]);
 
   return (
     <Tabs
@@ -113,7 +113,7 @@ function BookAuthorDetails(props) {
           </Skeleton>
         </div>
       </Tabs.TabPane>
-      <Tabs.TabPane tab={`More by ${author}`} key={3}>
+      <Tabs.TabPane tab={`More by ${authors[0].name}`} key={3}>
         <Slider itemWidth={216} spaceBetween={16}>
           {Array.from({ length: 3 }, (e, i) => (
             <BookThumbnail key={i} />

@@ -3,6 +3,7 @@ package com.csci4050.bookstore.service;
 import com.csci4050.bookstore.dao.AuthorDAO;
 import com.csci4050.bookstore.model.Author;
 import java.util.List;
+import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,13 @@ public class AuthorService {
   @Transactional
   public Author get(int id) {
     return dao.get(id);
+  }
+
+  @Transactional
+  public Author get(String name) {
+    List<Author> authors = dao.get();
+    Optional<Author> author = authors.stream().filter(e -> e.getName().equals(name)).findFirst();
+    return author.orElse(null);
   }
 
   @Transactional

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Lob;
 
 public class BookDto {
 
@@ -22,7 +23,9 @@ public class BookDto {
   private Double buyPrice;
   private Double sellPrice;
   private String title;
-  private byte[] coverPic;
+
+  @Lob private byte[] coverPic;
+
   private String description;
   private Integer pages;
   private String edition;

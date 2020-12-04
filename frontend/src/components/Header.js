@@ -16,7 +16,7 @@ import {
 } from 'antd';
 import { ShoppingCartOutlined as Cart } from '@ant-design/icons';
 
-import CartContext, { sampleBooks } from '../contexts/CartContext.js';
+import CartContext from '../contexts/CartContext.js';
 import DynamicAvatar from './DynamicAvatar.js';
 
 const { Paragraph, Title } = Typography;
@@ -47,7 +47,6 @@ const searchHints = [
 
 function Header(props) {
   const [current, setCurrent] = useState('home');
-
   const history = useHistory();
   const location = useLocation();
   const cart = useContext(CartContext);
@@ -57,7 +56,11 @@ function Header(props) {
       <div className='bookstore-cart-item'>
         <img
           className='bookstore-cart-item-image'
-          src={b.image}
+          src={
+            b.coverPic
+              ? 'data:image/*;base64,' + b.coverPic
+              : 'https://i.stack.imgur.com/1hvpD.jpg'
+          }
           alt={b.title}
           style={{ height: '75px', objectFit: 'contain', width: 'unset' }}
         />
@@ -65,14 +68,14 @@ function Header(props) {
           <Title className='bookstore-cart-item-title' level={4}>
             {b.title}
           </Title>
-          <Paragraph>by {b.author}</Paragraph>
+          <Paragraph>by {b.authors[0].name}</Paragraph>
         </div>
       </div>
     );
-    return { value: b.title, label };
+    return { value: String(b.id), label };
   };
 
-  const [options, setOptions] = useState(sampleBooks.map((e) => convert(e)));
+  const [options, setOptions] = useState(null);
 
   const onlyTitle =
     location.pathname.startsWith('/login') ||
@@ -113,19 +116,15 @@ function Header(props) {
   }
 
   const onSelect = (e) => {
-    console.log(e);
+    history.push('/b/' + e);
   };
 
-  const handleSearch = (query) => {
-    const raw = [];
-    sampleBooks.forEach((e) => {
-      const bool =
-        e.title.includes(query) ||
-        e.isbn.includes(query) ||
-        e.author.includes(query);
-      if (bool) raw.push(e);
-    });
-    setOptions(raw.map((e) => convert(e)));
+  const handleSearch = async (query) => {
+    const response = await fetch(
+      `/books/get?filter=title <> "${query}" , isbn <> "${query}" , categories <> "${query}" , author <> "${query}"`
+    );
+    const json = await response.json();
+    setOptions(json.map((e) => convert(e)));
   };
 
   return (

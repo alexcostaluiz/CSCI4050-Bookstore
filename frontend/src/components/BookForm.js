@@ -41,13 +41,13 @@ function BookForm(props) {
     values.pubDate = values.pubDate.format('YYYY-MM-DD');
 
     if (
-      values.coverPicPath &&
-      values.coverPicPath.length > 0 &&
-      values.coverPicPath[0].originFileObj
+      values.coverPic &&
+      values.coverPic.length > 0 &&
+      values.coverPic[0].originFileObj
     ) {
       let reader = new FileReader();
       reader.onload = async (e) => {
-        values.coverPicPath = e.target.result.replace(
+        values.coverPic = e.target.result.replace(
           /^data:image\/.*;base64,/,
           ''
         );
@@ -57,10 +57,10 @@ function BookForm(props) {
         }
         setLoading(false);
       };
-      reader.readAsDataURL(values.coverPicPath[0].originFileObj);
+      reader.readAsDataURL(values.coverPic[0].originFileObj);
     } else {
-      if (values.coverPicPath) {
-        values.coverPicPath = values.coverPicPath[0].url.replace(
+      if (values.coverPic) {
+        values.coverPic = values.coverPic[0].url.replace(
           /^data:image\/.*;base64,/,
           ''
         );
@@ -92,7 +92,7 @@ function BookForm(props) {
 
       <Form.Item
         label='Book Cover'
-        name='coverPicPath'
+        name='coverPic'
         valuePropName='fileList'
         getValueFromEvent={(e) => e.fileList}
         rules={[
