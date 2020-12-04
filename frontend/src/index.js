@@ -10,6 +10,7 @@ import BookPage from './pages/BookPage.js';
 import CartPage from './pages/CartPage.js';
 import CartService from './components/CartService.js';
 import CheckoutPage from './pages/CheckoutPage.js';
+import ConfirmOrderPage from './pages/ConfirmOrderPage.js';
 import Footer from './components/Footer.js';
 import Header from './components/Header.js';
 import HomePage from './pages/HomePage.js';
@@ -47,6 +48,9 @@ ReactDOM.render(
                 </Route>
                 <Route path='/cart'>
                   <CartPage />
+                </Route>
+                <Route path='/checkout/confirm'>
+                  <ConfirmOrderPage />
                 </Route>
                 <Route path='/checkout'>
                   <CheckoutPage />
