@@ -8,7 +8,10 @@ import {
   Button,
   Divider,
   InputNumber,
-  /*Radio, Rate,*/ Typography,
+  message,
+  Radio,
+  Rate,
+  Typography,
 } from 'antd';
 
 import CartContext from '../contexts/CartContext.js';
@@ -27,64 +30,63 @@ const { Paragraph, Title } = Typography;
 function BookListing(props) {
   const { book, noAction } = props;
   const {
-    /* authors, */
-    /*bookType: initBookType,*/
-    /*edition, <- this might actually need to be displayed*/
-    /**numRatings,**/
-    /* buyPrice, */
-    /*quantity: initQuantity,*/
-    /**rating,**/
+    authors,
+    sellPrice,
+    /* edition, */
+    promo,
     title,
+    rating = 4.5,
+    numRatings = 492,
   } = book;
 
   const history = useHistory();
   const cart = useContext(CartContext);
-  /*const [bookType, setBookType] = useState(initBookType);*/
+  const [bookType, setBookType] = useState('Hardcover');
   const [quantity, setQuantity] = useState(1);
   const [addingToCart, setAddingToCart] = useState(false);
 
-  const addToCart = () => {
+  const addToCart = async () => {
     setAddingToCart(true);
-    setTimeout(() => {
-      setAddingToCart(false);
-    }, 1000);
 
     const item = {
       book: book,
       quantity: quantity,
     };
 
-    cart.add(item);
-    CartNotification.open({ book, history, quantity });
+    const success = await cart.add(item);
+    if (success) {
+      CartNotification.open({ book, history, quantity });
+    } else {
+      message.error('Failed to add product to cart.');
+    }
+    setAddingToCart(false);
   };
 
   return (
     <div className='bookstore-bp-book-info'>
       <Title className='bookstore-bp-book-title'>{title}</Title>
       <Paragraph className='bookstore-bp-book-author'>
-        {/* by {authors[0].name} */}
+        {authors.reduce((s, a) => s + a.name + ' (' + a.role + '),', '').slice(0, -1)}
       </Paragraph>
       <div>
-        {/*
         <Rate className='bookstore-bp-book-rate' value={rating} disabled />
-        
         <Paragraph className='bookstore-bp-book-rate-text'>
           {rating}&emsp;|&emsp;{numRatings} review
           {numRatings === 1 ? '' : 's'}
         </Paragraph>
-        */}
       </div>
       <Divider />
-      {/*<Paragraph className='bookstore-bp-book-type'>{bookType}</Paragraph>*/}
+      <Paragraph className='bookstore-bp-book-type'>{'Hardcover'}</Paragraph>
       <div>
         <Title className='bookstore-bp-book-price'>
-          ${/* {buyPrice.toFixed(2)} */}
+          ${promo === null ? sellPrice.toFixed(2) : sellPrice.toFixed(2)}
         </Title>
-        <Paragraph className='bookstore-bp-book-sale'>
-          ${/* (buyPrice * 1.2).toFixed(2) */}
-        </Paragraph>
+        {promo === null ? null : (
+          <Paragraph className='bookstore-bp-book-sale'>
+            ${sellPrice.toFixed(2)}
+          </Paragraph>
+        )}
       </div>
-      {/*
       <Paragraph className='bookstore-bp-label'>Select Type</Paragraph>
       <Radio.Group
         className='bookstore-bp-book-type-select'
@@ -95,23 +97,16 @@ function BookListing(props) {
         <Radio.Button value='Hardcover'>
           <span>Hardcover</span>
           <span className='bookstore-bp-book-type-price'>
-            ${/* buyPrice}
+            ${sellPrice}
           </span>
         </Radio.Button>
         <Radio.Button value='Paperback'>
           <span>Paperback</span>
           <span className='bookstore-bp-book-type-price'>
-            ${/* buyPrice}
-          </span>
-        </Radio.Button>
-        <Radio.Button value='Audio'>
-          <span>Audio</span>
-          <span className='bookstore-bp-book-type-price'>
-            ${/* buyPrice}
+            ${sellPrice}
           </span>
         </Radio.Button>
       </Radio.Group>
-      */}
       {!noAction
         ? [
             <Paragraph className='bookstore-bp-label'>
@@ -124,22 +119,16 @@ function BookListing(props) {
               onChange={(e) => (e ? setQuantity(e) : setQuantity(1))}
               style={noAction ? { marginBottom: '0px' } : null}
             />,
-
             <Button
               key='add-to-cart'
               className='bookstore-bp-add-cart'
               type='primary'
               size='large'
               disabled={addingToCart}
+              loading={addingToCart}
               onClick={addToCart}>
-              {addingToCart ? 'ADDED!' : 'ADD TO CART'}
-            </Button>,
-            <Button
-              key='add-to-wish-list'
-              className='bookstore-bp-add-wish-list'
-              type='link'>
-              Add to Wish List
-            </Button>,
+              ADD TO CART
+            </Button>
           ]
         : null}
     </div>
