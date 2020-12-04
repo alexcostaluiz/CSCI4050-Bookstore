@@ -269,26 +269,37 @@ function CheckoutPage(props) {
                 {orderDate}
               </Paragraph>
             </div>
-            <div>
-              <Title style={{ display: 'inline-block', paddingRight: '10px' }}>
-                Shipping Address:
-              </Title>{' '}
-              <Paragraph
-                style={{ display: 'inline-block', fontSize: 'x-large' }}>
-                <b>{address.name}</b> {address.address1}, {address.address2}{' '}
-                {address.city}, {address.state} {address.zip} {address.country}
-              </Paragraph>
-            </div>
-            <div>
-              <Title style={{ display: 'inline-block', paddingRight: '10px' }}>
-                Card Used:
-              </Title>{' '}
-              <Paragraph
-                style={{ display: 'inline-block', fontSize: 'x-large' }}>
-                <b>{card.cardType}</b> ending in {card.number.slice(-4)}{' '}
-                {card.name} {card.expiry}
-              </Paragraph>
-            </div>
+            {address != null ? (
+              <div>
+                <Title
+                  style={{ display: 'inline-block', paddingRight: '10px' }}>
+                  Shipping Address:
+                </Title>{' '}
+                <Paragraph
+                  style={{ display: 'inline-block', fontSize: 'x-large' }}>
+                  <b>{address.name}</b> {address.address1}, {address.address2}{' '}
+                  {address.city}, {address.state} {address.zip}{' '}
+                  {address.country}
+                </Paragraph>
+              </div>
+            ) : (
+              <div />
+            )}
+            {card != null ? (
+              <div>
+                <Title
+                  style={{ display: 'inline-block', paddingRight: '10px' }}>
+                  Card Used:
+                </Title>{' '}
+                <Paragraph
+                  style={{ display: 'inline-block', fontSize: 'x-large' }}>
+                  <b>{card.cardType}</b> ending in {card.number.slice(-4)}{' '}
+                  {card.name} {card.expiry}
+                </Paragraph>
+              </div>
+            ) : (
+              <div />
+            )}
           </Modal>
         </Col>
       </Row>

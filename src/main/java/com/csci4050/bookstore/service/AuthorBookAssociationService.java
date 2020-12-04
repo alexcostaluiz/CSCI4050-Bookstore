@@ -1,29 +1,29 @@
 package com.csci4050.bookstore.service;
 
 import com.csci4050.bookstore.dao.DAO;
-import com.csci4050.bookstore.model.Order;
+import com.csci4050.bookstore.model.AuthorBookAssociation;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OrderService {
-  @Autowired private DAO<Order> dao;
+public class AuthorBookAssociationService {
+  @Autowired private DAO<AuthorBookAssociation> dao;
 
   @Transactional
-  public List<Order> get() {
+  public List<AuthorBookAssociation> get() {
     return dao.get();
   }
 
   @Transactional
-  public Order get(int id) {
+  public AuthorBookAssociation get(int id) {
     return dao.get(id);
   }
 
   @Transactional
-  public Integer save(Order order) {
-    return dao.save(order);
+  public void save(AuthorBookAssociation assoc) {
+    dao.save(assoc);
   }
 
   @Transactional
@@ -32,7 +32,7 @@ public class OrderService {
   }
 
   @Transactional
-  public void update(Order Order) {
-    dao.update(Order);
+  public void update(AuthorBookAssociation assoc) {
+    dao.update(assoc);
   }
 }

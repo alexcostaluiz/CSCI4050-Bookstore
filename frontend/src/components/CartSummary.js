@@ -17,13 +17,14 @@ const { Paragraph, Title } = Typography;
  *     of this component (default: small button with "CHECKOUT" text).
  */
 function CartSummary(props) {
-  const { action, promo } = props;
+  const { action, promo, order } = props;
   const cart = useContext(CartContext);
   const auth = useContext(AuthContext);
   const history = useHistory();
-  const subtotal = cart
+  const subtotal = (order == null ? (cart
     .get()
-    .reduce((a, b) => a + b.book.buyPrice * b.quantity, 0);
+    .reduce((a, b) => a + b.book.buyPrice * b.quantity, 0)) : (order.orderCart
+      .reduce((a, b) => a + b.book.buyPrice * b.quantity, 0)));
   const quantity = cart.get().reduce((a, b) => a + b.quantity, 0);
   const tax = 4.99;
   const total = subtotal + tax;

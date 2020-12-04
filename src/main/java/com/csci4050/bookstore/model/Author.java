@@ -1,7 +1,6 @@
 package com.csci4050.bookstore.model;
 
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,10 +18,10 @@ public class Author {
   @Column(name = "id")
   private Integer id;
 
-  @Column(name = "name", unique = true)
+  @Column(name = "name")
   private String name;
 
-  @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "author")
   private List<AuthorBookAssociation> books;
 
   @Override
