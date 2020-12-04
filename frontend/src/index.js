@@ -23,6 +23,7 @@ import ScrollToTop from './components/ScrollToTop.js';
 import OrderHistory from './pages/OrderHistory.js';
 import ResetPassword from './pages/ResetPassword.js';
 import ForgotPassword from './pages/ForgotPassword.js';
+import SearchPage from './pages/SearchPage.js';
 
 import * as serviceWorker from './serviceWorker';
 
@@ -76,6 +77,9 @@ ReactDOM.render(
                 </Route>
                 <Route path='/admin'>
                   <AdminPage />
+                </Route>
+                <Route path='/search'>
+                  <SearchPage />
                 </Route>
                 <Route path='/'>
                   <HomePage />

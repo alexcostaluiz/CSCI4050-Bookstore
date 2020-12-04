@@ -158,6 +158,7 @@ function Header(props) {
                 searchHints[Math.floor(Math.random() * searchHints.length)] +
                 '"'
               }
+              onClick={() => history.push('/search')}
             />
           </AutoComplete>
           <DynamicAvatar isSignedIn={true} />
