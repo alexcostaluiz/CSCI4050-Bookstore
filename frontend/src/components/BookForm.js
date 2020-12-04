@@ -26,18 +26,20 @@ function BookForm(props) {
 
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [tags, setTags] = useState([]);
 
   useEffect(() => {
     (async () => {
       const categories = await DB.retrieveCategories();
+      const tags = await DB.retrieveTags();
       setCategories(categories);
+      setTags(tags);
     })();
   }, []);
 
   const onFinish = async (values) => {
     setLoading(true);
 
-    //values.authors = values.authors.map((a) => a.name);
     values.pubDate = values.pubDate.format('YYYY-MM-DD');
 
     if (
@@ -273,7 +275,13 @@ function BookForm(props) {
           </Select>
         </Form.Item>
         <Form.Item label='Tags' name='tags'>
-          <Select mode='tags' />
+          <Select mode='multiple'>
+            {tags.map((tag) => (
+              <Select.Option value={tag}>
+                {tag[0] + tag.slice(1).toLowerCase()}
+              </Select.Option>
+            ))}
+          </Select>
         </Form.Item>
       </div>
 
