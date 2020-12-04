@@ -59,10 +59,8 @@ function BookAuthorDetails(props) {
         <Title className='bookstore-bp-book-tabs-title' level={2}>
           Product Desciption
         </Title>
-        <div className='bookstore-bp-book-author-description'>    
-          <Text style={{whiteSpace: 'pre-wrap'}}>
-            {description}
-          </Text>
+        <div className='bookstore-bp-book-author-description'>
+          <Text style={{ whiteSpace: 'pre-wrap' }}>{description}</Text>
         </div>
       </Tabs.TabPane>
       <Tabs.TabPane tab='Product Details' key='1'>
@@ -81,14 +79,20 @@ function BookAuthorDetails(props) {
           <Descriptions.Item label='Pages'>{pages}</Descriptions.Item>
           <Descriptions.Item label='Categories' span={2}>
             {categories.map((c, i) => (
-              <Tag className='bookstore-bp-book-tag' key={c} color={Colors.category(c)}>
+              <Tag
+                className='bookstore-bp-book-tag'
+                key={c}
+                color={Colors.category(c)}>
                 {c.replaceAll('_', ' ')}
               </Tag>
             ))}
           </Descriptions.Item>
           <Descriptions.Item label='Tags' span={2}>
             {tags.map((t, i) => (
-              <Tag className='bookstore-bp-book-tag' key={t} color={Colors.category(t)}>
+              <Tag
+                className='bookstore-bp-book-tag'
+                key={t}
+                color={Colors.category(t)}>
                 {t[0] + t.slice(1).toLowerCase()}
               </Tag>
             ))}

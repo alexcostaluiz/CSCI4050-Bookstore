@@ -54,9 +54,7 @@ function OrderListing(props) {
                 <Title className='bookstore-checkout-module-title'>
                   Payment Information
                 </Title>
-                <Paragraph
-                  style={{ marginBottom: '0px' }}
-                  key={order.payment}>
+                <Paragraph style={{ marginBottom: '0px' }} key={order.payment}>
                   <b>{order.payment.cardType}</b> ending in{' '}
                   {order.payment.number.slice(-4)}
                 </Paragraph>
@@ -69,9 +67,7 @@ function OrderListing(props) {
                     Promotion Information
                   </Title>
 
-                  <Paragraph
-                    style={{ marginBottom: '0px' }}
-                    key={order.promo}>
+                  <Paragraph style={{ marginBottom: '0px' }} key={order.promo}>
                     <b>Promotion code: {order.promo.promoCode}</b> for a %
                     {order.promo.discount * 100} discount
                   </Paragraph>
@@ -80,7 +76,7 @@ function OrderListing(props) {
                 <div />
               )}
             </div>
-            <CartSummary promo={order.promo} action={<div />} order={order}/>
+            <CartSummary promo={order.promo} action={<div />} order={order} />
           </div>
         </Col>
       </Row>

@@ -66,7 +66,9 @@ function BookListing(props) {
     <div className='bookstore-bp-book-info'>
       <Title className='bookstore-bp-book-title'>{title}</Title>
       <Paragraph className='bookstore-bp-book-author'>
-        {authors.reduce((s, a) => s + a.name + ' (' + a.role + '),', '').slice(0, -1)}
+        {authors
+          .reduce((s, a) => s + a.name + ' (' + a.role + '),', '')
+          .slice(0, -1)}
       </Paragraph>
       <div>
         <Rate className='bookstore-bp-book-rate' value={rating} disabled />
@@ -96,15 +98,11 @@ function BookListing(props) {
         size='large'>
         <Radio.Button value='Hardcover'>
           <span>Hardcover</span>
-          <span className='bookstore-bp-book-type-price'>
-            ${sellPrice}
-          </span>
+          <span className='bookstore-bp-book-type-price'>${sellPrice}</span>
         </Radio.Button>
         <Radio.Button value='Paperback'>
           <span>Paperback</span>
-          <span className='bookstore-bp-book-type-price'>
-            ${sellPrice}
-          </span>
+          <span className='bookstore-bp-book-type-price'>${sellPrice}</span>
         </Radio.Button>
       </Radio.Group>
       {!noAction
@@ -128,7 +126,7 @@ function BookListing(props) {
               loading={addingToCart}
               onClick={addToCart}>
               ADD TO CART
-            </Button>
+            </Button>,
           ]
         : null}
     </div>

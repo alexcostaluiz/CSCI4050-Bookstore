@@ -180,7 +180,7 @@ function CheckoutPage(props) {
 
               <CartList title='Review Cart' />
             </div>
-            
+
             <div>
               <CartSummary
                 promo={promo}
@@ -198,7 +198,7 @@ function CheckoutPage(props) {
                   </Button>
                 }
               />
-              
+
               <div style={{ marginTop: '25px' }}>
                 <Search
                   placeholder='Input promo code'
@@ -210,7 +210,6 @@ function CheckoutPage(props) {
                 />
               </div>
             </div>
-            
           </div>
 
           <Modal

@@ -57,7 +57,9 @@ function CartItem(props) {
             <Title level={4} style={{ marginTop: '0px' }}>
               ${book.sellPrice}
             </Title>
-            <Paragraph style={{ marginBottom: '4px' }}>Qty: {quantity}</Paragraph>
+            <Paragraph style={{ marginBottom: '4px' }}>
+              Qty: {quantity}
+            </Paragraph>
           </div>
         </div>
         <div className='bookstore-cart-item-action-container'>

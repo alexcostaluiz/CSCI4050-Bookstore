@@ -21,11 +21,10 @@ function CartSummary(props) {
   const cart = useContext(CartContext);
   const auth = useContext(AuthContext);
   const history = useHistory();
-  const subtotal = (
-    order == null ?
-      (cart.get().reduce((a, b) => a + b.book.sellPrice * b.quantity, 0)) :
-      (order.orderCart.reduce((a, b) => a + b.book.sellPrice * b.quantity, 0))
-  );
+  const subtotal =
+    order == null
+      ? cart.get().reduce((a, b) => a + b.book.sellPrice * b.quantity, 0)
+      : order.orderCart.reduce((a, b) => a + b.book.sellPrice * b.quantity, 0);
   const quantity = cart.get().reduce((a, b) => a + b.quantity, 0);
   const tax = 4.99;
   const total = subtotal + tax;

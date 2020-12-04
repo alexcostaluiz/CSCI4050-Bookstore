@@ -58,7 +58,7 @@ function ProfilePage(props) {
         const editable = {
           autoSize: { minRows: 1, maxRows: 1 },
         };
-        
+
         return (
           <div className='bookstore-profile-content-container'>
             <Title className='bookstore-profile-content-title'>
@@ -96,7 +96,11 @@ function ProfilePage(props) {
               </Text>
             </Card>
             <Card type='inner' title='Subscription'>
-              <Checkbox onChange={(value) => setSubscribed(value.target.checked)} defaultChecked={subscription}>Check here to subscribe to promotions</Checkbox>
+              <Checkbox
+                onChange={(value) => setSubscribed(value.target.checked)}
+                defaultChecked={subscription}>
+                Check here to subscribe to promotions
+              </Checkbox>
             </Card>
             <Button
               type='primary'
