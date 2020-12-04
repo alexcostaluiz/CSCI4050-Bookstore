@@ -81,15 +81,11 @@ function OrderListing(props) {
                 <div />
               )}
             </div>
-<<<<<<< HEAD
-            <CartSummary promo={order.promo} action={<div />} order={order} />
-=======
             <CartSummary
               promo={order.promo}
               action={<div />}
               order={{ ...order, orderCart }}
             />
->>>>>>> 04b4037d614de46af3bf8fd26658ee16991e88ad
           </div>
         </Col>
       </Row>
