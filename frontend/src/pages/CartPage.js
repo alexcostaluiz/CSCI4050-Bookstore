@@ -12,7 +12,6 @@ import Slider from '../components/Slider.js';
  * The cart page. Allows users to review their selected products before checking out.
  */
 function CartPage(props) {
-
   return (
     <Row justify='center'>
       <Col span={24} className='bookstore-column'>

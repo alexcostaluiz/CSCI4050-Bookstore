@@ -76,7 +76,7 @@ function Authentication(props) {
 
   const register = async (values, currentCart) => {
     var cart = {};
-    currentCart.forEach((item) => cart[item.book.id] = item.quantity);
+    currentCart.forEach((item) => (cart[item.book.id] = item.quantity));
     values['cart'] = cart;
     const response = await fetch('/auth/register', {
       method: 'POST',

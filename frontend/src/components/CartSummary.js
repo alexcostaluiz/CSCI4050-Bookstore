@@ -8,8 +8,6 @@ import { Button, Divider, Typography } from 'antd';
 import CartContext from '../contexts/CartContext.js';
 import AuthContext from '../contexts/AuthContext';
 
-
-
 const { Paragraph, Title } = Typography;
 
 /**
@@ -23,7 +21,9 @@ function CartSummary(props) {
   const cart = useContext(CartContext);
   const auth = useContext(AuthContext);
   const history = useHistory();
-  const subtotal = cart.get().reduce((a, b) => a + b.book.buyPrice * b.quantity, 0);
+  const subtotal = cart
+    .get()
+    .reduce((a, b) => a + b.book.buyPrice * b.quantity, 0);
   const quantity = cart.get().reduce((a, b) => a + b.quantity, 0);
   const tax = 4.99;
   const total = subtotal + tax;
@@ -52,30 +52,37 @@ function CartSummary(props) {
             Order Total:
           </Title>
           <Title className='bookstore-cart-summary-title' level={4}>
-          {
-            promo == null ? ('$' + total.toFixed(2)) : 
-            (<div><div style={{'text-decoration': 'line-through'}}>${total.toFixed(2)}</div> <Paragraph>${(total * promo.discount).toFixed(2)}</Paragraph></div>)
-          }
-          
-            
+            {promo == null ? (
+              '$' + total.toFixed(2)
+            ) : (
+              <div>
+                <div style={{ 'text-decoration': 'line-through' }}>
+                  ${total.toFixed(2)}
+                </div>{' '}
+                <Paragraph>${(total * promo.discount).toFixed(2)}</Paragraph>
+              </div>
+            )}
           </Title>
         </div>
       </div>
-      {action || ((auth.user != null && auth.user.id != null) ? (
-        <Button
-          className='bookstore-cart-summary-action'
-          type='primary'
-          onClick={() => history.push('/checkout')}
-          disabled={cart.get().length === 0}>
-          CHECKOUT
-        </Button>
-      ) : (<Button
-              key='register-to-checkout'
-              className='bookstore-bp-add-wish-list'
-              type='link'
-              onClick={() => history.push('/register')}>
-              Register here to checkout
-            </Button>))}
+      {action ||
+        (auth.user != null && auth.user.id != null ? (
+          <Button
+            className='bookstore-cart-summary-action'
+            type='primary'
+            onClick={() => history.push('/checkout')}
+            disabled={cart.get().length === 0}>
+            CHECKOUT
+          </Button>
+        ) : (
+          <Button
+            key='register-to-checkout'
+            className='bookstore-bp-add-wish-list'
+            type='link'
+            onClick={() => history.push('/register')}>
+            Register here to checkout
+          </Button>
+        ))}
     </div>
   );
 }

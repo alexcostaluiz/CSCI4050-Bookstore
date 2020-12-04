@@ -11,27 +11,24 @@ function CartService(props) {
   const auth = useContext(AuthContext);
   const [cart, setCart] = useState(auth.user != null ? auth.user.cart : []);
   useEffect(() => {
-    if(auth.user != null && auth.user.id != null){
-
-    (async () => {
-      
+    if (auth.user != null && auth.user.id != null) {
+      (async () => {
         let array = [];
-        for(var item in auth.user.cart) {
+        for (var item in auth.user.cart) {
           const book = await DB.fetchBook(item);
           const obj = {
-            book : book,
-            quantity : auth.user.cart[item]
-          }
+            book: book,
+            quantity: auth.user.cart[item],
+          };
           array.push(obj);
         }
         setCart(array);
-      }
-    ) ();
+      })();
     }
   }, [auth]);
 
   const add = (item) => {
-    if(auth.user.id != null) {
+    if (auth.user.id != null) {
       DB.addToCart(item, auth);
     } else {
       cart.push(item);
@@ -40,9 +37,9 @@ function CartService(props) {
   };
 
   const remove = (id) => {
-    if(auth.user.id != null) {
+    if (auth.user.id != null) {
       var book = {
-        id : id
+        id: id,
       };
       DB.removeFromCart(book, auth);
     } else {
@@ -62,8 +59,8 @@ function CartService(props) {
   };
 
   const updateItem = (item) => {
-    if(auth.user.id != null) {
-      DB.updateCartItemQuantity(item,auth);
+    if (auth.user.id != null) {
+      DB.updateCartItemQuantity(item, auth);
     } else {
       //update for non logged user here
     }

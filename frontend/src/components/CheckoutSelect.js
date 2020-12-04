@@ -9,9 +9,14 @@ import DB from '../services/DatabaseService';
 import AddressForm from './AddressForm';
 import Title from 'antd/lib/typography/Title';
 
-
 function CheckoutSelect(props) {
-  const { defaultChoice, choices, renderChoice, renderDefault, setState } = props;
+  const {
+    defaultChoice,
+    choices,
+    renderChoice,
+    renderDefault,
+    setState,
+  } = props;
 
   const [choice, setChoice] = useState(defaultChoice);
   const [choosing, setChoosing] = useState(false);
@@ -27,7 +32,6 @@ function CheckoutSelect(props) {
     await DB.createAddress(values, auth);
     setAddressFormLoading(false);
     setEditAddress(false);
-    
   };
 
   const onSubmitCardForm = async (values) => {
@@ -35,23 +39,24 @@ function CheckoutSelect(props) {
     await DB.createCard(values, auth);
     setCardFormLoading(false);
     setEditCard(false);
-    
   };
-
-  
 
   return (
     <div className='bookstore-checkout-module-select'>
       {!choosing
         ? [
-            renderDefault(choices[choice]), choices.length > 0 ? (
-            <Button
-              key='action'
-              className='bookstore-checkout-module-select-action'
-              onClick={() => setChoosing(true)}
-              type='primary'>
-              CHANGE
-            </Button>) : (<div/>),
+            renderDefault(choices[choice]),
+            choices.length > 0 ? (
+              <Button
+                key='action'
+                className='bookstore-checkout-module-select-action'
+                onClick={() => setChoosing(true)}
+                type='primary'>
+                CHANGE
+              </Button>
+            ) : (
+              <div />
+            ),
           ]
         : [
             <Radio.Group
@@ -68,7 +73,7 @@ function CheckoutSelect(props) {
               onClick={() => {
                 setChoosing(false);
                 setState(choices[choice]);
-                }}
+              }}
               type='primary'>
               SAVE
             </Button>,
@@ -77,7 +82,7 @@ function CheckoutSelect(props) {
               className='bookstore-checkout-module-select-action'
               type='link'
               onClick={() => {
-                if(choices[choice].number != null) {
+                if (choices[choice].number != null) {
                   setEditCard(true);
                 } else {
                   setEditAddress(true);
@@ -121,7 +126,6 @@ function CheckoutSelect(props) {
         <CardForm addCard={onSubmitCardForm} />
       </Modal>
     </div>
-    
   );
 }
 

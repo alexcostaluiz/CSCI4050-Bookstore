@@ -4,7 +4,12 @@ import React, { useState, useContext } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
-import { Button, Divider, InputNumber, /*Radio, Rate,*/ Typography } from 'antd';
+import {
+  Button,
+  Divider,
+  InputNumber,
+  /*Radio, Rate,*/ Typography,
+} from 'antd';
 
 import CartContext from '../contexts/CartContext.js';
 import AuthContext from '../contexts/AuthContext.js';
@@ -46,12 +51,11 @@ function BookListing(props) {
       setAddingToCart(false);
     }, 1000);
 
-    
     const item = {
-      book : book,
-      quantity : quantity
-    }
-    
+      book: book,
+      quantity: quantity,
+    };
+
     cart.add(item);
     CartNotification.open({ book, history, quantity });
   };
@@ -106,15 +110,17 @@ function BookListing(props) {
       */}
       {!noAction
         ? [
-      <Paragraph className='bookstore-bp-label'>Select Quantity</Paragraph>,
-      <InputNumber
-        className='bookstore-bp-book-quantity'
-        min={1}
-        value={quantity}
-        onChange={(e) => (e ? setQuantity(e) : setQuantity(1))}
-        style={noAction ? { marginBottom: '0px' } : null}
-      />,
-      
+            <Paragraph className='bookstore-bp-label'>
+              Select Quantity
+            </Paragraph>,
+            <InputNumber
+              className='bookstore-bp-book-quantity'
+              min={1}
+              value={quantity}
+              onChange={(e) => (e ? setQuantity(e) : setQuantity(1))}
+              style={noAction ? { marginBottom: '0px' } : null}
+            />,
+
             <Button
               key='add-to-cart'
               className='bookstore-bp-add-cart'

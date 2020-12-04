@@ -16,12 +16,11 @@ const DB = {
   },
 
   addToCart: async (item, auth) => {
-    
     const temp = {
       book: {
-        id: item.book.id
+        id: item.book.id,
       },
-      quantity: item.quantity
+      quantity: item.quantity,
     };
     const response = await fetch('/cart/add', {
       method: 'POST',
@@ -38,8 +37,8 @@ const DB = {
 
   removeFromCart: async (book, auth) => {
     const temp = {
-      id: book.id
-    }
+      id: book.id,
+    };
     const response = await fetch('/cart/remove', {
       method: 'POST',
       headers: {
@@ -96,15 +95,14 @@ const DB = {
 
   fetchPromo: async (code) => {
     const response = await fetch('/promos/getCode/' + code);
-    if(response.ok){
+    if (response.ok) {
       const json = await response.json();
       message.success('Promotion correct!');
       return json;
     } else {
-      message.error('Promotion code doesn\'t exist');
+      message.error("Promotion code doesn't exist");
       return null;
     }
-    
   },
 
   updatePassword: async (values, auth, form) => {

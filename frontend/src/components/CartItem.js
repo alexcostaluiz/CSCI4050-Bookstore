@@ -16,8 +16,7 @@ const { Paragraph, Title } = Typography;
  * @param {!Book} props.book The book whose information should be displayed in this cart item.
  */
 function CartItem(props) {
-
-  const {quantity, cart, book} = props;
+  const { quantity, cart, book } = props;
   const [temp_q, setTemp_q] = useState(quantity);
   const [editing, setEditing] = useState(false);
   const remove = () => {
@@ -26,11 +25,11 @@ function CartItem(props) {
 
   const edit = () => {
     const item = {
-      book : {
-        id : book.id
+      book: {
+        id: book.id,
       },
-      quantity : temp_q
-    }
+      quantity: temp_q,
+    };
     cart.updateItem(item);
     setEditing(false);
   };
@@ -39,13 +38,17 @@ function CartItem(props) {
     setEditing(false);
     setTemp_q(quantity);
   };
-  if(book === null){
-    return <Spin size='large' className='bookstore-cart-item'/>
+  if (book === null) {
+    return <Spin size='large' className='bookstore-cart-item' />;
   } else {
     return (
       <div className='bookstore-cart-item-wrapper'>
         <div className='bookstore-cart-item'>
-          <img className='bookstore-cart-item-image' src={book.coverPic} alt={book.title} />
+          <img
+            className='bookstore-cart-item-image'
+            src={book.coverPic}
+            alt={book.title}
+          />
           <div className='bookstore-cart-item-details'>
             <Title className='bookstore-cart-item-title' level={4}>
               {book.title}

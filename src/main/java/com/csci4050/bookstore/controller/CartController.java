@@ -153,7 +153,8 @@ public class CartController {
           order.setUser(user);
 
           // reset cart
-          user.setCart(null);//reset cart to null due to a bug in copying the map over to a new table
+          user.setCart(
+              null); // reset cart to null due to a bug in copying the map over to a new table
           userService.updateUser(user);
 
           // persist order
