@@ -84,7 +84,7 @@ public class Book {
   @CollectionTable(name = "categories", joinColumns = @JoinColumn(name = "id"))
   private List<Category> categories = new ArrayList<Category>();
 
-  @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "book")
   private List<AuthorBookAssociation> authors = new ArrayList<AuthorBookAssociation>();
 
   @Column(name = "tag")
@@ -260,8 +260,7 @@ public class Book {
     return "title: " + this.title + "\nid: " + this.id;
   }
 
-  public static Book dtoToBook(BookDto dto) {
-    Book book = new Book();
+  public static Book dtoToBook(BookDto dto, Book book) {
     book.setId(dto.getId());
     book.setArchived(dto.getArchived());
     book.setBuyPrice(dto.getBuyPrice());

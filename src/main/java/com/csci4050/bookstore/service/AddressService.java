@@ -1,6 +1,6 @@
 package com.csci4050.bookstore.service;
 
-import com.csci4050.bookstore.dao.AddressDAO;
+import com.csci4050.bookstore.dao.DAO;
 import com.csci4050.bookstore.model.Address;
 import java.util.List;
 import javax.transaction.Transactional;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AddressService {
-  @Autowired private AddressDAO dao;
+  @Autowired private DAO<Address> dao;
 
   @Transactional
   public List<Address> get() {

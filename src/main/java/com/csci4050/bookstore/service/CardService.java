@@ -1,6 +1,6 @@
 package com.csci4050.bookstore.service;
 
-import com.csci4050.bookstore.dao.CardDAO;
+import com.csci4050.bookstore.dao.DAO;
 import com.csci4050.bookstore.model.Card;
 import java.util.List;
 import javax.transaction.Transactional;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CardService {
-  @Autowired private CardDAO dao;
+  @Autowired private DAO<Card> dao;
 
   @Transactional
   public List<Card> get() {

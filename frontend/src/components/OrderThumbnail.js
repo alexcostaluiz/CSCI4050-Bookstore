@@ -9,14 +9,12 @@ import { Card, Typography } from 'antd';
 const { Paragraph, Title } = Typography;
 
 function OrderThumbnail(props) {
-    const{ order } = props;
-    const history = useHistory();
+  const { order } = props;
+  const history = useHistory();
 
   return (
     <Card
-      className={
-        'bookstore-book-thumbnail bookstore-book-thumbnail-lg'
-      }
+      className={'bookstore-book-thumbnail bookstore-book-thumbnail-lg'}
       bordered={false}
       onClick={() => history.push(`/o/${order.id}`)}
       cover={
@@ -41,10 +39,10 @@ function OrderThumbnail(props) {
         className={
           'bookstore-book-thumbnail-author bookstore-book-thumbnail-author-lg'
         }>
-        <b>{order.address.name}</b> {order.address.address1}, {order.address.address2} {order.address.city},{' '}
-                    {order.address.state} {order.address.zip} {order.address.country}
+        <b>{order.address.name}</b> {order.address.address1},{' '}
+        {order.address.address2} {order.address.city}, {order.address.state}{' '}
+        {order.address.zip} {order.address.country}
       </Paragraph>
-      
     </Card>
   );
 }

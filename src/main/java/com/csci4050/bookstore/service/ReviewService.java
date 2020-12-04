@@ -1,6 +1,6 @@
 package com.csci4050.bookstore.service;
 
-import com.csci4050.bookstore.dao.ReviewDAO;
+import com.csci4050.bookstore.dao.DAO;
 import com.csci4050.bookstore.model.Review;
 import java.util.List;
 import javax.transaction.Transactional;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ReviewService {
-  @Autowired private ReviewDAO dao;
+  @Autowired private DAO<Review> dao;
 
   @Transactional
   public List<Review> get() {

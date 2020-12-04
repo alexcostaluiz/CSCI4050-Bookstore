@@ -1,43 +1,40 @@
 import '../pages/CheckoutPage.less';
 
-import React, { useState } from 'react';
+import React from 'react';
 
-import { Breadcrumb,  Col, Row, Typography } from 'antd';
+import { Breadcrumb, Col, Row, Spin, Typography } from 'antd';
 
 import CartList from '../components/CartList.js';
 import CartSummary from '../components/CartSummary.js';
 import DB from '../services/DatabaseService';
 
-
 const { Paragraph, Title } = Typography;
 
 function OrderListing(props) {
   const { order } = props;
-  const [popOrder, setPopOrder] = useState(order);
+  (async () => {
+    let cart = [];
+    for (var item in order.orderCart) {
+      const book = await DB.fetchBook(item);
+      const obj = {
+        book: book,
+        quantity: order.orderCart[item],
+      };
+      cart.push(obj);
+    }
+    order.orderCart = cart;
+  })();
 
-    (async () => {
-        let array = [];
-        for (var item in order.orderCart) {
-            console.log(item.book.id);
-            const book = await DB.fetchBook(item.book.id);
-            const obj = {
-            book: book,
-            quantity: item.quantity,
-            };
-            array.push(obj);
-        }
-        setPopOrder(array);
-        }) ();
-      
-
-if(popOrder != null){
-  return (
-    <Row justify='center'>
+  if (order != null) {
+    return (
+      <Row justify='center'>
         <Col span={24} className='bookstore-column'>
           <Breadcrumb className='bookstore-breadcrumb'>
             <Breadcrumb.Item href='/'>Home</Breadcrumb.Item>
-            <Breadcrumb.Item href='/orderHistory'>Order History</Breadcrumb.Item>
-            <Breadcrumb.Item href='#'>Order {popOrder.id}</Breadcrumb.Item>
+            <Breadcrumb.Item href='/orderHistory'>
+              Order History
+            </Breadcrumb.Item>
+            <Breadcrumb.Item href='#'>Order {order.id}</Breadcrumb.Item>
           </Breadcrumb>
           <div className='bookstore-page-section'>
             <div className='bookstore-checkout-module-container'>
@@ -45,55 +42,52 @@ if(popOrder != null){
                 <Title className='bookstore-checkout-module-title'>
                   Shipping Address
                 </Title>
-                
-                <Paragraph
-                    ellipsis={{ rows: 1 }}
-                    style={{ display: 'inline' }}>
-                    <b>{popOrder.address.name}</b> {popOrder.address.address1}, {popOrder.address.address2} {popOrder.address.city},{' '}
-                    {popOrder.address.state} {popOrder.address.zip} {popOrder.address.country}
+                <Paragraph ellipsis={{ rows: 1 }} style={{ display: 'inline' }}>
+                  <b>{order.address.name}</b> {order.address.address1},{' '}
+                  {order.address.address2} {order.address.city},{' '}
+                  {order.address.state} {order.address.zip}{' '}
+                  {order.address.country}
                 </Paragraph>
-            
               </div>
 
               <div className='bookstore-checkout-module'>
                 <Title className='bookstore-checkout-module-title'>
                   Payment Information
                 </Title>
-                    {console.log(popOrder)}
-                      <Paragraph style={{ marginBottom: '0px' }} key={popOrder.payment}>
-                        <b>{popOrder.payment.cardType}</b> ending in {popOrder.payment.number.slice(-4)}
-                      </Paragraph>
-                    
+                <Paragraph
+                  style={{ marginBottom: '0px' }}
+                  key={order.payment}>
+                  <b>{order.payment.cardType}</b> ending in{' '}
+                  {order.payment.number.slice(-4)}
+                </Paragraph>
               </div>
 
               <CartList title='Review Cart' />
-              { popOrder.promo ? (
-               <div className='bookstore-checkout-module'>
-                <Title className='bookstore-checkout-module-title'>
-                  Promotion Information
-                </Title>
-                
-                      <Paragraph style={{ marginBottom: '0px' }} key={popOrder.promo}>
-                        <b>Promotion code: {popOrder.promo.promoCode}</b> for a %{popOrder.promo.discount * 100} discount
-                      </Paragraph>
-                    
-              </div>
-              ) : (<div/>)}
-            </div>
+              {order.promo ? (
+                <div className='bookstore-checkout-module'>
+                  <Title className='bookstore-checkout-module-title'>
+                    Promotion Information
+                  </Title>
 
-            <CartSummary
-              promo={popOrder.promo}
-              action={
-                <div/>
-              }
-            />
+                  <Paragraph
+                    style={{ marginBottom: '0px' }}
+                    key={order.promo}>
+                    <b>Promotion code: {order.promo.promoCode}</b> for a %
+                    {order.promo.discount * 100} discount
+                  </Paragraph>
+                </div>
+              ) : (
+                <div />
+              )}
+            </div>
+            <CartSummary promo={order.promo} action={<div />} order={order}/>
           </div>
         </Col>
       </Row>
-  );
-} else {
-    return <div/>;
-}
+    );
+  } else {
+    return <Spin />;
+  }
 }
 
 export default OrderListing;
