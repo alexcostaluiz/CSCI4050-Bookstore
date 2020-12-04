@@ -32,6 +32,15 @@ function BookPage(props) {
     retrieveBook(id);
   }, [id]);
 
+  const [books, setBooks] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      const books = await DB.retrieveBooks();
+      setBooks(books.filter((b) => !b.archived));
+    })();
+  }, []);
+
   if (book === null) {
     return <div></div>;
   } else {
@@ -53,15 +62,15 @@ function BookPage(props) {
           <ReviewSection />
           <Section title='Customers Who Bought This Item Also Bought'>
             <Slider itemWidth={216} spaceBetween={16}>
-              {Array.from({ length: 8 }, (e, i) => (
-                <BookThumbnail key={i} />
+              {books.slice(0, 12).map((b) => (
+                <BookThumbnail key={b.id} book={b} />
               ))}
             </Slider>
           </Section>
           <Section title='Your Recently Viewed Items'>
             <Slider itemWidth={216} spaceBetween={16}>
-              {Array.from({ length: 4 }, (e, i) => (
-                <BookThumbnail key={i} />
+              {books.slice(0, 4).map((b) => (
+                <BookThumbnail key={b.id} book={b} />
               ))}
             </Slider>
           </Section>

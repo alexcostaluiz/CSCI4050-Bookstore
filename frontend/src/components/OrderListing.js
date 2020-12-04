@@ -13,7 +13,7 @@ const { Paragraph, Title } = Typography;
 function OrderListing(props) {
   const { order } = props;
 
-  const [orderCartMapped, setOrderCartMapped] = useState(false);
+  const [orderCart, setOrderCart] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -26,12 +26,11 @@ function OrderListing(props) {
         };
         cart.push(obj);
       }
-      order.orderCart = cart;
-      setOrderCartMapped(true);
+      setOrderCart(cart);
     })();
   }, [order]);
 
-  if (orderCartMapped) {
+  if (orderCart) {
     return (
       <Row justify='center'>
         <Col span={24} className='bookstore-column'>
@@ -68,7 +67,7 @@ function OrderListing(props) {
                 </Paragraph>
               </div>
 
-              <CartList title='Review Order' orderCart={order.orderCart} readOnly />
+              <CartList title='Review Order' orderCart={orderCart} readOnly />
               {order.promo ? (
                 <div className='bookstore-checkout-module'>
                   <Title className='bookstore-checkout-module-title'>
@@ -86,7 +85,7 @@ function OrderListing(props) {
                 <div />
               )}
             </div>
-            <CartSummary promo={order.promo} action={<div />} order={order} />
+            <CartSummary promo={order.promo} action={<div />} order={{ ...order, orderCart }} />
           </div>
         </Col>
       </Row>
