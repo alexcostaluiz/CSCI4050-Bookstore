@@ -35,7 +35,7 @@ function BookAuthorDetails(props) {
     /* edition, */
     isbn,
     pages,
-    publicationDate,
+    pubDate,
     publisher,
     tags,
   } = book;
@@ -66,7 +66,7 @@ function BookAuthorDetails(props) {
           <Descriptions.Item label='ISBN-13'>{isbn}</Descriptions.Item>
           <Descriptions.Item label='Publisher'>{publisher}</Descriptions.Item>
           <Descriptions.Item label='Publication Date'>
-            {dayjs.unix(publicationDate).format('MMMM DD, YYYY')}
+            {dayjs(pubDate).format('MMMM DD, YYYY')}
           </Descriptions.Item>
           <Descriptions.Item label='Pages'>{pages}</Descriptions.Item>
           <Descriptions.Item label='Tags' span={2}>

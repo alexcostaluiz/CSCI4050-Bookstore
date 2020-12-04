@@ -9,9 +9,8 @@ const { Paragraph, Title } = Typography;
 
 const CartNotification = {
   open: (props) => {
-    const { book, history } = props;
-    const { author, bookType, image, price, quantity, title } = book;
-
+    const { book, history, quantity } = props;
+    const { authors, coverPic, buyPrice, title } = book;
     const key = Math.floor(Math.random() * 1e6);
 
     const goTo = (path) => {
@@ -33,15 +32,15 @@ const CartNotification = {
         <div className='bookstore-notification-cart'>
           <img
             className='bookstore-notification-cart-image'
-            src={image}
+            src={coverPic}
             alt={title}
           />
           <div className='bookstore-notification-cart-description'>
             <Title level={5}>{title}</Title>
-            <Paragraph> by {author}</Paragraph>
-            <Paragraph style={{ marginBottom: '0px' }}>{bookType}</Paragraph>
+            <Paragraph> by {authors[0].name}</Paragraph>
+            {/*<Paragraph style={{ marginBottom: '0px' }}>{bookType}</Paragraph>*/}
             <Title level={4} style={{ marginTop: '0px' }}>
-              ${price}
+              ${buyPrice}
             </Title>
             <Paragraph>Qty: {quantity}</Paragraph>
           </div>
@@ -51,12 +50,14 @@ const CartNotification = {
         <Button
           className='bookstore-notification-cart-action'
           type='primary'
-          onClick={() => goTo('/cart')}>
+          onClick={() => goTo('/cart')}
+          key={1}>
           OPEN CART
         </Button>,
         <Button
           className='bookstore-notification-cart-action'
-          onClick={() => goTo('/checkout')}>
+          onClick={() => goTo('/checkout')}
+          key={2}>
           CHECKOUT
         </Button>,
       ],

@@ -4,7 +4,12 @@ import React, { useState, useContext } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
-import { Button, Divider, InputNumber, Radio, Rate, Typography } from 'antd';
+import {
+  Button,
+  Divider,
+  InputNumber,
+  /*Radio, Rate,*/ Typography,
+} from 'antd';
 
 import CartContext from '../contexts/CartContext.js';
 import { CartNotification } from '../components/Notifications.js';
@@ -23,19 +28,19 @@ function BookListing(props) {
   const { book, noAction } = props;
   const {
     authors,
-    bookType: initBookType,
-    edition,
+    /*bookType: initBookType,*/
+    /*edition, <- this might actually need to be displayed*/
     /**numRatings,**/
     buyPrice,
-    quantity: initQuantity,
+    /*quantity: initQuantity,*/
     /**rating,**/
     title,
   } = book;
 
   const history = useHistory();
   const cart = useContext(CartContext);
-  const [bookType, setBookType] = useState(initBookType);
-  const [quantity, setQuantity] = useState(initQuantity);
+  /*const [bookType, setBookType] = useState(initBookType);*/
+  const [quantity, setQuantity] = useState(1);
   const [addingToCart, setAddingToCart] = useState(false);
 
   const addToCart = () => {
@@ -44,10 +49,13 @@ function BookListing(props) {
       setAddingToCart(false);
     }, 1000);
 
-    book.bookType = bookType;
-    book.quantity = quantity;
-    cart.add(book);
-    CartNotification.open({ book, history });
+    const item = {
+      book: book,
+      quantity: quantity,
+    };
+
+    cart.add(item);
+    CartNotification.open({ book, history, quantity });
   };
 
   return (
@@ -67,7 +75,7 @@ function BookListing(props) {
         */}
       </div>
       <Divider />
-      <Paragraph className='bookstore-bp-book-type'>{bookType}</Paragraph>
+      {/*<Paragraph className='bookstore-bp-book-type'>{bookType}</Paragraph>*/}
       <div>
         <Title className='bookstore-bp-book-price'>
           ${/* {buyPrice.toFixed(2)} */}
@@ -76,6 +84,7 @@ function BookListing(props) {
           ${/* (buyPrice * 1.2).toFixed(2) */}
         </Paragraph>
       </div>
+      {/*
       <Paragraph className='bookstore-bp-label'>Select Type</Paragraph>
       <Radio.Group
         className='bookstore-bp-book-type-select'
@@ -102,16 +111,20 @@ function BookListing(props) {
           </span>
         </Radio.Button>
       </Radio.Group>
-      <Paragraph className='bookstore-bp-label'>Select Quantity</Paragraph>
-      <InputNumber
-        className='bookstore-bp-book-quantity'
-        min={1}
-        value={quantity}
-        onChange={(e) => (e ? setQuantity(e) : setQuantity(1))}
-        style={noAction ? { marginBottom: '0px' } : null}
-      />
+      */}
       {!noAction
         ? [
+            <Paragraph className='bookstore-bp-label'>
+              Select Quantity
+            </Paragraph>,
+            <InputNumber
+              className='bookstore-bp-book-quantity'
+              min={1}
+              value={quantity}
+              onChange={(e) => (e ? setQuantity(e) : setQuantity(1))}
+              style={noAction ? { marginBottom: '0px' } : null}
+            />,
+
             <Button
               key='add-to-cart'
               className='bookstore-bp-add-cart'

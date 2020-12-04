@@ -23,6 +23,11 @@ public class PromoService {
   }
 
   @Transactional
+  public Promotion get(String code) {
+    return dao.get(code);
+  }
+
+  @Transactional
   public void save(Promotion promo) {
     dao.save(promo);
   }

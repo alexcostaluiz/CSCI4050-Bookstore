@@ -37,7 +37,7 @@ function Section(props) {
   return (
     <Row className='bookstore-section'>
       <Col span={24}>
-        <Title className='bookstore-section-title' level={2}>
+        <Title className='bookstore-section-title' level={2} style={{padding: '15px'}}>
           {title}
         </Title>
         {children}
