@@ -6,7 +6,7 @@ import { Empty, Typography } from 'antd';
 import CartItem from './CartItem.js';
 import CartContext from '../contexts/CartContext.js';
 
-const { Title, Span } = Typography;
+const { Title } = Typography;
 
 /**
  * A cart component which lists a specified array of cart items.

@@ -1,11 +1,10 @@
 import './CartItem.less';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import { Button, InputNumber, Modal, Spin, Typography } from 'antd';
 
 import BookListing from './BookListing.js';
-import DB from '../services/DatabaseService.js';
 
 const { Paragraph, Title } = Typography;
 

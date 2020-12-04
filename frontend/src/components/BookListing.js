@@ -30,7 +30,7 @@ function BookListing(props) {
   const {
     authors,
     /*bookType: initBookType,*/
-    edition,
+    /*edition, <- this might actually need to be displayed*/
     /**numRatings,**/
     buyPrice,
     /*quantity: initQuantity,*/
@@ -40,7 +40,6 @@ function BookListing(props) {
 
   const history = useHistory();
   const cart = useContext(CartContext);
-  const auth = useContext(AuthContext);
   /*const [bookType, setBookType] = useState(initBookType);*/
   const [quantity, setQuantity] = useState(1);
   const [addingToCart, setAddingToCart] = useState(false);
