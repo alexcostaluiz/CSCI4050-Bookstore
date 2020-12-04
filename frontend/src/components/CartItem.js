@@ -55,10 +55,9 @@ function CartItem(props) {
             <Paragraph>by {book.authors[0].name}</Paragraph>
             {/*<Paragraph style={{ marginBottom: '0px' }}>{bookType}</Paragraph>*/}
             <Title level={4} style={{ marginTop: '0px' }}>
-              ${book.buyPrice}
+              ${book.sellPrice}
             </Title>
-            <Paragraph style={{ marginBottom: '4px' }}>Qty:</Paragraph>
-            <InputNumber value={quantity} readOnly />
+            <Paragraph style={{ marginBottom: '4px' }}>Qty: {quantity}</Paragraph>
           </div>
         </div>
         <div className='bookstore-cart-item-action-container'>
@@ -91,7 +90,7 @@ function CartItem(props) {
             Edit Item
           </Title>
           <BookListing book={book} noAction />
-          <Paragraph className='bookstore-bp-label'>Select Quantity</Paragraph>,
+          <Paragraph className='bookstore-bp-label'>Select Quantity</Paragraph>
           <InputNumber
             className='bookstore-bp-book-quantity'
             min={1}
