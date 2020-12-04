@@ -31,13 +31,12 @@ function CheckoutPage(props) {
   const [editCard, setEditCard] = useState(false);
   const [addressFormLoading, setAddressFormLoading] = useState(false);
   const [cardFormLoading, setCardFormLoading] = useState(false);
-  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [placingOrder, setPlacingOrder] = useState(false);
 
   const [address, setAddress] = useState(null);
   const [card, setCard] = useState(null);
   const [promo, setPromo] = useState(null);
   const [orderDate, setOrderDate] = useState(null);
-  const [orderId, setOrderId] = useState(null);
 
   const onSubmitAddressForm = async (values) => {
     setAddressFormLoading(true);
@@ -54,6 +53,7 @@ function CheckoutPage(props) {
   };
 
   const checkout = async () => {
+    setPlacingOrder(true);
     setOrderDate(dayjs(Date.now()).format('YYYY-MM-DD HH:mm:ss'));
     console.log(orderDate);
     const values = {
@@ -64,8 +64,11 @@ function CheckoutPage(props) {
     };
     const response = await DB.checkout(values, auth);
     const id = await response.json();
-    setOrderId(id);
-    setShowConfirmation(true);
+    setPlacingOrder(false);
+    history.push({
+      pathname: '/checkout/confirm',
+      state: { ...values, id },
+    });
   };
 
   const searchPromo = async (code) => {
@@ -176,6 +179,26 @@ function CheckoutPage(props) {
               </div>
 
               <CartList title='Review Cart' />
+            </div>
+            
+            <div>
+              <CartSummary
+                promo={promo}
+                action={
+                  <Button
+                    type='primary'
+                    size='large'
+                    block
+                    onClick={checkout}
+                    loading={placingOrder}
+                    disabled={
+                      address == null || card == null || cart.get().length === 0
+                    }>
+                    PLACE ORDER
+                  </Button>
+                }
+              />
+              
               <div style={{ marginTop: '25px' }}>
                 <Search
                   placeholder='Input promo code'
@@ -187,22 +210,7 @@ function CheckoutPage(props) {
                 />
               </div>
             </div>
-
-            <CartSummary
-              promo={promo}
-              action={
-                <Button
-                  type='primary'
-                  size='large'
-                  block
-                  onClick={checkout}
-                  disabled={
-                    address == null || card == null || cart.get().length === 0
-                  }>
-                  PLACE ORDER
-                </Button>
-              }
-            />
+            
           </div>
 
           <Modal
@@ -238,57 +246,6 @@ function CheckoutPage(props) {
               loading: cardFormLoading,
             }}>
             <CardForm addCard={onSubmitCardForm} />
-          </Modal>
-          <Modal
-            cancelButtonProps={{ style: { display: 'none' } }}
-            title={
-              <Title level={3} style={{ fontWeight: '900', margin: '0px' }}>
-                Order Confirmation
-              </Title>
-            }
-            width={800}
-            visible={showConfirmation}
-            okText='OK'
-            onOk={() => history.push('/')}>
-            {' '}
-            <div>
-              <Title style={{ display: 'inline-block', paddingRight: '10px' }}>
-                Confirmation No:
-              </Title>{' '}
-              <Paragraph
-                style={{ display: 'inline-block', fontSize: 'x-large' }}>
-                {orderId}
-              </Paragraph>
-            </div>
-            <div>
-              <Title style={{ display: 'inline-block', paddingRight: '10px' }}>
-                Order Date:
-              </Title>{' '}
-              <Paragraph
-                style={{ display: 'inline-block', fontSize: 'x-large' }}>
-                {orderDate}
-              </Paragraph>
-            </div>
-            <div>
-              <Title style={{ display: 'inline-block', paddingRight: '10px' }}>
-                Shipping Address:
-              </Title>{' '}
-              <Paragraph
-                style={{ display: 'inline-block', fontSize: 'x-large' }}>
-                <b>{address.name}</b> {address.address1}, {address.address2}{' '}
-                {address.city}, {address.state} {address.zip} {address.country}
-              </Paragraph>
-            </div>
-            <div>
-              <Title style={{ display: 'inline-block', paddingRight: '10px' }}>
-                Card Used:
-              </Title>{' '}
-              <Paragraph
-                style={{ display: 'inline-block', fontSize: 'x-large' }}>
-                <b>{card.cardType}</b> ending in {card.number.slice(-4)}{' '}
-                {card.name} {card.expiry}
-              </Paragraph>
-            </div>
           </Modal>
         </Col>
       </Row>
