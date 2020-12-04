@@ -119,12 +119,16 @@ function Header(props) {
     history.push('/b/' + e);
   };
 
-  const handleSearch = async (query) => {
+  const handleSearch = async (query) => { 
     const response = await fetch(
       `/books/get?filter=title <> "${query}" , isbn <> "${query}" , categories <> "${query}" , author <> "${query}"`
     );
     const json = await response.json();
     setOptions(json.map((e) => convert(e)));
+  };
+
+  const displaySearchResults = async (query) => { 
+    history.push('/search')
   };
 
   return (
@@ -150,7 +154,8 @@ function Header(props) {
             className='bookstore-search-dropdown'
             options={options}
             onSelect={onSelect}
-            onSearch={handleSearch}>
+            onSearch={handleSearch}
+            >
             <Input.Search
               size='large'
               placeholder={
@@ -158,8 +163,7 @@ function Header(props) {
                 searchHints[Math.floor(Math.random() * searchHints.length)] +
                 '"'
               }
-              /*               onSubmit={() => history.push('/search')}
-               */
+              onSearch={displaySearchResults}
             />
           </AutoComplete>
           <DynamicAvatar isSignedIn={true} />
