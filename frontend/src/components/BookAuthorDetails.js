@@ -15,13 +15,11 @@ import {
 import dayjs from 'dayjs';
 
 import BookThumbnail from './BookThumbnail.js';
+import Colors from '../services/ColorService.js';
 import Slider from './Slider.js';
 import WikiService from '../services/WikiService.js';
 
-const { Paragraph, Title } = Typography;
-
-// TODO: REMOVE
-const colors = ['magenta', 'purple', 'red', 'orange'];
+const { Paragraph, Text, Title } = Typography;
 
 /**
  * A page to display detailed information about one book.
@@ -32,6 +30,8 @@ function BookAuthorDetails(props) {
   const { book } = props;
   const {
     authors,
+    categories,
+    description,
     /* edition, */
     isbn,
     pages,
@@ -52,9 +52,19 @@ function BookAuthorDetails(props) {
   return (
     <Tabs
       className='bookstore-bp-book-tabs'
-      defaultActiveKey='1'
+      defaultActiveKey='0'
       size='large'
       centered>
+      <Tabs.TabPane tab='Description' key='0'>
+        <Title className='bookstore-bp-book-tabs-title' level={2}>
+          Product Desciption
+        </Title>
+        <div className='bookstore-bp-book-author-description'>    
+          <Text style={{whiteSpace: 'pre-wrap'}}>
+            {description}
+          </Text>
+        </div>
+      </Tabs.TabPane>
       <Tabs.TabPane tab='Product Details' key='1'>
         <Title className='bookstore-bp-book-tabs-title' level={2}>
           Product Details
@@ -69,10 +79,17 @@ function BookAuthorDetails(props) {
             {dayjs(pubDate).format('MMMM DD, YYYY')}
           </Descriptions.Item>
           <Descriptions.Item label='Pages'>{pages}</Descriptions.Item>
+          <Descriptions.Item label='Categories' span={2}>
+            {categories.map((c, i) => (
+              <Tag className='bookstore-bp-book-tag' key={c} color={Colors.category(c)}>
+                {c.replaceAll('_', ' ')}
+              </Tag>
+            ))}
+          </Descriptions.Item>
           <Descriptions.Item label='Tags' span={2}>
             {tags.map((t, i) => (
-              <Tag className='bookstore-bp-book-tag' key={t} color={colors[i]}>
-                {t}
+              <Tag className='bookstore-bp-book-tag' key={t} color={Colors.category(t)}>
+                {t[0] + t.slice(1).toLowerCase()}
               </Tag>
             ))}
           </Descriptions.Item>
