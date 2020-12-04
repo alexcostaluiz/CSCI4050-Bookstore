@@ -1,11 +1,10 @@
 import React from 'react';
 
-import BookThumbnail from '../components/BookThumbnail.js';
 import BookListing from '../components/BookListing.js';
 
 import { sampleBooks } from '../contexts/CartContext.js';
 
-import { Col, Row, Skeleton, Typography } from 'antd';
+import { Col, Row } from 'antd';
 
 /**
  *  The page returning book search results 
