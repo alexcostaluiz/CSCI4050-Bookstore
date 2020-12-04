@@ -15,9 +15,10 @@ const { Paragraph, Title } = Typography;
  * @param {!Book} props.book The book whose information should be displayed in this cart item.
  */
 function CartItem(props) {
-  const { quantity, cart, book } = props;
+  const { quantity, cart, book, readOnly } = props;
   const [temp_q, setTemp_q] = useState(quantity);
   const [editing, setEditing] = useState(false);
+  
   const remove = () => {
     cart.remove(book.id);
   };
@@ -37,12 +38,13 @@ function CartItem(props) {
     setEditing(false);
     setTemp_q(quantity);
   };
+  
   if (book === null) {
     return <Spin size='large' className='bookstore-cart-item' />;
   } else {
     return (
       <div className='bookstore-cart-item-wrapper'>
-        <div className='bookstore-cart-item'>
+        <div className='bookstore-cart-item' style={readOnly ? { paddingBottom: '32px' } : null}>
           <img
             className='bookstore-cart-item-image'
             src={book.coverPic}
@@ -60,45 +62,47 @@ function CartItem(props) {
             <Paragraph style={{ marginBottom: '4px' }}>Qty: {quantity}</Paragraph>
           </div>
         </div>
-        <div className='bookstore-cart-item-action-container'>
-          <Button className='bookstore-cart-item-action' type='link'>
-            Save for Later
-          </Button>
-          <Button
-            className='bookstore-cart-item-action'
-            type='primary'
-            onClick={() => setEditing(true)}>
-            EDIT
-          </Button>
-          <Button className='bookstore-cart-item-action' onClick={remove}>
-            REMOVE
-          </Button>
-        </div>
-        <Modal
-          okText='SAVE'
-          cancelText='CANCEL'
-          closable={false}
-          onOk={edit}
-          onCancel={cancel}
-          width='750px'
-          wrapClassName='bookstore-cart-item-edit-modal'
-          bodyStyle={{ padding: '32px', paddingBottom: '0px' }}
-          visible={editing}
-          destroyOnClose
-          centered>
-          <Title className='bookstore-cart-item-edit-modal-title'>
-            Edit Item
-          </Title>
-          <BookListing book={book} noAction />
-          <Paragraph className='bookstore-bp-label'>Select Quantity</Paragraph>
-          <InputNumber
-            className='bookstore-bp-book-quantity'
-            min={1}
-            value={temp_q}
-            onChange={(e) => (e ? setTemp_q(e) : setTemp_q(1))}
-            style={{ marginBottom: '15px' }}
-          />
-        </Modal>
+        {readOnly ? null : (
+          <div className='bookstore-cart-item-action-container'>
+            <Button className='bookstore-cart-item-action' type='link'>
+              Save for Later
+            </Button>
+            <Button
+              className='bookstore-cart-item-action'
+              type='primary'
+              onClick={() => setEditing(true)}>
+              EDIT
+            </Button>
+            <Button className='bookstore-cart-item-action' onClick={remove}>
+              REMOVE
+            </Button>
+          </div>,
+          <Modal
+            okText='SAVE'
+            cancelText='CANCEL'
+            closable={false}
+            onOk={edit}
+            onCancel={cancel}
+            width='750px'
+            wrapClassName='bookstore-cart-item-edit-modal'
+            bodyStyle={{ padding: '32px', paddingBottom: '0px' }}
+            visible={editing}
+            destroyOnClose
+            centered>
+            <Title className='bookstore-cart-item-edit-modal-title'>
+              Edit Item
+            </Title>
+            <BookListing book={book} noAction />
+            <Paragraph className='bookstore-bp-label'>Select Quantity</Paragraph>
+            <InputNumber
+              className='bookstore-bp-book-quantity'
+              min={1}
+              value={temp_q}
+              onChange={(e) => (e ? setTemp_q(e) : setTemp_q(1))}
+              style={{ marginBottom: '15px' }}
+            />
+          </Modal>
+        )}
       </div>
     );
   }
