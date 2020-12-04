@@ -158,8 +158,9 @@ function Header(props) {
                 searchHints[Math.floor(Math.random() * searchHints.length)] +
                 '"'
               }
-/*               onSubmit={() => history.push('/search')}
- */            />
+              /*               onSubmit={() => history.push('/search')}
+               */
+            />
           </AutoComplete>
           <DynamicAvatar isSignedIn={true} />
           <Badge

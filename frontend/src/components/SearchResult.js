@@ -1,4 +1,4 @@
-// import './SearchResult.less';
+import './SearchResult.less';
 
 import React from 'react';
 
@@ -23,12 +23,7 @@ const { Paragraph, Title } = Typography;
  *     to the parent container of this component.
  */
 function SearchResult(props) {
-  const {
-    book,
-    size = 'small',
-    style,
-    className,
-  } = props;
+  const { book, size = 'small', style, className } = props;
   const { author, id, image, numRatings, rating, title, price } = book;
 
   const history = useHistory();
@@ -70,11 +65,7 @@ function SearchResult(props) {
         }>
         {author}
       </Paragraph>
-      <Paragraph
-        classname='result-price'
-      >
-        ${price}
-      </Paragraph>
+      <Paragraph classname='result-price'>${price}</Paragraph>
       <div className='bookstore-book-thumbnail-rate-container'>
         <Rate
           className={
@@ -100,7 +91,6 @@ function SearchResult(props) {
         }>
         {numRatings} review{numRatings === 1 ? '' : 's'}
       </Paragraph>
-      
     </Card>
   );
 }

@@ -71,7 +71,6 @@ function BookListing(props) {
       <div>
         <Title className='bookstore-bp-book-price'>
           ${/* {buyPrice.toFixed(2)} */}
-
         </Title>
         <Paragraph className='bookstore-bp-book-sale'>
           ${/* (buyPrice * 1.2).toFixed(2) */}
@@ -86,15 +85,21 @@ function BookListing(props) {
         size='large'>
         <Radio.Button value='Hardcover'>
           <span>Hardcover</span>
-          <span className='bookstore-bp-book-type-price'>${/* buyPrice */}</span>
+          <span className='bookstore-bp-book-type-price'>
+            ${/* buyPrice */}
+          </span>
         </Radio.Button>
         <Radio.Button value='Paperback'>
           <span>Paperback</span>
-          <span className='bookstore-bp-book-type-price'>${/* buyPrice */}</span>
+          <span className='bookstore-bp-book-type-price'>
+            ${/* buyPrice */}
+          </span>
         </Radio.Button>
         <Radio.Button value='Audio'>
           <span>Audio</span>
-          <span className='bookstore-bp-book-type-price'>${/* buyPrice */}</span>
+          <span className='bookstore-bp-book-type-price'>
+            ${/* buyPrice */}
+          </span>
         </Radio.Button>
       </Radio.Group>
       <Paragraph className='bookstore-bp-label'>Select Quantity</Paragraph>
