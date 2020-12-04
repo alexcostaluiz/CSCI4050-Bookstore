@@ -1,5 +1,6 @@
 package com.csci4050.bookstore.controller;
 
+import com.csci4050.bookstore.dto.AuthorDto;
 import com.csci4050.bookstore.dto.BookDto;
 import com.csci4050.bookstore.exceptions.FilterException;
 import com.csci4050.bookstore.model.Author;
@@ -7,6 +8,7 @@ import com.csci4050.bookstore.model.AuthorBookAssociation;
 import com.csci4050.bookstore.model.Book;
 import com.csci4050.bookstore.model.Category;
 import com.csci4050.bookstore.model.Tag;
+import com.csci4050.bookstore.service.AuthorBookAssociationService;
 import com.csci4050.bookstore.service.AuthorService;
 import com.csci4050.bookstore.service.BookService;
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ import org.springframework.web.server.ResponseStatusException;
 public class BookController {
   @Autowired private BookService bookService;
   @Autowired private AuthorService authorService;
+  @Autowired private AuthorBookAssociationService assocService;
 
   @GetMapping("/get/{id}")
   public BookDto getBook(@PathVariable int id) {
@@ -65,16 +68,26 @@ public class BookController {
   @PostMapping(value = "/create", consumes = "application/json", produces = "application/json")
   public void createBook(@RequestBody BookDto bookDto) {
     try {
-      Book book = Book.dtoToBook(bookDto);
-
-      for (AuthorBookAssociation assoc : book.getAuthors()) {
-
-        Author author = assoc.getAuthor();
-        if (author.getId() == null || authorService.get(author.getId()) == null) { // create author
-          authorService.save(author);
-        }
-      }
+      Book book = new Book();
+      book = Book.dtoToBook(bookDto, book);
       bookService.save(book);
+      for (AuthorDto dto : bookDto.getAuthors()) {
+        Author author = new Author();
+        author.setName(dto.getName());
+
+        // save author
+        Integer id = dto.getId();
+        if (id == null || authorService.get(dto.getId()) == null) { // create author
+          id = authorService.save(author);
+        }
+
+        // save relationship
+        AuthorBookAssociation assoc = new AuthorBookAssociation();
+        assoc.setAuthor(authorService.get(id));
+        assoc.setBook(book);
+        assoc.setRole(dto.getRole());
+        assocService.save(assoc);
+      }
     } catch (DataIntegrityViolationException e) {
       e.printStackTrace();
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Book isbn already exists.");
@@ -85,10 +98,44 @@ public class BookController {
   }
 
   @PostMapping(value = "/update", consumes = "application/json", produces = "application/json")
-  public void updateBook(@RequestBody BookDto dto) {
+  public void updateBook(@RequestBody BookDto bookDto) {
     try {
-      bookService.delete(dto.getId());
-      createBook(dto);
+
+      Book oldBook = bookService.get(bookDto.getId());
+      Integer bookId = oldBook.getId();
+      // delete old associations
+      for (AuthorBookAssociation assoc : oldBook.getAuthors()) {
+        assocService.delete(assoc.getId());
+      }
+
+      // replace oldBook with new book
+      oldBook = Book.dtoToBook(bookDto, oldBook);
+
+      // persist or change new authors
+      for (AuthorDto dto : bookDto.getAuthors()) {
+        Author author = new Author();
+        author.setName(dto.getName());
+
+        // save author if it doesn't exist
+        Integer authorId = dto.getId();
+        if (authorId == null || authorService.get(authorId) == null) { // create author
+          authorId = authorService.save(author);
+        } else {
+          author = authorService.get(authorId);
+          author.setName(dto.getName());
+          authorService.update(author);
+        }
+
+        // save relationship
+        AuthorBookAssociation assoc = new AuthorBookAssociation();
+        assoc.setAuthor(authorService.get(authorId));
+        assoc.setBook(bookService.get(bookId));
+        assoc.setRole(dto.getRole());
+        assocService.save(assoc);
+      }
+
+      bookService.update(oldBook);
+
     } catch (DataIntegrityViolationException e) {
       e.printStackTrace();
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Book isbn already exists.");

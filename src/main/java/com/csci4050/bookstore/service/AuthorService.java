@@ -30,8 +30,8 @@ public class AuthorService {
   }
 
   @Transactional
-  public void save(Author author) {
-    dao.save(author);
+  public Integer save(Author author) {
+    return dao.save(author);
   }
 
   @Transactional

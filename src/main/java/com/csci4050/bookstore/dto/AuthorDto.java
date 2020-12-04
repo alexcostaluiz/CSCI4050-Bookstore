@@ -1,9 +1,17 @@
 package com.csci4050.bookstore.dto;
 
 public class AuthorDto {
-
+  private Integer id;
   private String name;
   private String role;
+
+  public Integer getId() {
+    return this.id;
+  }
+
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
   public String getName() {
     return this.name;
