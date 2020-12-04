@@ -12,7 +12,6 @@ import {
 } from 'antd';
 
 import CartContext from '../contexts/CartContext.js';
-import AuthContext from '../contexts/AuthContext.js';
 import { CartNotification } from '../components/Notifications.js';
 
 const { Paragraph, Title } = Typography;
