@@ -43,9 +43,11 @@ const bookTableColumns = [
     title: 'Author(s)',
     dataIndex: 'authors',
     render: (authors) => (
-      <Tooltip placement='topLeft' title={authors.join(', ')}>
+      <Tooltip
+        placement='topLeft'
+        title={authors.reduce((s, a) => s + a.name + ' (' + a.role + '),', '').slice(0, -1)}>
         <Text style={{ maxWidth: '200px' }} ellipsis={true}>
-          {authors.join(', ')}
+          {authors.reduce((s, a) => s + a.name + ' (' + a.role + '),', '').slice(0, -1)}
         </Text>
       </Tooltip>
     ),
@@ -97,7 +99,7 @@ const bookTableColumns = [
           key={tag}
           color={Colors.category(tag)}
           style={{ margin: '4px 4px' }}>
-          {tag}
+          {tag[0] + tag.slice(1).toLowerCase()}
         </Tag>
       )),
   },
@@ -152,7 +154,14 @@ function BookTable(props) {
                     style={{ fontWeight: '900', marginBottom: '0px' }}>
                     {record.title}
                   </Title>
-                  <Paragraph>{record.authors.join(', ')}</Paragraph>
+                  <Paragraph>
+                    {
+                      record.authors.reduce(
+                        (s, a) => s + a.name + ' (' + a.role + '),',
+                        ''
+                      ).slice(0, -1)
+                    }
+                  </Paragraph>
                   <Tooltip
                     overlayClassName='bookstore-book-table-expanded-description-tooltip'
                     placement='bottomLeft'
@@ -280,9 +289,6 @@ function ManageBooksPage(props) {
     const initialValuesCopy = { ...initialValues };
     if (initialValues) {
       initialValuesCopy.pubDate = moment(initialValues.pubDate);
-      initialValuesCopy.authors = initialValues.authors.map((a) => ({
-        name: a,
-      }));
       if (initialValues.coverPic) {
         initialValuesCopy.coverPic = [
           {
