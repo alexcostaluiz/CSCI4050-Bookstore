@@ -23,8 +23,8 @@ import ScrollToTop from './components/ScrollToTop.js';
 import OrderHistory from './pages/OrderHistory.js';
 import ResetPassword from './pages/ResetPassword.js';
 import ForgotPassword from './pages/ForgotPassword.js';
-
 import * as serviceWorker from './serviceWorker';
+import OrderPage from './pages/OrderPage.js';
 
 const { Content } = Layout;
 
@@ -40,6 +40,9 @@ ReactDOM.render(
               <Switch>
                 <Route path='/b/:slug'>
                   <BookPage />
+                </Route>
+                <Route path='/o/:slug'>
+                  <OrderPage />
                 </Route>
                 <Route path='/cart'>
                   <CartPage />
@@ -80,6 +83,7 @@ ReactDOM.render(
                 <Route path='/'>
                   <HomePage />
                 </Route>
+                
               </Switch>
             </Content>
             <Footer />
