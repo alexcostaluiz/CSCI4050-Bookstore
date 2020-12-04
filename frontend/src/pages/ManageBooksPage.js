@@ -45,9 +45,13 @@ const bookTableColumns = [
     render: (authors) => (
       <Tooltip
         placement='topLeft'
-        title={authors.reduce((s, a) => s + a.name + ' (' + a.role + '),', '').slice(0, -1)}>
+        title={authors
+          .reduce((s, a) => s + a.name + ' (' + a.role + '),', '')
+          .slice(0, -1)}>
         <Text style={{ maxWidth: '200px' }} ellipsis={true}>
-          {authors.reduce((s, a) => s + a.name + ' (' + a.role + '),', '').slice(0, -1)}
+          {authors
+            .reduce((s, a) => s + a.name + ' (' + a.role + '),', '')
+            .slice(0, -1)}
         </Text>
       </Tooltip>
     ),
@@ -155,12 +159,9 @@ function BookTable(props) {
                     {record.title}
                   </Title>
                   <Paragraph>
-                    {
-                      record.authors.reduce(
-                        (s, a) => s + a.name + ' (' + a.role + '),',
-                        ''
-                      ).slice(0, -1)
-                    }
+                    {record.authors
+                      .reduce((s, a) => s + a.name + ' (' + a.role + '),', '')
+                      .slice(0, -1)}
                   </Paragraph>
                   <Tooltip
                     overlayClassName='bookstore-book-table-expanded-description-tooltip'

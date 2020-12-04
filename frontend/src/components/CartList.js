@@ -18,7 +18,7 @@ function CartList(props) {
   const { title = 'Cart', orderCart, readOnly } = props;
 
   const cartContext = useContext(CartContext);
-  
+
   const cart = orderCart ? { get: () => orderCart } : cartContext;
 
   return (

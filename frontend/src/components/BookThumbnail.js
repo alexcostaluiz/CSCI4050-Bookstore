@@ -29,15 +29,8 @@ function BookThumbnail(props) {
     style,
     className,
   } = props;
-  
-  const {
-    author,
-    id,
-    coverPic,
-    numRatings = 492,
-    rating = 4.5,
-    title,
-  } = book;
+
+  const { author, id, coverPic, numRatings = 492, rating = 4.5, title } = book;
 
   const history = useHistory();
 
@@ -45,8 +38,8 @@ function BookThumbnail(props) {
     <Card
       className={
         'bookstore-book-thumbnail ' +
-          (size === 'large' ? ' bookstore-book-thumbnail-lg ' : '') +
-          (className ? className : '')
+        (size === 'large' ? ' bookstore-book-thumbnail-lg ' : '') +
+        (className ? className : '')
       }
       bordered={false}
       style={style}
@@ -55,7 +48,7 @@ function BookThumbnail(props) {
         <img
           className={
             'bookstore-book-thumbnail-image' +
-              (size === 'large' ? ' bookstore-book-thumbnail-image-lg' : '')
+            (size === 'large' ? ' bookstore-book-thumbnail-image-lg' : '')
           }
           src={
             coverPic

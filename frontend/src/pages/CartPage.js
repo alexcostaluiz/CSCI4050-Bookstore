@@ -13,7 +13,6 @@ import DB from '../services/DatabaseService.js';
  * The cart page. Allows users to review their selected products before checking out.
  */
 function CartPage(props) {
-
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
@@ -23,7 +22,6 @@ function CartPage(props) {
     })();
   }, []);
 
-  
   return (
     <Row justify='center'>
       <Col span={24} className='bookstore-column'>

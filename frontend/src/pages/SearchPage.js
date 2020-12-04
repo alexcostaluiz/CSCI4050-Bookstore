@@ -12,7 +12,7 @@ import BrowsePage from './BrowsePage.js';
 function SearchPage(props) {
   const location = useLocation();
   const { query, books } = location.state;
-  
+
   return (
     <BrowsePage results={books} title={'Search Results for "' + query + '"'} />
   );

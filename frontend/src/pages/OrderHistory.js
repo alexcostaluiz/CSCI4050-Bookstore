@@ -14,7 +14,7 @@ function OrderHistory(props) {
   const auth = useContext(AuthContext);
 
   const history = useHistory();
-  
+
   const orderTableColumns = [
     {
       title: 'ID',
@@ -31,16 +31,15 @@ function OrderHistory(props) {
       render: (a) => (
         <Text>
           {a.address1 +
-           (a.address2 ? ' ' + a.address2 : '') +
-           ', ' +
-           a.city +
-           ', ' +
-           a.state +
-           ', ' +
-           a.zip +
-           ' ' +
-           a.country
-          }
+            (a.address2 ? ' ' + a.address2 : '') +
+            ', ' +
+            a.city +
+            ', ' +
+            a.state +
+            ', ' +
+            a.zip +
+            ' ' +
+            a.country}
         </Text>
       ),
     },
@@ -53,7 +52,8 @@ function OrderHistory(props) {
           {' ending in '}
           {c.number.slice(-4)}
         </Text>
-      )},
+      ),
+    },
     {
       title: 'Promo Code',
       dataIndex: 'promo',
@@ -70,15 +70,13 @@ function OrderHistory(props) {
       ),
     },
   ];
-  
+
   return (
     <Row justify='center'>
       <Col span={24} className='bookstore-column'>
         <Breadcrumb className='bookstore-breadcrumb'>
           <Breadcrumb.Item href='/'>Home</Breadcrumb.Item>
-          <Breadcrumb.Item href='#'>
-            Order History
-          </Breadcrumb.Item>
+          <Breadcrumb.Item href='#'>Order History</Breadcrumb.Item>
         </Breadcrumb>
         <div className='bookstore-page-section'>
           <div className='bookstore-order-history-container'>
@@ -88,7 +86,7 @@ function OrderHistory(props) {
               dataSource={auth.user.orders}
               scroll={{ x: true }}
               onRow={(record, rowIndex) => ({
-                onClick: e => history.push(`/o/${record.id}`)
+                onClick: (e) => history.push(`/o/${record.id}`),
               })}
               bordered
             />

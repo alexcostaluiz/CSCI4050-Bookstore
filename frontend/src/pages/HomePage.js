@@ -26,7 +26,7 @@ function HomePage(props) {
       setBooks(books.filter((b) => !b.archived));
     })();
   }, []);
-  
+
   return (
     <Row>
       <Col className='bookstore-hp-col' span={24}>
@@ -71,20 +71,24 @@ function HomePage(props) {
         </div>
         <Section key='hp-section-1' title={sections[0]}>
           <Slider itemWidth={216} spaceBetween={16} primary>
-            {books.filter(b => {
-              return b.tags.includes('BESTSELLER');
-            }).map((b) => (
-              <BookThumbnail key={b.id} book={b} />
-            ))}
+            {books
+              .filter((b) => {
+                return b.tags.includes('BESTSELLER');
+              })
+              .map((b) => (
+                <BookThumbnail key={b.id} book={b} />
+              ))}
           </Slider>
         </Section>
         <Section key='hp-section-2' title={sections[1]}>
           <Slider itemWidth={216} spaceBetween={16}>
-            {books.filter(b => {
-              return b.tags.includes('FEATURED');
-            }).map((b) => (
-              <BookThumbnail key={b.id} book={b} />
-            ))}
+            {books
+              .filter((b) => {
+                return b.tags.includes('FEATURED');
+              })
+              .map((b) => (
+                <BookThumbnail key={b.id} book={b} />
+              ))}
           </Slider>
         </Section>
       </Col>

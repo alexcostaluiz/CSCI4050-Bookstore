@@ -137,7 +137,7 @@ function Header(props) {
   const displaySearchResults = async (query) => {
     history.push({
       pathname: '/search',
-      state: {query: query, books: results},
+      state: { query: query, books: results },
     });
   };
 
